@@ -84,19 +84,26 @@ WSGI_APPLICATION = 'eca.wsgi.application'
 
 
 REST_FRAMWORK = {
+        'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
+        #  'rest_framework.permissions.IsAdminUser'
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'knox.auth.TokenAuthentication',
+        # 'knox.auth.TokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         # 'accounts.EmailBackEnd.EmailBackEnd',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
 }
-
-REST_KNOX = {
-    'USER_SERIALIZER' : 'accounts.serializer.UserSerializer',
-    # 'TOKEN_TTL' : timedelta(hours=24),
-}
+# from datetime import timedelta
+# REST_KNOX = {
+#     'USER_SERIALIZER' : 'accounts.serializer.UserSerializer',
+#     # 'TOKEN_TTL' : timedelta(hours=24),
+#     'TOKEN_TTL': timedelta(hours=10),
+#     # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
+# }
 
 # MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # MEDIA_URL = '/media/'
