@@ -20,24 +20,24 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'phone',)
+        fields = ('id', 'username',)
 
 
 class LoginSerializer(serializers.Serializer):
-    phone = serializers.CharField()
+    username = serializers.CharField()
     password = serializers.CharField(
         style = { 'input_type': 'password'}, trim_whitespace = False
     )
     
     def validate(self, data):
         print(data)
-        phone = data.get('phone')
+        username = data.get('username')
         password = data.get('password')
         
-        if phone and password:
-            if User.objects.filter(username = phone).exists():
-                print(phone, password)
-                user = authenticate(request = self.context.get('request'), username = phone, password = password)
+        if username and password:
+            if User.objects.filter(username = username).exists():
+                print(username, password)
+                user = authenticate(request = self.context.get('request'), username = username, password = password)
                 print(user)
 
             else:
@@ -57,7 +57,7 @@ class LoginSerializer(serializers.Serializer):
         
         else:
             msg = {
-                    'detail' : 'Phone number and password not found in request',
+                    'detail' : 'Unsername and password not found in request',
                     'status' : False,
                 }    
             raise serializers.ValidationError(msg, code = 'authorization')
