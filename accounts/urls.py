@@ -10,7 +10,7 @@ urlpatterns = [
     path('validateotp/', ValidateOTP.as_view()),
     path('register/', Register.as_view()),
     path('login/', LoginAPI.as_view()),
-    path('logout/$', knox_views.LogoutView.as_view()),
+    # path('logout/', knox_views.LogoutView.as_view()),
 
 
 ]

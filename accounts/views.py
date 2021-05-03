@@ -37,6 +37,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth import login,logout
+from rest_framework.authtoken.models import Token
 
 conn = http.client.HTTPConnection("2factor.in")
 
@@ -104,7 +105,7 @@ class ValidatePhoneSendOTP(APIView):
 
 
                     else:
-
+                        print(phone,key,email,username,password)
                         obj=PhoneOTP.objects.create(
                             phone=phone,
                             otp = key,
@@ -121,6 +122,7 @@ class ValidatePhoneSendOTP(APIView):
 
                         if data["Status"] == 'Success':
                             obj.otp_session_id = data["Details"]
+                            print(obj)
                             obj.save()
                             print('In validate phone :'+obj.otp_session_id)
                             return Response({
@@ -178,6 +180,7 @@ class ValidateOTP(APIView):
 
                 if data["Status"] == 'Success':
                     old.validated = True
+                    print(old)
                     old.save()
                     return Response({
                         'status' : True,
@@ -228,8 +231,10 @@ class Register(APIView):
                             'password' : old.password,
                          
                         }
+                        print(temp_data)
                         serializer = CreateUserSerializer(data = temp_data)
                         serializer.is_valid(raise_exception = True)
+                        print(serializer)
                         user = serializer.save()
                         user.set_password(old.password)
                         user.save()
@@ -259,16 +264,78 @@ class Register(APIView):
                 'detail' : 'Enter All Require Fields'
             })  
 
-class LoginAPI(KnoxLoginView):
-    permission_classes = (permissions.AllowAny, )
+class ObtainAuthTokenView(APIView):
 
-    def post(self, request, format = None):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        context = {}
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username)
+        print(password)
         serializer = LoginSerializer(data = request.data)
+        print(serializer)
         serializer.is_valid(raise_exception = True)
-        user = serializer.validated_data['user']
-        login(request, user)
-        return super().post(request, format=None)
+        account = serializer.validated_data['user']
+        print(account)
+        if account:
+            try:
+                token = Token.objects.get(user=account)
+                print(token)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user=account)
+                print(token)
+               
+        # if account.is_active == True:
+            
+            context['response'] = 'Successfully authenticated.'
+            context['pk'] = account.pk
+            context['email'] =account.email.lower()
+            context['username'] =account.username
+            context['phone'] = account.phone            
+            context['token'] = token.key
+            login(request, account)
+        # else:
+        #     context['response'] = 'Error'
+        #     context['error_message'] = 'verifiy your mobile '
+        else:
+            context['response'] = 'Error'
+            context['error_message'] = 'Invalid credentials'
 
+        return Response(context)
+
+
+# class LoginAPI(KnoxLoginView):
+#     permission_classes = (permissions.AllowAny, )
+
+#     def post(self, request, format = None):
+#         serializer = LoginSerializer(data = request.data)
+#         serializer.is_valid(raise_exception = True)
+#         user = serializer.validated_data['user']
+#         login(request, user)
+#         return super().post(request, format=None)
+
+class Logout(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        # request.user.sessionid.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+# def dologout(request):
+#     print(hello)
+#     # def get(self, request, format=None):
+#         # simply delete the token to force a login
+#     print(request.user.auth_token)
+#         # print(request.user.sessionid)
+#     request.user.auth_token.delete()
+#         # request.user.sessionid.delete()
+#         # logout(request)
+#     return Response(status=status.HTTP_200_OK)
 
 
 
