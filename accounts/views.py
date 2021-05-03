@@ -294,7 +294,7 @@ class ObtainAuthTokenView(APIView):
             context['response'] = 'Successfully authenticated.'
             context['pk'] = account.pk
             context['email'] =account.email.lower()
-            context['usename'] =account.username
+            context['username'] =account.username
             context['phone'] = account.phone            
             context['token'] = token.key
             login(request, account)
