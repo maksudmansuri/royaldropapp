@@ -1,17 +1,19 @@
-# from django.contrib import admin
-from django.urls import path
-from knox import views as knox_views
-from .views import *
+from django.urls import path,include
+from .import views
+# from rest_framework import routers
+# router = routers.SimpleRouter()
+# router.register(r'users', views.CustomUserViewSet)
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    # path('', views.index, name="home"),
-    path('validatePhone/', ValidatePhoneSendOTP.as_view()),
-    path('validateotp/', ValidateOTP.as_view()),
-    path('register/', Register.as_view()),
-    path('login/', ObtainAuthTokenView.as_view()),
-    # path('logout/', Logout.as_view()),
-    # path('dologout', dologout),
-
+   
+    path('dologin', views.dologin,name='dologin'),
+    path('instructor_singup', views.instructor_singup,name='instructor_singup'),
+    path('student_singup', views.student_singup,name='student_singup'),
+    path('counsellor_singup', views.counsellor_singup,name='counsellor_singup'),
+    path('selection', views.selection,name='selection'),
+    path('selection', views.selection,name='selection'),
+    path('activate/<uidb64>/<token>', views.activate,name='activate'),
+    # path('apitest', include(router.urls)), 
+    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]

@@ -1,52 +1,40 @@
-# from django.contrib import admin
-# from .models import UserDetail
-
-# # Register your models here.
-
-
-# admin.site.site_header = 'Wrappers'
-
-# admin.site.register(UserDetail)
-
-
-from __future__ import unicode_literals
-from django.contrib.auth import get_user_model
 from django.contrib import admin
-User = get_user_model()
+# from .models import Account
+from accounts.models import CustomUser,AdminHOD
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth import get_user_model
+# from .forms import UserCreationForm, UserChangeForm
+# from .forms import RegistrationsForm
 
-from .forms import CustomUserCreationForm
-from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from .forms import UserAdminCreationForm, UserAdminChangeForm
+# class UserModel(UserAdmin): 
+#     list_display=('email','username','user_type')
+#     search_fields = ('email','username')
+  
+# class CourseAdmin(admin.ModelAdmin):
+    #  fieldsets = [
+#         ("Course basic Details",{"fields": ["course_code","course_name","course_category","course_subcategory","course_fee","course_duration"]}),
+#         ("Course Details",{"fields": ["course_image","course_video","course_level","course_slug","course_ratting","course_pub_date"]}),
+#         ("Course Desc",{"fields": ["course_requirement","course_desc","course_why_take","course_syllabus","course_in_pdf"]})
 
-from .models import PhoneOTP
-admin.site.register(PhoneOTP)
+# class CustomUserAdmin(UserAdmin):
+#     CustomUser=get_user_model()
+class CustomUserAdmin(UserAdmin):
+    # form = UserChangeForm
+    # add_form = UserCreationForm
+    list_display=('email','username')
+    search_fields = ('email','username',)
+    list_filter = ('is_superuser',)
+    filter_horizontal = ()
+    # list_filter = ()
+    fieldsets = [
+        ("Course basic Details",{"fields": ["course_code","course_name","course_category","course_subcategory","course_fee","course_duration"]}),
+        ("Course Details",{"fields": ["course_image","course_video","course_level","course_slug","course_ratting","course_pub_date"]}),
+        ("Course Desc",{"fields": ["course_requirement","course_desc","course_why_take","course_syllabus","course_in_pdf"]})
 
+    ]
 
-class CustomUserAdmin(BaseUserAdmin):
-
-    add_form = CustomUserCreationForm
-    # form = CustomUserChangeForm
-    model = User
-    list_display = ('username','email','phone', 'is_staff', 'is_active',)
-    list_filter = ('username','email','phone','is_staff', 'is_active',)
-    fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username','email','phone', 'password1', 'password2', 'is_staff', 'is_active')}
-        ),
-    )
-    search_fields = ('email',)
-    ordering = ('email',)
-
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return list()
-        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+admin.site.register(CustomUser,CustomUserAdmin)
 
 
-admin.site.register(User, CustomUserAdmin)
+# admin.site.register(CustomUser)
+# admin.site.register(AdminHOD)

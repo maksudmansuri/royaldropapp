@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
+# from pathlib import Path
 import os
 import django_heroku
 import dj_database_url 
@@ -28,9 +28,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-oa$c14fx9h-axyl0f%9+ij)(m35$0axixug)8&+)znm!mi689j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['royaldrop.herokuapp.com','127.0.0.1']
+
 
 
 # Application definition
@@ -42,11 +45,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'front.apps.FrontConfig',
+    'student_lms.apps.StudentLmsConfig',
+    'instructor_lms.apps.InstructorLmsConfig',
+    'counsellor.apps.CounsellorConfig',
+    'crispy_forms',
+    'ckeditor',
+    'ckeditor_uploader',
     'accounts',
+    'simple_email_confirmation',
+    'moviepy',
+    'django.contrib.humanize',
+    # 'channels',
+    'chat',
     'rest_framework',
     'rest_framework.authtoken',
-    'crispy_forms',
-    'knox',
+    'social_django',
 
 ]
 
@@ -66,7 +81,7 @@ ROOT_URLCONF = 'eca.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,12 +94,19 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'eca.wsgi.application'
-
-
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+ 
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+ 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
 
 REST_FRAMWORK = {
-        'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'
         'rest_framework.permissions.IsAuthenticated'
         #  'rest_framework.permissions.IsAdminUser'
@@ -92,11 +114,48 @@ REST_FRAMWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'knox.auth.TokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        # 'accounts.EmailBackEnd.EmailBackEnd',
+        'accounts.userAuthenticate.userAuthenticate',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':10,
+    # 'REST_SESSION_LOGIN' : False
+   
 }
+CORS_ORIGIN_WHITELIST = (
+    'localhost:1234',
+)
+
+AUTHENTICATION_BACKENDS=(
+    'accounts.userAuthenticate.userAuthenticate',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+
+WSGI_APPLICATION = 'eca.wsgi.application'
+
+ASGI_APPLICATION = 'eca.routing.application'
+
+AUTH_USER_MODEL="accounts.CustomUser"
+# AUTH_USER_MODEL = 'accounts.User'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
+LOGIN_URL='dologin'
+LOGOUT_URL = 'dologout'
+
+LOGIN_REDIRECT_URL = "/"
+
 # from datetime import timedelta
 # REST_KNOX = {
 #     'USER_SERIALIZER' : 'accounts.serializer.UserSerializer',
@@ -105,10 +164,11 @@ REST_FRAMWORK = {
 #     # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
 # }
 
-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-# MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
 
-# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+TEMP = os.path.join(BASE_DIR, "temp")
 
 # LOGIN_URL = 'login'
 
@@ -167,12 +227,18 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = '/static/'
+
+# Manualy Added
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/var/www/static/',
+]
 
 STATICFILE_STORAGE = "whitenoise.storage.CompressedMainfestStaticFilesStorage"
 
-AUTH_USER_MODEL = 'accounts.User'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -187,3 +253,8 @@ EMAIL_HOST_PASSWORD = 'Aot567@lk'
 EMAIL_USE_TLS = True
 
 django_heroku.settings(locals())
+
+from datetime import timedelta
+
+EMAIL_CONFIRMATION_PERIOD_DAYS = 1
+SIMPLE_EMAIL_CONFIRMATION_PERIOD = timedelta(days=EMAIL_CONFIRMATION_PERIOD_DAYS)
