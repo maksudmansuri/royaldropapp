@@ -5,7 +5,7 @@ from django.contrib.auth import login,authenticate,logout
 from front.models import Product,Product_Session,Product_Modules,ProductCategory,ProductSubCategory
 from .models import Orders,Ratting,paytm_payment
 from accounts.models import Customers as Students,CustomUser
-from front.models import viewed,SessionComments
+from front.models import viewed,ProductComments
 from django.contrib import messages
 from django.contrib.auth.forms import UserChangeForm
 from django.core.files.storage import FileSystemStorage
@@ -338,7 +338,7 @@ def session_seen(request,product_slug,slug,sslug):
     ml=Product_Modules.objects.get(slug=slug,product=crs)
     allssn=Product_Session.objects.filter(module=ml)
     crssn2=Product_Session.objects.get(product_slug=sslug,module=ml)
-    cmmnts=SessionComments.objects.filter(session=crssn2)
+    cmmnts=ProductComments.objects.filter(session=crssn2)
     param={'crs':crs,'allssn':allssn,'ssn':crssn2,'std1':std,'ml':ml,'cmmnts':cmmnts}
     return render(request,'student_lms/session_seen.html',param)
 
@@ -352,7 +352,7 @@ def session_view(request,product_slug,slug,sslug):
     lastssn=Product_Session.objects.filter(module=ml).last()
     lastml=Product_Modules.objects.filter(product=crs).last()
     crssn2=Product_Session.objects.get(product_slug=sslug,module=ml)
-    cmmnts=SessionComments.objects.filter(session=crssn2)
+    cmmnts=ProductComments.objects.filter(session=crssn2)
     print(crs)
     print(std)
     print(ml)
@@ -410,7 +410,7 @@ def sessionComment_view(request,product_slug,slug,sslug):
         session = ssn
         comment = request.POST.get("comment")
 
-        cmmnt=SessionComments(user=user,session=session,comment=comment)
+        cmmnt=ProductComments(user=user,session=session,comment=comment)
         cmmnt.save()
         messages.add_message(request,messages.SUCCESS,"Comment Posted Successfuly")
 
@@ -426,7 +426,7 @@ def sessionComment(request,product_slug,slug,sslug):
         session = ssn
         comment = request.POST.get("comment")
 
-        cmmnt=SessionComments(user=user,session=session,comment=comment)
+        cmmnt=ProductComments(user=user,session=session,comment=comment)
         cmmnt.save()
         messages.add_message(request,messages.SUCCESS,"Comment Posted Successfuly")
 

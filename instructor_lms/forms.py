@@ -4,7 +4,7 @@ from accounts.models import Staffs
 class CreateProduct(ModelForm):
     class Meta:
       model=Product
-      fields = ["product_requirement","product_desc","product_why_take"]
+      fields = ["product_desc",]
 
 class CreateAbout(ModelForm):
   class Meta:
