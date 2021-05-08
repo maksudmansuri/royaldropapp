@@ -4,7 +4,7 @@ from rest_framework.serializers import (
 	ValidationError,
 	EmailField,
 )
-from front.models import Course,Course_Modules,Course_Session,CourseCategory,CourseSubCategory
+from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -21,69 +21,69 @@ from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeErro
 
 from front.utils import is_image_size_valid
 
-class CourseDatailSerializer(serializers.ModelSerializer):
+class ProductDatailSerializer(serializers.ModelSerializer):
 
     username = serializers.SerializerMethodField('get_username_from_staffs')
-    # course_image = serializers.SerializerMethodField('validate_course_image_url')
+    # product_image = serializers.SerializerMethodField('validate_product_image_url')
 
     class Meta: 
-        model = Course 
-        fields = ['pk','course_name','course_category','course_subcategory','course_video','course_requirement','course_desc','course_why_take','course_slug','course_level','course_image','course_duration','course_fee','username','created_date']
+        model = Product 
+        fields = ['pk','product_name','product_category','product_subcategory','product_video','product_requirement','product_desc','product_why_take','product_slug','product_level','product_image','product_duration','product_fee','username','created_date']
 
-    def get_username_from_staffs(self,Course):
-        username = Course.teacher.admin.username
+    def get_username_from_staffs(self,Product):
+        username = Product.teacher.admin.username
         return username
 
-    def validate_course_image_url(self, Course):
-        crs_imge = Course.course_image
+    def validate_product_image_url(self, Product):
+        crs_imge = Product.product_image
         new_url = crs_imge.url
         if "?" in new_url:
             new_url = crs_imge.url[:crs_imge.url.rfind("?")]
         return new_url
   
 
-class CourseModuleDatailSerializer(serializers.ModelSerializer):
+class ProductModuleDatailSerializer(serializers.ModelSerializer):
     # username = serializers.SerializerMethodField('get_username_from_staffs')
-    # # course_image = serializers.SerializerMethodField('validate_course_image_url')
+    # # product_image = serializers.SerializerMethodField('validate_product_image_url')
     class Meta: 
-        model = Course_Modules
-        fields = ['pk','course','module','module_desc','slug','position','created_date']
+        model = Product_Modules
+        fields = ['pk','product','module','module_desc','slug','position','created_date']
 		
 
-    # def get_username_from_staffs(self,Course):
-    #     username = Course.teacher.admin.username
+    # def get_username_from_staffs(self,Product):
+    #     username = Product.teacher.admin.username
     #     return username
 
-    # def validate_course_image_url(self, Course):
-    #     crs_imge = Course.course_image
+    # def validate_product_image_url(self, Product):
+    #     crs_imge = Product.product_image
     #     new_url = crs_imge.url
     #     if "?" in new_url:
     #         new_url = crs_imge.url[:crs_imge.url.rfind("?")]
     #     return new_url
   
 
-class CourseDetailUpdateSerializer(serializers.ModelSerializer):
+class ProductDetailUpdateSerializer(serializers.ModelSerializer):
 
 	class Meta:
-		model = Course
-		fields = ['course_name','course_fee','course_duration','course_level','course_desc','course_image']
+		model = Product
+		fields = ['product_name','product_fee','product_duration','product_level','product_desc','product_image']
 
 	def validate(self, crs):
 		try:
-			course_name = crs['course_name']
-			if len(course_name) < MIN_COURSENAME_LENGTH:
-				raise serializers.ValidationError({"response": "Enter a course_name longer than " + str(MIN_COURSENAME_LENGTH) + " characters."})
+			product_name = crs['product_name']
+			if len(product_name) < MIN_COURSENAME_LENGTH:
+				raise serializers.ValidationError({"response": "Enter a product_name longer than " + str(MIN_COURSENAME_LENGTH) + " characters."})
 			
-			course_desc = crs['course_desc']
-			if len(course_desc) < MIN_COURSEDECS_LENGTH:
-				raise serializers.ValidationError({"response": "Enter a course_desc longer than " + str(MIN_COURSEDECS_LENGTH) + " characters."})
+			product_desc = crs['product_desc']
+			if len(product_desc) < MIN_COURSEDECS_LENGTH:
+				raise serializers.ValidationError({"response": "Enter a product_desc longer than " + str(MIN_COURSEDECS_LENGTH) + " characters."})
 			
-			course_image = crs['course_image']
-			url = os.path.join(settings.TEMP , str(course_image))
+			product_image = crs['product_image']
+			url = os.path.join(settings.TEMP , str(product_image))
 			storage = FileSystemStorage(location=url)
 
 			with storage.open('', 'wb+') as destination:
-				for chunk in course_image.chunks():
+				for chunk in product_image.chunks():
 					destination.write(chunk)
 				destination.close()
 
@@ -103,43 +103,43 @@ class CourseDetailUpdateSerializer(serializers.ModelSerializer):
 		return crs
 
 
-class CourseDetailCreateSerializer(serializers.ModelSerializer):
+class ProductDetailCreateSerializer(serializers.ModelSerializer):
 
 	class Meta:
-		model = Course
-		fields = ['course_name','course_fee','course_duration','course_level','course_desc','teacher','course_image','course_category','course_subcategory']
+		model = Product
+		fields = ['product_name','product_fee','product_duration','product_level','product_desc','teacher','product_image','product_category','product_subcategory']
                                                                                                                                          
 	def save(self):
 		
 		try:
-			course_image = self.validated_data['course_image']
-			course_name = self.validated_data['course_name']
-			if len(course_name) < MIN_COURSENAME_LENGTH:
-				raise serializers.ValidationError({"response": "Enter a course_name longer than " + str(MIN_COURSENAME_LENGTH) + " characters."})
+			product_image = self.validated_data['product_image']
+			product_name = self.validated_data['product_name']
+			if len(product_name) < MIN_COURSENAME_LENGTH:
+				raise serializers.ValidationError({"response": "Enter a product_name longer than " + str(MIN_COURSENAME_LENGTH) + " characters."})
 			
-			course_desc = self.validated_data['course_desc']
-			if len(course_desc) < MIN_COURSEDECS_LENGTH:
-				raise serializers.ValidationError({"response": "Enter a course_desc longer than " + str(MIN_COURSEDECS_LENGTH) + " characters."})
+			product_desc = self.validated_data['product_desc']
+			if len(product_desc) < MIN_COURSEDECS_LENGTH:
+				raise serializers.ValidationError({"response": "Enter a product_desc longer than " + str(MIN_COURSEDECS_LENGTH) + " characters."})
 			
-			course_detail = Course(
+			product_detail = Product(
 								teacher=self.validated_data['teacher'],
-								course_name=course_name,
-								course_desc=course_desc,
-								course_image=course_image,
-                                course_fee=self.validated_data['course_fee'],
-                                course_duration=self.validated_data['course_duration'],
-                                course_level=self.validated_data['course_level'],
-								# course_slug=self.validated_data['course_slug'],
-								course_subcategory=self.validated_data['course_subcategory'],
-								course_category=self.validated_data['course_category'],
+								product_name=product_name,
+								product_desc=product_desc,
+								product_image=product_image,
+                                product_fee=self.validated_data['product_fee'],
+                                product_duration=self.validated_data['product_duration'],
+                                product_level=self.validated_data['product_level'],
+								# product_slug=self.validated_data['product_slug'],
+								product_subcategory=self.validated_data['product_subcategory'],
+								product_category=self.validated_data['product_category'],
 								is_appiled = True,
 								)
 
-			url = os.path.join(settings.TEMP , str(course_image))
+			url = os.path.join(settings.TEMP , str(product_image))
 			storage = FileSystemStorage(location=url)
 
 			with storage.open('', 'wb+') as destination:
-				for chunk in course_image.chunks():
+				for chunk in product_image.chunks():
 					destination.write(chunk)
 				destination.close()
 
@@ -154,8 +154,8 @@ class CourseDetailCreateSerializer(serializers.ModelSerializer):
 			# 	raise serializers.ValidationError({"response": "Image height must not exceed image width. Try a different image."})
 
 			os.remove(url)
-			course_detail.save()
-			return course_detail
+			product_detail.save()
+			return product_detail
 		except KeyError:
-			raise serializers.ValidationError({"response": "You must have a course_name, some content, and an image."})
+			raise serializers.ValidationError({"response": "You must have a product_name, some content, and an image."})
 

@@ -2,14 +2,14 @@ from django.shortcuts import render,redirect
 # from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Course
+from front.models import Product
 # from .models import Orders,StudentDetail
 import logging
 from accounts.EmailBackEnd import EmailBackEnd
 from django.contrib import messages
-from accounts.models import Staffs,Students,CustomUser
+from accounts.models import Staffs,Customers as Students,CustomUser
 from django.core.paginator import Page,PageNotAnInteger,Paginator
-from front.models import Course,Course_Modules,Course_Session,CourseCategory,CourseSubCategory
+from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory
 from django.db.models import Q
 
 def counsellor_login(request):
@@ -103,43 +103,43 @@ def student_deactivate(request,id):
     std=paginator.get_page(page)
     return render(request,'counsellor/manage_student.html',{'std':std})
 
-def course_category(request):
+def product_category(request):
     if request.method == "POST":
         category=request.POST['category']
-        cat=CourseCategory(category=category)
+        cat=ProductCategory(category=category)
         cat.save()
-    crscats=CourseCategory.objects.all()
-    return render(request,'counsellor/course_category.html',{'crscats':crscats}) 
+    crscats=ProductCategory.objects.all()
+    return render(request,'counsellor/product_category.html',{'crscats':crscats}) 
 
-def course_category_delete(request,id):
-    detcrscats=CourseCategory.objects.get(id=id).delete()
-    crscats=CourseCategory.objects.all()
-    return render(request,'counsellor/course_category.html',{'crscats':crscats}) 
+def product_category_delete(request,id):
+    detcrscats=ProductCategory.objects.get(id=id).delete()
+    crscats=ProductCategory.objects.all()
+    return render(request,'counsellor/product_category.html',{'crscats':crscats}) 
 
-def course_subcategory(request,id):
-    crscats=CourseCategory.objects.get(id=id)
+def product_subcategory(request,id):
+    crscats=ProductCategory.objects.get(id=id)
     if request.method == "POST":
         category=crscats
         subcategory=request.POST['subcategory']
-        cat=CourseSubCategory(category=category,subcategory=subcategory)
+        cat=ProductSubCategory(category=category,subcategory=subcategory)
         cat.save()
-    crssbcats=CourseSubCategory.objects.filter(category=crscats.id)
-    return render(request,'counsellor/course_subcategory.html',{'crssbcats':crssbcats,'crscats':crscats}) 
+    crssbcats=ProductSubCategory.objects.filter(category=crscats.id)
+    return render(request,'counsellor/product_subcategory.html',{'crssbcats':crssbcats,'crscats':crscats}) 
 
-def course_subcategory_delete(request,sid,id):
-    crscats=CourseCategory.objects.get(id=sid)
-    detcrssbcats=CourseSubCategory.objects.get(id=id).delete()
-    crssbcats=CourseSubCategory.objects.filter(category=crscats.id)
-    return render(request,'counsellor/course_subcategory.html',{'crssbcats':crssbcats,'crscats':crscats}) 
+def product_subcategory_delete(request,sid,id):
+    crscats=ProductCategory.objects.get(id=sid)
+    detcrssbcats=ProductSubCategory.objects.get(id=id).delete()
+    crssbcats=ProductSubCategory.objects.filter(category=crscats.id)
+    return render(request,'counsellor/product_subcategory.html',{'crssbcats':crssbcats,'crscats':crscats}) 
 
-def manage_course(request):
-    allcrs=Course.objects.filter(Q(is_appiled =True) | Q(is_verified=True))
+def manage_product(request):
+    allcrs=Product.objects.filter(Q(is_appiled =True) | Q(is_verified=True))
     allcnt=[]
     for crs in allcrs: 
         cnt=0
-        mdl=Course_Modules.objects.filter(course=crs)
+        mdl=Product_Modules.objects.filter(product=crs)
         for ml in mdl:
-            mlcrssn=Course_Session.objects.filter(module=ml)
+            mlcrssn=Product_Session.objects.filter(module=ml)
             for i in mlcrssn:
                 if i.is_verified != True:
                     i.is_appiled=True
@@ -147,19 +147,19 @@ def manage_course(request):
                     cnt=cnt+1
         allcnt.append([cnt,crs])
     print(allcnt)
-    # allcrs=Course.objects.all( )
+    # allcrs=Product.objects.all( )
     paginator=Paginator(allcnt,3)
     page=request.GET.get('page')
     allcnt=paginator.get_page(page)
-    return render(request,'counsellor/manage_course.html',{'crs1':allcnt})
+    return render(request,'counsellor/manage_product.html',{'crs1':allcnt})
 
-def course_activate(request,slug):
-    crs=Course.objects.get(course_slug=slug)
+def product_activate(request,slug):
+    crs=Product.objects.get(product_slug=slug)
     allcnt=[]
     cnt1=0
-    mdl=Course_Modules.objects.filter(course=crs)
+    mdl=Product_Modules.objects.filter(product=crs)
     for ml in mdl:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         for i in mlcrssn:
             if i.is_verified != True and i.is_appiled == True:
                 cnt1=cnt1+1
@@ -169,13 +169,13 @@ def course_activate(request,slug):
         crs.is_appiled = False
         crs.save()
 
-    allcrs=Course.objects.all()
+    allcrs=Product.objects.all()
     allcnt=[]
     for crs in allcrs: 
         cnt=0
-        mdl=Course_Modules.objects.filter(course=crs)
+        mdl=Product_Modules.objects.filter(product=crs)
         for ml in mdl:
-            mlcrssn=Course_Session.objects.filter(module=ml)
+            mlcrssn=Product_Session.objects.filter(module=ml)
             for i in mlcrssn:
                 if i.is_verified != True and i.is_appiled == True:
                     cnt=cnt+1
@@ -183,23 +183,23 @@ def course_activate(request,slug):
     paginator=Paginator(allcnt,3)
     page=request.GET.get('page')
     allcnt=paginator.get_page(page)
-    return render(request,'counsellor/manage_course.html',{'crs1':allcnt})
+    return render(request,'counsellor/manage_product.html',{'crs1':allcnt})
 
-def course_deactivate(request,slug):
-    crs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=crs)
+def product_deactivate(request,slug):
+    crs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=crs)
     if crs.is_verified == True and crs.is_appiled == False:
         crs.is_verified = False
         crs.is_appiled = True
         crs.save()
 
-    allcrs=Course.objects.all()
+    allcrs=Product.objects.all()
     allcnt=[]
     for crs in allcrs: 
         cnt=0
-        mdl=Course_Modules.objects.filter(course=crs)
+        mdl=Product_Modules.objects.filter(product=crs)
         for ml in mdl:
-            mlcrssn=Course_Session.objects.filter(module=ml)
+            mlcrssn=Product_Session.objects.filter(module=ml)
             for i in mlcrssn:
                 if i.is_verified != True and i.is_appiled == True:
                     cnt=cnt+1
@@ -207,12 +207,12 @@ def course_deactivate(request,slug):
     paginator=Paginator(allcnt,3)
     page=request.GET.get('page')
     allcnt=paginator.get_page(page)
-    return render(request,'counsellor/manage_course.html',{'crs1':allcnt})
+    return render(request,'counsellor/manage_product.html',{'crs1':allcnt})
 
-def check_course_session_activate(request,slug,sslug,ssslug):
-    acrs=Course.objects.get(course_slug=slug)
-    amdl=Course_Modules.objects.get(slug=sslug,course=acrs)
-    acrssn=Course_Session.objects.get(course_slug=ssslug,module=amdl)
+def check_product_session_activate(request,slug,sslug,ssslug):
+    acrs=Product.objects.get(product_slug=slug)
+    amdl=Product_Modules.objects.get(slug=sslug,product=acrs)
+    acrssn=Product_Session.objects.get(product_slug=ssslug,module=amdl)
     print(acrssn)
     crssn=[]
     if acrssn != None: 
@@ -221,22 +221,22 @@ def check_course_session_activate(request,slug,sslug,ssslug):
             acrssn.is_appiled=False
             acrssn.save()
             print(acrssn.is_verified)
-    mdl=Course_Modules.objects.filter(course=acrs)
+    mdl=Product_Modules.objects.filter(product=acrs)
     for ml in mdl:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         crssn.append([mlcrssn,ml])
         # print(crssn[0].is_verified)
-    # crs=Course.objects.all()
+    # crs=Product.objects.all()
     # paginator=Paginator(crs,3)
     # page=request.GET.get('page')
     # crs=paginator.get_page(page) 
     param={'crs1':acrs,'crssn1':crssn,'crssn2':acrssn}
-    return render(request,'counsellor/check_course_session.html',param)
+    return render(request,'counsellor/check_product_session.html',param)
 
-def check_course_session_deactivate(request,slug,sslug,ssslug):
-    acrs=Course.objects.get(course_slug=slug)
-    amdl=Course_Modules.objects.get(slug=sslug,course=acrs)
-    acrssn=Course_Session.objects.get(course_slug=ssslug,module=amdl)
+def check_product_session_deactivate(request,slug,sslug,ssslug):
+    acrs=Product.objects.get(product_slug=slug)
+    amdl=Product_Modules.objects.get(slug=sslug,product=acrs)
+    acrssn=Product_Session.objects.get(product_slug=ssslug,module=amdl)
     print(acrssn)
     crssn=[]
     if acrssn != None: 
@@ -245,51 +245,51 @@ def check_course_session_deactivate(request,slug,sslug,ssslug):
             acrssn.is_appiled=False
             acrssn.save()
             print(acrssn.is_verified)
-    mdl=Course_Modules.objects.filter(course=acrs)
+    mdl=Product_Modules.objects.filter(product=acrs)
     for ml in mdl:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         crssn.append([mlcrssn,ml])
         # print(crssn[0].is_verified)
-    # crs=Course.objects.all()
+    # crs=Product.objects.all()
     # paginator=Paginator(crs,3)
     # page=request.GET.get('page')
     # crs=paginator.get_page(page) 
     param={'crs1':acrs,'crssn1':crssn,'crssn2':acrssn}
-    return render(request,'counsellor/check_course_session.html',param)
+    return render(request,'counsellor/check_product_session.html',param)
 
-def check_course_details(request,slug):
+def check_product_details(request,slug):
     param=[]
     crssn=[]
     # std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
+    crs=Product.objects.get(product_slug=slug)
     print(crs)
-    mdl=Course_Modules.objects.filter(course=crs)
+    mdl=Product_Modules.objects.filter(product=crs)
     print(mdl)
     for ml in mdl:
         print(ml)
-        mlcrssn=Course_Session.objects.filter(Q(module=ml) & (Q(is_appiled=True) | Q(is_verified=True)))
+        mlcrssn=Product_Session.objects.filter(Q(module=ml) & (Q(is_appiled=True) | Q(is_verified=True)))
         print(mlcrssn)
         crssn.append([mlcrssn,ml])
     print(crssn)
     param={'crs1':crs,'crssn1':crssn}
-    return render(request,'counsellor/check_course_details.html',param)
+    return render(request,'counsellor/check_product_details.html',param)
 
-def check_course_session(request,slug,sslug,ssslug):
+def check_product_session(request,slug,sslug,ssslug):
     # std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=sslug,course=crs)
-    crssn2=Course_Session.objects.get(course_slug=ssslug,module=ml)
+    crs=Product.objects.get(product_slug=slug)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=sslug,product=crs)
+    crssn2=Product_Session.objects.get(product_slug=ssslug,module=ml)
     crssn=[]        
-    allml=Course_Modules.objects.filter(course=crs)
+    allml=Product_Modules.objects.filter(product=crs)
     
     for ml in allml:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         n=len(mlcrssn)
         crssn.append([mlcrssn,ml])
     
     param={'crs1':crs,'crssn1':crssn,'crssn2':crssn2}
-    return render(request,'counsellor/check_course_session.html',param)
+    return render(request,'counsellor/check_product_session.html',param)
 
 def add_staff(request):
     # if request.user.is_anonymous:

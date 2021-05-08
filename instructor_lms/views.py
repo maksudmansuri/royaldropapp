@@ -2,12 +2,12 @@ from django.shortcuts import render,redirect, get_object_or_404,HttpResponseRedi
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from front.models import CourseSubCategory,CourseCategory,Course,Course_Session,Course_Modules
+from front.models import ProductSubCategory,ProductCategory,Product,Product_Session,Product_Modules
 from accounts.models import Staffs,CustomUser
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
-from .forms import CreateCourse,CreateSession
+from .forms import CreateProduct,CreateSession
 from django.core.paginator import Paginator,PageNotAnInteger,Page
 from django.utils.safestring import mark_safe
 from django.template import Library
@@ -32,7 +32,7 @@ def instructor_dashboard(request):
 def instructor_account_edit(request):
     stf=Staffs.objects.get(admin=request.user)
     print(stf)
-    allcat=CourseSubCategory.objects.all()
+    allcat=ProductSubCategory.objects.all()
     return render(request,'instructor_lms/instructor_account_edit.html',{'stf1':stf,'allcat':allcat})
 
 @login_required  
@@ -111,31 +111,31 @@ def instructor_account_edit_save(request):
             return redirect("/instructor_lms/instructor_account_edit")
 
 @login_required 
-def instructor_courses(request):
+def instructor_products(request):
     stf=Staffs.objects.get(admin=request.user)
-    crss=Course.objects.filter(teacher=stf)
-    # pagenition for courses in instructor 
+    crss=Product.objects.filter(teacher=stf)
+    # pagenition for products in instructor 
     print(crss)
     paginator=Paginator(crss,6)
     page=request.GET.get('page')
     crss=paginator.get_page(page)
-    return render(request,'instructor_lms/instructor_courses.html',{'crss':crss,'stf1':stf})
+    return render(request,'instructor_lms/instructor_products.html',{'crss':crss,'stf1':stf})
 
 @login_required
-def instructor_course_publish(request,slug):
+def instructor_product_publish(request,slug):
     stf=Staffs.objects.get(admin=request.user)
-    crss=Course.objects.filter(teacher=stf)
-    fcrs=get_object_or_404(Course,course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=fcrs)
+    crss=Product.objects.filter(teacher=stf)
+    fcrs=get_object_or_404(Product,product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=fcrs)
     cnt=0
     
     if fcrs.is_appiled == False and fcrs.is_verified == False:
         for ml in mdl:
-            crssn=Course_Session.objects.filter(module=ml)
+            crssn=Product_Session.objects.filter(module=ml)
             for ssn in crssn:
                 cnt=cnt+1
     else:
-        messages.add_message(request,messages.ERROR,"Course already verified")
+        messages.add_message(request,messages.ERROR,"Product already verified")
     if stf.is_verified == True:
         if cnt > 0:
             fcrs.is_verified =False
@@ -150,114 +150,114 @@ def instructor_course_publish(request,slug):
     paginator=Paginator(crss,6)
     page=request.GET.get('page')
     crss=paginator.get_page(page)
-    return render(request,'/instructor_lms/instructor_courses.html',{'crss':crss,'stf1':stf})
+    return render(request,'/instructor_lms/instructor_products.html',{'crss':crss,'stf1':stf})
 
 @login_required
-def instructor_course_add(request):
+def instructor_product_add(request):
     stf=Staffs.objects.get(admin=request.user)
-    form=CreateCourse()
-    allcat=CourseCategory.objects.all()
-    allsubcat=CourseSubCategory.objects.all()
-    allcrs=Course.objects.all()
+    form=CreateProduct()
+    allcat=ProductCategory.objects.all()
+    allsubcat=ProductSubCategory.objects.all()
+    allcrs=Product.objects.all()
     if request.method=="POST":
-        crssubcat=get_object_or_404(CourseSubCategory,subcategory=request.POST['subcategory'])
+        crssubcat=get_object_or_404(ProductSubCategory,subcategory=request.POST['subcategory'])
         stf=Staffs.objects.get(admin=request.user)
-        course_category=(crssubcat.category)
-        course_name=request.POST['course_name']
-        course_subcategory=crssubcat
-        course_fee=request.POST['course_fee']
+        product_category=(crssubcat.category)
+        product_name=request.POST['product_name']
+        product_subcategory=crssubcat
+        product_fee=request.POST['product_fee']
         teacher=stf
-        course_duration=request.POST['course_duration']
-        course_video=request.POST['course_video']
-        course_level=request.POST['course_level']
-        course_slug=slugify(request.POST['course_name'])
-        if request.FILES.get('course_image'):
-            course_image=request.FILES['course_image']
+        product_duration=request.POST['product_duration']
+        product_video=request.POST['product_video']
+        product_level=request.POST['product_level']
+        product_slug=slugify(request.POST['product_name'])
+        if request.FILES.get('product_image'):
+            product_image=request.FILES['product_image']
             fs=FileSystemStorage()
-            filename=fs.save(course_image.name,course_image)
-            course_image_url=fs.url(filename)
+            filename=fs.save(product_image.name,product_image)
+            product_image_url=fs.url(filename)
         else:
-            course_image_url=None
-        form=CreateCourse(request.POST)
+            product_image_url=None
+        form=CreateProduct(request.POST)
         if form.is_valid():
             crs=form.save(commit=False)
-            crs.course_category=course_category
-            crs.course_name=course_name
-            crs.course_subcategory=course_subcategory
-            crs.course_fee=course_fee
+            crs.product_category=product_category
+            crs.product_name=product_name
+            crs.product_subcategory=product_subcategory
+            crs.product_fee=product_fee
             crs.teacher=teacher
-            crs.course_duration=course_duration
-            crs.course_video=course_video
-            crs.course_level=course_level
-            crs.course_slug=course_slug
-            if course_image_url!=None:
-                crs.course_image=course_image_url
+            crs.product_duration=product_duration
+            crs.product_video=product_video
+            crs.product_level=product_level
+            crs.product_slug=product_slug
+            if product_image_url!=None:
+                crs.product_image=product_image_url
             crs.save()
-            return redirect("/instructor_lms/instructor_courses")
+            return redirect("/instructor_lms/instructor_products")
         else:
-            form=CreateCourse()
-    return render(request,'instructor_lms/instructor_course_add.html',{'allsubcat1':allsubcat,'form':form,'stf1':stf})
+            form=CreateProduct()
+    return render(request,'instructor_lms/instructor_product_add.html',{'allsubcat1':allsubcat,'form':form,'stf1':stf})
 
 @login_required
-def instructor_course_add_save(request):
+def instructor_product_add_save(request):
     if request.method=="POST":
         stf=Staffs.objects.get(admin=request.user)
-        crssubcat=CourseSubCategory.objects.filter(subcategory=request.POST['course_subcategory'])
+        crssubcat=ProductSubCategory.objects.filter(subcategory=request.POST['product_subcategory'])
         print(crssubcat.category)
-        course_category=request.POST['course_subcategory']
-    return render(request,'instructor_lms/instructor_course_add.html',{'stf1':stf})
+        product_category=request.POST['product_subcategory']
+    return render(request,'instructor_lms/instructor_product_add.html',{'stf1':stf})
 
 @login_required
-def instructor_course_edit(request,slug):
+def instructor_product_edit(request,slug):
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=get_object_or_404(Course,course_slug=slug)
-    allcat=CourseCategory.objects.all()
-    allsubcat=CourseSubCategory.objects.all()
-    crs=Course.objects.get(course_slug=slug)
-    allcrs=Course.objects.all()
-    # form=CreateCourse()
+    fcrs=get_object_or_404(Product,product_slug=slug)
+    allcat=ProductCategory.objects.all()
+    allsubcat=ProductSubCategory.objects.all()
+    crs=Product.objects.get(product_slug=slug)
+    allcrs=Product.objects.all()
+    # form=CreateProduct()
     if request.method != "POST":
-        form=CreateCourse(request.POST or None, instance=fcrs)
+        form=CreateProduct(request.POST or None, instance=fcrs)
         # if form.is_valid():
         #     form.save()
     else:
-        crssubcat=CourseSubCategory.objects.get(subcategory=request.POST['subcategory'])
+        crssubcat=ProductSubCategory.objects.get(subcategory=request.POST['subcategory'])
         stf=Staffs.objects.get(admin=request.user)
-        course_category=(crssubcat.category)
-        course_name=request.POST['course_name']
-        course_subcategory=crssubcat
-        course_fee=request.POST['course_fee']
+        product_category=(crssubcat.category)
+        product_name=request.POST['product_name']
+        product_subcategory=crssubcat
+        product_fee=request.POST['product_fee']
         teacher=stf
-        course_duration=request.POST['course_duration']
-        course_video=request.POST['course_video']
-        course_level=request.POST['course_level']
-        course_slug=slugify(request.POST['course_name'])
-        if request.FILES.get('course_image'):
-            course_image=request.FILES['course_image']
+        product_duration=request.POST['product_duration']
+        product_video=request.POST['product_video']
+        product_level=request.POST['product_level']
+        product_slug=slugify(request.POST['product_name'])
+        if request.FILES.get('product_image'):
+            product_image=request.FILES['product_image']
             fs=FileSystemStorage()
-            filename=fs.save(course_image.name,course_image)
-            course_image_url=fs.url(filename)
+            filename=fs.save(product_image.name,product_image)
+            product_image_url=fs.url(filename)
         else:
-            course_image_url=None
-        form=CreateCourse(request.POST or None, instance=fcrs)
+            product_image_url=None
+        form=CreateProduct(request.POST or None, instance=fcrs)
         if form.is_valid():
             crs1=form.save(commit=False)
-            crs1.course_category=course_category
-            crs1.course_name=course_name
-            crs1.course_subcategory=course_subcategory
-            crs1.course_fee=course_fee
+            crs1.product_category=product_category
+            crs1.product_name=product_name
+            crs1.product_subcategory=product_subcategory
+            crs1.product_fee=product_fee
             crs1.teacher=teacher
-            crs1.course_duration=course_duration
-            crs1.course_video=course_video
-            crs1.course_level=course_level
-            crs1.course_slug=course_slug
-            if course_image_url!=None:
-                crs1.course_image=course_image_url
+            crs1.product_duration=product_duration
+            crs1.product_video=product_video
+            crs1.product_level=product_level
+            crs1.product_slug=product_slug
+            if product_image_url!=None:
+                crs1.product_image=product_image_url
             crs1.is_appiled=True
             crs1.is_verified=False
             crs1.save()
-            return redirect("/instructor_lms/instructor_courses")    
-    return render(request,'instructor_lms/instructor_course_edit.html',{'crs':fcrs,'allsubcat':allsubcat,'allcat':allcat,'form':form,'stf1':stf})
+            return redirect("/instructor_lms/instructor_products")    
+    return render(request,'instructor_lms/instructor_product_edit.html',{'crs':fcrs,'allsubcat':allsubcat,'allcat':allcat,'form':form,'stf1':stf})
 
 @login_required
 def instructor_earnings(request):
@@ -288,11 +288,11 @@ def instructor_invoice(request):
 @login_required
 def instructor_module_add(request,slug):
     bool=True
-    fcrs=get_object_or_404(Course,course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=fcrs)
+    fcrs=get_object_or_404(Product,product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=fcrs)
     stf=Staffs.objects.get(admin=request.user)
     if request.method == "POST":
-        course=fcrs
+        product=fcrs
         module=None
         if mdl == None:
             bool=True
@@ -310,12 +310,12 @@ def instructor_module_add(request,slug):
             position=request.POST['position']
             slug=slugify(request.POST['module'])
             try:
-                module=Course_Modules(course=course,module=module,position=position,module_desc=module_desc,slug=slug)
+                module=Product_Modules(product=product,module=module,position=position,module_desc=module_desc,slug=slug)
                 module.save()
                 fcrs.is_verified=False
                 fcrs.is_appiled=False
                 fcrs.save()
-                mdl=Course_Modules.objects.filter(course=fcrs)
+                mdl=Product_Modules.objects.filter(product=fcrs)
                 messages.success(request,"successfully Addded details:")
             except:
                 messages.error(request,"ISSUE WITH MODULE Addded details:")              
@@ -328,9 +328,9 @@ def instructor_module_add(request,slug):
 def instructor_module_edit(request,slug,sslug):
     bool=True
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=get_object_or_404(Course,course_slug=slug)
-    allmdl=Course_Modules.objects.filter(course=fcrs)
-    mdl=Course_Modules.objects.get(slug=sslug)
+    fcrs=get_object_or_404(Product,product_slug=slug)
+    allmdl=Product_Modules.objects.filter(product=fcrs)
+    mdl=Product_Modules.objects.get(slug=sslug)
     return render(request,'instructor_lms/instructor_module_edit.html',{'fcrs':fcrs,'crssn':mdl,'allssn':allmdl,'stf1':stf})
  
 @login_required
@@ -341,11 +341,11 @@ def instructor_module_edit_save(request,slug):
     #         return redirect("/accounts/dologin")
     #     else:
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=Course.objects.get(course_slug=slug)
-    allmdl=Course_Modules.objects.filter(course=fcrs)
-    crssn=Course_Modules.objects.get(id=request.POST['ssnid'])
+    fcrs=Product.objects.get(product_slug=slug)
+    allmdl=Product_Modules.objects.filter(product=fcrs)
+    crssn=Product_Modules.objects.get(id=request.POST['ssnid'])
     if request.method == "POST":
-        course=crssn.course
+        product=crssn.product
         module=None
         if allmdl == None:
             bool=True
@@ -366,7 +366,7 @@ def instructor_module_edit_save(request,slug):
             position=request.POST['position']
             slug=slugify(request.POST['module'])
             try:
-                crssn.course=course
+                crssn.product=product
                 crssn.module=module
                 crssn.module_desc=module_desc
                 crssn.slug=slug
@@ -380,7 +380,7 @@ def instructor_module_edit_save(request,slug):
                 messages.error(request,"Error in Addding details:")               
         else:
             messages.error(request,msg)
-    allmdl=Course_Modules.objects.filter(course=fcrs)
+    allmdl=Product_Modules.objects.filter(product=fcrs)
     return render(request,'instructor_lms/instructor_module_add.html',{'fcrs':fcrs,'crssn':allmdl,'stf1':stf})
    
 from moviepy.video.io.VideoFileClip import VideoFileClip
@@ -389,12 +389,12 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 def instructor_lesson_add(request,slug,sslug):
     bool=True
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=get_object_or_404(Course,course_slug=slug)
-    mdl=Course_Modules.objects.get(slug=sslug)
-    crssn=Course_Session.objects.filter(module=mdl)
+    fcrs=get_object_or_404(Product,product_slug=slug)
+    mdl=Product_Modules.objects.get(slug=sslug)
+    crssn=Product_Session.objects.filter(module=mdl)
     if request.method=="POST":
         module=mdl
-        # if Course_Session.objects.filter(session_name=request.POST['session_name'],module=mdl).exist():
+        # if Product_Session.objects.filter(session_name=request.POST['session_name'],module=mdl).exist():
         #     messages.add_message(request, messages.ERROR,"already haviing same session name:")
         #     return render(request,'instructor_lms/instructor_lesson_add.html',{'fcrs':fcrs,'crssn':crssn,'mdl':mdl})
         session_name=None
@@ -408,22 +408,22 @@ def instructor_lesson_add(request,slug,sslug):
                     print(request.POST['position'])
                 else:
                     bool=False
-                    msg=messages.error(request,"already haviing same course name:")
+                    msg=messages.error(request,"already haviing same product name:")
                     break
         if bool!=False:
             session_name=request.POST['session_name']
             session_desc=request.POST['session_desc']
             session_duration=request.POST['session_duration']
             position=request.POST['position']
-            course_slug=slugify(request.POST['session_name'])
+            product_slug=slugify(request.POST['session_name'])
             
-            if request.FILES.get('course_in_pdf'):
-                course_in_pdf=request.FILES['course_in_pdf']
+            if request.FILES.get('product_in_pdf'):
+                product_in_pdf=request.FILES['product_in_pdf']
                 fs=FileSystemStorage()
-                filename=fs.save(course_in_pdf.name,course_in_pdf)
-                course_in_pdf_url=fs.url(filename)
+                filename=fs.save(product_in_pdf.name,product_in_pdf)
+                product_in_pdf_url=fs.url(filename)
             else:
-                course_in_pdf_url=None
+                product_in_pdf_url=None
 
             if request.FILES.get('video_link'):
                 video_link=request.FILES['video_link']
@@ -436,9 +436,9 @@ def instructor_lesson_add(request,slug,sslug):
             # print(clip.duration)
             a=1
             if a==1:
-                session=Course_Session(module=module,session_desc=session_desc,session_duration=session_duration,position=position,course_slug=course_slug)
-                if course_in_pdf_url != None:
-                    session.course_in_pdf=course_in_pdf_url
+                session=Product_Session(module=module,session_desc=session_desc,session_duration=session_duration,position=position,product_slug=product_slug)
+                if product_in_pdf_url != None:
+                    session.product_in_pdf=product_in_pdf_url
                 if video_link_url != None:
                     session.video_link=video_link_url
                 session.session_name=session_name
@@ -451,26 +451,26 @@ def instructor_lesson_add(request,slug,sslug):
             #     messages.error(request,"problemm with data in  Addded:")               
         else:
             messages.error(request,msg) 
-    crssn=Course_Session.objects.filter(module=mdl)           
+    crssn=Product_Session.objects.filter(module=mdl)           
     return render(request,'instructor_lms/instructor_lesson_add.html',{'fcrs':fcrs,'crssn':crssn,'mdl':mdl,'stf1':stf})
     
 @login_required
 def instructor_lesson_edit(request,slug,sslug,ssslug):
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.get(slug=sslug,course=fcrs)
-    allssn=Course_Session.objects.filter(module=mdl)
-    crssn=Course_Session.objects.get(course_slug=ssslug,module=mdl)
-            # crssn=get_object_or_404(Course_Session,course_slug=sslug,course_id=fcrs.id)
+    fcrs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.get(slug=sslug,product=fcrs)
+    allssn=Product_Session.objects.filter(module=mdl)
+    crssn=Product_Session.objects.get(product_slug=ssslug,module=mdl)
+            # crssn=get_object_or_404(Product_Session,product_slug=sslug,product_id=fcrs.id)
     return render(request,'instructor_lms/instructor_lesson_edit.html',{'fcrs':fcrs,'crssn':crssn,'allssn':allssn,'mdl':mdl,'stf1':stf})
 
 @login_required
 def instructor_lesson_edit_save(request,slug,sslug):
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.get(slug=sslug,course=fcrs)
-    allssn=Course_Session.objects.filter(module=mdl)
-    crssn=Course_Session.objects.get(id=request.POST['ssnid'])
+    fcrs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.get(slug=sslug,product=fcrs)
+    allssn=Product_Session.objects.filter(module=mdl)
+    crssn=Product_Session.objects.get(id=request.POST['ssnid'])
     print(crssn)
     if request.method == "POST":
         module=crssn.module
@@ -497,16 +497,16 @@ def instructor_lesson_edit_save(request,slug,sslug):
             position=request.POST['position']
             session_duration=request.POST['session_duration']
             video_link=request.POST['video_link']
-            course_slug=slugify(request.POST['session_name'])
+            product_slug=slugify(request.POST['session_name'])
 
-            if request.FILES.get('course_in_pdf'):
-                course_in_pdf=request.FILES['course_in_pdf']
+            if request.FILES.get('product_in_pdf'):
+                product_in_pdf=request.FILES['product_in_pdf']
                 fs=FileSystemStorage()
-                filename=fs.save(course_in_pdf.name,course_in_pdf)
-                course_in_pdf_url=fs.url(filename)
+                filename=fs.save(product_in_pdf.name,product_in_pdf)
+                product_in_pdf_url=fs.url(filename)
             else:
-                course_in_pdf_url=None
-                    # crssn1=Course_Session(crssn)
+                product_in_pdf_url=None
+                    # crssn1=Product_Session(crssn)
                     # print(crssn1)
             try:
                 crssn.module=module
@@ -514,17 +514,17 @@ def instructor_lesson_edit_save(request,slug,sslug):
                 crssn.session_desc=session_desc
                 crssn.session_duration=session_duration
                 crssn.video_link=video_link
-                crssn.course_slug=course_slug
+                crssn.product_slug=product_slug
                 crssn.position=position
                     
-                if course_in_pdf_url != None:
-                    crssn.course_in_pdf=course_in_pdf_url
+                if product_in_pdf_url != None:
+                    crssn.product_in_pdf=product_in_pdf_url
                 crssn.save()
                 fcrs.is_verified=False
                 fcrs.is_appiled=False
                 fcrs.save()
                         
-                allssn=Course_Session.objects.filter(module=mdl)
+                allssn=Product_Session.objects.filter(module=mdl)
                 messages.success(request,"successfully Edited details:")
             except:
                 messages.error(request,"Having a Problem with Database connection ")               
@@ -583,7 +583,7 @@ def instructor_forum_thread(request):
 @login_required
 def instructor_profile(request):
     stf=Staffs.objects.get(admin=request.user)
-    crs=Course.objects.filter(teacher=stf)
+    crs=Product.objects.filter(teacher=stf)
     param = {'crss':crs,'stf1':stf}
     return render(request,'instructor_lms/instructor_profile.html',param)
 
@@ -594,44 +594,44 @@ def instructor_billing(request):
     return render(request,'instructor_lms/instructor_billing.html')
 
 @login_required
-def instructor_my_courses(request):
+def instructor_my_products(request):
     if request.user.is_anonymous:
        return redirect("/accounts/dologin")
-    return render(request,'instructor_lms/instructor_my_courses.html')
+    return render(request,'instructor_lms/instructor_my_products.html')
 
 @login_required
-def instructor_view_course(request,slug):
+def instructor_view_product(request,slug):
     stf=Staffs.objects.get(admin=request.user)
     param=[]
     crssn=[]
     # std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=crs)
+    crs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=crs)
     for ml in mdl:
         print(ml)
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         print(mlcrssn)
         crssn.append([mlcrssn,ml])
     param={'crs1':crs,'crssn1':crssn,'stf1':stf}
-    return render(request,'instructor_lms/instructor_view_course.html',param)
+    return render(request,'instructor_lms/instructor_view_product.html',param)
 
-def check_course_session(request,slug,sslug,ssslug):
+def check_product_session(request,slug,sslug,ssslug):
     # std=Students.objects.get(admin=request.user.id)
     stf=Staffs.objects.get(admin=request.user)
-    crs=Course.objects.get(course_slug=slug)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=sslug,course=crs)
-    crssn2=Course_Session.objects.get(course_slug=ssslug,module=ml)
+    crs=Product.objects.get(product_slug=slug)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=sslug,product=crs)
+    crssn2=Product_Session.objects.get(product_slug=ssslug,module=ml)
     crssn=[]        
-    allml=Course_Modules.objects.filter(course=crs)
+    allml=Product_Modules.objects.filter(product=crs)
     
     for ml in allml:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         n=len(mlcrssn)
         crssn.append([mlcrssn,ml])
     
     param={'crs1':crs,'crssn1':crssn,'crssn2':crssn2,'stf1':stf}
-    return render(request,'instructor_lms/check_course_session.html',param)
+    return render(request,'instructor_lms/check_product_session.html',param)
 
 @login_required
 def instructor_logout(request):
@@ -642,27 +642,27 @@ def instructor_logout(request):
 def delete_session(request,slug,sslug,ssslug):
     stf=Staffs.objects.get(admin=request.user)
     try:
-        fcrs=Course.objects.get(course_slug=slug)
-        mdl=Course_Modules.objects.get(slug=sslug,course=fcrs)
-        allssn=Course_Session.objects.filter(module=mdl)
-        crssn=Course_Session.objects.get(course_slug=ssslug,module=mdl).delete()
+        fcrs=Product.objects.get(product_slug=slug)
+        mdl=Product_Modules.objects.get(slug=sslug,product=fcrs)
+        allssn=Product_Session.objects.filter(module=mdl)
+        crssn=Product_Session.objects.get(product_slug=ssslug,module=mdl).delete()
         messages.success(request," Delete successfully :")
     except:
         messages.error(request,"Not Deleted Try again if you want:")              
     return render(request,'instructor_lms/instructor_lesson_add.html',{'fcrs':fcrs,'crssn':allssn,'mdl':mdl,'stf1':stf})
 
 @login_required
-def delete_course(request,slug):
+def delete_product(request,slug):
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=Course.objects.get(course_slug=slug).delete()
-    return redirect("/instructor_lms/instructor_courses")
+    fcrs=Product.objects.get(product_slug=slug).delete()
+    return redirect("/instructor_lms/instructor_products")
     
 @login_required
 def delete_module(request,slug,sslug):
     stf=Staffs.objects.get(admin=request.user)
-    fcrs=Course.objects.get(course_slug=slug)
-    allmdl=Course_Modules.objects.filter(course=fcrs)
-    mdl=Course_Modules.objects.get(slug=sslug,course=fcrs.id).delete()
+    fcrs=Product.objects.get(product_slug=slug)
+    allmdl=Product_Modules.objects.filter(product=fcrs)
+    mdl=Product_Modules.objects.get(slug=sslug,product=fcrs.id).delete()
     return render(request,'instructor_lms/instructor_module_add.html',{'fcrs':fcrs,'crssn':allmdl,'stf1':stf})
     
 

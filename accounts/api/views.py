@@ -16,7 +16,7 @@ from rest_framework.decorators import api_view,permission_classes,authentication
 
 from rest_framework import status,permissions
 
-from accounts.models import CustomUser,AdminHOD,Staffs,Students,PhoneOTP
+from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Students,PhoneOTP
 from accounts.EmailBackEnd import EmailBackEnd
 
 from rest_framework.authentication import TokenAuthentication,SessionAuthentication, BasicAuthentication

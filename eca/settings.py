@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'accounts.LoginCheckMiddleWare.LoginCheckMiddleWare',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -88,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -114,7 +116,7 @@ REST_FRAMWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'knox.auth.TokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'accounts.userAuthenticate.userAuthenticate',
+        'accounts.EmailBackEnd.EmailBackEnd',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
@@ -127,10 +129,10 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:1234',
 )
 
-AUTHENTICATION_BACKENDS=(
-    'accounts.userAuthenticate.userAuthenticate',
-    # 'allauth.account.auth_backends.AuthenticationBackend',
-)
+# AUTHENTICATION_BACKENDS=(
+#     'accounts.userAuthenticate.userAuthenticate',
+#     # 'allauth.account.auth_backends.AuthenticationBackend',
+# )
 
 
 WSGI_APPLICATION = 'eca.wsgi.application'

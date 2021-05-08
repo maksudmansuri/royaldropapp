@@ -75,7 +75,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
             else:
                 pass
         else:
-            if request.path == reverse("dologin") or modulename == "front.views" or modulename == "accounts.views" or modulename == "django.views.static" or modulename == "django.contrib.auth.views" or modulename == "chat.views" or modulename == "accounts.api.views" or modulename == "front.api.views" or request.path == reverse("login") or modulename == "allauth.account.views" or modulename == " allauth.socialaccount.views" or request.path == reverse("saccount") or modulename == "allauth.socialaccount.providers.oauth2.views":
+            if request.path == reverse("dologin") or modulename == "front.views" or modulename == "accounts.views" or modulename == "django.views.static" or modulename == "django.contrib.auth.views" or modulename == "chat.views" or modulename == "accounts.api.views" or modulename == "front.api.views" or request.path == reverse("login") : #modulename == "allauth.account.views" or modulename == " allauth.socialaccount.views" or request.path == reverse("saccount") or modulename == "allauth.socialaccount.providers.oauth2.views":
                 pass
             else:
                 return HttpResponseRedirect(reverse("dologin")) or modulename == "allauth.account.views" or modulename == " allauth.socialaccount.views" or request.path == reverse("saccount") or modulename == "allauth.socialaccount.providers.oauth2.views"

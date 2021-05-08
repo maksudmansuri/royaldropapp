@@ -2,9 +2,9 @@ from django.shortcuts import render,redirect,HttpResponseRedirect
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Course,Course_Session,Course_Modules,CourseCategory,CourseSubCategory
+from front.models import Product,Product_Session,Product_Modules,ProductCategory,ProductSubCategory
 from .models import Orders,Ratting,paytm_payment
-from accounts.models import Students,CustomUser
+from accounts.models import Customers as Students,CustomUser
 from front.models import viewed,SessionComments
 from django.contrib import messages
 from django.contrib.auth.forms import UserChangeForm
@@ -37,19 +37,19 @@ def student_dashboard(request):
     vwdsns=0
     allinone = []
     for ord in ordcrs:
-        getvwd=viewed.objects.get(course=ord.course.id)
-        getcsr=Course.objects.get(id=ord.course.id)
-        getml=Course_Modules.objects.get(course=getcsr,position=int(getvwd.module_position))
-        getssn=Course_Session.objects.get(module=getml,position=int(getvwd.session_position))
-        cntmls=Course_Modules.objects.filter(course=ord.course)
+        getvwd=viewed.objects.get(product=ord.product.id)
+        getcsr=Product.objects.get(id=ord.product.id)
+        getml=Product_Modules.objects.get(product=getcsr,position=int(getvwd.module_position))
+        getssn=Product_Session.objects.get(module=getml,position=int(getvwd.session_position))
+        cntmls=Product_Modules.objects.filter(product=ord.product)
         for cntml in cntmls:
             if cntml.position < int(getvwd.module_position):
-                cntssns = Course_Session.objects.filter(module=cntml).count()
+                cntssns = Product_Session.objects.filter(module=cntml).count()
                 tlssns=tlssns + cntssns
                 vwdsns=vwdsns + cntssns
                 print(tlssns)
             elif cntml.position == int(getvwd.module_position):
-                vwdssns = Course_Session.objects.filter(module=cntml)
+                vwdssns = Product_Session.objects.filter(module=cntml)
                 cntvwdssn=0
                 for vwdssn in vwdssns:
                     if vwdssn.position <= int(getvwd.session_position):
@@ -58,7 +58,7 @@ def student_dashboard(request):
                     else:
                         tlssns=tlssns + 1
             else:
-                cntssns = Course_Session.objects.filter(module=cntml).count()
+                cntssns = Product_Session.objects.filter(module=cntml).count()
                 tlssns=tlssns + cntssns
         per = (vwdsns * 100) / tlssns
         allinone.append([ord,getcsr,getml,getssn,per,vwdsns,tlssns])
@@ -142,32 +142,32 @@ def student_billing(request):
     return render(request,'student_lms/student_billing.html')
 
 @login_required
-def student_browse_courses(request):
+def student_browse_products(request):
     std=Students.objects.get(admin=request.user.id)
     # query = ""
     # if request.GET:
     #     query = request.GET['q']
     #     query=str(query)
     
-    crs=Course.objects.filter(is_verified=True)
+    crs=Product.objects.filter(is_verified=True)
     paginator=Paginator(crs,6)
     page=request.GET.get('page')
     crs=paginator.get_page(page)
-    return render(request,'student_lms/student_browse_courses.html',{'crs':crs,'std1':std})
+    return render(request,'student_lms/student_browse_products.html',{'crs':crs,'std1':std})
 
 @login_required()
 def student_cart(request,slug):
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    if Orders.objects.filter(course=crs.id).exists():
-        messages.add_message(request,messages.ERROR,"Course already purchased")
+    crs=Product.objects.get(product_slug=slug)
+    if Orders.objects.filter(product=crs.id).exists():
+        messages.add_message(request,messages.ERROR,"Product already purchased")
         return render(request,'student_lms/student_cart.html',{'crs1':crs,'std1':std})
     if request.method=="POST":
         user=Students.objects.get(admin=request.user.id)
         print(std.admin)
-        order=Orders(student=user,course=crs,student_phone=user.phone,student_email=user.admin.email)
+        order=Orders(student=user,product=crs,student_phone=user.phone,student_email=user.admin.email)
         order.save()
-        return redirect(f"/student_lms/student_pay/{crs.course_slug}",kwargs={'crs1': crs,'std1':std}) 
+        return redirect(f"/student_lms/student_pay/{crs.product_slug}",kwargs={'crs1': crs,'std1':std}) 
     return render(request,'student_lms/student_cart.html',{'crs1':crs,'std1':std})
 
 @login_required() 
@@ -198,7 +198,7 @@ def student_messages_2(request):
     return render(request,'student_lms/student_messages_2.html')
 
 @login_required()
-def student_my_courses(request):
+def student_my_products(request):
     std=Students.objects.get(admin=request.user)
     ordcrs=Orders.objects.filter(student=std)
     cntssns=0
@@ -207,21 +207,21 @@ def student_my_courses(request):
     vwdsns=0
     allinone = []
     for ord in ordcrs:
-        getvwd=viewed.objects.get(student=std,course=ord.course.id)
-        getcsr=Course.objects.get(id=ord.course.id)
+        getvwd=viewed.objects.get(student=std,product=ord.product.id)
+        getcsr=Product.objects.get(id=ord.product.id)
         print(getcsr)
-        getml=Course_Modules.objects.get(course=getcsr,position=int(getvwd.module_position))
+        getml=Product_Modules.objects.get(product=getcsr,position=int(getvwd.module_position))
         print(getml)
-        getssn=Course_Session.objects.get(module=getml,position=int(getvwd.session_position))
+        getssn=Product_Session.objects.get(module=getml,position=int(getvwd.session_position))
         print(getssn)
-        cntmls=Course_Modules.objects.filter(course=ord.course)
+        cntmls=Product_Modules.objects.filter(product=ord.product)
         for cntml in cntmls:
             if cntml.position < int(getvwd.module_position):
-                cntssns = Course_Session.objects.filter(module=cntml).count()
+                cntssns = Product_Session.objects.filter(module=cntml).count()
                 tlssns=tlssns + cntssns
                 vwdsns=vwdsns + cntssns
             elif cntml.position == int(getvwd.module_position):
-                vwdssns = Course_Session.objects.filter(module=cntml)
+                vwdssns = Product_Session.objects.filter(module=cntml)
                 cntvwdssn=0
                 for vwdssn in vwdssns:
                     if vwdssn.position <= int(getvwd.session_position):
@@ -230,7 +230,7 @@ def student_my_courses(request):
                     else:
                         tlssns=tlssns + 1
             else:
-                cntssns = Course_Session.objects.filter(module=cntml).count()
+                cntssns = Product_Session.objects.filter(module=cntml).count()
                 tlssns=tlssns + cntssns
         per = (vwdsns * 100) / tlssns
         allinone.append([ord,getcsr,getml,getssn,per,vwdsns,tlssns])   
@@ -238,12 +238,12 @@ def student_my_courses(request):
     page=request.GET.get('page')
     allinone=paginator.get_page(page)
     param={'allinone':allinone,'std1':std}      
-    return render(request,'student_lms/student_my_courses.html',param)
+    return render(request,'student_lms/student_my_products.html',param)
 
 def student_pay(request,slug):
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    ords=Orders.objects.get(course=crs.id)
+    crs=Product.objects.get(product_slug=slug)
+    ords=Orders.objects.get(product=crs.id)
     param_dict = {
             'MID':'VCqddy35812500980656',
             'ORDER_ID':str(ords.id),
@@ -317,41 +317,41 @@ def convert(seconds):
     return hours, mins, seconds
 
 @login_required()
-def session(request,course_slug,slug):
+def session(request,product_slug,slug):
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=course_slug,)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    allssn=Course_Session.objects.filter(module=ml)
-    lastssn=Course_Session.objects.filter(module=ml).last()
+    crs=Product.objects.get(product_slug=product_slug,)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    allssn=Product_Session.objects.filter(module=ml)
+    lastssn=Product_Session.objects.filter(module=ml).last()
     getvwssn=lastssn.position + 1
-    crssn2=Course_Session.objects.filter(module=ml)
+    crssn2=Product_Session.objects.filter(module=ml)
     param={'crs':crs,'allssn':allssn,'ssn':crssn2,'std1':std,'ml':ml,'getvwssn':getvwssn}
     return render(request,'student_lms/session.html',param)
     # return redirect("/accounts/dologin")
 
 @login_required()
-def session_seen(request,course_slug,slug,sslug):
+def session_seen(request,product_slug,slug,sslug):
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=course_slug)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    allssn=Course_Session.objects.filter(module=ml)
-    crssn2=Course_Session.objects.get(course_slug=sslug,module=ml)
+    crs=Product.objects.get(product_slug=product_slug)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    allssn=Product_Session.objects.filter(module=ml)
+    crssn2=Product_Session.objects.get(product_slug=sslug,module=ml)
     cmmnts=SessionComments.objects.filter(session=crssn2)
     param={'crs':crs,'allssn':allssn,'ssn':crssn2,'std1':std,'ml':ml,'cmmnts':cmmnts}
     return render(request,'student_lms/session_seen.html',param)
 
 @login_required()
-def session_view(request,course_slug,slug,sslug):
+def session_view(request,product_slug,slug,sslug):
     std=Students.objects.get(admin=request.user)
-    crs=Course.objects.get(course_slug=course_slug)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    allssn=Course_Session.objects.filter(module=ml)
-    lastssn=Course_Session.objects.filter(module=ml).last()
-    lastml=Course_Modules.objects.filter(course=crs).last()
-    crssn2=Course_Session.objects.get(course_slug=sslug,module=ml)
+    crs=Product.objects.get(product_slug=product_slug)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    allssn=Product_Session.objects.filter(module=ml)
+    lastssn=Product_Session.objects.filter(module=ml).last()
+    lastml=Product_Modules.objects.filter(product=crs).last()
+    crssn2=Product_Session.objects.get(product_slug=sslug,module=ml)
     cmmnts=SessionComments.objects.filter(session=crssn2)
     print(crs)
     print(std)
@@ -359,16 +359,16 @@ def session_view(request,course_slug,slug,sslug):
     print(lastssn)
     print(lastml)
     print(crssn2)
-    vwd1=viewed.objects.get(student=std,course=crs.id)
+    vwd1=viewed.objects.get(student=std,product=crs.id)
     print(vwd1)
     getvwssn=int(vwd1.session_position)
     getvwml=int(vwd1.module_position)
     if request.method == "POST":
-        course=request.POST['ccrs']
+        product=request.POST['ccrs']
         module=request.POST['cmdl']
         session=int(request.POST['cssn'])
-        if viewed.objects.filter(student=std,course=course).exists():
-            vwd=viewed.objects.get(student=std,course=course)
+        if viewed.objects.filter(student=std,product=product).exists():
+            vwd=viewed.objects.get(student=std,product=product)
             this=int(vwd.session_position)
             that=int(vwd.module_position)  
             if this == getvwssn:
@@ -389,22 +389,22 @@ def session_view(request,course_slug,slug,sslug):
             vwd.save()
             
     # getvwd=viewed.objects.filter(student=std)
-    if viewed.objects.filter(student=std,course=crs.id,module_position=ml.position).exists():
-        vwd=viewed.objects.get(student=std,course=crs.id,module_position=ml.position)
-        getcsr=Course.objects.get(id=crs.id)
-        getml=Course_Modules.objects.get(position=int(ml.position),course=getcsr)
-        getssn=Course_Session.objects.get(position=int(vwd.session_position),module=getml)
+    if viewed.objects.filter(student=std,product=crs.id,module_position=ml.position).exists():
+        vwd=viewed.objects.get(student=std,product=crs.id,module_position=ml.position)
+        getcsr=Product.objects.get(id=crs.id)
+        getml=Product_Modules.objects.get(position=int(ml.position),product=getcsr)
+        getssn=Product_Session.objects.get(position=int(vwd.session_position),module=getml)
         getvwssn = int(vwd.session_position)
 
                   
     param={'crs':crs,'allssn':allssn,'ssn':crssn2,'std1':std,'ml':ml,'getvwssn':getvwssn,'cmmnts':cmmnts,'getvwml':getvwml}
     return render(request,'student_lms/session_view.html',param)
 
-def sessionComment_view(request,course_slug,slug,sslug):
-    crs=Course.objects.get(course_slug=course_slug)
-    crs=Course.objects.get(course_slug=course_slug)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    ssn=Course_Session.objects.get(module=ml,course_slug=sslug)
+def sessionComment_view(request,product_slug,slug,sslug):
+    crs=Product.objects.get(product_slug=product_slug)
+    crs=Product.objects.get(product_slug=product_slug)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    ssn=Product_Session.objects.get(module=ml,product_slug=sslug)
     if request.method=="POST":
         user = request.user
         session = ssn
@@ -414,13 +414,13 @@ def sessionComment_view(request,course_slug,slug,sslug):
         cmmnt.save()
         messages.add_message(request,messages.SUCCESS,"Comment Posted Successfuly")
 
-    return redirect(f"/student_lms/session_view/{crs.course_slug}/{ml.slug}/{ssn.course_slug}") 
+    return redirect(f"/student_lms/session_view/{crs.product_slug}/{ml.slug}/{ssn.product_slug}") 
 
-def sessionComment(request,course_slug,slug,sslug):
-    crs=Course.objects.get(course_slug=course_slug)
-    crs=Course.objects.get(course_slug=course_slug)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    ssn=Course_Session.objects.get(module=ml,course_slug=sslug)
+def sessionComment(request,product_slug,slug,sslug):
+    crs=Product.objects.get(product_slug=product_slug)
+    crs=Product.objects.get(product_slug=product_slug)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    ssn=Product_Session.objects.get(module=ml,product_slug=sslug)
     if request.method=="POST":
         user = request.user
         session = ssn
@@ -430,93 +430,93 @@ def sessionComment(request,course_slug,slug,sslug):
         cmmnt.save()
         messages.add_message(request,messages.SUCCESS,"Comment Posted Successfuly")
 
-    return redirect(f"/student_lms/session_seen/{crs.course_slug}/{ml.slug}/{ssn.course_slug}")
+    return redirect(f"/student_lms/session_seen/{crs.product_slug}/{ml.slug}/{ssn.product_slug}")
 
 @login_required() 
 def modules(request,slug):
     crssn=[]
     getvwml=1
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=crs)   
+    crs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=crs)   
     getcsr=crs
     getml=1
     getssn=1
     getvwml=1
-    if viewed.objects.filter(student=std.id,course=crs.id).exists():
-        getmls = viewed.objects.get(student=std,course=crs.id)
-        getml=Course_Modules.objects.get(course=crs,position=int(getmls.module_position))
-        getssn=Course_Session.objects.get(module=int(getmls.module_position),position=int(getmls.session_position))
+    if viewed.objects.filter(student=std.id,product=crs.id).exists():
+        getmls = viewed.objects.get(student=std,product=crs.id)
+        getml=Product_Modules.objects.get(product=crs,position=int(getmls.module_position))
+        getssn=Product_Session.objects.get(module=int(getmls.module_position),position=int(getmls.session_position))
         getvwml = int(getmls.module_position)
     else:
-        vd=viewed(student=std,course=crs.id,module_position='1',session_position='1')
+        vd=viewed(student=std,product=crs.id,module_position='1',session_position='1')
         vd.save()
-        getmls = viewed.objects.get(student=std,course=crs.id)
-        getml=Course_Modules.objects.get(course=crs,position=int(getmls.module_position))
-        getssn=Course_Session.objects.get(module=int(getmls.module_position),position=int(getmls.session_position))
+        getmls = viewed.objects.get(student=std,product=crs.id)
+        getml=Product_Modules.objects.get(product=crs,position=int(getmls.module_position))
+        getssn=Product_Session.objects.get(module=int(getmls.module_position),position=int(getmls.session_position))
         getvwml = int(getmls.module_position)
     for ml in mdl:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         n=len(mlcrssn)
         crssn.append([mlcrssn,ml,n])
     param={'crs1':crs,'crssn1':crssn,'std1':std,'getvwml':getvwml,'getcsr':getcsr,'getml':getml,'getssn':getssn}
     return render(request,'student_lms/modules.html',param)
 
 @login_required()
-def student_take_course_session(request,course_slug,slug,sslug):
+def student_take_product_session(request,product_slug,slug,sslug):
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=course_slug)
-    allml=Course_Modules.objects.filter(course=crs)
-    ml=Course_Modules.objects.get(slug=slug,course=crs)
-    crssn2=Course_Session.objects.get(course_slug=sslug,module=ml)
+    crs=Product.objects.get(product_slug=product_slug)
+    allml=Product_Modules.objects.filter(product=crs)
+    ml=Product_Modules.objects.get(slug=slug,product=crs)
+    crssn2=Product_Session.objects.get(product_slug=sslug,module=ml)
     crssn=[]        
-    allml=Course_Modules.objects.filter(course=crs)
+    allml=Product_Modules.objects.filter(product=crs)
     for ml in allml:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         n=len(mlcrssn)
         crssn.append([mlcrssn,ml])
 
     param={'crs1':crs,'crssn1':crssn,'crssn2':crssn2,'std1':std}
-    return render(request,'student_lms/student_take_course_session.html',param)
+    return render(request,'student_lms/student_take_product_session.html',param)
     # return redirect("/accounts/dologin")
 
 @login_required()
-def student_take_course_session_view(request,slug,sslug):
+def student_take_product_session_view(request,slug,sslug):
     if request.session.has_key('logged in'):
         if request.user.user_type!="3":
             messages.error(request,"Invvalid Page :")
             return redirect("/accounts/dologin")
         std=Students.objects.get(admin=request.user.id)
-        crs=Course.objects.filter(course_slug=course_slug)
-        crssn=Course_Session.objects.filter(course_id=crs[0])
-        crssn2=Course_Session.objects.get(course_slug=slug)
+        crs=Product.objects.filter(product_slug=product_slug)
+        crssn=Product_Session.objects.filter(product_id=crs[0])
+        crssn2=Product_Session.objects.get(product_slug=slug)
         param={'crs1':crs[0],'crssn1':crssn,'crssn2':crssn2,'std1':std}
-        return render(request,'student_lms/student_take_course_session.html',param)
+        return render(request,'student_lms/student_take_product_session.html',param)
     return redirect("/accounts/dologin")
 
 @login_required() 
-def student_take_course(request,slug):
+def student_take_product(request,slug):
     crssn=[]
     std=Students.objects.get(admin=request.user.id)
-    crs=Course.objects.get(course_slug=slug)
-    mdl=Course_Modules.objects.filter(course=crs)
+    crs=Product.objects.get(product_slug=slug)
+    mdl=Product_Modules.objects.filter(product=crs)
     for ml in mdl:
-        mlcrssn=Course_Session.objects.filter(module=ml)
+        mlcrssn=Product_Session.objects.filter(module=ml)
         n=len(mlcrssn)
         crssn.append([mlcrssn,ml])
         print(crssn)
     param={'crs1':crs,'crssn1':crssn,'std1':std}
-    return render(request,'student_lms/student_take_course.html',param)
+    return render(request,'student_lms/student_take_product.html',param)
 
 def student_take_quiz(request):
     if request.user.is_anonymous:
        return redirect("/accounts/dologin")
     return render(request,'student_lms/student_take_quiz.html')
 
-def student_view_course(request):
+def student_view_product(request):
     if request.user.is_anonymous:
        return redirect("/accounts/dologin")
-    return render(request,'student_lms/student_view_course.html')
+    return render(request,'student_lms/student_view_product.html')
 
 def student_account_billing_payment_information(request):
     if request.user.is_anonymous:

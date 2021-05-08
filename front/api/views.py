@@ -10,9 +10,9 @@ from rest_framework import status
 from rest_framework.generics import (CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView)
 from rest_framework.response import Response
 
-from accounts.models import CustomUser,AdminHOD,Staffs,Students
-from front.models import Course,Course_Modules,Course_Session,CourseCategory,CourseSubCategory,viewed
-from front.api.serializers import CourseDatailSerializer,CourseDetailUpdateSerializer,CourseDetailCreateSerializer,CourseModuleDatailSerializer
+from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Students
+from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory,viewed
+from front.api.serializers import ProductDatailSerializer,ProductDetailUpdateSerializer,ProductDetailCreateSerializer,ProductModuleDatailSerializer
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authentication import SessionAuthentication
@@ -34,44 +34,44 @@ CREATE_SUCCESS = 'created'
 
 @api_view(['GET',])
 @permission_classes((IsAuthenticated,))
-def api_detail_course_view(request,slug):
+def api_detail_product_view(request,slug):
 	try:
-		crs = Course.objects.get(course_slug=slug)
-	except Course.DoesNotExist:
+		crs = Product.objects.get(product_slug=slug)
+	except Product.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	if request.method == "GET":
-		serializer = CourseDatailSerializer(crs)
+		serializer = ProductDatailSerializer(crs)
 		return Response(serializer.data)
 
 @api_view(['PUT',])
 @permission_classes((IsAuthenticated,))
-def api_update_course_view(request,slug):
+def api_update_product_view(request,slug):
 	try:
-		crs = Course.objects.get(course_slug=slug)
-	except Course.DoesNotExist:
+		crs = Product.objects.get(product_slug=slug)
+	except Product.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 	
 	if crs.teacher != Staffs.objects.get(admin=request.user):
 		return Response({'response': 'you dont have permisssion to edit that'})
 
 	if request.method == "PUT":
-		serializer = CourseDetailUpdateSerializer(crs,data=request.data,partial=True)
+		serializer = ProductDetailUpdateSerializer(crs,data=request.data,partial=True)
 		data = {}
 		if serializer.is_valid():
 			serializer.save()
 			data['response'] = UPDATE_SUCCESS
 			data['pk'] = crs.pk
-			data['course_name'] = crs.course_name
-			data['course_fee'] = crs.course_fee
-			data['course_duration'] = crs.course_duration
-			data['course_level'] = crs.course_level
-			data['course_desc'] = crs.course_desc
-			data['course_slug'] = crs.course_slug
-			image_url = str(request.build_absolute_uri(crs.course_image.url))
+			data['product_name'] = crs.product_name
+			data['product_fee'] = crs.product_fee
+			data['product_duration'] = crs.product_duration
+			data['product_level'] = crs.product_level
+			data['product_desc'] = crs.product_desc
+			data['product_slug'] = crs.product_slug
+			image_url = str(request.build_absolute_uri(crs.product_image.url))
 			if "?" in image_url:
 				image_url = image_url[:image_url.rfind("?")]
-			data['course_image'] = image_url
+			data['product_image'] = image_url
 			data['username'] = crs.teacher.admin.username
 			return Response(data=data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -79,10 +79,10 @@ def api_update_course_view(request,slug):
 
 @api_view(['GET',])
 @permission_classes((IsAuthenticated,))
-def api_is_teacher_of_course(request, slug):
+def api_is_teacher_of_product(request, slug):
 	try:
-		crs = Course.objects.get(course_slug=slug)
-	except Course.DoesNotExist:
+		crs = Product.objects.get(product_slug=slug)
+	except Product.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	data = {}
@@ -96,10 +96,10 @@ def api_is_teacher_of_course(request, slug):
 
 @api_view(['DELETE',])
 @permission_classes((IsAuthenticated,))
-def api_delete_course_view(request,slug):
+def api_delete_product_view(request,slug):
 	try:
-		crs = Course.objects.get(course_slug=slug)
-	except Course.DoesNotExist:
+		crs = Product.objects.get(product_slug=slug)
+	except Product.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	if crs.teacher != Staffs.objects.get(admin=request.user):
@@ -117,65 +117,65 @@ def api_delete_course_view(request,slug):
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
-def api_create_course_view(request):
+def api_create_product_view(request):
 
 	if request.method == 'POST':
 
 		data = request.data
 		data['teacher'] = Staffs.objects.get(admin=request.user).pk
-		data['course_category'] = CourseCategory.objects.get(id=1).pk
-		data['course_subcategory'] = CourseSubCategory.objects.get(id=1).pk
+		data['product_category'] = ProductCategory.objects.get(id=1).pk
+		data['product_subcategory'] = ProductSubCategory.objects.get(id=1).pk
 		print(data)
-		serializer = CourseDetailCreateSerializer(data=data)
+		serializer = ProductDetailCreateSerializer(data=data)
 
 		data = {}
 		if serializer.is_valid():
-			course_detail = serializer.save()
+			product_detail = serializer.save()
 			data['response'] = CREATE_SUCCESS
-			data['pk'] = course_detail.pk
-			data['course_name'] = course_detail.course_name
-			data['course_desc'] = course_detail.course_desc
-			data['course_slug'] = course_detail.course_slug
-			data['course_duration'] = course_detail.course_duration
-			data['course_level'] = course_detail.course_level
-			data['course_fee'] = course_detail.course_fee
-			image_url = str(request.build_absolute_uri(course_detail.course_image.url))
+			data['pk'] = product_detail.pk
+			data['product_name'] = product_detail.product_name
+			data['product_desc'] = product_detail.product_desc
+			data['product_slug'] = product_detail.product_slug
+			data['product_duration'] = product_detail.product_duration
+			data['product_level'] = product_detail.product_level
+			data['product_fee'] = product_detail.product_fee
+			image_url = str(request.build_absolute_uri(product_detail.product_image.url))
 			if "?" in image_url:
 				image_url = image_url[:image_url.rfind("?")]
-			data['course_image'] = image_url
-			data['username'] = course_detail.teacher.admin.username
-			data['course_subcategory'] = course_detail.course_subcategory.subcategory
-			data['course_category'] = course_detail.course_category.category
+			data['product_image'] = image_url
+			data['username'] = product_detail.teacher.admin.username
+			data['product_subcategory'] = product_detail.product_subcategory.subcategory
+			data['product_category'] = product_detail.product_category.category
 			return Response(data=data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['GET',])
 # @permission_classes((IsAuthenticated,))
-class ApiCourseListView(ListAPIView):
-	queryset = Course.objects.all()
-	serializer_class = CourseDatailSerializer
+class ApiProductListView(ListAPIView):
+	queryset = Product.objects.all()
+	serializer_class = ProductDatailSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (IsAuthenticated,)
 	pagination_class = PageNumberPagination
 	filter_backends = (SearchFilter,OrderingFilter)
-	search_fields = ('course_name','course_fee','course_level','teacher__admin__username')
+	search_fields = ('product_name','product_fee','product_level','teacher__admin__username')
 
-class ApiCourseModuleListView(generics.ListAPIView):
-	queryset = Course_Modules.objects.all()
-	serializer_class = CourseModuleDatailSerializer
+class ApiProductModuleListView(generics.ListAPIView):
+	queryset = Product_Modules.objects.all()
+	serializer_class = ProductModuleDatailSerializer
 
 	def get(self,request,*args,**kwargs):
 		# try:
-		crs_id = Course.objects.get(id=self.kwargs.get('id'))
-		mdl = self.queryset.filter(course=crs_id)
+		crs_id = Product.objects.get(id=self.kwargs.get('id'))
+		mdl = self.queryset.filter(product=crs_id)
 		response_data = self.get_serializer(mdl,many=True)
 		return Response(
 			{
 				"data" : response_data.data
 			}
 		)
-		# except Course.DoesNotExist:
-		# 	raise serializers.V ValidationError(_("Course Does not Exist"))
+		# except Product.DoesNotExist:
+		# 	raise serializers.V ValidationError(_("Product Does not Exist"))
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (IsAuthenticated,)
 	pagination_class = PageNumberPagination

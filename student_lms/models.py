@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from accounts.models import Students
-from front.models import Course
+from accounts.models import Customers as Students
+from front.models import Product
 
 # Create your models here.
 class Discount(models.Model):
@@ -18,7 +18,7 @@ class Discount(models.Model):
 class Orders(models.Model):
     id=models.AutoField(primary_key=True)
     student=models.ForeignKey(Students,on_delete=models.CASCADE)
-    course=models.ForeignKey(Course, on_delete=models.CASCADE)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE)
     # discount=models.ForeignKey(Discount,on_delete=models.CASCADE)
     orders_date=models.DateTimeField(auto_now_add=True)
     student_phone=models.CharField(max_length=50,default=0,null=True)
@@ -27,7 +27,7 @@ class Orders(models.Model):
 
 class Attendance(models.Model):
     id=models.AutoField(primary_key=True)
-    course_id=models.ForeignKey(Course,on_delete=models.DO_NOTHING)
+    product_id=models.ForeignKey(Product,on_delete=models.DO_NOTHING)
     attendance_date=models.DateTimeField(auto_now_add=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,7 @@ class NotificationStudent(models.Model):
 class Ratting(models.Model):
     id=models.AutoField(primary_key=True)
     student=models.ForeignKey(Students,on_delete=models.CASCADE)
-    course=models.ForeignKey(Course,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
     ratting=models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)

@@ -1,10 +1,10 @@
 from django.forms import ModelForm
-from front.models import Course,Course_Session
+from front.models import Product,Product_Session
 from accounts.models import Staffs
-class CreateCourse(ModelForm):
+class CreateProduct(ModelForm):
     class Meta:
-      model=Course
-      fields = ["course_requirement","course_desc","course_why_take"]
+      model=Product
+      fields = ["product_requirement","product_desc","product_why_take"]
 
 class CreateAbout(ModelForm):
   class Meta:
@@ -14,7 +14,7 @@ class CreateAbout(ModelForm):
 
 class CreateSession(ModelForm):
     class Meta:
-      model=Course_Session
+      model=Product_Session
       fields ='__all__'
     
 

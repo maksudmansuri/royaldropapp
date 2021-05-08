@@ -38,10 +38,11 @@ class MyAccountManager(BaseUserManager):
                 email=self.normalize_email(email),
                 password=password,
                 username=username,
-                user_type="0",
-                phone = "7801925101"
+               
                 
             )
+        user.user_type="0",
+        # phone = "7801925101"
         user.is_active = True
         # user.is_admin = True
         user.is_staff = True
@@ -139,7 +140,7 @@ class Staffs(models.Model):
     def __str__(self):
         return self.first_name  
 
-class Students(models.Model):
+class Customers(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     fisrt_name=models.CharField(max_length=250,blank=True,null=True)
@@ -174,7 +175,7 @@ def create_user_profile(sender,instance,created,**kwargs):
         if instance.user_type==2:
             Staffs.objects.create(admin=instance)
         if instance.user_type==3:
-            Students.objects.create(admin=instance)
+            Customers.objects.create(admin=instance)
             # Students.objects.create(admin=instance,course_id=Courses.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
 
 @receiver(post_save,sender=CustomUser)
@@ -184,4 +185,4 @@ def save_user_profile(sender,instance,**kwargs):
     if instance.user_type==2:
         instance.staffs.save()
     if instance.user_type==3:
-        instance.students.save()
+        instance.customers.save()

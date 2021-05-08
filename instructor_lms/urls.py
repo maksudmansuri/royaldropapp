@@ -6,10 +6,10 @@ urlpatterns = [
     path('instructor_account_edit_save',views.instructor_account_edit_save,name='instructor_account_edit_save'),
     path('instructor_account_edit',views.instructor_account_edit,name='instructor_account_edit'),
     
-    path('instructor_course_edit/<slug:slug>',views.instructor_course_edit,name='instructor_course_edit'),
-    path('instructor_courses',views.instructor_courses,name='instructor_courses'),
-    path('instructor_course_add_save',views.instructor_course_add_save,name='instructor_course_add_save'),
-    path('instructor_course_add',views.instructor_course_add,name='instructor_course_add'),
+    path('instructor_product_edit/<slug:slug>',views.instructor_product_edit,name='instructor_product_edit'),
+    path('instructor_products',views.instructor_products,name='instructor_products'),
+    path('instructor_product_add_save',views.instructor_product_add_save,name='instructor_product_add_save'),
+    path('instructor_product_add',views.instructor_product_add,name='instructor_product_add'),
     
     path('instructor_earnings',views.instructor_earnings,name='instructor_earnings'),
     path('instructor_edit_invoice',views.instructor_edit_invoice,name='instructor_edit_invoice'),
@@ -24,8 +24,8 @@ urlpatterns = [
     path('instructor_lesson_edit/<slug>/<sslug>/<ssslug>',views.instructor_lesson_edit,name='instructor_lesson_edit'),
     path('instructor_lesson_edit_save/<slug>/<sslug>',views.instructor_lesson_edit_save,name='instructor_lesson_edit_save'),
     
-    path('instructor_course_publish/<slug:slug>',views.instructor_course_publish,name='instructor_course_publish'),
-    path('check_course_session/<slug:slug>/<sslug>/<ssslug>',views.check_course_session,name='check_course_session'),
+    path('instructor_product_publish/<slug:slug>',views.instructor_product_publish,name='instructor_product_publish'),
+    path('check_product_session/<slug:slug>/<sslug>/<ssslug>',views.check_product_session,name='check_product_session'),
     
     
     path('instructor_messages',views.instructor_messages,name='instructor_messages'),
@@ -39,13 +39,13 @@ urlpatterns = [
     path('instructor_profile',views.instructor_profile,name='instructor_profile'),
     path('instructor_billing',views.instructor_billing,name='instructor_billing'),
     
-    path('instructor_my_courses',views.instructor_my_courses,name='instructor_my_courses'),
-    path('instructor_view_course/<slug:slug>',views.instructor_view_course,name='instructor_view_course'),
+    path('instructor_my_products',views.instructor_my_products,name='instructor_my_products'),
+    path('instructor_view_product/<slug:slug>',views.instructor_view_product,name='instructor_view_product'),
     
     path('instructor_logout',views.instructor_logout,name='instructor_logout'),
     
     path('delete_module/<slug:slug>/<sslug>',views.delete_module,name='delete_module'),
-    path('delete_course/<slug:slug>',views.delete_course,name='delete_course'),
+    path('delete_product/<slug:slug>',views.delete_product,name='delete_product'),
     path('delete_session/<slug>/<sslug>/<ssslug>',views.delete_session,name='delete_session'),
     
     path('in_base',views.in_base,name='in_base'),
