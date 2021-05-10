@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.conf import settings
+from eca import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.conf.urls import url
@@ -32,7 +32,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('chat/', include('chat.urls'),name='chat'),
     path('', include("front.urls")),
-    path('student_lms/', include("student_lms.urls")),
+    path('customer_lms/', include("customer_lms.urls")),
     path('instructor_lms/', include("instructor_lms.urls")),
     path('counsellor/', include("counsellor.urls")),
     path('accounts/', include("accounts.urls")),
@@ -58,7 +58,7 @@ urlpatterns = [
     
     # url(r'^api/v1/account/', include(('rest_accounts.urls', 'restprofile'), namespace='rest_accounts')),
     
-] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.STATIC_URL)
 
 
 

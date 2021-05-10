@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-        <title>Manage Course</title>
+        <title>Manage Product</title>
 {% endblock title %}
 
 
@@ -17,9 +17,9 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb d-print-none">
                             <li class="breadcrumb-item"><a href="counsellor/">Home</a></li>
-                            <li class="breadcrumb-item active">Course Management</li>
+                            <li class="breadcrumb-item active">Product Management</li>
                         </ol>
-                        <h1 class="h2">Courses</h1>
+                        <h1 class="h2">Products</h1>
                         <div class="card">
                             <div class="card-header form-inline">
                                 <div class="form-group ml-auto">
@@ -29,7 +29,7 @@
                             </div>
 
                             <div data-toggle="lists" data-lists-values='[
-        "js-lists-values-course", 
+        "js-lists-values-product", 
         "js-lists-values-document",
         "js-lists-values-amount",
         "js-lists-values-date"
@@ -38,7 +38,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th colspan="2">
-                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-course">By Name</a>
+                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-product">By Name</a>
                                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-document">By Teacher</a>
                                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-amount">Amount</a>
                                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
@@ -52,11 +52,11 @@
                                             {% if i.is_appiled is True %}
                                             <td>
                                                 <div class="media align-items-center">
-                                                    <a href="/counsellor/check_course_details/{{i.course_slug}}" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                        <img src="{{i.course_image}}" alt="Profile" class="avatar-img rounded">
+                                                    <a href="/counsellor/check_product_details/{{i.product_slug}}" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                        <img src="{{i.product_image}}" alt="Profile" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="/counsellor/check_course_details/{{i.course_slug}}"><strong>{{i.course_name}}</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="/counsellor/check_product_details/{{i.product_slug}}"><strong>{{i.product_name}}</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8735</a> -
@@ -67,21 +67,21 @@
                                             </td>
                                             <td>
                                                 <div class="media-body">
-                                                    <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.course_subcategory.subcategory}}</strong></a><br>
+                                                    <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.product_subcategory.subcategory}}</strong></a><br>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="media-body">
-                                                    <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.course_fee}}</strong></a><br>
+                                                    <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.product_fee}}</strong></a><br>
                                                 </div>
                                             </td>
                                             {% if cnt != 0 %}
                                                 <td>
-                                                <a href="/counsellor/check_course_details/{{i.course_slug}}" class="btn-sm btn-primary">{{cnt}} - Pending </a>
+                                                <a href="/counsellor/check_product_details/{{i.product_slug}}" class="btn-sm btn-primary">{{cnt}} - Pending </a>
                                             </td>
                                             {% else %}
                                                 <td>
-                                                <a  href="/counsellor/course_activate/{{i.course_slug}}" class="btn-sm btn-primary">Activate</a>
+                                                <a  href="/counsellor/product_activate/{{i.product_slug}}" class="btn-sm btn-primary">Activate</a>
                                                 </td>
                                             {% endif %}
                                            <td class="text-right">
@@ -91,11 +91,11 @@
                                         {% else %}
                                                 <td>
                                                 <div class="media align-items-center">
-                                                    <a href="/counsellor/check_course_details/{{i.course_slug}}" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                        <img src="{{i.course_image}}" alt="Profile" class="avatar-img rounded">
+                                                    <a href="/counsellor/check_product_details/{{i.product_slug}}" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                        <img src="{{i.product_image}}" alt="Profile" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="/counsellor/check_course_details/{{i.course_slug}}"><strong>{{i.course_name}}</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="/counsellor/check_product_details/{{i.product_slug}}"><strong>{{i.product_name}}</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8735</a> -
@@ -106,16 +106,16 @@
                                             </td>
                                             <td>
                                                 <div class="media-body">
-                                                    <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.course_subcategory.subcategory}}</strong></a><br>
+                                                    <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.product_subcategory.subcategory}}</strong></a><br>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="media-body">
-                                                    <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.course_fee}}</strong></a><br>
+                                                    <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.product_fee}}</strong></a><br>
                                                 </div>
                                             </td>
                                                 <td>
-                                                    <a  href="/counsellor/course_deactivate/{{i.course_slug}}" class="btn-sm btn-secondary">Activated</a>
+                                                    <a  href="/counsellor/product_deactivate/{{i.product_slug}}" class="btn-sm btn-secondary">Activated</a>
                                                 </td>
                                                 
                                                 <td class="text-right">

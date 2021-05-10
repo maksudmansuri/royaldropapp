@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-        <title>Student - Edit account</title>
+        <title>Customer - Edit account</title>
 {% endblock title %}
 
 {% block body %}
@@ -30,7 +30,7 @@
                             </ul>
                             <div class="tab-content card-body">
                                 <div class="tab-pane active" id="first">
-                                    <form method="POST" action="./student_account_edit" class="form-horizontal">
+                                    <form method="POST" action="./customer_account_edit" class="form-horizontal">
                                     {% csrf_token %}
                                         <div class="form-group row">
                                             <label for="avatar" class="col-sm-3 col-form-label form-label">Avatar</label>
@@ -43,7 +43,7 @@
                                                     </div>
                                                     <div class="media-body">
                                                         <div class="custom-file" style="width: auto;">
-                                                            <input  id="student_photo" name="student_photo" type="file" class="custom-file-input">
+                                                            <input  id="customer_photo" name="customer_photo" type="file" class="custom-file-input">
                                                             <label for="avatar" class="custom-file-label">Choose file</label>
                                                         </div>
                                                     </div>
@@ -72,7 +72,7 @@
                                                             <i class="material-icons md-18 text-muted">mail</i>
                                                         </div>
                                                     </div>
-                                                    <input  type="email" id="email" name="email" class="form-control" placeholder="Email Address" value={{std1.student_email}}>
+                                                    <input  type="email" id="email" name="email" class="form-control" placeholder="Email Address" value={{std1.customer_email}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@
                                                             <i class="material-icons md-18 text-muted">date_range</i>
                                                         </div>
                                                     </div>
-                                                    <input  type="date" id="student_dob" name="student_dob" class="form-control" placeholder=" Date of Birth" datevalue={{std1.student_dob}}>
+                                                    <input  type="date" id="customer_dob" name="customer_dob" class="form-control" placeholder=" Date of Birth" datevalue={{std1.customer_dob}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                                             <i class="material-icons md-18 text-muted">phone</i>
                                                         </div>
                                                     </div>
-                                                    <input type="tel" id="student_phone" class="form-control" placeholder="+91" name="student_phone" value={{std1.student_phone}}>
+                                                    <input type="tel" id="customer_phone" class="form-control" placeholder="+91" name="customer_phone" value={{std1.customer_phone}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,39 +111,39 @@
                                                             <i class="material-icons md-18 text-muted">school</i>
                                                         </div>
                                                     </div>
-                                                    <input type="text" id="student_qualification" name="student_qualification" class="form-control" placeholder="Ex:-BE/MCA/Diploma" value={{std1.student_qualification}}>
+                                                    <input type="text" id="customer_qualification" name="customer_qualification" class="form-control" placeholder="Ex:-BE/MCA/Diploma" value={{std1.customer_qualification}}>
                                                 </div>
                                             </div>
                                         </div>
                                         {% comment %} <div class="form-group row">
                                             <label for="name_on_invoice" class="col-sm-3 col-form-label form-label">Name on Invoice</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_name" type="text" name="student_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
+                                                <input id="customer_name" type="text" name="customer_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
                                             </div>
                                         </div> {% endcomment %}
                                         
                                         <div class="form-group row">
                                             <label for="billing_address" class="col-sm-3 col-form-label form-label">Address</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_address" type="text" class="form-control" name="student_address" placeholder="Enter you Address" value={{std1.student_address}}>
+                                                <input id="customer_address" type="text" class="form-control" name="customer_address" placeholder="Enter you Address" value={{std1.customer_address}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="city" class="col-sm-3 col-form-label form-label">City</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_city" type="text" class="form-control" name="student_city"  placeholder="Enter you City" value={{std1.student_city}}>
+                                                <input id="customer_city" type="text" class="form-control" name="customer_city"  placeholder="Enter you City" value={{std1.customer_city}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="state" class="col-sm-3 col-form-label form-label">state</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_state" type="text" class="form-control" name="student_state"  placeholder="Enter you State" value={{std1.student_state}}>
+                                                <input id="customer_state" type="text" class="form-control" name="customer_state"  placeholder="Enter you State" value={{std1.customer_state}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="billing_country" class="col-sm-3 col-form-label form-label">Country</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <select id="student_country" name="student_country" class="custom-control custom-select form-control">
+                                                <select id="customer_country" name="customer_country" class="custom-control custom-select form-control">
                                                     <option value="1" >USA</option>
                                                     <option value="2" selected>India</option>
                                                     <option value="3">United Kingdom</option>
@@ -183,37 +183,37 @@
                                 </div>
 
                                 <div class="tab-pane" id="second">
-                                    <form action="./student_account_edit"   class="form-horizontal">
+                                    <form action="./customer_account_edit"   class="form-horizontal">
                                     {% csrf_token %}
                                         {% comment %} <div class="form-group row">
                                             <label for="name_on_invoice" class="col-sm-3 col-form-label form-label">Name on Invoice</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_name" type="text" name="student_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
+                                                <input id="customer_name" type="text" name="customer_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
                                             </div>
                                         </div> {% endcomment %}
                                         
                                         <div class="form-group row">
                                             <label for="billing_address" class="col-sm-3 col-form-label form-label">Address</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_address" type="text" class="form-control" name="student_address" placeholder="Enter you Address">
+                                                <input id="customer_address" type="text" class="form-control" name="customer_address" placeholder="Enter you Address">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="city" class="col-sm-3 col-form-label form-label">City</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_city" type="text" class="form-control" name="student_city"  placeholder="Enter you City">
+                                                <input id="customer_city" type="text" class="form-control" name="customer_city"  placeholder="Enter you City">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="state" class="col-sm-3 col-form-label form-label">state</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_state" type="text" class="form-control" name="student_state"  placeholder="Enter you State">
+                                                <input id="customer_state" type="text" class="form-control" name="customer_state"  placeholder="Enter you State">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="billing_country" class="col-sm-3 col-form-label form-label">Country</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <select id="student_country" name="student_country" class="custom-control custom-select form-control">
+                                                <select id="customer_country" name="customer_country" class="custom-control custom-select form-control">
                                                     <option value="1" >USA</option>
                                                     <option value="2" selected>India</option>
                                                     <option value="3">United Kingdom</option>

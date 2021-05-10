@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Student - Browse courses</title>
+    <title>Customer - Browse products</title>
 {% endblock title %}
 
 {% block body %}
@@ -15,11 +15,11 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="./">Home</a></li>
-                            <li class="breadcrumb-item active">Courses</li>
+                            <li class="breadcrumb-item active">Products</li>
                         </ol>
                         <div class="media align-items-center mb-headings">
                             <div class="media-body">
-                                <h1 class="h2">Courses</h1>
+                                <h1 class="h2">Products</h1>
                             </div>
                             <div class="media-right">
                                 <div class="btn-group btn-group-sm">
@@ -30,11 +30,11 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="card-columns">
-                        {% for crs, range in allcourse %}
+                        {% for crs, range in allproduct %}
 							{% for i in crs %}
                             <div class="card">
                                 <div class="card-header text-center">
-                                    <h4 class="card-title mb-0"><a href="student_take_course/{{i.course_slug}}">{{i.course_name|slice:"0:30"}}</a></h4>
+                                    <h4 class="card-title mb-0"><a href="customer_take_product/{{i.product_slug}}">{{i.product_name|slice:"0:30"}}</a></h4>
                                     <div class="rating">
                                         <i class="material-icons">star</i>
                                         <i class="material-icons">star</i>
@@ -43,12 +43,12 @@
                                         <i class="material-icons">star_border</i>
                                     </div>
                                 </div>
-                                <a href="student_take_course/{{i.course_slug}}">
-                                    <img src="/media/{{i.course_image}}" alt="Card image cap" style="width:100%;">
+                                <a href="customer_take_product/{{i.product_slug}}">
+                                    <img src="/media/{{i.product_image}}" alt="Card image cap" style="width:100%;">
                                 </a>
                                 <div class="card-body">
-                                    <small class="text-muted">{{i.course_level}}</small><br>
-                                   {{i.course_desc|slice:"0:123"}}<br>
+                                    <small class="text-muted">{{i.product_level}}</small><br>
+                                   {{i.product_desc|slice:"0:123"}}<br>
                                     <span class="badge badge-primary ">VUEJS</span>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                             {%endfor%}
                             {% comment %} <div class="card">
                                 <div class="card-header text-center">
-                                    <h4 class="card-title mb-0"><a href="student_take_course">Npm &amp; Gulp Advanced Workflow</a></h4>
+                                    <h4 class="card-title mb-0"><a href="customer_take_product">Npm &amp; Gulp Advanced Workflow</a></h4>
                                     <div class="rating">
                                         <i class="material-icons">star</i>
                                         <i class="material-icons">star</i>
@@ -65,8 +65,8 @@
                                         <i class="material-icons">star_border</i>
                                     </div>
                                 </div>
-                                <a href="student_take_course">
-                                    <img src="{% static 'student_lms/assets/images/nodejs.png' %}" alt="Card image cap" style="width:100%;">
+                                <a href="customer_take_product">
+                                    <img src="{% static 'customer_lms/assets/images/nodejs.png' %}" alt="Card image cap" style="width:100%;">
                                 </a>
                                 <div class="card-body">
                                     <small class="text-muted">BEGINNER</small><br>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="card">
                                 <div class="card-header text-center">
-                                    <h4 class="card-title mb-0"><a href="student_take_course">Github Webhooks for Beginners</a></h4>
+                                    <h4 class="card-title mb-0"><a href="customer_take_product">Github Webhooks for Beginners</a></h4>
                                     <div class="rating">
                                         <i class="material-icons">star</i>
                                         <i class="material-icons">star</i>
@@ -85,8 +85,8 @@
                                         <i class="material-icons">star_border</i>
                                     </div>
                                 </div>
-                                <a href="student_take_course">
-                                    <img src="{% static 'student_lms/assets/images/github.png' %}" alt="" style="width:100%;">
+                                <a href="customer_take_product">
+                                    <img src="{% static 'customer_lms/assets/images/github.png' %}" alt="" style="width:100%;">
                                 </a>
                                 <div class="card-body">
                                     <small class="text-muted">INTERMEDIATE</small><br>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="card">
                                 <div class="card-header text-center">
-                                    <h4 class="card-title mb-0"><a href="student_take_course">Gulp & Slush Workflows</a></h4>
+                                    <h4 class="card-title mb-0"><a href="customer_take_product">Gulp & Slush Workflows</a></h4>
                                     <div class="rating">
                                         <i class="material-icons">star</i>
                                         <i class="material-icons">star</i>
@@ -105,8 +105,8 @@
                                         <i class="material-icons">star_border</i>
                                     </div>
                                 </div>
-                                <a href="student_take_course">
-                                    <img src="{% static 'student_lms/assets/images/gulp.png' %}" alt="Card image cap" style="width:100%;">
+                                <a href="customer_take_product">
+                                    <img src="{% static 'customer_lms/assets/images/gulp.png' %}" alt="Card image cap" style="width:100%;">
                                 </a>
                                 <div class="card-body">
                                     <small class="text-muted">ADVANCED</small><br>

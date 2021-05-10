@@ -34,19 +34,19 @@
                             </div>
                         </div>
                         <hr>
-                        <h4>Courses by Adrian</h4>
+                        <h4>Products by Adrian</h4>
                         <div class="card-columns">
                             {% for crs in crss  %}
                             <div class="card">
                                 <div class="card-header">
                                     <div class="media align-items-center">
                                         <div class="media-left">
-                                            <a href="/instructor_lms/instructor_view_course/{{crs.course_slug}}">
-                                                <img src="{{crs.course_image}}" alt="Card image cap" width="100" class="rounded">
+                                            <a href="/instructor_lms/instructor_view_product/{{crs.product_slug}}">
+                                                <img src="{{crs.product_image}}" alt="Card image cap" width="100" class="rounded">
                                             </a>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="card-title mb-0"><a href="/instructor_lms/instructor_view_course/{{crs.course_slug}}">{{crs.course_name}}</a></h4>
+                                            <h4 class="card-title mb-0"><a href="/instructor_lms/instructor_view_product/{{crs.product_slug}}">{{crs.product_name}}</a></h4>
                                             <div class="rating">
                                                 <i class="material-icons">star</i>
                                                 <i class="material-icons">star</i>

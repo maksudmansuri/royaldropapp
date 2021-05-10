@@ -16,7 +16,7 @@ from rest_framework.decorators import api_view,permission_classes,authentication
 
 from rest_framework import status,permissions
 
-from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Students,PhoneOTP
+from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Customers,PhoneOTP
 from accounts.EmailBackEnd import EmailBackEnd
 
 from rest_framework.authentication import TokenAuthentication,SessionAuthentication, BasicAuthentication
@@ -32,10 +32,10 @@ from django.views.decorators.csrf import csrf_protect
 conn = http.client.HTTPConnection("2factor.in")
 
 # @api_view(['POST',])
-# def StudentRegister(request):
+# def CustomerRegister(request):
 	
 # 	if request.method == "POST":
-# 		serializer = StudentRegisterSerializer(data=request.data)
+# 		serializer = CustomerRegisterSerializer(data=request.data)
 # 		data = {}
 # 		if serializer.is_valid():
 # 			user_obj = serializer.save(request)
@@ -276,7 +276,7 @@ def registration_view(request):
 				data['pk'] = account.pk
 				token = Token.objects.get(user=account).key
 				data['token'] = token
-				# user = Students.objects.filter(admin = request.user)
+				# user = Customers.objects.filter(admin = request.user)
 				# user.phone = account.phone
 				
 				old.delete()
@@ -359,9 +359,9 @@ def update_account_view(request):
 @permission_classes((IsAuthenticated,))
 def profile_properties_view(request):
 	try:
-		account = Students.objects.get(admin=request.user)
+		account = Customers.objects.get(admin=request.user)
 		print(account)
-	except Students.DoesNotExist:
+	except Customers.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	if request.method == 'GET':
@@ -373,8 +373,8 @@ def profile_properties_view(request):
 @permission_classes((IsAuthenticated,))
 def update_profile_view(request):
 	try:
-		account = Students.objects.get(admin=request.user)
-	except Students.DoesNotExist:
+		account = Customers.objects.get(admin=request.user)
+	except Customers.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 	
 	if request.method == 'PUT':
@@ -467,10 +467,10 @@ class ChangePasswordView(UpdateAPIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class StudentRegister(CreateAPIView):
+# class CustomerRegister(CreateAPIView):
 # 	permission_classes = (AllowAny,)
 
-# 	serializer_class = StudentRegisterSerializer
+# 	serializer_class = CustomerRegisterSerializer
 
 # 	queryset = CustomUser.objects.all()
     

@@ -10,7 +10,7 @@
                 <div class="container">
                     <div class="overlay-text text-center">						
                         <h3>The Future Begins Here!</h3>
-                        <p>Working collaboratively to ensure every student achieves academically,<br> socially, and emotionally.</p>
+                        <p>Working collaboratively to ensure every customer achieves academically,<br> socially, and emotionally.</p>
                         <div class="col-md-8 offset-md-2">
 							<div class="input-group">
 							  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Enter Your Search Here">
@@ -30,8 +30,8 @@
 
 						<div class="slider-feature">
 							<ul>
-								<li><img src="{% static 'front/images/book.png' %}" alt="Mountains"> {{allcrscnt}} Course</li>
-								<li><img src="{% static 'front/images/cap.png' %}" alt="Mountains"> {{allstdcnt}} Students</li>
+								<li><img src="{% static 'front/images/book.png' %}" alt="Mountains"> {{allcrscnt}} Product</li>
+								<li><img src="{% static 'front/images/cap.png' %}" alt="Mountains"> {{allstdcnt}} Customers</li>
 								<li><img src="{% static 'front/images/man.png' %}" alt="Mountains"> {{allstfcnt}} Teachers</li>
 							</ul>
 						</div>			
@@ -41,18 +41,18 @@
         </div>	                     
     </div>
 
-	<div class="course-1x">
+	<div class="product-1x">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="title-middle">
-						<h2>Coursecity Top Courses</h2>
+						<h2>Productcity Top Products</h2>
 					</div>
 				</div>
 
 				<div class="col-md-12">
-					<div id="filters" class="course-menu">
-					  <button class="filter active"  data-filter="all">All Courses</button>
+					<div id="filters" class="product-menu">
+					  <button class="filter active"  data-filter="all">All Products</button>
 					  {% for allcat in allcats %}
 						{% comment %} {% for i in cat %}  {% endcomment %}
 					  <button class="filter" data-rel="{{allcat.category}}" data-filter=".{{allcat.category}}">{{allcat.category}}</button>
@@ -65,25 +65,25 @@
 				</div>
 
 				<div class="col-md-12">	
-					<div class="all-course">
+					<div class="all-product">
 					<div class="row">
-					{% for crs,range in allcourse %} 
+					{% for crs,range in allproduct %} 
 					
 						  {% for i in crs%}
-						  <div class="col-md-3 tile {{i.course_category}}">
-							<div class="single-course">
+						  <div class="col-md-3 tile {{i.product_category}}">
+							<div class="single-product">
 								<div class="hvrbox">
-									<img src="{{i.course_image}}" alt="slide why" class="hvrbox-layer_bottom">
+									<img src="{{i.product_image}}" alt="slide why" class="hvrbox-layer_bottom">
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">																	
-											<a href="{{i.course_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
-											<a href="course_details/{{i.course_slug}}">Preview Course</a>	
+											<a href="{{i.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
+											<a href="product_details/{{i.product_slug}}">Preview Product</a>	
 										</div>
 									</div>
 								</div>
-								<div class="single-course-content">
-									<a href="course_details/{{i.course_slug}}">{{i.course_name}}</a>
-									<p>{{i.teacher.admin.first_name}}  {{i.teacher.admin.last_name}} <span><del>${{i.course_fee}}</del> <b>${{i.course_fee}}</b></span></p>
+								<div class="single-product-content">
+									<a href="product_details/{{i.product_slug}}">{{i.product_name}}</a>
+									<p>{{i.teacher.admin.first_name}}  {{i.teacher.admin.last_name}} <span><del>${{i.product_fee}}</del> <b>${{i.product_fee}}</b></span></p>
 									<h3>
 										<i class="fas fa-star"></i>
 										<i class="fas fa-star"></i>
@@ -96,14 +96,14 @@
 							</div>
 						  </div>
 							{% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
-								<div class="col-md-3 tile {{i.course_category}}"></div>
+								<div class="col-md-3 tile {{i.product_category}}"></div>
 							{% endif %}
 						  {% endfor %}
 						  {% endfor %}
 						  
 						  
 							 <div class="col-md-12 text-center">
-								<a href="course_list" class="btn-small"> View more </a>
+								<a href="product_list" class="btn-small"> View more </a>
 						</div>	</div>
 					</div>
 				</div>
@@ -125,10 +125,10 @@
 					{% for crs in allcrs  %}
 					<div class="single-learning-path">
 						<div class="hvrbox">
-							<a href="course_details/{{crs.course_slug}}"><img src="{{crs.course_image}}" alt="slide 1" class="hvrbox-layer_bottom"></a>
+							<a href="product_details/{{crs.product_slug}}"><img src="{{crs.product_image}}" alt="slide 1" class="hvrbox-layer_bottom"></a>
 							<div class="hvrbox-layer_top hvrbox-text blue">
 								<div class="hvrbox-text">
-									<a href="course_details/{{crs.course_slug}}">Become a {{crs}}</a>							
+									<a href="product_details/{{crs.product_slug}}">Become a {{crs}}</a>							
 								</div>
 							</div>
 						</div>
@@ -181,7 +181,7 @@
 		</div>
 	</div>
 
-    <div class="course-category-1x">
+    <div class="product-category-1x">
 		<div class="container">
 			<div class="row">				
 				<div class="col-md-6">
@@ -191,7 +191,7 @@
 							<div class="hvrbox-layer_top">
 								<div class="hvrbox-text">
 									<a href="#">Design Introduction</a>
-									<h5>800 Course</h5>								
+									<h5>800 Product</h5>								
 									<a href="#" class="btn-small">View Details</a>
 								</div>
 							</div>
@@ -207,7 +207,7 @@
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">
 											<a href="#">Web Developement</a>	
-											<h5>700 Course</h5>							
+											<h5>700 Product</h5>							
 											<a href="#" class="btn-small">View Details</a>
 										</div>
 									</div>
@@ -221,7 +221,7 @@
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">
 											<a href="#">Digital Marketing</a>	
-											<h5>350 Course</h5>							
+											<h5>350 Product</h5>							
 											<a href="#" class="btn-small">View Details</a>
 										</div>
 									</div>
@@ -235,7 +235,7 @@
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">
 											<a href="#">Busines</a>	
-											<h5>250 Course</h5>							
+											<h5>250 Product</h5>							
 											<a href="#" class="btn-small">View Details</a>
 										</div>
 									</div>
@@ -249,7 +249,7 @@
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">
 											<a href="#">Photography</a>
-											<h5>180 Course</h5>							
+											<h5>180 Product</h5>							
 											<a href="#" class="btn-small">View Details</a>
 										</div>
 									</div>
@@ -299,7 +299,7 @@
 			<div class="col-md-12">
 				<div class="title-middle">
 					<h2>Achieve Your Goals</h2>
-					<p>Find subjects you're passionate about by browsing our online course categories. Start <br> learning with top courses Built With Industry Experts</p>
+					<p>Find subjects you're passionate about by browsing our online product categories. Start <br> learning with top products Built With Industry Experts</p>
 				</div>
 			</div>
 
@@ -337,14 +337,14 @@
 				<div class="testimonial">
 					<div class="single-testimonial text-center">
 						<img src="{% static 'front/images/testimonial-1.jpg' %}" alt="slide 1">
-						<p><i class="fas fa-quote-left"></i> Before Coursecity, I was working two minimum wage jobs. Now, I have a new job, a new mindset,<br> and new life!"I learned most of my programming skills and database management skills <br>  through self-study and the material available on Coursecity.</p>
+						<p><i class="fas fa-quote-left"></i> Before Productcity, I was working two minimum wage jobs. Now, I have a new job, a new mindset,<br> and new life!"I learned most of my programming skills and database management skills <br>  through self-study and the material available on Productcity.</p>
 						<h3>Stephanie Magion</h3>
 						<h4>Manager at Doltef</h4>
 					</div>
 
 					<div class="single-testimonial text-center">
 						<img src="{% static 'front/images/testimonial-2.jpg' %}" alt="slide 1">
-						<p><i class="fas fa-quote-left"></i> Before Coursecity, I was working two minimum wage jobs. Now, I have a new job, a new mindset,<br> and new life!"I learned most of my programming skills and database management skills <br>  through self-study and the material available on Coursecity.</p>
+						<p><i class="fas fa-quote-left"></i> Before Productcity, I was working two minimum wage jobs. Now, I have a new job, a new mindset,<br> and new life!"I learned most of my programming skills and database management skills <br>  through self-study and the material available on Productcity.</p>
 						<h3>Jhon Alex</h3>
 						<h4>Chairman at Doltef</h4>
 					</div>
@@ -359,7 +359,7 @@
 			<div class="col-md-12">
 				<div class="title-middle">
 					<h2>Train Your Company Member</h2>
-					<p>Find subjects you're passionate about by browsing our online course categories. Start <br> learning with top courses Built With Industry Experts</p>
+					<p>Find subjects you're passionate about by browsing our online product categories. Start <br> learning with top products Built With Industry Experts</p>
 				</div>
 			</div>
 
@@ -412,9 +412,9 @@
 				<div class="col-md-12">
 					<div class="cta-content">
 						<h3>Ready to Begin?</h3>
-						<p>Find subjects you're passionate about by browsing our online course categories. Start <br> learning with top courses Built With Industry Experts.</p>
+						<p>Find subjects you're passionate about by browsing our online product categories. Start <br> learning with top products Built With Industry Experts.</p>
 						<a href="/accounts/instructor_singup" class="btn-small">Start Teaching</a>
-						<a href="/accounts/student_singup" class="btn-small">Start Learning</a>
+						<a href="/accounts/customer_singup" class="btn-small">Start Learning</a>
 					</div>
 				</div>					
 			</div>

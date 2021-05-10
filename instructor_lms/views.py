@@ -604,7 +604,7 @@ def instructor_view_product(request,slug):
     stf=Staffs.objects.get(admin=request.user)
     param=[]
     crssn=[]
-    # std=Students.objects.get(admin=request.user.id)
+    # std=Customers.objects.get(admin=request.user.id)
     crs=Product.objects.get(product_slug=slug)
     mdl=Product_Modules.objects.filter(product=crs)
     for ml in mdl:
@@ -616,7 +616,7 @@ def instructor_view_product(request,slug):
     return render(request,'instructor_lms/instructor_view_product.html',param)
 
 def check_product_session(request,slug,sslug,ssslug):
-    # std=Students.objects.get(admin=request.user.id)
+    # std=Customers.objects.get(admin=request.user.id)
     stf=Staffs.objects.get(admin=request.user)
     crs=Product.objects.get(product_slug=slug)
     allml=Product_Modules.objects.filter(product=crs)

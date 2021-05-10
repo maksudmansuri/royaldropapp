@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}<title>Course List</title>{% endblock title %}
+{% block title %}<title>Product List</title>{% endblock title %}
  {% block body %}
 
-	<div class="main-banner course-list-banner">           			
+	<div class="main-banner product-list-banner">           			
         <div class="hvrbox">
             <img src="{% static 'front/images/banner-1.png' %} " alt="Mountains" class="hvrbox-layer_bottom">
         	 <div class="hvrbox-layer_top">
                 <div class="container">
                     <div class="overlay-text text-center">						
-                        <h3><b>{{cnt}}</b> Online Course & Video Tutorials!</h3>
+                        <h3><b>{{cnt}}</b> Online Product & Video Tutorials!</h3>
                         <div class="col-md-8 offset-md-2">
 							<div class="input-group">
 							  <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Enter Your Search Here">
@@ -25,14 +25,14 @@
         </div>	                     
     </div>
 	
-	<div class="course-header-1x">
+	<div class="product-header-1x">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="course-header-left-top">
+					<div class="product-header-left-top">
 					<p><img src="{% static 'front/images/cross.png' %}" alt="Image"> Remove Filter</p>
 					</div>
-					<div class="course-header-left">
+					<div class="product-header-left">
 						<div id="accordion">
 						  <div class="card">
 						    <div class="card-header" id="headingOne">
@@ -142,7 +142,7 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="course-header-right">
+					<div class="product-header-right">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="search-box d-flex flex-row">
@@ -158,7 +158,7 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div class="course-tab">
+								<div class="product-tab">
 									<p>All prices are in INR</p>
 									<ul class="nav nav-tabs" id="myTab" role="tablist">
 									  <li class="nav-item">
@@ -173,30 +173,30 @@
 							</div>
 						</div>
 					</div>
-					<div class="course-grid-list">
+					<div class="product-grid-list">
 						<div class="tab-content" id="myTabContent">
 						  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-								<div class="all-course-list">
+								<div class="all-product-list">
 								
-								{% for i in courses1 %}
+								{% for i in products1 %}
 								
-									<div class="media {{i.course_category}}">
+									<div class="media {{i.product_category}}">
 										<div class="media-left-image">
 											<div class="hvrbox">
-												<img src="{{i.course_image}}" alt="slide 1" class="hvrbox-layer_bottom">
+												<img src="{{i.product_image}}" alt="slide 1" class="hvrbox-layer_bottom">
 												<div class="hvrbox-layer_top hvrbox-text">
 													<div class="hvrbox-text">																	
-														<a href="{{i.course_video}}" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-														<a href="course_details/{{i.course_slug}}">Preview Course</a>	
+														<a href="{{i.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a><br>
+														<a href="product_details/{{i.product_slug}}">Preview Product</a>	
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="media-body">
-											<h2><a href="course_details/{{i.course_slug}}"> {{i.course_name}} </a></h2>
+											<h2><a href="product_details/{{i.product_slug}}"> {{i.product_name}} </a></h2>
 											<h5>{{i.teacher.admin.first_name}} {{i.teacher.admin.last_name}}</h5>
-											<h4>${{i.course_fee}} <del>${{i.course_fee}}</del></h4>
-											<a href="course_details/{{i.course_slug}}" class="btn-bordered"> View Course </a>
+											<h4>${{i.product_fee}} <del>${{i.product_fee}}</del></h4>
+											<a href="product_details/{{i.product_slug}}" class="btn-bordered"> View Product </a>
 											<h3>
 												<i class="fas fa-star"></i>
 												<i class="fas fa-star"></i>
@@ -214,49 +214,49 @@
 								{%endfor%}
 									
 								</div>	
-								<div class="course-pagination">
+								<div class="product-pagination">
 										 <!-- Pagination -->
                         				<ul class="pagination justify-content-center pagination-sm">
                             			
-                            				{% if courses1.has_previous %}
-											<li class="page-item"><a class="page-link" href="?page={{courses1.previous_page_number}}"><i class="fas fa-angle-left"></i></a></li>
+                            				{% if products1.has_previous %}
+											<li class="page-item"><a class="page-link" href="?page={{products1.previous_page_number}}"><i class="fas fa-angle-left"></i></a></li>
                             				{% endif %}
 
-											{% for num in courses1.paginator.page_range %}
-                            				{% if courses1.number == num %}
+											{% for num in products1.paginator.page_range %}
+                            				{% if products1.number == num %}
 											<li class="page-item active"><a class="page-link" href="?page={{num}}"><span class="page-link">{{num}}</span></a></li>
-											{% elif num > courses1.number|add:'-2' and num < courses1.number|add:'2' %}	
+											{% elif num > products1.number|add:'-2' and num < products1.number|add:'2' %}	
 											<li class="page-item"><a class="page-link" href="?page={{num}}	"><span class="page-link">{{num}}</span></a></li>
 											{% endif %}
 											{% endfor %}			
-                            				{%if courses1.has_next %}
-											<li class="page-item"><a class="page-link" href="?page={{ courses1.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
+                            				{%if products1.has_next %}
+											<li class="page-item"><a class="page-link" href="?page={{ products1.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
 											{% endif %}
 										</ul>
 									</div>
 						  </div>
 			    		<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-							<div class="course-1x all-course-grid">
+							<div class="product-1x all-product-grid">
 								<div class="container">
 									<div class="row">
-										<div class="all-course">
+										<div class="all-product">
 											<div class="row">
 											   
-										{% for i in courses1 %}
-										<div class="col-md-4 tile {{i.course_category}}">
-											<div class="single-course">
+										{% for i in products1 %}
+										<div class="col-md-4 tile {{i.product_category}}">
+											<div class="single-product">
 												<div class="hvrbox">
-													<img src="{{i.course_image}}" alt="slide why" class="hvrbox-layer_bottom">
+													<img src="{{i.product_image}}" alt="slide why" class="hvrbox-layer_bottom">
 													<div class="hvrbox-layer_top hvrbox-text">
 														<div class="hvrbox-text">																	
-															<a href="{{i.course_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
-															<a href="course_details/{{i.course_slug}}">Preview Course</a>	
+															<a href="{{i.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
+															<a href="product_details/{{i.product_slug}}">Preview Product</a>	
 														</div>
 													</div>
 												</div>
-												<div class="single-course-content">
-													<a href="course_details/{{i.course_slug}}">{{i.course_name}}</a>
-													<p>{{i.teacher.admin.first_name}} {{i.teacher.admin.last_name}} <span><del>${{i.course_fee}}</del> <b>${{i.course_fee}}</b></span></p>
+												<div class="single-product-content">
+													<a href="product_details/{{i.product_slug}}">{{i.product_name}}</a>
+													<p>{{i.teacher.admin.first_name}} {{i.teacher.admin.last_name}} <span><del>${{i.product_fee}}</del> <b>${{i.product_fee}}</b></span></p>
 													<h3>
 														<i class="fas fa-star"></i>
 														<i class="fas fa-star"></i>
@@ -269,29 +269,29 @@
 											</div>
 										</div>
 											{% comment %} {% if forloop.counter and forloop.counter > 0 and not forloop.last %}
-												<div class="col-md-4 tile {{i.course_category}}"></div>
+												<div class="col-md-4 tile {{i.product_category}}"></div>
 											{% endif %} {% endcomment %}
 										{% endfor %}
 																		
 									</div>
  					      			<div class="col-md-12">
-									<div class="course-pagination">
+									<div class="product-pagination">
 										 <!-- Pagination -->
                         				<ul class="pagination justify-content-center pagination-sm">
                             			
-                            				{% if courses1.has_previous %}
-											<li class="page-item"><a class="page-link" href="?page={{courses1.previous_page_number}}"><i class="fas fa-angle-left"></i></a></li>
+                            				{% if products1.has_previous %}
+											<li class="page-item"><a class="page-link" href="?page={{products1.previous_page_number}}"><i class="fas fa-angle-left"></i></a></li>
                             				{% endif %}
 
-											{% for num in courses1.paginator.page_range %}
-                            				{% if courses1.number == num %}
+											{% for num in products1.paginator.page_range %}
+                            				{% if products1.number == num %}
 											<li class="page-item active"><a class="page-link" href="?page={{num}}"><span class="page-link">{{num}}</span></a></li>
-											{% elif num > courses1.number|add:'-2' and num < courses1.number|add:'2' %}	
+											{% elif num > products1.number|add:'-2' and num < products1.number|add:'2' %}	
 											<li class="page-item"><a class="page-link" href="?page={{num}}	"><span class="page-link">{{num}}</span></a></li>
 											{% endif %}
 											{% endfor %}			
-                            				{%if courses1.has_next %}
-											<li class="page-item"><a class="page-link" href="?page={{ courses1.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
+                            				{%if products1.has_next %}
+											<li class="page-item"><a class="page-link" href="?page={{ products1.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
 											{% endif %}
 										</ul>
 									</div>

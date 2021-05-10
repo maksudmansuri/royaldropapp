@@ -6,10 +6,10 @@ class CreateProduct(ModelForm):
       model=Product
       fields = ["product_desc",]
 
-class CreateAbout(ModelForm):
-  class Meta:
-    model=Staffs
-    fields = ["about"]
+# class CreateAbout(ModelForm):
+#   class Meta:
+#     model=Staffs
+#     fields = ["about"]
 
 
 class CreateSession(ModelForm):

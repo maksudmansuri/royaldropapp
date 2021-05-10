@@ -15,11 +15,11 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/instructor_lms">Home</a></li>
-                            <li class="breadcrumb-item">{{fcrs.course_name}}</li>
+                            <li class="breadcrumb-item">{{fcrs.product_name}}</li>
                             <li class="breadcrumb-item active">{{mdl.module}}</li>
                         </ol>
                         <h1 class="h2">Add Session</h1>
-                        <form action="/instructor_lms/instructor_lesson_add/{{fcrs.course_slug}}/{{mdl.slug}}" method="POST" class="form-horizontal" enctype="multipart/form-data" >
+                        <form action="/instructor_lms/instructor_lesson_add/{{fcrs.product_slug}}/{{mdl.slug}}" method="POST" class="form-horizontal" enctype="multipart/form-data" >
                             {% csrf_token %}      
                         <div class="card">
                          
@@ -47,9 +47,9 @@
                                             {% endif %}
                                         </div>
                                     <div class="form-group row">
-                                        <label for="session_name" class="col-md-3 col-form-label form-label">Course Name</label>
+                                        <label for="session_name" class="col-md-3 col-form-label form-label">Product Name</label>
                                         <div class="col-md-6">
-                                            <input id="course_name" type="text" class="form-control" placeholder="Write an awesome  name" name="course_name" value="{{fcrs.course_name}}"Disabled>
+                                            <input id="product_name" type="text" class="form-control" placeholder="Write an awesome  name" name="product_name" value="{{fcrs.product_name}}"Disabled>
                                         </div>
 
                                     </div>
@@ -121,7 +121,7 @@
                                     </div>
                                 </div> {% endcomment %}
                                 </div>
-                            <button type="submit" class="btn btn-primary" name="submit">Save course</button>                            
+                            <button type="submit" class="btn btn-primary" name="submit">Save product</button>                            
                         </div>
                         </form>
                         <div class="card">
@@ -148,10 +148,10 @@
                                                 <input type="hidden" id="ssnid" name="ssnid" value="{{i.id}}" />
                                             </div>
                                             <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_lesson_edit/{{fcrs.course_slug}}/{{mdl.slug}}/{{i.course_slug}}">Edit Lesson</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_lesson_edit/{{fcrs.product_slug}}/{{mdl.slug}}/{{i.product_slug}}">Edit Lesson</a></small>
                                             </div>
                                             <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_session/{{fcrs.course_slug}}/{{mdl.slug}}/{{i.course_slug}}">Delete</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_session/{{fcrs.product_slug}}/{{mdl.slug}}/{{i.product_slug}}">Delete</a></small>
                                             </div>
 
                                         </div>

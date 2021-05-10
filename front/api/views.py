@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.generics import (CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView)
 from rest_framework.response import Response
 
-from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Students
+from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Customers
 from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory,viewed
 from front.api.serializers import ProductDatailSerializer,ProductDetailUpdateSerializer,ProductDetailCreateSerializer,ProductModuleDatailSerializer
 

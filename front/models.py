@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import user_logged_in
 from ckeditor_uploader.fields import RichTextUploadingField
 from instructor_lms.models import Staffs
-from accounts.models import Customers as Students,CustomUser
+from accounts.models import Customers as Customers,CustomUser
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models.signals import post_delete, pre_save
@@ -12,46 +12,61 @@ from django.utils.text import slugify
 # Create your models  .
 
 class ProductCategory(models.Model):
-    id=models.AutoField(primary_key=True)
-    category=models.CharField(unique=True,max_length=250)
-    created_date=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
+    id                      =           models.AutoField(primary_key=True)
+    category                =           models.CharField(unique=True,max_length=250)
+    slug                    =           models.CharField(max_length=255,default="")
+    thumbnail               =           models.FileField(default = "")
+    description             =           models.TextField(default="")
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    is_active               =           models.IntegerField(default=1)   
+
+
     objects = models.Manager()
 
     def __str__(self):
         return self.category
 
 class ProductSubCategory(models.Model):
-    id=models.AutoField(primary_key=True)
-    category=models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    subcategory=models.CharField(unique=True,max_length=250)
-    created_date=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
+    id                      =           models.AutoField(primary_key=True)
+    category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    subcategory             =           models.CharField(unique=True,max_length=255)
+    thumbnail               =           models.FileField(default = "")
+    slug                    =           models.CharField(max_length=255,default="")
+    description             =           models.TextField(default="")
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    is_active               =           models.IntegerField(default=1)   
+
+
     objects = models.Manager()
     
     def __str__(self):
         return self.subcategory  
- 
+
 class Product(models.Model):
-    id=models.AutoField(primary_key=True)
-    product_category=models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    product_name=models.CharField(unique=True,max_length=150,blank=True,null=True)
-    product_subcategory=models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE)
-    product_price=models.IntegerField(blank=True,null=True)
-    owner=models.ForeignKey(Staffs ,on_delete=models.CASCADE,blank=True,null=True)
-    product_brand=models.CharField(max_length=250,blank=True,null=True)
-    product_image=models.ImageField(upload_to="front/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
-    product_video=models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
-    product_model_number=RichTextUploadingField(blank=True,null=True) 
-    product_weight=models.CharField(max_length=150,blank=True,null=True)
-    product_desc=RichTextUploadingField(blank=True,null=True)
-    product_slug=models.CharField(max_length=150,blank=True,null=True,unique=True)
-    # product_why_take=RichTextUploadingField(blank=True,null=True)
-    # is_appiled=models.BooleanField(blank=True,null=True,default=False)
-    # is_verified=models.BooleanField(blank=True,null=True,default=False)
-    created_date=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
+    id                      =           models.AutoField(primary_key=True)
+    product_category        =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    product_name            =           models.CharField(unique=True,max_length=255,blank=True,null=True,default="")
+    product_subcategory     =           models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE)
+    product_mrp             =           models.IntegerField(blank=True,null=True)
+    product_selling_price   =           models.IntegerField(blank=True,null=True)
+    added_by_merchant       =           models.ForeignKey(CustomUser ,on_delete=models.CASCADE,blank=True,null=True)
+    product_brand           =           models.CharField(max_length=255,blank=True,null=True,default="")
+    # product_image         =           models.ImageField(upload_to="front/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
+    # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
+    product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
+    product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
+    product_desc            =           RichTextUploadingField()
+    product_l_desc          =           RichTextUploadingField()
+    product_slug            =           models.CharField(max_length=255,blank=True,null=True,unique=True,default="")
+    # product_why_take      =           RichTextUploadingField(blank=True,null=True)
+    # is_appiled            =           models.BooleanField(blank=True,null=True,default=False)
+    is_active               =           models.IntegerField(default=1)   
+    in_stock_total          =           models.IntegerField(default=1)
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
  
 
     def __str__(self):
@@ -59,6 +74,130 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return redirect('instructor_lesson_add', kwargs={'slug': self.product_slug})
+
+class productMedia(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    media_type              =           models.CharField(max_length=255,default="")
+    media_type_choice       =           ((1,"Image"),(2,"Video"))
+    media_content           =           models.FileField(choices=media_type_choice,default="")
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+
+class ProductTransaction(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    transaction_type_choises=           ((1,"BUY"),(2,"SELL"))
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    transation_product_count=           models.IntegerField(default=1)
+    transation_type         =           models.CharField(choices=transaction_type_choises,max_length=255,default="")
+    transation_desc         =           models.CharField(max_length=255,default="")
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductDetails(models.CharField):
+    id                      =           models.AutoField(primary_key=True)
+    product_details         =           models.CharField(max_length=255)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductAbout(models.CharField):
+    id                      =           models.AutoField(primary_key=True)
+    product_about           =           models.CharField(max_length=255,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductTag(models.CharField):
+    id                      =           models.AutoField(primary_key=True)
+    product_tags            =           models.CharField(max_length=255,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductQuestions(models.CharField):
+    id                      =           models.AutoField(primary_key=True)
+    user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product_question        =           models.TextField(default="")
+    product_answer          =           models.TextField(default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    class Meta:
+        ordering = ['-created_date']
+
+class ProductReviews(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    Product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    ratting                 =           models.CharField(default="5",max_length=255)
+    reviews                 =           models.TextField(null=True,blank=True,default="")
+    parent                  =           models.ForeignKey('self', on_delete=models.CASCADE,null=True)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    class Meta:
+        ordering = ['-created_date']
+ 
+class ProductReviewVoting(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product_review          =           models.ForeignKey(ProductReviews, on_delete=models.CASCADE)
+    user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    reviws_images           =           models.FileField(default="")
+    is_active               =           models.IntegerField(default=1)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductVarient(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    title                   =           models.CharField(max_length=255)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class ProductVariantItems(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    title                   =           models.CharField(max_length=255,default="")
+    product_varient         =           models.ForeignKey(ProductVarient, on_delete=models.CASCADE)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+    
+class CustomersOrders(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product_price           =           models.CharField(max_length=255,default="")
+    coupon_Code             =           models.CharField(max_length=255,default="")
+    discount_amt            =           models.CharField(max_length=255,default="")
+    product_status          =           models.CharField(max_length=255,default="")
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+class OderDeliveryStatus(models.Model):
+    id                      = models.AutoField(primary_key=True)
+    product                 = models.ForeignKey(Product, on_delete=models.CASCADE)
+    status                  = models.CharField(max_length=255,default="")
+    status_msg              = models.CharField(max_length=255,default="")
+    created_date            = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 = models.Manager()
 
 @receiver(post_delete, sender=Product)
 def submission_delete(sender, instance, **kwargs):
@@ -70,7 +209,10 @@ def pre_save_product_post_receiever(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_product_post_receiever, sender=Product)
 
-
+# class Images(models.Model):
+#     post = models.ForeignKey(Post, default=None)
+#     image = models.ImageField(upload_to=get_image_filename,
+#                               verbose_name='Image')
 
 
 class Product_Modules(models.Model):
@@ -99,12 +241,12 @@ pre_save.connect(pre_save_module_post_receiever, sender=Product_Modules)
 class Product_Session(models.Model):
     id=models.AutoField(primary_key=True)
     module=models.ForeignKey(Product_Modules,on_delete=models.CASCADE)
-    session_name=models.CharField(max_length=2150,blank=True,null=True)
-    session_desc=models.TextField(blank=True,null=True)
+    session_name=models.CharField(max_length=2150,blank=True,null=True,default="")
+    session_desc=models.TextField(blank=True,null=True,default="")
     is_appiled=models.BooleanField(blank=True,null=True,default=False)
     is_verified=models.BooleanField(blank=True,null=True,default=False)
-    session_duration=models.CharField(max_length=50,blank=True,null=True)
-    product_in_pdf=models.FileField(upload_to="Product_Session/Docs", max_length=100,blank=True,null=True)
+    session_duration=models.CharField(max_length=50,blank=True,null=True,default="")
+    product_in_pdf=models.FileField(upload_to="Product_Session/Docs", max_length=100,blank=True,null=True,default="")
     created_date=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     video_link=models.FileField(max_length=2000, upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
@@ -139,7 +281,7 @@ class ProductComments(models.Model):
 
 class viewed(models.Model):
     id=models.AutoField(primary_key=True)
-    student=models.ForeignKey(Students,on_delete=models.CASCADE)
+    customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
     product=models.CharField(max_length=50,blank=True,null=True)
     module_position=models.CharField(max_length=50,blank=True,null=True)
     session_position=models.CharField(max_length=50,blank=True,null=True)

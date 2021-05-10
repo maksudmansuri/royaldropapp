@@ -15,11 +15,11 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/instructor_lms">Home</a></li>
-                            <li class="breadcrumb-item active">{{fcrs.course_name}}</li>
+                            <li class="breadcrumb-item active">{{fcrs.product_name}}</li>
                             <li class="breadcrumb-item active">{{crssn.module}}</li>
                         </ol>
                         <h1 class="h2">Add Session</h1>
-                        <form action="/instructor_lms/instructor_module_edit_save/{{fcrs.course_slug}}" method="POST" class="form-horizontal" enctype="multipart/form-data" >
+                        <form action="/instructor_lms/instructor_module_edit_save/{{fcrs.product_slug}}" method="POST" class="form-horizontal" enctype="multipart/form-data" >
                             {% csrf_token %}      
                         <div class="card">
                             <div class="card-body">
@@ -46,9 +46,9 @@
                                 {% endif %}
                             </div>
                                     <div class="form-group row">
-                                        <label for="course_name" class="col-md-3 col-form-label form-label">Course Name</label>
+                                        <label for="product_name" class="col-md-3 col-form-label form-label">Product Name</label>
                                         <div class="col-md-6">
-                                            <input id="course_name" type="text" class="form-control" placeholder="Write an awesome  name" name="course_name" value="{{fcrs.course_name}}"Disabled>
+                                            <input id="product_name" type="text" class="form-control" placeholder="Write an awesome  name" name="product_name" value="{{fcrs.product_name}}"Disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -75,7 +75,7 @@
                                         
                                     </div>      
                          </div>
-                           <button type="submit" class="btn btn-primary">Save course</button>
+                           <button type="submit" class="btn btn-primary">Save product</button>
                             
                         </div>
                         </form>
@@ -110,10 +110,10 @@
                                             <div class="media-body">
 
                                             {% if i.id == crssn.id %}
-                                                 <a class="text-white" href="/instructor_lms/instructor_lesson_add/{{fcrs.course_slug}}/{{i.slug}}">{{i.module}}</a>
+                                                 <a class="text-white" href="/instructor_lms/instructor_lesson_add/{{fcrs.product_slug}}/{{i.slug}}">{{i.module}}</a>
                                             {% endif %}
                                             {% if i.id != crssn.id %}
-                                                 <a href="/instructor_lms/instructor_lesson_add/{{fcrs.course_slug}}/{{i.slug}}">{{i.module}}</a>
+                                                 <a href="/instructor_lms/instructor_lesson_add/{{fcrs.product_slug}}/{{i.slug}}">{{i.module}}</a>
                                             {% endif %}
                                                 
                                             </div>
@@ -122,18 +122,18 @@
                                             
                                             {% if i.id == crssn.id %}
                                                 <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_module_edit/{{fcrs.course_slug}}/{{i.slug}}">Edit</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_module_edit/{{fcrs.product_slug}}/{{i.slug}}">Edit</a></small>
                                             </div>
                                             <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_module/{{fcrs.course_slug}}/{{i.slug}}">Delete</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_module/{{fcrs.product_slug}}/{{i.slug}}">Delete</a></small>
                                             </div>
                                             {% endif %}
                                             {% if i.id != crssn.id %}
                                                 <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_module_edit/{{fcrs.course_slug}}/{{i.slug}}">Edit</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/instructor_module_edit/{{fcrs.product_slug}}/{{i.slug}}">Edit</a></small>
                                             </div>
                                             <div class="media-right">
-                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_module/{{fcrs.course_slug}}/{{i.slug}}">Delete</a></small>
+                                                <small> <a  class="btn btn-sm btn-primary" href="/instructor_lms/delete_module/{{fcrs.product_slug}}/{{i.slug}}">Delete</a></small>
                                             </div>
                                             {% endif %}
                                         </div>    

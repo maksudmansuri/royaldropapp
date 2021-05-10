@@ -39,7 +39,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 else:
                     return HttpResponseRedirect(reverse("instructor_dashboard"))
             elif user.user_type=="3":
-                if modulename == "student_lms.views" or modulename == "django.views.static":
+                if modulename == "customer_lms.views" or modulename == "django.views.static":
                     pass
                 elif modulename == "front.views":
                     pass
@@ -52,7 +52,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 elif  modulename == "front.api.views":
                     pass
                 else:
-                    return HttpResponseRedirect(reverse("student_dashboard"))
+                    return HttpResponseRedirect(reverse("customer_dashboard"))
             # elif user.user_type=="4":
             #     if modulename == "django.contrib.admin" or modulename == "django.views.static":
             #         pass

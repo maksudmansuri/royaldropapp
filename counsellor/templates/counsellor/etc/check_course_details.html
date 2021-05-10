@@ -3,7 +3,7 @@
  {% load static %}
 
 {% block title %}
-    <title>{{request.user}} - Course Verification</title>
+    <title>{{request.user}} - Product Verification</title>
 {% endblock title %}
 
 {% block body %}
@@ -17,18 +17,18 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/counsellor">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Courses</a></li>
+                            <li class="breadcrumb-item"><a href="#">Products</a></li>
                         </ol>
-                        <h1 class="h2">{{crs1.course_name}}</h1>
+                        <h1 class="h2">{{crs1.product_name}}</h1>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
                                    <section id="view123/">
                                     <div id="session" class="embed-responsive embed-responsive-16by9">
-                                        <iframe width="853" height="480" src="{{crs1.course_video}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <iframe width="853" height="480" src="{{crs1.product_video}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </div></section>
                                     <div class="card-body">
-                                            {{crs1.course_desc|striptags| slice:"0:125 "}}
+                                            {{crs1.product_desc|striptags| slice:"0:125 "}}
                                     </div>
                                 </div>
                                 <!--testing   page-->
@@ -48,19 +48,19 @@
                                                 {% if i.is_verified != True %}
                                                     {% if i.is_appiled == True %}
                                                 <div class="card-body">
-                                                 <a class="text-dark" href="/counsellor/check_course_session/{{crs1.course_slug}}/{{ml.slug}}/{{i.course_slug}}">{{i.session_name}}</a>
+                                                 <a class="text-dark" href="/counsellor/check_product_session/{{crs1.product_slug}}/{{ml.slug}}/{{i.product_slug}}">{{i.session_name}}</a>
                                                 </div>
                                                 <div class="card-body">
                                                 
-                                                    <a href="/counsellor/check_course_session_activate/{{crs1.course_slug}}/{{ml.slug}}/{{i.course_slug}}" class="btn btn-primary">verify</a>
+                                                    <a href="/counsellor/check_product_session_activate/{{crs1.product_slug}}/{{ml.slug}}/{{i.product_slug}}" class="btn btn-primary">verify</a>
                                                     </div>
                                                     {% endif %}
                                                 {% else %}
                                                     <div class="card-body">
-                                                    <a class="text-dark" href="/counsellor/check_course_session/{{crs1.course_slug}}/{{ml.slug}}/{{i.course_slug}}">{{i.session_name}}</a>
+                                                    <a class="text-dark" href="/counsellor/check_product_session/{{crs1.product_slug}}/{{ml.slug}}/{{i.product_slug}}">{{i.session_name}}</a>
                                                     </div>
                                                     <div class="card-body">
-                                                    <a href="/counsellor/check_course_session_deactivate/{{crs1.course_slug}}/{{ml.slug}}/{{i.course_slug}}" class="btn btn-secondary">verified</a> 
+                                                    <a href="/counsellor/check_product_session_deactivate/{{crs1.product_slug}}/{{ml.slug}}/{{i.product_slug}}" class="btn btn-secondary">verified</a> 
                                                     <div>
                                                 {% endif %}
                                                 
@@ -75,17 +75,17 @@
                                   <div class="card">
                                     <div class="card-body text-center">
                                         <p>
-                                            <a href="/student_lms/student_cart/{{crs1.course_slug}}" class="btn btn-success btn-block flex-column">
-                                                Get All Courses 
+                                            <a href="/customer_lms/customer_cart/{{crs1.product_slug}}" class="btn btn-success btn-block flex-column">
+                                                Get All Products 
                                                 <strong>&#8377;500 / month</strong>
                                             </a>
                                         </p>
                                         <div class="page-separator">
                                             <div class="page-separator__text">or</div>
                                         </div>
-                                        <a href="/student_lms/student_cart/{{crs1.course_slug}}" class="btn btn-white btn-block flex-column">
-                                            Purchase Course
-                                            <strong>&#8377;{{crs1.course_fee}} INR</strong>
+                                        <a href="/customer_lms/customer_cart/{{crs1.product_slug}}" class="btn btn-white btn-block flex-column">
+                                            Purchase Product
+                                            <strong>&#8377;{{crs1.product_fee}} INR</strong>
                                         </a>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                                                 </div>
                                                 <div class="media-body">
                                                     2 <small class="text-muted">hrs</small> &nbsp; 26 <small class="text-muted">min</small>&nbsp;&nbsp;
-                                                    Total:{{ crs1.course_duration }}<small class="text-muted"></small>
+                                                    Total:{{ crs1.product_duration }}<small class="text-muted"></small>
                                                 </div>
                                             </div>
                                         </li>
@@ -127,7 +127,7 @@
                                                 <div class="media-left">
                                                     <i class="material-icons text-muted-light">assessment</i>
                                                 </div>
-                                                <div class="media-body">{{crs1.course_level}}</div>
+                                                <div class="media-body">{{crs1.product_level}}</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -145,11 +145,11 @@
                                             <i class="material-icons">star</i>
                                             <i class="material-icons">star_border</i>
                                         </div>
-                                        <small class="text-muted">{{crs1.course_ratting}}</small>
+                                        <small class="text-muted">{{crs1.product_ratting}}</small>
                                     </div>
                                 </div>
 
-                                <a href="/student_lms/student_help_center" class="btn btn-default btn-block">
+                                <a href="/customer_lms/customer_help_center" class="btn btn-default btn-block">
                                     <i class="material-icons btn__icon--left">help</i> Get Help
                                 </a>
                             </div>

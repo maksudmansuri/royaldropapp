@@ -37,10 +37,10 @@
     .main-banner .overlay-text .slider-feature ul li{
         font-size: 14px;
     }
-    .course-category-1x .left-image {
+    .product-category-1x .left-image {
         margin-bottom: 30px;
     }
-    .course-category-1x .category-feature .single-feature {
+    .product-category-1x .category-feature .single-feature {
         margin-bottom: 30px;
         padding: 0 30px;
     }
@@ -124,47 +124,47 @@
     .learning-path-2x ul li .single-path .media .media-body {
         padding: 30px 0 0 0;
     }
-    /*************Course list*****************/
-    .course-header-1x .course-header-right .course-tab {
+    /*************Product list*****************/
+    .product-header-1x .product-header-right .product-tab {
         text-align: left;
         margin-top: 30px;
     }
-    .course-header-1x .course-grid-list .all-course-list .media{
+    .product-header-1x .product-grid-list .all-product-list .media{
         display: block;
     }
-    .course-header-1x .course-grid-list .all-course-list .media .media-left-image .hvrbox-layer_bottom{
+    .product-header-1x .product-grid-list .all-product-list .media .media-left-image .hvrbox-layer_bottom{
         max-width: 100%;
     }
-    /*************Course One*****************/
-    .course-info-2x .course-info-middle{
+    /*************Product One*****************/
+    .product-info-2x .product-info-middle{
         padding: 0;
     }
-    .course-info-2x .course-info-right, .course-info-2x .media-body{
+    .product-info-2x .product-info-right, .product-info-2x .media-body{
         padding: 30px 0 0 0;
     }
-    .course-info-2x .course-info-left .media{
+    .product-info-2x .product-info-left .media{
         margin-bottom: 30px;
     }
-    .course-details-1x .course-details-sidebar{
+    .product-details-1x .product-details-sidebar{
         margin-top: 50px;
     }
-    /*************Course Two*****************/
-    .single-course-banner .overlay-text{
+    /*************Product Two*****************/
+    .single-product-banner .overlay-text{
         margin-top: 22%;
     }
-    .course-info-1x .course-info-middle{
+    .product-info-1x .product-info-middle{
         padding: 30px 0;
     }
-    .course-info-1x .course-info-right{
+    .product-info-1x .product-info-right{
         margin-top: 30px;
     }
-    .course-learn-1x .course-learn-right {
+    .product-learn-1x .product-learn-right {
         margin: 30px 0 0 0;
     }
-    .course-info-2x .course-info-middle{
+    .product-info-2x .product-info-middle{
         padding: 0;
     }
-    .course-info-2x .course-info-right {
+    .product-info-2x .product-info-right {
         margin-top: -30px;
     }
     /*****************Contact us********************/
@@ -203,13 +203,13 @@
     .navbar-light .navbar-toggler{
         outline: none;
     }
-    .course-list-banner .overlay-text {
+    .product-list-banner .overlay-text {
         margin-top: 18%;
     }
-    .course-info-2x {
+    .product-info-2x {
         padding: 30px;
     }
-    .course-info-1x .course-info-middle{
+    .product-info-1x .product-info-middle{
         border: 0;
     }
     .error-page-1x .error-content img{
@@ -241,32 +241,32 @@
     .about-differencs-2x .about-us-right img{
         padding-left: 15px
     }
-    .course-details-1x .course-menu-nav ul{
+    .product-details-1x .product-menu-nav ul{
         display: block !important;
     }
-    .course-feature-1x .course-feature-left{
+    .product-feature-1x .product-feature-left{
         height: 340px;
     }
-    .course-feature-1x .course-feature-left {
+    .product-feature-1x .product-feature-left {
         height: auto;
         padding: 30px;
     }
-    .course-feature-1x .course-feature-left img{
+    .product-feature-1x .product-feature-left img{
         margin: 0;
     }
-    .single-course-banner .overlay-text {
+    .single-product-banner .overlay-text {
         margin-top: 30%;
     }
-    .single-course-banner .overlay-text p{
+    .single-product-banner .overlay-text p{
         line-height: 27px;
     }
-    .course-info-2x .course-info-left .media-body {
+    .product-info-2x .product-info-left .media-body {
         border-right: 0;
     }
-    .course-details-1x .instructor-profile .media {
+    .product-details-1x .instructor-profile .media {
         display: block;
     }
-    .course-details-1x .instructor-profile .media .media-body{
+    .product-details-1x .instructor-profile .media .media-body{
         margin-top: 30px;
     }
     .about-us-1x .about-us-left {
@@ -339,10 +339,10 @@
     .learning-path-banner .overlay-text p{
         font-size: 15px;
     }
-    .course-list-banner .overlay-text {
+    .product-list-banner .overlay-text {
         margin-top: 22%;
     }
-    .course-1x .course-menu button.filter{
+    .product-1x .product-menu button.filter{
         margin: 10px 20px;
     }
     .page-banner .overlay-text {
@@ -378,10 +378,10 @@
     .blog-single-1x .blog-single-left-content .comment-section .media img{
         margin-bottom: 30px;
     }
-    .course-info-2x .course-info-middle{
+    .product-info-2x .product-info-middle{
         padding: 0;
     }
-    .course-info-2x .course-info-right{
+    .product-info-2x .product-info-right{
         margin-top: -30px;
     }
     .events-banner .overlay-text .countdown-timer ul li{
@@ -395,7 +395,7 @@
     .job-single-1x .job-features i {
         margin: 20px 0;
     }
-    .course-header-1x .course-grid-list .all-course-list .media .media-body h3 span {
+    .product-header-1x .product-grid-list .all-product-list .media .media-body h3 span {
         margin-top: -3px;
     }
     .sign-in-1x .sign-in-form ul li {
@@ -429,10 +429,10 @@
     .about-us-1x .about-us-right {
         text-align: center;
     }
-    .single-course-banner .overlay-text {
+    .single-product-banner .overlay-text {
         margin-top: 35%;
     }
-    .course-header-1x .course-grid-list .all-course-list .media .media-body h4{
+    .product-header-1x .product-grid-list .all-product-list .media .media-body h4{
         margin-bottom: 30px;
     }
     .sign-in-1x .sign-in-form .sign-up-btn a.btn-small{
@@ -462,10 +462,10 @@
     .main-banner .overlay-text .slider-feature ul li{
         line-height: 40px;
     }
-    .course-category-1x .category-left .hvrbox-text a{
+    .product-category-1x .category-left .hvrbox-text a{
         font-size: 20px;
     }
-    .course-category-1x .category-left .hvrbox-text .btn-small{
+    .product-category-1x .category-left .hvrbox-text .btn-small{
         padding: 5px 17px;
     }
 
@@ -498,11 +498,11 @@
     .learning-path-banner .overlay-text h3 {
         font-size: 20px;
     }
-    /**************Course list **************/
-    .course-list-banner .overlay-text {
+    /**************Product list **************/
+    .product-list-banner .overlay-text {
         margin-top: 44%;
     }
-    .course-header-1x .course-grid-list .all-course-list .media .media-body h3 span {
+    .product-header-1x .product-grid-list .all-product-list .media .media-body h3 span {
         float: left;
         margin-top: 20px;
     }
@@ -544,10 +544,10 @@
     .main-banner .overlay-text .styleSelect select{
         display: none;
     }
-    .single-course-banner .overlay-text {
+    .single-product-banner .overlay-text {
         margin-top: 62%;
     }
-    .single-course-banner .overlay-text p{
+    .single-product-banner .overlay-text p{
         line-height: 27px;
     }
     .page-banner .overlay-text h3 {

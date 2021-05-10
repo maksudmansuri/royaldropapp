@@ -29,7 +29,7 @@
                             </div>
 
                             <div data-toggle="lists" data-lists-values='[
-        "js-lists-values-course", 
+        "js-lists-values-product", 
         "js-lists-values-document",
         "js-lists-values-amount",
         "js-lists-values-date"
@@ -38,8 +38,8 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th colspan="2">
-                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-course">By Name</a>
-                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-document">By Course</a>
+                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-product">By Name</a>
+                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-document">By Product</a>
                                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-amount">Amount</a>
                                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
                                             </th>
@@ -49,11 +49,11 @@
                                         {% comment %} <tr>
                                             <td>
                                                 <div class="media align-items-center">
-                                                    <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                        <img src="{% static 'stundet_lms/assets/images/nodejs.png' %} " alt="course" class="avatar-img rounded">
+                                                    <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                        <img src="{% static 'stundet_lms/assets/images/nodejs.png' %} " alt="product" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Angular Routing In-Depth</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Angular Routing In-Depth</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8734</a> -
@@ -70,11 +70,11 @@
                                         <tr>
                                             <td>
                                                 <div class="media align-items-center">
-                                                    <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                    <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
                                                         <img src="{{i.instructor_photo}}" alt="Profile" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.admin.username}}</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.admin.username}}</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8735</a> -
@@ -85,7 +85,7 @@
                                             </td>
                                             <td>
                                                 <div class="media-body">
-                                                    <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>{{i.admin.email}}</strong></a><br>
+                                                    <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>{{i.admin.email}}</strong></a><br>
                                                 </div>
                                             </td>
                                             {% if i.is_verified is not True %}
@@ -107,11 +107,11 @@
                                         <tr>
                                             <td>
                                                 <div class="media align-items-center">
-                                                    <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                        <img src="{% static 'student_lms/assets/images/github.png' %} " alt="course" class="avatar-img rounded">
+                                                    <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                        <img src="{% static 'customer_lms/assets/images/github.png' %} " alt="product" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Introduction to TypeScript</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Introduction to TypeScript</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8736</a> -
@@ -128,11 +128,11 @@
                                         <tr>
                                             <td>
                                                 <div class="media align-items-center">
-                                                    <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                        <img src="{% static 'student_lms/assets/images/gulp.png' %} " alt="course" class="avatar-img rounded">
+                                                    <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                        <img src="{% static 'customer_lms/assets/images/gulp.png' %} " alt="product" class="avatar-img rounded">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Learn Angular Fundamentals</strong></a><br>
+                                                        <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Learn Angular Fundamentals</strong></a><br>
                                                         <small class="text-muted mr-1">
                                                             Invoice
                                                             <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8737</a> -

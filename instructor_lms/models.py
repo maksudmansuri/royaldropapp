@@ -50,7 +50,7 @@ class NotificationStaffs(models.Model):
 #     instructor_photo=models.ImageField(upload_to="instructor/profile", height_field=None, width_field=None, max_length=None)
 #     instructor_experience=models.CharField(max_length=50,blank=True,null=True)
 #     instructor_ratting=models.CharField(max_length=50,blank=True,null=True)
-#     instructor_courses=models.CharField(max_length=50,blank=True,null=True)
+#     instructor_products=models.CharField(max_length=50,blank=True,null=True)
 #     instructor_working=models.CharField(max_length=50,blank=True,null=True)
 #     instructor_website=models.URLField(max_length=200,blank=True,null=True)
 #     instructor_linkdin=models.URLField(max_length=200,blank=True,null=True)

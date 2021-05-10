@@ -14,7 +14,7 @@
 
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/student_lms/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/customer_lms/">Home</a></li>
                             <li class="breadcrumb-item active">Edit Account</li>
                         </ol>
                         <h1 class="h2">Edit Account</h1>
@@ -30,7 +30,7 @@
                             </ul> 
                             <div class="tab-content card-body">
                                 <div class="tab-pane active" id="first">
-                                  <form method="post" action="/student_lms/student_account_edit_save" class="form-horizontal" enctype="multipart/form-data" >
+                                  <form method="post" action="/customer_lms/customer_account_edit_save" class="form-horizontal" enctype="multipart/form-data" >
                                     {% csrf_token %}
                                         <div class="form-group row">
                                             <label for="avatar" class="col-sm-3 col-form-label form-label">Avatar</label>
@@ -88,7 +88,7 @@
                                                             <i class="material-icons md-18 text-muted">date_range</i>
                                                         </div>
                                                     </div>
-                                                    <input  type="date" id="student_dob" name="student_dob" class="form-control" placeholder=" Date of Birth" value={{std1.dob|date:'Y-m-d'}}>
+                                                    <input  type="date" id="customer_dob" name="customer_dob" class="form-control" placeholder=" Date of Birth" value={{std1.dob|date:'Y-m-d'}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
                                                             <i class="material-icons md-18 text-muted">phone</i>
                                                         </div>
                                                     </div>
-                                                    <input type="tel" id="student_phone" class="form-control" placeholder="+91" name="student_phone" value={{std1.phone}}>
+                                                    <input type="tel" id="customer_phone" class="form-control" placeholder="+91" name="customer_phone" value={{std1.phone}}>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,39 +114,39 @@
                                                             <i class="material-icons md-18 text-muted">school</i>
                                                         </div>
                                                     </div>
-                                                    <input type="text" id="student_qualification" name="student_qualification" class="form-control" placeholder="Ex:-BE/MCA/Diploma" value={{std1.qualification}}>
+                                                    <input type="text" id="customer_qualification" name="customer_qualification" class="form-control" placeholder="Ex:-BE/MCA/Diploma" value={{std1.qualification}}>
                                                 </div>
                                             </div>
                                         </div>
                                         {% comment %} <div class="form-group row">
                                             <label for="name_on_invoice" class="col-sm-3 col-form-label form-label">Name on Invoice</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_name" type="text" name="student_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
+                                                <input id="customer_name" type="text" name="customer_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
                                             </div>
                                         </div> {% endcomment %}
                                         
                                         <div class="form-group row">
                                             <label for="billing_address" class="col-sm-3 col-form-label form-label">Address</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_address" type="text" class="form-control" name="student_address" placeholder="Enter you Address" value={{std1.address}}>
+                                                <input id="customer_address" type="text" class="form-control" name="customer_address" placeholder="Enter you Address" value={{std1.address}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="city" class="col-sm-3 col-form-label form-label">City</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_city" type="text" class="form-control" name="student_city"  placeholder="Enter you City" value={{std1.city}}>
+                                                <input id="customer_city" type="text" class="form-control" name="customer_city"  placeholder="Enter you City" value={{std1.city}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="state" class="col-sm-3 col-form-label form-label">state</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_state" type="text" class="form-control" name="student_state"  placeholder="Enter you State" value={{std1.state}}>
+                                                <input id="customer_state" type="text" class="form-control" name="customer_state"  placeholder="Enter you State" value={{std1.state}}>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="billing_country" class="col-sm-3 col-form-label form-label">Country</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <select id="student_country" name="student_country" class="custom-control custom-select form-control" value={{std1.country}}>
+                                                <select id="customer_country" name="customer_country" class="custom-control custom-select form-control" value={{std1.country}}>
                                                     <option value="1" selected>USA</option>
                                                     <option value="2" >India</option>
                                                     <option value="3">United Kingdom</option>
@@ -210,37 +210,37 @@
                                 </div>
 
                                 <div class="tab-pane" id="second">
-                                    <form action="/student_lms/student_account_edit_save"   class="form-horizontal">
+                                    <form action="/customer_lms/customer_account_edit_save"   class="form-horizontal">
                                     {% csrf_token %}
                                         {% comment %} <div class="form-group row">
                                             <label for="name_on_invoice" class="col-sm-3 col-form-label form-label">Name on Invoice</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_name" type="text" name="student_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
+                                                <input id="customer_name" type="text" name="customer_name" class="form-control" value="{{std.fisrt_name}}| {{std.last_name}}" disabled>
                                             </div>
                                         </div> {% endcomment %}
                                         
                                         <div class="form-group row">
                                             <label for="billing_address" class="col-sm-3 col-form-label form-label">Address</label>
                                             <div class="col-sm-6 col-md-6">
-                                                <input id="student_address" type="text" class="form-control" name="student_address" placeholder="Enter you Address">
+                                                <input id="customer_address" type="text" class="form-control" name="customer_address" placeholder="Enter you Address">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="city" class="col-sm-3 col-form-label form-label">City</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_city" type="text" class="form-control" name="student_city"  placeholder="Enter you City">
+                                                <input id="customer_city" type="text" class="form-control" name="customer_city"  placeholder="Enter you City">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="state" class="col-sm-3 col-form-label form-label">state</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <input id="student_state" type="text" class="form-control" name="student_state"  placeholder="Enter you State">
+                                                <input id="customer_state" type="text" class="form-control" name="customer_state"  placeholder="Enter you State">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="billing_country" class="col-sm-3 col-form-label form-label">Country</label>
                                             <div class="col-sm-6 col-md-4">
-                                                <select id="student_country" name="student_country" class="custom-control custom-select form-control">
+                                                <select id="customer_country" name="customer_country" class="custom-control custom-select form-control">
                                                     <option value="1" >USA</option>
                                                     <option value="2" selected>India</option>
                                                     <option value="3">United Kingdom</option>

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-        <title>Manage Course</title>
+        <title>Manage Product</title>
 {% endblock title %}
 
 
@@ -17,10 +17,10 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb d-print-none">
                             <li class="breadcrumb-item"><a href="/counsellor">Home</a></li>
-                            <li class="breadcrumb-item active">Course Category</li>
+                            <li class="breadcrumb-item active">Product Category</li>
                         </ol>
                         <h1 class="h2">Categories</h1>
-                        <form action="/counsellor/course_category" method="post" class="form mt-3">
+                        <form action="/counsellor/product_category" method="post" class="form mt-3">
                         {% csrf_token %}
                             <div class="form-group row">
                                 <label for="category" class="col-sm-2 col-form-label form-label">Add Category</label>
@@ -61,10 +61,10 @@
                                 {% for cat in crscats %}
                                     <tr>
                                     <th scope="row">{{forloop.counter}}</th>
-                                    <td><a href="/counsellor/course_subcategory/{{cat.id}}" class="">{{cat.category}}</td>
+                                    <td><a href="/counsellor/product_subcategory/{{cat.id}}" class="">{{cat.category}}</td>
                                     <td></td>
                                     {% comment %} <td><a href="" class="btn btn-outline-success"> Edit</button</td> {% endcomment %}
-                                    <td><a href="/counsellor/course_category_delete/{{cat.id}}" class="btn btn-outline-secondary">Delete</button></td>
+                                    <td><a href="/counsellor/product_category_delete/{{cat.id}}" class="btn btn-outline-secondary">Delete</button></td>
                                     </tr>
                                     <tr>
                                 {% endfor %}

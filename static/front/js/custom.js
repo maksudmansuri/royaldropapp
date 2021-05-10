@@ -84,8 +84,8 @@
 				  ]
 		  }); 
 
-		//Related Course Slider (Slick) 
-		  $('.related-course').slick({
+		//Related Product Slider (Slick) 
+		  $('.related-product').slick({
 		    	slidesToShow: 4,
 			    slidesToScroll: 1,
 			    autoplay: true,
@@ -120,7 +120,7 @@
 		});
                 		
 		// Masonry portfolio
-		$('.all-course').mixItUp({
+		$('.all-product').mixItUp({
 			selectors: {
 				target: '.tile',
 				filter: '.filter',

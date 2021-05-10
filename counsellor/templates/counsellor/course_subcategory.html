@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-        <title>Manage Course</title>
+        <title>Manage Product</title>
 {% endblock title %}
 
 
@@ -17,10 +17,10 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb d-print-none">
                             <li class="breadcrumb-item"><a href="/counsellor">Home</a></li>
-                            <li class="breadcrumb-item active">Course Category</li>
+                            <li class="breadcrumb-item active">Product Category</li>
                         </ol>
                         <h1 class="h2">Category : {{crscats}}</h1>
-                        <form action="/counsellor/course_subcategory/{{crscats.id}}" method="post" class="form mt-3">
+                        <form action="/counsellor/product_subcategory/{{crscats.id}}" method="post" class="form mt-3">
                         {% csrf_token %}
                             <div class="form-group row">
                                 <label for="category" class="col-sm-2 col-form-label form-label">Add Category</label>
@@ -61,10 +61,10 @@
                                 {% for sbcat in crssbcats %}
                                     <tr>
                                     <th scope="row">{{forloop.counter}}</th>
-                                    <td><a href="/counsellor/course_subcategory/{{sbcat.id}}" class="">{{sbcat.subcategory}}</td>
+                                    <td><a href="/counsellor/product_subcategory/{{sbcat.id}}" class="">{{sbcat.subcategory}}</td>
                                     <td></td>
                                     {% comment %} <td><a href="" class="btn btn-outline-success"> Edit</button</td> {% endcomment %}
-                                    <td><a href="/counsellor/course_subcategory_delete/{{crscats.id}}/{{sbcat.id}}" class="btn btn-outline-secondary">Delete</button></td>
+                                    <td><a href="/counsellor/product_subcategory_delete/{{crscats.id}}/{{sbcat.id}}" class="btn btn-outline-secondary">Delete</button></td>
                                     </tr>
                                     <tr>
                                 {% endfor %}

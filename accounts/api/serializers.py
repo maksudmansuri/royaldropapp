@@ -5,7 +5,7 @@ from rest_framework.serializers import (
 	EmailField,
 	CharField,
 )
-from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Students
+from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Customers
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -80,7 +80,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ProfilePropertiesSerializer(serializers.ModelSerializer):
 
 	class Meta:
-		model = Students
+		model = Customers
 		fields = ['fisrt_name','last_name','dob','address','city','state','country','phone','gender','photo','qualification',]
 
 
@@ -91,7 +91,7 @@ class ProfilePropertiesSerializer(serializers.ModelSerializer):
 
 
 
-# class StudentRegisterSerializer(ModelSerializer):
+# class CustomerRegisterSerializer(ModelSerializer):
 # 	password2 = CharField(style={'input_type':'password'},write_only=True)
 # 	email = EmailField(label='Email adress')
 # 	class Meta:
@@ -219,7 +219,7 @@ class ProfilePropertiesSerializer(serializers.ModelSerializer):
 # class ProfilePropertiesSerializer(serializers.ModelSerializer):
 
 # 	class Meta:
-# 		model = Students
+# 		model = Customers
 # 		fields = ['fisrt_name','last_name','dob','address','city','state','country','phone','gender','photo','qualification',]
 
 # class ChangePasswordSerializer(serializers.Serializer):

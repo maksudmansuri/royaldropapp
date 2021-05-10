@@ -40,7 +40,7 @@
                                         <a href="instructor_statement" class="btn btn-sm btn-primary"><i class="material-icons">receipt</i></a>
                                     </div>
                                     <div data-toggle="lists" data-lists-values='[
-            "js-lists-values-course", 
+            "js-lists-values-product", 
             "js-lists-values-document",
             "js-lists-values-amount",
             "js-lists-values-date"
@@ -49,7 +49,7 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th colspan="2">
-                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-course">Course</a>
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-product">Product</a>
                                                         <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-document">Document</a>
                                                         <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-amount">Amount</a>
                                                         <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
@@ -60,11 +60,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="media align-items-center">
-                                                            <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                                <img src="{% static 'student_lms/assets/images/vuejs.png' %} " alt="course" class="avatar-img rounded">
+                                                            <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                                <img src="{% static 'customer_lms/assets/images/vuejs.png' %} " alt="product" class="avatar-img rounded">
                                                             </a>
                                                             <div class="media-body">
-                                                                <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Angular Routing In-Depth</strong></a><br>
+                                                                <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Angular Routing In-Depth</strong></a><br>
                                                                 <small class="text-muted mr-1">
                                                                     Invoice
                                                                     <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8734</a> -
@@ -81,11 +81,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="media align-items-center">
-                                                            <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                                <img src="{% static 'student_lms/assets/images/vuejs.png' %} " alt="course" class="avatar-img rounded">
+                                                            <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                                <img src="{% static 'customer_lms/assets/images/vuejs.png' %} " alt="product" class="avatar-img rounded">
                                                             </a>
                                                             <div class="media-body">
-                                                                <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Angular Unit Testing</strong></a><br>
+                                                                <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Angular Unit Testing</strong></a><br>
                                                                 <small class="text-muted mr-1">
                                                                     Invoice
                                                                     <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8735</a> -
@@ -102,11 +102,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="media align-items-center">
-                                                            <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                                <img src="{% static 'student_lms/assets/images/github.png' %}" alt="course" class="avatar-img rounded">
+                                                            <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                                <img src="{% static 'customer_lms/assets/images/github.png' %}" alt="product" class="avatar-img rounded">
                                                             </a>
                                                             <div class="media-body">
-                                                                <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Introduction to TypeScript</strong></a><br>
+                                                                <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Introduction to TypeScript</strong></a><br>
                                                                 <small class="text-muted mr-1">
                                                                     Invoice
                                                                     <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8736</a> -
@@ -123,11 +123,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="media align-items-center">
-                                                            <a href="instructor_course_edit" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                                <img src="{% static 'student_lms/assets/images/gulp.png' %}" alt="course" class="avatar-img rounded">
+                                                            <a href="instructor_product_edit" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                                <img src="{% static 'customer_lms/assets/images/gulp.png' %}" alt="product" class="avatar-img rounded">
                                                             </a>
                                                             <div class="media-body">
-                                                                <a class="text-body js-lists-values-course" href="instructor_course_edit"><strong>Learn Angular Fundamentals</strong></a><br>
+                                                                <a class="text-body js-lists-values-product" href="instructor_product_edit"><strong>Learn Angular Fundamentals</strong></a><br>
                                                                 <small class="text-muted mr-1">
                                                                     Invoice
                                                                     <a href="instructor_invoice" style="color: inherit;" class="js-lists-values-document">#8737</a> -
@@ -151,7 +151,7 @@
                                     <div class="card-header d-flex align-items-center">
                                         <div class="flex">
                                             <h4 class="card-title">Sales today</h4>
-                                            <p class="card-subtitle">by course</p>
+                                            <p class="card-subtitle">by product</p>
                                         </div>
                                         <a class="btn btn-sm btn-primary" href="instructor_earnings">Earnings</a>
                                     </div>
@@ -159,7 +159,7 @@
                                         <li class="list-group-item">
                                             <div class="media align-items-center">
                                                 <div class="media-body">
-                                                    <a href="instructor_course_edit" class="text-body"><strong>Basics of HTML</strong></a>
+                                                    <a href="instructor_product_edit" class="text-body"><strong>Basics of HTML</strong></a>
                                                 </div>
                                                 <div class="media-right">
                                                     <div class="text-center">
@@ -171,7 +171,7 @@
                                         <li class="list-group-item">
                                             <div class="media align-items-center">
                                                 <div class="media-body">
-                                                    <a href="instructor_course_edit" class="text-body"><strong>Angular in Steps</strong></a>
+                                                    <a href="instructor_product_edit" class="text-body"><strong>Angular in Steps</strong></a>
                                                 </div>
                                                 <div class="media-right">
                                                     <div class="text-center">
@@ -183,7 +183,7 @@
                                         <li class="list-group-item">
                                             <div class="media align-items-center">
                                                 <div class="media-body">
-                                                    <a href="instructor_course_edit" class="text-body"><strong>Bootstrap Foundations</strong></a>
+                                                    <a href="instructor_product_edit" class="text-body"><strong>Bootstrap Foundations</strong></a>
                                                 </div>
                                                 <div class="media-right">
                                                     <div class="text-center">
@@ -195,7 +195,7 @@
                                         <li class="list-group-item">
                                             <div class="media align-items-center">
                                                 <div class="media-body">
-                                                    <a href="instructor_course_edit" class="text-body"><strong>GitHub Basics</strong></a>
+                                                    <a href="instructor_product_edit" class="text-body"><strong>GitHub Basics</strong></a>
                                                 </div>
                                                 <div class="media-right">
                                                     <div class="text-center">
@@ -221,7 +221,7 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <a href="#" class="avatar avatar-sm">
-                                                    <img src="{% static 'student_lms/assets/images/people/110/guy-9.jpg' %}" alt="Guy" class="avatar-img rounded-circle">
+                                                    <img src="{% static 'customer_lms/assets/images/people/110/guy-9.jpg' %}" alt="Guy" class="avatar-img rounded-circle">
                                                 </a>
                                             </div>
                                             <div class="media-body d-flex flex-column">
@@ -229,14 +229,14 @@
                                                     <a href="instructor_profile" class="text-body"><strong>Laza Bogdan</strong></a>
                                                     <small class="ml-auto text-muted">27 min ago</small><br>
                                                 </div>
-                                                <span class="text-muted">on <a href="instructor_course_edit" class="text-black-50" style="text-decoration: underline;">Data Visualization With Chart.js</a></span>
+                                                <span class="text-muted">on <a href="instructor_product_edit" class="text-black-50" style="text-decoration: underline;">Data Visualization With Chart.js</a></span>
                                                 <p class="mt-1 mb-0 text-black-70">How can I load Charts on a page?</p>
                                             </div>
                                         </div>
                                         <div class="media ml-sm-32pt mt-3 border rounded p-3 bg-light">
                                             <div class="media-left">
                                                 <a href="#" class="avatar avatar-sm">
-                                                    <img src="{% static 'student_lms/assets/images/people/110/guy-6.jpg' %}" alt="Guy" class="avatar-img rounded-circle">
+                                                    <img src="{% static 'customer_lms/assets/images/people/110/guy-6.jpg' %}" alt="Guy" class="avatar-img rounded-circle">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -244,7 +244,7 @@
                                                     <a href="instructor_profile" class="text-body"><strong>FrontendMatter</strong></a>
                                                     <small class="ml-auto text-muted">just now</small>
                                                 </div>
-                                                <p class="mt-1 mb-0 text-black-70">Hi Bogdan,<br> Thank you for purchasing our course! <br><br>Please have a look at the charts library documentation <a href="#">here</a> and follow the instructions.</p>
+                                                <p class="mt-1 mb-0 text-black-70">Hi Bogdan,<br> Thank you for purchasing our product! <br><br>Please have a look at the charts library documentation <a href="#">here</a> and follow the instructions.</p>
                                             </div>
                                         </div>
                                     </div>

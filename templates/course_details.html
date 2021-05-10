@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}<title> {{crs1.course_name}} </title>{% endblock title %}
+{% block title %}<title> {{crs1.product_name}} </title>{% endblock title %}
  {% block body %}
  
 
 	<div class="page-banner">           			
         <div class="hvrbox">
-            <img src="{{crs1.course_image}} " alt="Mountains" class="hvrbox-layer_bottom">
+            <img src="{{crs1.product_image}} " alt="Mountains" class="hvrbox-layer_bottom">
             <div class="hvrbox-layer_top">
                 <div class="container">
                     <div class="overlay-text text-left">						
-                        <h3>{{crs1.course_name}}</h3>
+                        <h3>{{crs1.product_name}}</h3>
                         <nav aria-label="breadcrumb">
                           <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{crs1.course_name}}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{crs1.product_name}}</li>
                           </ol>
                         </nav>
                     </div>
@@ -23,12 +23,12 @@
         </div>	                     
     </div>
     
-    <div class="course-single-body">
+    <div class="product-single-body">
 		<div class="container">
-			<div class="course-info-1x course-info-2x">	
+			<div class="product-info-1x product-info-2x">	
 				<div class="row">	
 					<div class="col-md-4">
-						<div class="course-info-left">
+						<div class="product-info-left">
 							<div class="media">
 							  <img src="{{crs1.teacher.instructor_photo}}" alt="Image">
 							  <div class="media-body">
@@ -39,7 +39,7 @@
 						</div>
 					</div>	
 					<div class="col-md-3">
-						<div class="course-info-middle">
+						<div class="product-info-middle">
 							<p>
 								<i class="fas fa-star"></i>
 								<i class="fas fa-star"></i>
@@ -48,23 +48,23 @@
 								<i class="fas fa-star"></i>
 								&nbsp; 4.9 (66 ratings)
 							</p>
-							<h4>1,457 Students Enrolled</h4>						
+							<h4>1,457 Customers Enrolled</h4>						
 						</div>
 					</div>
 					<div class="col-md-2">
-						<div class="course-info-left">
+						<div class="product-info-left">
 							<div class="media">
 							  <div class="media-body">
-							  	<h4>{{crs1.course_duration}}</h4>
-								<p>{{crs1.course_duration}}</p>
+							  	<h4>{{crs1.product_duration}}</h4>
+								<p>{{crs1.product_duration}}</p>
 							  </div>
 							</div>						
 						</div>
 					</div>
 					<div class="col-md-3">
-						<div class="course-info-right ">
-							<h3><del>INR{{crs1.course_fee}}</del> INR{{crs1.course_fee}}</h3>
-							<a href="/student_lms/student_cart/{{crs1.course_slug}}" class="btn-small">Buy Now</a>
+						<div class="product-info-right ">
+							<h3><del>INR{{crs1.product_fee}}</del> INR{{crs1.product_fee}}</h3>
+							<a href="/customer_lms/customer_cart/{{crs1.product_slug}}" class="btn-small">Buy Now</a>
 						</div>
 					</div>				
 
@@ -73,15 +73,15 @@
 		</div>
 
 		<div class="container">	
-			<div class="course-details-1x">
+			<div class="product-details-1x">
 				<div class="row">	
 					<div class="col-md-8">
-						<div class="course-details-left">
-							<div class="course-video">
-								<a href="{{crs1.course_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
-								<h3>Preview Course</h3>
+						<div class="product-details-left">
+							<div class="product-video">
+								<a href="{{crs1.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
+								<h3>Preview Product</h3>
 							</div>
-							<div class="course-menu-nav">
+							<div class="product-menu-nav">
 								<ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
 								  <li class="nav-item">
 								    <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true"> <i class="far fa-file-alt"></i>  Overview</a>
@@ -96,18 +96,18 @@
 								    <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false"><i class="far fa-comment"></i> Review</a>
 								  </li>
 								</ul>
-								<div class="tab-content course-menu-tab" id="myTabContent">
+								<div class="tab-content product-menu-tab" id="myTabContent">
 								  <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
 								  	<div class="learning-system">
 									  	<h4>What Will I Learn?</h4>
-									  	<p>{{crs1.course_desc|safe}}</p>
+									  	<p>{{crs1.product_desc|safe}}</p>
 										<ul>
 										
 											{% for i in crs_ssn1 %}
 											<li>
 												<div class="single-way">
 													<h4>{{i.sesion_name}}</h4>
-													<p>{{i.course_desc|safe}}</p>	
+													<p>{{i.product_desc|safe}}</p>	
 												</div>
 											</li>
 											{% endfor%}
@@ -115,19 +115,19 @@
 											{% comment %} <li>
 												<div class="single-way">
 													<h4>How improve visual design</h4>
-													<p>{{crs1.course_desc}} </p>	
+													<p>{{crs1.product_desc}} </p>	
 												</div>
 											</li>
 											<li>
 												<div class="single-way">
 													<h4>Value of visual design</h4>
-													<p>{{crs1.course_desc}}</p>	
+													<p>{{crs1.product_desc}}</p>	
 												</div>
 											</li>
 											<li>
 												<div class="single-way">
 													<h4>Difference Between Visual Design and Graphic Design</h4>
-													<p>{{crs1.course_desc}}</p>	
+													<p>{{crs1.product_desc}}</p>	
 												</div>
 											</li> {% endcomment %}
 										</ul>
@@ -135,7 +135,7 @@
 									<div class="requirements">
 										<h4>Requirements</h4>
 										<ul>
-											<li><i class="fas fa-check"></i>{{crs1.course_requirement|safe}}</li>
+											<li><i class="fas fa-check"></i>{{crs1.product_requirement|safe}}</li>
 											<li><i class="fas fa-check"></i> Need knowledge of photoshop and basic knowledge of indesign.</li>
 											<li><i class="fas fa-check"></i> Preferable to have experience with PS, Sketch, Indesign and  Adobe XD.</li>
 											<li><i class="fas fa-check"></i> Preferable to understand word embeddings.</li>										
@@ -143,7 +143,7 @@
 									</div>
 									<div class="description">
 								  		<h4>Description</h4>
-								  		<p>{{crs1.course_desc|safe}}</p>
+								  		<p>{{crs1.product_desc|safe}}</p>
 								  	</div>
 								  	<div class="price">
 								  		<h5><del>$169</del><span>$139</span></h5>							  		
@@ -154,30 +154,30 @@
 								  <div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum-tab">
 									<div class="learning-system">
 									  	<h4>What Will I Learn?</h4>
-									  	<p>{{crs1.course_syllabus}}</p>
+									  	<p>{{crs1.product_syllabus}}</p>
 										<ul>
 											<li>
 												<div class="single-way">
 													<h4>Visual learning tips</h4>
-													<p>{{crs1.course_syllabus}}</p>	
+													<p>{{crs1.product_syllabus}}</p>	
 												</div>
 											</li>
 											<li>
 												<div class="single-way">
 													<h4>How improve visual design</h4>
-													<p>{{crs1.course_syllabus}} </p>	
+													<p>{{crs1.product_syllabus}} </p>	
 												</div>
 											</li>
 											<li>
 												<div class="single-way">
 													<h4>Value of visual design</h4>
-													<p>{{crs1.course_syllabus}}</p>	
+													<p>{{crs1.product_syllabus}}</p>	
 												</div>
 											</li>
 											<li>
 												<div class="single-way">
 													<h4>Difference Between Visual Design and Graphic Design</h4>
-													<p>{{crs1.course_syllabus}} </p>	
+													<p>{{crs1.product_syllabus}} </p>	
 												</div>
 											</li>
 										</ul>
@@ -193,7 +193,7 @@
 									</div>
 									<div class="description">
 								  		<h4>Description</h4>
-								  		<p>{{crs1.course_desc}}</p>
+								  		<p>{{crs1.product_desc}}</p>
 								  	</div>								  	
 								  </div>
 								  <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
@@ -240,16 +240,16 @@
 						</div>
 					</div>				
 					<div class="col-md-4">
-						<div class="course-details-sidebar">
-							<div class="course-feature">
-								<h2>Course Features</h2>
+						<div class="product-details-sidebar">
+							<div class="product-feature">
+								<h2>Product Features</h2>
 								<ul>
-									<li><i class="far fa-file"></i> Lectures <span> {{crs1.course_duration}} </span></li>
-									<li><i class="far fa-clock"></i> Duration <span> {{crs1.course_duration}} </span></li>
-									<li><i class="far fa-user"></i> Students <span> 45 </span></li>
+									<li><i class="far fa-file"></i> Lectures <span> {{crs1.product_duration}} </span></li>
+									<li><i class="far fa-clock"></i> Duration <span> {{crs1.product_duration}} </span></li>
+									<li><i class="far fa-user"></i> Customers <span> 45 </span></li>
 									<li><i class="fas fa-certificate"></i> Certificate  <span> Yes </span></li>
-									<li><i class="far fa-lightbulb"></i> Skill  <span> {{crs1.course_level}} </span></li>
-									<li><i class="far fa-bookmark"></i> Category   <span> {{crs1.course_category}}</span></li>
+									<li><i class="far fa-lightbulb"></i> Skill  <span> {{crs1.product_level}} </span></li>
+									<li><i class="far fa-bookmark"></i> Category   <span> {{crs1.product_category}}</span></li>
 								</ul>
 							</div>
 							<div class="footer-social-link">
@@ -268,32 +268,32 @@
 			</div>
 		</div>
 
-		<div class="related-course-2x">
+		<div class="related-product-2x">
 			<div class="container">
 				<div class="col-md-12">
 					<div class="row">
 						<div class="title-left">
-							<h2>Related Courses</h2>
+							<h2>Related Products</h2>
 						</div>
 					</div>
 				</div>
 
-				<div class="related-course">		
+				<div class="related-product">		
 				
 					{% for i in crssame1 %}
-					<div class="single-course">
+					<div class="single-product">
 						<div class="hvrbox">
-							<img src="{{i.course_image}}" alt="slide 1" class="hvrbox-layer_bottom">
+							<img src="{{i.product_image}}" alt="slide 1" class="hvrbox-layer_bottom">
 							<div class="hvrbox-layer_top hvrbox-text">
 								<div class="hvrbox-text">																	
-									<a href="{{i.course_video}}" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-									<a href="/course_details/{{i.course_slug}}">Preview Course</a>	
+									<a href="{{i.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a><br>
+									<a href="/product_details/{{i.product_slug}}">Preview Product</a>	
 								</div>
 							</div>
 						</div>
-						<div class="single-course-content">
-							<a href="/course_details/{{i.course_slug}}">{{i.course_name}}</a>
-							<p>{{i.teacher.admin.first_name}} {{i.teacher.admin.last_name}} <span><del>${{i.course_fee}}</del> <b>${{i.course_fee}}</b></span></p>
+						<div class="single-product-content">
+							<a href="/product_details/{{i.product_slug}}">{{i.product_name}}</a>
+							<p>{{i.teacher.admin.first_name}} {{i.teacher.admin.last_name}} <span><del>${{i.product_fee}}</del> <b>${{i.product_fee}}</b></span></p>
 							<h3>
 								<i class="fas fa-star"></i>
 								<i class="fas fa-star"></i>
@@ -307,18 +307,18 @@
 					{% endfor %}
 				
 
-					{% comment %} <div class="single-course">
+					{% comment %} <div class="single-product">
 						<div class="hvrbox">
 							<img src="{% static 'front/images/6.jpg' %}" alt="slide 1" class="hvrbox-layer_bottom">
 							<div class="hvrbox-layer_top hvrbox-text">
 								<div class="hvrbox-text">																	
 									<a href="https://www.youtube.com/watch?v=gwinFP8_qIM" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-									<a href="course-single-one.html">Preview Course</a>	
+									<a href="product-single-one.html">Preview Product</a>	
 								</div>
 							</div>
 						</div>
-						<div class="single-course-content">
-							<a href="course-single-one.html">Complete Cyber Security Course</a>
+						<div class="single-product-content">
+							<a href="product-single-one.html">Complete Cyber Security Product</a>
 							<p>Nir Eyal <span><del>$169</del> <b>$149</b></span></p>
 							<h3>
 								<i class="fas fa-star"></i>
@@ -330,18 +330,18 @@
 							</h3>
 						</div>
 					</div>
-					<div class="single-course">
+					<div class="single-product">
 						<div class="hvrbox">
 							<img src="{% static 'front/images/3.jpg' %}" alt="slide 1" class="hvrbox-layer_bottom">
 							<div class="hvrbox-layer_top hvrbox-text">
 								<div class="hvrbox-text">																	
 									<a href="https://www.youtube.com/watch?v=gwinFP8_qIM" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-									<a href="course-single-one.html">Preview Course</a>	
+									<a href="product-single-one.html">Preview Product</a>	
 								</div>
 							</div>
 						</div>
-						<div class="single-course-content">
-							<a href="course-single-one.html">The Complete Developer Web Course</a>
+						<div class="single-product-content">
+							<a href="product-single-one.html">The Complete Developer Web Product</a>
 							<p>Nir Eyal <span><del>$169</del> <b>$149</b></span></p>
 							<h3>
 								<i class="fas fa-star"></i>
@@ -353,18 +353,18 @@
 							</h3>
 						</div>
 					</div>
-					<div class="single-course">
+					<div class="single-product">
 						<div class="hvrbox">
 							<img src="{% static 'front/images/4.jpg' %}" alt="slide 1" class="hvrbox-layer_bottom">
 							<div class="hvrbox-layer_top hvrbox-text">
 								<div class="hvrbox-text">																	
 									<a href="https://www.youtube.com/watch?v=gwinFP8_qIM" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-									<a href="course-single-one.html">Preview Course</a>	
+									<a href="product-single-one.html">Preview Product</a>	
 								</div>
 							</div>
 						</div>
-						<div class="single-course-content">
-							<a href="course-single-one.html">Creating 3D environment Blender</a>
+						<div class="single-product-content">
+							<a href="product-single-one.html">Creating 3D environment Blender</a>
 							<p>Nir Eyal <span><del>$169</del> <b>$149</b></span></p>
 							<h3>
 								<i class="fas fa-star"></i>
@@ -376,18 +376,18 @@
 							</h3>
 						</div>
 					</div>
-					<div class="single-course">
+					<div class="single-product">
 						<div class="hvrbox">
 							<img src="{% static 'front/images/5.jpg' %}" alt="slide 1" class="hvrbox-layer_bottom">
 							<div class="hvrbox-layer_top hvrbox-text">
 								<div class="hvrbox-text">																	
 									<a href="https://www.youtube.com/watch?v=gwinFP8_qIM" class="btn-circle video"><i class="fas fa-play"></i></a><br>
-									<a href="course-single-one.html">Preview Course</a>	
+									<a href="product-single-one.html">Preview Product</a>	
 								</div>
 							</div>
 						</div>
-						<div class="single-course-content">
-							<a href="course-single-one.html">Advanced CSS and Sass Flexbox Grid</a>
+						<div class="single-product-content">
+							<a href="product-single-one.html">Advanced CSS and Sass Flexbox Grid</a>
 							<p>Nir Eyal <span><del>$169</del> <b>$149</b></span></p>
 							<h3>
 								<i class="fas fa-star"></i>
@@ -411,7 +411,7 @@
 				<div class="col-md-12">
 					<div class="cta-content">
 						<h3>Ready to Begin?</h3>
-						<p>Find subjects you're passionate about by browsing our online course categories. Start <br> learning with top courses Built With Industry Experts.</p>
+						<p>Find subjects you're passionate about by browsing our online product categories. Start <br> learning with top products Built With Industry Experts.</p>
 						<a href="#" class="btn-small">Start Teaching</a>
 						<a href="#" class="btn-small">Start Learning</a>
 					</div>

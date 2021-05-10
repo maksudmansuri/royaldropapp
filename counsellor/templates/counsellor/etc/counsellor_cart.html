@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Student - Cart{{crs1.course_slug}}</title>
+    <title>Customer - Cart{{crs1.product_slug}}</title>
 {% endblock title %}
 
 {% block body %}
@@ -19,15 +19,15 @@ q
                             <li class="breadcrumb-item active">Cart</li>
                         </ol>
                         <h1 class="h2">Shopping Cart for </h1>
-                    <form method="POST" action="../student_cart/{{crs1.course_slug}}">{% csrf_token %}
-                        <input type="hidden" name="course_json" id="course_json">
+                    <form method="POST" action="../customer_cart/{{crs1.product_slug}}">{% csrf_token %}
+                        <input type="hidden" name="product_json" id="product_json">
                         <div class="card table-responsive">
                             <table class="table table-nowrap mb-0 table--elevated">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Details</th>
-                                        <th style="width: 100px" class="text-center">{{crs1.Course_level}} </th>
-                                        <th style="width: 100px" class="text-right">{{crs1.course_fee}} </th>
+                                        <th style="width: 100px" class="text-center">{{crs1.Product_level}} </th>
+                                        <th style="width: 100px" class="text-right">{{crs1.product_fee}} </th>
                                         <th style="width: 10px"></th>
                                     </tr>
                                 </thead>
@@ -36,11 +36,11 @@ q
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="student_view_course" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                    <img src="/media/{{crs1.course_image}} " alt="Learn Vue.js Fundamentals" class="avatar-img rounded">
+                                                <a href="customer_view_product" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                    <img src="/media/{{crs1.product_image}} " alt="Learn Vue.js Fundamentals" class="avatar-img rounded">
                                                 </a>
                                                 <div class="media-body">
-                                                    <a href="#" class="text-body"><strong>{{crs1.course_name}}</strong></a>
+                                                    <a href="#" class="text-body"><strong>{{crs1.product_name}}</strong></a>
                                                 </div>
                                             </div>
                                         </td>
@@ -52,7 +52,7 @@ q
                                             </div>
                                         </td>
                                         <td class="text-right">
-                                            <p class="mb-0">&#8377; {{ crs1.course_fee}} INR</p>
+                                            <p class="mb-0">&#8377; {{ crs1.product_fee}} INR</p>
 
                                         </td>
                                         <td class="text-center">
@@ -63,8 +63,8 @@ q
                                     {% comment %} <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="student_view_course" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                    <img src="{% static 'student_lms/assets/images/vuejs.png' %}" alt="Angular in Steps" class="avatar-img rounded">
+                                                <a href="customer_view_product" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                    <img src="{% static 'customer_lms/assets/images/vuejs.png' %}" alt="Angular in Steps" class="avatar-img rounded">
                                                 </a>
                                                 <div class="media-body">
                                                     <a href="#" class="text-body"><strong>Angular in Steps</strong></a>
@@ -96,7 +96,7 @@ q
                                 <tfoot>
                                     <tr>
                                         <td class="text-right text-black-70"><strong>Subtotal</strong></td>
-                                        <td style="width: 100px;" class="text-right"><strong>&#8377; {{crs1.course_fee}} INR</strong></td>
+                                        <td style="width: 100px;" class="text-right"><strong>&#8377; {{crs1.product_fee}} INR</strong></td>
                                     </tr>
                                     {% comment %} <tr>
                                         <td class="text-right text-black-70"><strong>20% Discount</strong></td>
@@ -104,13 +104,13 @@ q
                                     </tr> {% endcomment %}
                                     <tr>
                                         <td class="text-right text-black-70"><strong>Total</strong></td>
-                                        <td style="width: 100px;" class="text-right"><strong>&#8377; {{crs1.course_fee}} INR</strong></td>
+                                        <td style="width: 100px;" class="text-right"><strong>&#8377; {{crs1.product_fee}} INR</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
                             <div class="card-footer d-flex align-items-center">
-                                <a href="student_browse_courses" class="btn btn-white">Back to Courses</a>
-                                <a href="../student_pay/{{crs1.course_slug}}" class="btn btn-success ml-auto">
+                                <a href="customer_browse_products" class="btn btn-white">Back to Products</a>
+                                <a href="../customer_pay/{{crs1.product_slug}}" class="btn btn-success ml-auto">
                                     FREE <i class="material-icons btn__icon--right">credit_card</i>                                </a>
 
                             </div>
@@ -128,9 +128,9 @@ q
 {% endblock body %}
 {% block script %}
 <script>
-$('#course_json').val(JSON.stringify());
+$('#product_json').val(JSON.stringify());
 {% if thank %}
-    alert('thanks for insertion in carts will redirect you otpayment pay this is your course code{{crs.course_code}}');
+    alert('thanks for insertion in carts will redirect you otpayment pay this is your product code{{crs.product_code}}');
     localstorage.clear();
 {% endif %}
 

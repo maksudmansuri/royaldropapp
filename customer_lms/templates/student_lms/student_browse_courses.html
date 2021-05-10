@@ -1,0 +1,166 @@
+{% extends './lms_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{request.user}} - Browse products</title>
+{% endblock title %}
+
+{% block body %}
+<style>
+
+</style>
+        <!-- Header Layout Content -->
+        <div class="mdk-header-layout__content">
+
+            <div data-push data-responsive-width="992px" class="mdk-drawer-layout js-mdk-drawer-layout">
+                <div class="mdk-drawer-layout__content page ">
+
+                    <div class="container-fluid page__container">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/customer_lms">Home</a></li>
+                            <li class="breadcrumb-item active">Products</li>
+                        </ol>
+                        <div class="media align-items-center mb-headings">
+                            <div class="media-body">
+                                <h1 class="h2">Products</h1>
+                            </div>
+                            <div class="media-right">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="#" class="btn btn-white active"><i class="material-icons">list</i></a>
+                                    <a href="#" class="btn btn-white"><i class="material-icons">dashboard</i></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% comment %} <div class="card card-body border-left-3 border-left-primary navbar-shadow mb-4">
+                            <form action="/customer_lms/customer_browse_products" method="get">
+                                <div class="d-flex flex-wrap2 align-items-center mb-headings">
+                                    <div class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="btn btn-white"><i class="material-icons mr-sm-2">tune</i> <span class="d-none d-sm-block">Filters</span></a>
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-item d-flex flex-column">
+                                                <div class="form-group">
+                                                    <label for="custom-select" class="form-label">Category</label><br>
+                                                    <select id="custom-select" class="form-control custom-select" style="width: 200px;">
+                                                        <option selected>All categories</option>
+                                                        <option value="1">Vue.js</option>
+                                                        <option value="2">Node.js</option>
+                                                        <option value="3">GitHub</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="published01" class="form-label">Published</label><br>
+                                                    <select id="published01" class="form-control custom-select" style="width: 200px;">
+                                                        <option selected>Published products</option>
+                                                        <option value="1">Draft products</option>
+                                                        <option value="3">All products</option>
+                                                    </select>
+                                                </div>
+                                                <a href="#">Clear filters</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex search-form ml-3 search-form--light">
+                                        <input type="text" class="form-control" placeholder="Search products" id="id_q" name="q" >
+                                        <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center" style="white-space: nowrap;">
+                                    <small class="flex text-muted text-uppercase mr-3 mb-2 mb-sm-0">Displaying 4 out of 10 products</small>
+                                    <div class="w-auto ml-sm-auto table d-flex align-items-center mb-0">
+                                        <small class="text-muted text-uppercase mr-3 d-none d-sm-block">Sort by</small>
+                                        <a href="#" class="sort desc small text-uppercase">Product</a>
+                                        <a href="#" class="sort small text-uppercase ml-2">Earnings</a>
+                                        <a href="#" class="sort small text-uppercase ml-2">Sales</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div> {% endcomment %}
+                        {% if crs %}
+                        <div class="clearfix"></div>
+                        <div class="card-columns"> 
+                        {% for i in crs %}
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h4 class="card-title mb-0"><a href="/customer_lms/modules/{{i.product_slug}}">{{i.product_name|slice:"0:30"}}</a></h4>
+                                    <div class="rating">
+                                        <i class="material-icons">star</i>
+                                        <i class="material-icons">star</i>
+                                        <i class="material-icons">star</i>
+                                        <i class="material-icons">star</i>
+                                        <i class="material-icons">star_border</i>
+                                    </div>
+                                </div>
+                                <a href="/customer_lms/modules/{{i.product_slug}}">
+                                    <img src="{{i.product_image}}" alt="Card image cap" style="width:100%;">
+                                </a>
+                                <div class="card-body">
+                                    <small class="text-muted">{{i.product_level}}</small><br>
+                                   {{i.product_desc|striptags|slice:"0:25"}}<br>
+                                    <span class="badge badge-primary ">Propular</span>
+                                </div>
+                            </div>
+                            {%endfor%}
+                            
+                        </div>
+                        {% else %}
+                        <div class="clearfix"></div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="card m-auto">
+                                    <div class="card-body mt-2 mb-2">
+                                        <h2 class="card-title">
+                                            No results search 
+                                        </h2>
+                                        <p class="card-text">
+                                        There were no results mathing your search: "{{query}}." 
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Pagination -->
+                       <ul class="pagination justify-content-center pagination-sm mt-10">
+                            {% if crs.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{crs.previous_page_number}}" aria-label="Previous">
+                                    <span aria-hidden="false" class="material-icons">chevron_left</span>
+                                    <span>Prev</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% for num in crs.paginator.page_range %}
+                            {% if crs.number == num %}
+                                <li class="page-item active">
+                                <a class="page-link" href="?page={{num}}" aria-label="1">
+                                    <span>{{num}}</span>
+                                </a>
+                            </li>
+                             {% elif num > crs.number|add:'-2' and num < crs.number|add:'2' %}
+                             <li class="page-item">
+                                <a class="page-link" href="?page={{num}}" aria-label="1">
+                                    <span>{{num}}</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                                                       
+                            {%if crs.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ crs.next_page_number }}" aria-label="Next">
+                                    <span>Next</span>
+                                    <span aria-hidden="false" class="material-icons">chevron_right</span>
+                                </a>
+                            </li>
+                            {%endif%}
+                        </ul>
+                    </div>
+
+                </div>
+<script type="text/javascript">
+    document.getElementById("id_q").value = "{{query}}"
+</script>
+
+{% endblock body %}      

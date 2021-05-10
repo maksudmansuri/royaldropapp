@@ -3,7 +3,7 @@
  {% load static %}
 
 {% block title %}
-    <title>Student - Take course</title>
+    <title>Customer - Take product</title>
 {% endblock title %}
 
 {% block body %}
@@ -17,18 +17,18 @@
                     <div class="container-fluid page__container">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="./">Home</a></li>
-                            <li class="breadcrumb-item"><a href="student_browse_courses">Courses</a></li>
+                            <li class="breadcrumb-item"><a href="customer_browse_products">Products</a></li>
                             <li class="breadcrumb-item active">The MVC architectural pattern</li>
                         </ol>
-                        <h1 class="h2">{{crs1.course_name}}</h1>
+                        <h1 class="h2">{{crs1.product_name}}</h1>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" src="{{crs1.course_video}}" allowfullscreen=""></iframe>
+                                        <iframe class="embed-responsive-item" src="{{crs1.product_video}}" allowfullscreen=""></iframe>
                                     </div>
                                     <div class="card-body">
-                                            {{crs1.course_desc}}
+                                            {{crs1.product_desc}}
                                     </div>
                                 </div>
 
@@ -117,7 +117,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <a href=/media/{{crs1.course_in_pdf}} class="btn btn-primary btn-block flex-column">
+                                        <a href=/media/{{crs1.product_in_pdf}} class="btn btn-primary btn-block flex-column">
                                             <i class="material-icons">get_app</i> Download Files
                                         </a>
                                     </div>
@@ -126,7 +126,7 @@
                                     <div class="card-header">
                                         <div class="media align-items-center">
                                             <div class="media-left">
-                                                <img src="{% static 'student_lms/assets/images/people/110/guy-6.jpg' %} " alt="About Adrian" width="50" class="rounded-circle">
+                                                <img src="{% static 'customer_lms/assets/images/people/110/guy-6.jpg' %} " alt="About Adrian" width="50" class="rounded-circle">
                                             </div>
                                             <div class="media-body">
                                                 <h4 class="card-title"><a href="/instrutor/instructor_profile">Adrian Demian</a></h4>
@@ -151,7 +151,7 @@
                                                 </div>
                                                 <div class="media-body">
                                                     2 <small class="text-muted">hrs</small> &nbsp; 26 <small class="text-muted">min</small>&nbsp;&nbsp;
-                                                    Total:{{ crs1.course_duration }}<small class="text-muted">hrs</small>
+                                                    Total:{{ crs1.product_duration }}<small class="text-muted">hrs</small>
                                                 </div>
                                             </div>
                                         </li>
@@ -160,7 +160,7 @@
                                                 <div class="media-left">
                                                     <i class="material-icons text-muted-light">assessment</i>
                                                 </div>
-                                                <div class="media-body">{{crs1.course_level}}</div>
+                                                <div class="media-body">{{crs1.product_level}}</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -178,11 +178,11 @@
                                             <i class="material-icons">star</i>
                                             <i class="material-icons">star_border</i>
                                         </div>
-                                        <small class="text-muted">{{crs1.course_ratting}}</small>
+                                        <small class="text-muted">{{crs1.product_ratting}}</small>
                                     </div>
                                 </div>
 
-                                <a href="../student_help_center" class="btn btn-default btn-block">
+                                <a href="../customer_help_center" class="btn btn-default btn-block">
                                     <i class="material-icons btn__icon--left">help</i> Get Help
                                 </a>
                             </div>

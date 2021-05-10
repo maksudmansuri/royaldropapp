@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
   {% block title %}
-    <title>Online courses and Learning</title>
+    <title>Online products and Learning</title>
   {% endblock title %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -47,7 +47,7 @@
 			<div class="container">
 				<div class="row">				
 					<div class="col-md-12">
-					  <p>Unlimited online course & video tutorials downloads!<strong>Get 30% off</strong></p>
+					  <p>Unlimited online product & video tutorials downloads!<strong>Get 30% off</strong></p>
 					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					    <span aria-hidden="true">&times;</span>
 					  </button>
@@ -78,16 +78,16 @@
 
 							  <li class="nav-item dropdown">
 									<a class="nav-link" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										Courses
+										Products
 									</a>
 									<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
                                         
 										
-                                        <li><a class="dropdown-item dropdown-toggle" href="course_list">Course</a>
+                                        <li><a class="dropdown-item dropdown-toggle" href="product_list">Product</a>
 											<ul class="dropdown-menu">
-												<li><a class="dropdown-item" href="course_list">All Course</a></li>
-												<li><a class="dropdown-item" href="course_details_1">Course Single One</a></li>
-												<li><a class="dropdown-item" href="course_details_2">Course Single Two</a></li>
+												<li><a class="dropdown-item" href="product_list">All Product</a></li>
+												<li><a class="dropdown-item" href="product_details_1">Product Single One</a></li>
+												<li><a class="dropdown-item" href="product_details_2">Product Single Two</a></li>
 											</ul>
 										</li> 
 
@@ -146,7 +146,7 @@
 									</a>
 									<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
 										<li class="nav-item">
-											<a class="nav-link" href="/student_lms">Dashboard</a>
+											<a class="nav-link" href="/customer_lms">Dashboard</a>
 							  			</li>
 										<li class="nav-item">
 											<a class="nav-link" href="/logout">Logout</a>
@@ -182,7 +182,7 @@
 				<div class="col-md-12">
 					<div class="cta-content">
 						<h3>Ready to Begin?</h3>
-						<p>Find subjects you're passionate about by browsing our online course categories. Start <br> learning with top courses Built With Industry Experts.</p>
+						<p>Find subjects you're passionate about by browsing our online product categories. Start <br> learning with top products Built With Industry Experts.</p>
 						<a href="#" class="btn-small">Start Teaching</a>
 						<a href="#" class="btn-small">Start Learning</a>
 					</div>
@@ -226,7 +226,7 @@
 												<h3>Company</h3>	
 												<ul>
 													<li><a href={% url 'about_us' %}>  About Company </a></li>
-													<li><a href={% url 'course_list' %}>  Feature Course </a></li>
+													<li><a href={% url 'product_list' %}>  Feature Product </a></li>
 													<li><a href={% url 'career' %}>  Careers </a></li>
 													<li><a href={% url 'contact_us' %}>  Contact Us </a></li>							
 												</ul>
@@ -236,8 +236,8 @@
 											<div class="single-link">
 												<h3>Help Links</h3>
 												<ul>
-													<li><a href="#">  Student Support </a></li>
-													<li><a href="#">  Course Policy </a></li>
+													<li><a href="#">  Customer Support </a></li>
+													<li><a href="#">  Product Policy </a></li>
 													<li><a href="#">  Register Activation Key </a></li>
 													<li><a href="#">  System Requirements </a></li>
 							
@@ -246,10 +246,10 @@
 										</div>
 										<div class="col-md-4">
 											<div class="single-link">
-												<h3>Course</h3>
+												<h3>Product</h3>
 												<ul>
 												{% for crs in allcrs %}
-													<li><a href="#"> {{crs.course_name}}</a></li>
+													<li><a href="#"> {{crs.product_name}}</a></li>
 												{% endfor %}									
 												</ul>
 											</div>	

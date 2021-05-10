@@ -10,11 +10,11 @@ from django.contrib.auth import get_user_model
 #     list_display=('email','username','user_type')
 #     search_fields = ('email','username')
   
-# class CourseAdmin(admin.ModelAdmin):
+# class ProductAdmin(admin.ModelAdmin):
     #  fieldsets = [
-#         ("Course basic Details",{"fields": ["course_code","course_name","course_category","course_subcategory","course_fee","course_duration"]}),
-#         ("Course Details",{"fields": ["course_image","course_video","course_level","course_slug","course_ratting","course_pub_date"]}),
-#         ("Course Desc",{"fields": ["course_requirement","course_desc","course_why_take","course_syllabus","course_in_pdf"]})
+#         ("Product basic Details",{"fields": ["product_code","product_name","product_category","product_subcategory","product_fee","product_duration"]}),
+#         ("Product Details",{"fields": ["product_image","product_video","product_level","product_slug","product_ratting","product_pub_date"]}),
+#         ("Product Desc",{"fields": ["product_requirement","product_desc","product_why_take","product_syllabus","product_in_pdf"]})
 
 # class CustomUserAdmin(UserAdmin):
 #     CustomUser=get_user_model()
@@ -27,9 +27,9 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
     # list_filter = ()
     fieldsets = [
-        ("Course basic Details",{"fields": ["course_code","course_name","course_category","course_subcategory","course_fee","course_duration"]}),
-        ("Course Details",{"fields": ["course_image","course_video","course_level","course_slug","course_ratting","course_pub_date"]}),
-        ("Course Desc",{"fields": ["course_requirement","course_desc","course_why_take","course_syllabus","course_in_pdf"]})
+        ("Product basic Details",{"fields": ["product_code","product_name","product_category","product_subcategory","product_fee","product_duration"]}),
+        ("Product Details",{"fields": ["product_image","product_video","product_level","product_slug","product_ratting","product_pub_date"]}),
+        ("Product Desc",{"fields": ["product_requirement","product_desc","product_why_take","product_syllabus","product_in_pdf"]})
 
     ]
 

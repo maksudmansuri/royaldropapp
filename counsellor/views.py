@@ -3,11 +3,11 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
 from front.models import Product
-# from .models import Orders,StudentDetail
+# from .models import Orders,CustomerDetail
 import logging
 from accounts.EmailBackEnd import EmailBackEnd
 from django.contrib import messages
-from accounts.models import Staffs,Customers as Students,CustomUser
+from accounts.models import Staffs,Customers as Customers,CustomUser
 from django.core.paginator import Page,PageNotAnInteger,Paginator
 from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory
 from django.db.models import Q
@@ -73,35 +73,35 @@ def staff_deactivate(request,id):
     stf=paginator.get_page(page)
     return render(request,'counsellor/manage_staff.html',{'stf':stf})
 
-def manage_student(request):
-    std=Students.objects.filter((Q(is_appiled=True) | Q(is_verified=True))  & Q(admin__is_active=True) & Q(admin__user_type=3))
+def manage_customer(request):
+    std=Customers.objects.filter((Q(is_appiled=True) | Q(is_verified=True))  & Q(admin__is_active=True) & Q(admin__user_type=3))
     paginator=Paginator(std,3)
     page=request.GET.get('page')
     std=paginator.get_page(page)
-    return render(request,'counsellor/manage_student.html',{'std':std})
+    return render(request,'counsellor/manage_customer.html',{'std':std})
 
-def student_activate(request,id):
-    astd=Students.objects.get(admin_id=id)
+def customer_activate(request,id):
+    astd=Customers.objects.get(admin_id=id)
     if astd is not None and astd.is_verified == False:
         astd.is_verified=True
         astd.save()
-    std=Students.objects.filter((Q(is_appiled=True) | Q(is_verified=True)) & Q(admin__is_active=True) &  Q(admin__user_type=3))
+    std=Customers.objects.filter((Q(is_appiled=True) | Q(is_verified=True)) & Q(admin__is_active=True) &  Q(admin__user_type=3))
     paginator=Paginator(std,3)
     page=request.GET.get('page')
     std=paginator.get_page(page)
-    return render(request,'counsellor/manage_student.html',{'std':std})
+    return render(request,'counsellor/manage_customer.html',{'std':std})
 
-def student_deactivate(request,id):
-    astd=Students.objects.get(admin_id=id)
+def customer_deactivate(request,id):
+    astd=Customers.objects.get(admin_id=id)
     if astd is not None and astd.is_verified == True:
         astd.is_verified=False
         astd.is_appiled=True
         astd.save()
-    std=Students.objects.filter((Q(is_appiled=True) | Q(is_verified=True))  & Q(admin__is_active=True) & Q(admin__user_type=3))
+    std=Customers.objects.filter((Q(is_appiled=True) | Q(is_verified=True))  & Q(admin__is_active=True) & Q(admin__user_type=3))
     paginator=Paginator(std,3)
     page=request.GET.get('page')
     std=paginator.get_page(page)
-    return render(request,'counsellor/manage_student.html',{'std':std})
+    return render(request,'counsellor/manage_customer.html',{'std':std})
 
 def product_category(request):
     if request.method == "POST":
@@ -260,7 +260,7 @@ def check_product_session_deactivate(request,slug,sslug,ssslug):
 def check_product_details(request,slug):
     param=[]
     crssn=[]
-    # std=Students.objects.get(admin=request.user.id)
+    # std=Customers.objects.get(admin=request.user.id)
     crs=Product.objects.get(product_slug=slug)
     print(crs)
     mdl=Product_Modules.objects.filter(product=crs)
@@ -275,7 +275,7 @@ def check_product_details(request,slug):
     return render(request,'counsellor/check_product_details.html',param)
 
 def check_product_session(request,slug,sslug,ssslug):
-    # std=Students.objects.get(admin=request.user.id)
+    # std=Customers.objects.get(admin=request.user.id)
     crs=Product.objects.get(product_slug=slug)
     allml=Product_Modules.objects.filter(product=crs)
     ml=Product_Modules.objects.get(slug=sslug,product=crs)
@@ -294,7 +294,7 @@ def check_product_session(request,slug,sslug,ssslug):
 def add_staff(request):
     # if request.user.is_anonymous:
     #    return redirect("/accounts/dologin")
-    #std_d=StudentDetail.objects.filter(username=request.user)
+    #std_d=CustomerDetail.objects.filter(username=request.user)
     # print(std_d)
     if request.method == "POST":
         username=request.POST['username']
@@ -302,7 +302,7 @@ def add_staff(request):
         password=request.POST['password']
         fisrt_name=request.POST['fisrt_name']
         last_name=request.POST['last_name']
-        account1=StudentDetail(username=username,student_email=student_email,password=password,fisrt_name=fisrt_name,last_name=last_name,student_qualification=student_qualification,student_dob=student_dob,student_phone=student_phone,student_photo=student_photo,student_address=student_address,student_city=student_city,student_state=student_state,student_country=student_country)
+        account1=CustomerDetail(username=username,customer_email=customer_email,password=password,fisrt_name=fisrt_name,last_name=last_name,customer_qualification=customer_qualification,customer_dob=customer_dob,customer_phone=customer_phone,customer_photo=customer_photo,customer_address=customer_address,customer_city=customer_city,customer_state=customer_state,customer_country=customer_country)
         account1.save()
 
 def user_count(user_data):

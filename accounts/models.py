@@ -10,16 +10,16 @@ from django.db.models import Q
 # Create your models here.
 
 # class CustomUser(AbstractUser): 
-#     user_type_data=((1,"HOD"),(2,"Staff"),(3,"Student"))
+#     user_type_data=((1,"HOD"),(2,"Staff"),(3,"Customer"))
 #     user_type=models.CharField(choices=user_type_data,max_length=10)
 
 class MyAccountManager(BaseUserManager):
-
+    # create _create_user for mobiel number for facebbook and for google and for userid password so it can be solve your all problem regarding social login/auth
     use_in_migrations = True
     def create_user(self, email, username, password=None):
         if not email:
             pass
-            # raise ValueError("User must have an Email Address")
+            raise ValueError("User must have an Email Address")
         if not username:
             raise ValueError("User must have an username ")
 
@@ -41,7 +41,7 @@ class MyAccountManager(BaseUserManager):
                
                 
             )
-        user.user_type="0",
+        user.user_type=1,
         # phone = "7801925101"
         user.is_active = True
         # user.is_admin = True
@@ -62,7 +62,7 @@ class CustomUser(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
-    user_type_data=((1,"HOD"),(2,"Staff"),(3,"Student"))
+    user_type_data=((1,"Admin"),(2,"Staff"),(3,"Customer"),(4 ,"Merchant"))
     user_type=models.CharField(choices=user_type_data,max_length=10)
     phone_regex     = RegexValidator( regex = r'^\+?1?\d{9,10}$', message ="Phone number must be entered in the format +919999999999. Up to 10 digits allowed.")
     phone           = models.CharField('Phone',validators =[phone_regex], max_length=10, unique = True,null=True)
@@ -105,6 +105,7 @@ class PhoneOTP(models.Model):
 class AdminHOD(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    profile_pic = models.FileField(default = "")
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
@@ -119,18 +120,18 @@ class Staffs(models.Model):
     city=models.CharField(max_length=50,blank=True,null=True)
     state=models.CharField(max_length=50,blank=True,null=True)
     country=models.CharField(max_length=50,blank=True,null=True)
-    mobile=models.CharField(max_length=50,blank=True,null=True)
-    qualification=models.CharField(max_length=50,blank=True,null=True)
-    specialist=models.CharField(max_length=50,blank=True,null=True)
-    instructor_photo=models.FileField(upload_to="instructor/profile",null=True)
-    about=RichTextUploadingField(blank=True,null=True)
-    is_appiled=models.BooleanField(blank=True,null=True,default=False)
+    # mobile=models.CharField(max_length=50,blank=True,null=True)
+    # qualification=models.CharField(max_length=50,blank=True,null=True)
+    # specialist=models.CharField(max_length=50,blank=True,null=True)
+    profile_pic=models.FileField(upload_to="instructor/profile",null=True,default="")
+    # about=RichTextUploadingField(blank=True,null=True)
+    # is_appiled=models.BooleanField(blank=True,null=True,default=False)
     is_verified=models.BooleanField(blank=True,null=True,default=False)
-    resume=models.FileField(upload_to="instructor/resume", max_length=250,blank=True,null=True)
-    experience=models.CharField(max_length=50,blank=True,null=True)
-    working_with=models.CharField(max_length=50,blank=True,null=True)
-    website=models.URLField(max_length=200,blank=True,null=True)
-    linkdin=models.URLField(max_length=200,blank=True,null=True)
+    # resume=models.FileField(upload_to="instructor/resume", max_length=250,blank=True,null=True)
+    # experience=models.CharField(max_length=50,blank=True,null=True)
+    # working_with=models.CharField(max_length=50,blank=True,null=True)
+    # website=models.URLField(max_length=200,blank=True,null=True)
+    # linkdin=models.URLField(max_length=200,blank=True,null=True)
     gender=models.CharField(max_length=200,blank=True,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
@@ -152,7 +153,7 @@ class Customers(models.Model):
     # qualification =models.CharField(max_length=250,blank=True,null=True)
     dob=models.DateField(blank=True,null=True)
     # phone=models.CharField(max_length=250,blank=True,null=True)
-    photo=models.FileField(upload_to="student_lms/profile/images",blank=True,null=True)
+    profile_pic=models.FileField(upload_to="customer_lms/profile/images",blank=True,null=True)
     gender=models.CharField(max_length=255,null=True)
     # is_appiled=models.BooleanField(blank=True,null=True,default=False)
     # is_verified=models.BooleanField(blank=True,null=True,default=False)
@@ -160,6 +161,25 @@ class Customers(models.Model):
     # session_end=models.DateField(null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+
+class Merchants(models.Model):
+    id=models.AutoField(primary_key=True)
+    admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    fisrt_name=models.CharField(max_length=250,blank=True,null=True)
+    last_name=models.CharField(max_length=250,blank=True,null=True)
+    company_registaer_year = models.DateField(blank=True,null=True)
+    company_name = models.CharField(max_length=255)
+    gts_number =  models.CharField(max_length=255)
+    address=models.TextField(max_length=500,blank=True,null=True)
+    city=models.CharField(max_length=250,blank=True,null=True)
+    state=models.CharField(max_length=250,blank=True,null=True)
+    country=models.CharField(max_length=250,blank=True,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    is_verified=models.BooleanField(blank=True,null=True,default=False)
+    website=models.URLField(max_length=200,blank=True,null=True)
+
     objects = models.Manager()
 
 @receiver(post_save,sender=settings.AUTH_USER_MODEL)
@@ -176,7 +196,11 @@ def create_user_profile(sender,instance,created,**kwargs):
             Staffs.objects.create(admin=instance)
         if instance.user_type==3:
             Customers.objects.create(admin=instance)
-            # Students.objects.create(admin=instance,course_id=Courses.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
+        if instance.user_type==4:
+            Merchants.objects.create(admin=instance)
+
+
+            # Customers.objects.create(admin=instance,product_id=Products.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
 
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender,instance,**kwargs):
@@ -186,3 +210,5 @@ def save_user_profile(sender,instance,**kwargs):
         instance.staffs.save()
     if instance.user_type==3:
         instance.customers.save()
+    if instance.user_type==4:
+        instance.merchants.save()

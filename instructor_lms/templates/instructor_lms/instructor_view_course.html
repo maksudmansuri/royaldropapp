@@ -3,7 +3,7 @@
  {% load static %}
 
 {% block title %}
-    <title>{{request.user}} - Take course</title>
+    <title>{{request.user}} - Take product</title>
 {% endblock title %}
 
 {% block body %}
@@ -17,10 +17,10 @@
                     <div class="container-fluid ">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/counsellor">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/counsellor/manage_course">Courses</a></li>
-                            <li class="breadcrumb-item active"><a href="/counsellor/ckeck_course_details/{{crs1.course_slug}}">{{crs1.course_name}}</a></li>
+                            <li class="breadcrumb-item"><a href="/counsellor/manage_product">Products</a></li>
+                            <li class="breadcrumb-item active"><a href="/counsellor/ckeck_product_details/{{crs1.product_slug}}">{{crs1.product_name}}</a></li>
                         </ol>
-                        <h1 class="h2">{{crs1.course_name}}</h1>
+                        <h1 class="h2">{{crs1.product_name}}</h1>
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="card">
@@ -28,13 +28,13 @@
                                     
                                     <video controls loop width="620" autoPictureInPicture>
                                         {% comment %} <source src="/media/examples/flower.webm" type="video/webm"> {% endcomment %}
-                                        <source src="{{crs1.course_video}}" type="video/mp4">
+                                        <source src="{{crs1.product_video}}" type="video/mp4">
                                             Sorry, your browser doesn't support embedded videos.
                                     </video>
                                         {% comment %} <iframe width="853" height="480" src="{{crssn2.video_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> {% endcomment %}
                                     </div>
                                     <div class="card-body">
-                                            {{crs1.course_desc|slice:"0:125 "}}
+                                            {{crs1.product_desc|slice:"0:125 "}}
                                     </div>
                                 </div>
                                 
@@ -42,7 +42,7 @@
                                 <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <a href="/media/{{crssn2.course_in_pdf}}" class="btn btn-primary btn-block flex-column">
+                                        <a href="/media/{{crssn2.product_in_pdf}}" class="btn btn-primary btn-block flex-column">
                                             <i class="material-icons">get_app</i> Download Files
                                         </a>
                                     </div>
@@ -79,7 +79,7 @@
                                                 </div>
                                                 <div class="media-body">
                                                     2 <small class="text-muted">hrs</small> &nbsp; 26 <small class="text-muted">min</small>&nbsp;&nbsp;
-                                                    Total:{{ crs1.course_duration }}<small class="text-muted"></small>
+                                                    Total:{{ crs1.product_duration }}<small class="text-muted"></small>
                                                 </div>
                                             </div>
                                         </li>
@@ -88,7 +88,7 @@
                                                 <div class="media-left">
                                                     <i class="material-icons text-muted-light">assessment</i>
                                                 </div>
-                                                <div class="media-body">{{crs1.course_level}}</div>
+                                                <div class="media-body">{{crs1.product_level}}</div>
                                             </div>
                                         </li>
                                     </ul>
@@ -107,7 +107,7 @@
                                             <i class="material-icons">star</i>
                                             <i class="material-icons">star_border</i>
                                         </div>
-                                        <small class="text-muted">{{crs1.course_ratting}}</small>
+                                        <small class="text-muted">{{crs1.product_ratting}}</small>
                                     </div>
                                 </div>
                                 </div>
@@ -126,10 +126,10 @@
                                             </div>
                                             <div class="media-body">
                                             {% if i.id == crssn2.id %}
-                                                <a class="text-white" href="/student_lms/student_take_course_session/{{crs1.course_slug}}/{{i.course_slug}}">{{i.session_name}}</a>
+                                                <a class="text-white" href="/customer_lms/customer_take_product_session/{{crs1.product_slug}}/{{i.product_slug}}">{{i.session_name}}</a>
                                             {% endif %}
                                             {% if i.id != crssn2.id %}
-                                                <a href="/student_lms/student_take_course_session/{{crs1.course_slug}}/{{i.course_slug}}">{{i.session_name}}</a>
+                                                <a href="/customer_lms/customer_take_product_session/{{crs1.product_slug}}/{{i.product_slug}}">{{i.session_name}}</a>
                                             {% endif %}
                                             </div>
                                             <div class="media-right">
@@ -159,7 +159,7 @@
                                         <div id="collapseThree{{ml.id}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample{{forloop.parentloop.counter}}">
                                         
                                                 <div class="card-body">
-                                                    <a class="text-dark" href="/instructor_lms/check_course_session/{{crs1.course_slug}}/{{ml.slug}}/{{i.course_slug}}">{{i.session_name}}</a>
+                                                    <a class="text-dark" href="/instructor_lms/check_product_session/{{crs1.product_slug}}/{{ml.slug}}/{{i.product_slug}}">{{i.session_name}}</a>
                                                  </div>
                                         </div>
                                     {% endfor %}
@@ -167,7 +167,7 @@
                                 </div>
                                 {% endfor %} 
                             
-                                <a href="/counsellor/student_help_center" class="btn btn-default btn-block">
+                                <a href="/counsellor/customer_help_center" class="btn btn-default btn-block">
                                     <i class="material-icons btn__icon--left">help</i> Get Help
                                 </a>
                             </div>

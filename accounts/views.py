@@ -44,7 +44,7 @@ def dologin(request):
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
-                        return redirect("/student_lms")
+                        return redirect("/customer_lms")
                 else:
                     return redirect("/admin")
             else:
@@ -109,29 +109,29 @@ def instructor_singup(request):
             return HttpResponseRedirect(reverse("instructor_singup"))
     return render(request,"accounts/instructor_singup.html")
 
-def student_singup(request): 
+def customer_singup(request): 
     if request.method=="POST":
         username=request.POST.get('username')
         r=CustomUser.objects.filter(username=username)
         if r.count():
             msg=messages.error(request,"Username  Already Exits")
-            return HttpResponseRedirect(reverse("student_singup"))
+            return HttpResponseRedirect(reverse("customer_singup"))
 
         email = request.POST.get('email')
         e=CustomUser.objects.filter(email=email)
         if e.count():
             if e.user_type==3:
                 msg=messages.error(request,"Email Already Exits")
-                return HttpResponseRedirect(reverse("student_singup"))
+                return HttpResponseRedirect(reverse("customer_singup"))
             else:
                 msg=messages.error(request,"Register With different Role")
-                return HttpResponseRedirect(reverse("student_singup"))
+                return HttpResponseRedirect(reverse("customer_singup"))
 
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         if password1 and password2 and password1 != password2:
             msg=messages.error(request,"Password Does Match")
-            return HttpResponseRedirect(reverse("student_singup"))
+            return HttpResponseRedirect(reverse("customer_singup"))
         try:
             user=CustomUser.objects.create_user(username=username,password=password1,email=email,user_type=3)
             user.is_active=True
@@ -158,8 +158,8 @@ def student_singup(request):
             return HttpResponseRedirect(reverse("dologin"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
-            return HttpResponseRedirect(reverse("student_singup"))
-    return render(request,"accounts/student_singup.html")
+            return HttpResponseRedirect(reverse("customer_singup"))
+    return render(request,"accounts/customer_singup.html")
 
 def counsellor_singup(request):
     if request.method=="POST":

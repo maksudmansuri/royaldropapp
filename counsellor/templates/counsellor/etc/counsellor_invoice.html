@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Student - Invoice</title>
+    <title>Customer - Invoice</title>
 {% endblock title %}
 
 {% block body %}
@@ -30,7 +30,7 @@
                                             <div class="media-right d-flex align-items-center">
                                                 <a href="javascript:window.print()" class="btn btn-flush text-muted d-print-none mr-3"><i class="material-icons font-size-24pt">print</i></a>
 
-                                                <a href="student_account_billing_payment_information" class="btn btn-success d-print-none">Pay</a>
+                                                <a href="customer_account_billing_payment_information" class="btn btn-success d-print-none">Pay</a>
 
                                             </div>
                                         </div>
@@ -69,11 +69,11 @@
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <a href="student_view_course" class="avatar avatar-4by3 avatar-sm mr-3">
-                                                            <img src="{% static 'student_lms/assets/images/gulp.png' %} " alt="Learn Angular Fundamentals" class="avatar-img rounded">
+                                                        <a href="customer_view_product" class="avatar avatar-4by3 avatar-sm mr-3">
+                                                            <img src="{% static 'customer_lms/assets/images/gulp.png' %} " alt="Learn Angular Fundamentals" class="avatar-img rounded">
                                                         </a>
                                                         <div class="flex">
-                                                            <a href="student_view_course" class="text-body">
+                                                            <a href="customer_view_product" class="text-body">
                                                                 <strong>Learn Angular Fundamentals</strong>
                                                             </a>
                                                         </div>
@@ -113,7 +113,7 @@
                                     <p class="text-black-70 mb-8pt"><strong>Invoice paid</strong></p>
                                     <div class="d-flex">
                                         <div class="mr-3">
-                                            <img src="{% static 'student_lms/assets/images/visa.svg' %} " alt="visa" width="38" />
+                                            <img src="{% static 'customer_lms/assets/images/visa.svg' %} " alt="visa" width="38" />
                                         </div>
                                         <div class="flex text-black-50">
                                             You don’t need to take further action. Your credit card Visa ending in 2819 has been charged on January 12, 2019.
@@ -126,19 +126,19 @@
                                     <div class="page-section pt-lg-32pt">
                                         <ul class="nav page-nav__menu">
                                             <li class="nav-item">
-                                                <a href="student_account_billing_subscription" class="nav-link">Subscription</a>
+                                                <a href="customer_account_billing_subscription" class="nav-link">Subscription</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="student_account_billing_upgrade" class="nav-link">Upgrade Account</a>
+                                                <a href="customer_account_billing_upgrade" class="nav-link">Upgrade Account</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="student_account_billing_payment_information" class="nav-link">Payment Information</a>
+                                                <a href="customer_account_billing_payment_information" class="nav-link">Payment Information</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="student_billing" class="nav-link">Payment History</a>
+                                                <a href="customer_billing" class="nav-link">Payment History</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="student_invoice" class="nav-link active">Invoice</a>
+                                                <a href="customer_invoice" class="nav-link active">Invoice</a>
                                             </li>
                                         </ul>
                                     </div>

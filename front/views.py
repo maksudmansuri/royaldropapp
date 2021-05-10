@@ -7,7 +7,7 @@ from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q
 from django.core.paginator import Page,PageNotAnInteger,Paginator
-from accounts.models import Staffs, Customers as Students
+from accounts.models import Staffs, Customers as Customers
 # Create your vie ws here.v
  
 def index(request):
@@ -16,18 +16,21 @@ def index(request):
     allcrs=Product.objects.all()
     allcrscnt=Product.objects.all().count()
     allstfcnt=Staffs.objects.all().count()
-    allstdcnt=Students.objects.all().count()
-    catProduct=Product.objects.values('Product_category','id')
-    cats={item['Product_category'] for item in catProduct}
+    allstdcnt=Customers.objects.all().count()
+    catProduct=Product.objects.values('product_category','id')
+    print(catProduct)
+    cats={item['product_category'] for item in catProduct}
     for cat in cats:
         allcat=ProductCategory.objects.get(id=cat)
-        crs=Product.objects.filter(Product_category=cat,is_verified=True)
+        crs=Product.objects.filter(product_category=cat,is_verified=True)
         n=len(crs)
         # nSlides=n/4+ceil((n/4)-(n//4))    
         allProduct.append([crs,range(1,n)])
         allcats.append(allcat)
-        for i in crs:
+        for i in crs:  
             print(i.Product_category)
+
+    print(allcats)
     params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
     return render(request,'index.html',params)
     

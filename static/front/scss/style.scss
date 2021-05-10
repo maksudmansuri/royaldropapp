@@ -1538,12 +1538,12 @@ ul.main-menu-nav li.dropdown a i{
     }
 }
 --------------------------------------------------------------
-## Category Course 1x
+## Category Product 1x
 --------------------------------------------------------------
 
             image hover style
 
-.course-category-1x{
+.product-category-1x{
     padding 108px 0;
     background $color-section-bg;
     & .hvrbox .hvrbox-layer_top {
@@ -1922,7 +1922,7 @@ ul.main-menu-nav li.dropdown a i{
 }
 
 --------------------------------------------------------------
-## Course section
+## Product section
 --------------------------------------------------------------
 .tile { 
     display none;
@@ -1932,11 +1932,11 @@ ul.main-menu-nav li.dropdown a i{
     width 100%;
 }
 --------------------------------------------------------------
-## Course section
+## Product section
 --------------------------------------------------------------
-.course-1x{
+.product-1x{
     padding 100px 0 108px 0;
-    & .course-menu{
+    & .product-menu{
         text-align center;
         margin 40px 0 40px 0;
         & button.filter{
@@ -1962,7 +1962,7 @@ ul.main-menu-nav li.dropdown a i{
         margin-top 30px;
     }
 }
-.single-course{
+.single-product{
     background transparent;    
     margin-bottom 30px;
     & .hvrbox{
@@ -2000,7 +2000,7 @@ ul.main-menu-nav li.dropdown a i{
         max-height 150px;
         object-fit cover;
     }
-    & .single-course-content{
+    & .single-product-content{
         background $color-white;
         padding 20px;
         box-shadow 0 3px 35px 0 rgba(46, 61, 73, 0.06);
@@ -2044,7 +2044,7 @@ ul.main-menu-nav li.dropdown a i{
         }
     }
 }
-.course-bg-1x{
+.product-bg-1x{
     background $color-section-bg;
 }
 --------------------------------------------------------------
@@ -2953,9 +2953,9 @@ ul.main-menu-nav li.dropdown a i{
 
 }
 --------------------------------------------------------------
-## Course List page
+## Product List page
 --------------------------------------------------------------
-.course-list-banner{
+.product-list-banner{
     & .overlay-text {
         position relative;
         margin-top 11%;
@@ -2977,9 +2977,9 @@ ul.main-menu-nav li.dropdown a i{
         }
     }
 }
-.course-header-1x{
+.product-header-1x{
     padding 108px 0;
-    & .course-header-right{
+    & .product-header-right{
         & .search-box{
             & p{
                 color $color-black;
@@ -3002,7 +3002,7 @@ ul.main-menu-nav li.dropdown a i{
                 outline none;
             }         
         }
-        & .course-tab{
+        & .product-tab{
             text-align right;
             & p{
                 display inline-block;
@@ -3027,9 +3027,9 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .course-grid-list{
+    & .product-grid-list{
         margin 50px 0 0 0;
-        & .all-course-list{
+        & .all-product-list{
             & .media{
                 border-radius 3px;
                 box-shadow 0px 0px 75px 0 rgba(46, 61, 73, 0.07);
@@ -3134,18 +3134,18 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .all-course-grid{
+    & .all-product-grid{
         padding 0;
         background $color-white;
     }
-    & .course-header-left-top{
+    & .product-header-left-top{
         padding 10px 30px;
         & img{
             max-width 13px;
             margin-right 18px;
         }
     }
-    & .course-header-left{        
+    & .product-header-left{        
         margin 47px 0 0 0 ;
         & h3{
             font-size 16px;
@@ -3291,7 +3291,7 @@ ul.main-menu-nav li.dropdown a i{
         }
     }
 }
-.course-pagination{
+.product-pagination{
     text-align center;
     margin-top 50px;
     & ul{
@@ -3627,9 +3627,9 @@ ul.main-menu-nav li.dropdown a i{
 }
 
 
-           Single Course Page Two
+           Single Product Page Two
 
-.single-course-banner{
+.single-product-banner{
     & .hvrbox{
         border-radius 3px;
     }
@@ -3651,7 +3651,7 @@ ul.main-menu-nav li.dropdown a i{
          }
     }
 }
-.course-info-1x{
+.product-info-1x{
     padding 40px 0 32px 0;
     & h4{
         font-size 14px;
@@ -3659,7 +3659,7 @@ ul.main-menu-nav li.dropdown a i{
         color $color-black;
         margin-bottom 10px;
     }
-    & .course-info-left{
+    & .product-info-left{
         & img{
             width 120px;
             height 125px;
@@ -3678,7 +3678,7 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .course-info-middle{
+    & .product-info-middle{
         border-right 1px solid #f1f1f1;
         border-left 1px solid #f1f1f1;
         padding-left 30px;
@@ -3691,7 +3691,7 @@ ul.main-menu-nav li.dropdown a i{
         }
         & h4{margin-top 10px;}
     }
-    & .course-info-right{
+    & .product-info-right{
         & h3{
             display inline-block;
             font-size 30px;
@@ -3711,26 +3711,26 @@ ul.main-menu-nav li.dropdown a i{
         }
     }
 }
-.course-info-2x{
+.product-info-2x{
     background $color-section-bg;   
     padding 0 30px 0 0;
-    & .course-info-right,    
+    & .product-info-right,    
     & .media-body{
         padding 35px 0;    
     }
-    & .course-info-middle{
+    & .product-info-middle{
         padding 31px 0;
         border-left 0;
     }
-    & .course-info-left .media-body{
+    & .product-info-left .media-body{
         border-right 1px solid #f1f1f1;
     }
 }
-.course-feature-1x{
+.product-feature-1x{
     background linear-gradient(rgba($color-white, 0.01), rgba($color-white, 0.01)), url(imagesgo-ahed-bg.png);
     background-repeat repeat;
     padding 100px 0 0 0;
-    & .course-feature-left{
+    & .product-feature-left{
         background linear-gradient(-135deg, rgba($color-blue, 0.95), rgba(13, 175, 145, 0.95));
         background-size cover;
         background-repeat no-repeat;
@@ -3752,7 +3752,7 @@ ul.main-menu-nav li.dropdown a i{
             margin 30px 0 0 -30px;
         }        
     }
-    & .course-feature-right{
+    & .product-feature-right{
         margin-bottom 100px;    
         & ul{
             margin 0;
@@ -3778,16 +3778,16 @@ ul.main-menu-nav li.dropdown a i{
         }
     }    
 }
-.course-learn-1x{
+.product-learn-1x{
     background $color-section-bg;
     padding 100px 0 108px 0;
     & .title-left{
         margin-bottom 70px;
     }
-    & .course-learn-content{
+    & .product-learn-content{
         background $color-white;
         padding 30px;
-        & .course-learn-left{
+        & .product-learn-left{
             & .btn-small{
                 text-transform uppercase;
                 margin 0 0 30px -30px;
@@ -3831,11 +3831,11 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .course-learn-right{
+    & .product-learn-right{
         margin -30px -30px 0 0;
     }
 }
-.related-course-2x{
+.related-product-2x{
     padding 100px 0 78px 0;
     & .title-left{
         margin-bottom 70px;
@@ -3846,7 +3846,7 @@ ul.main-menu-nav li.dropdown a i{
     & .slick-list{
         margin 0 -15px;
     }
-    & .single-course{
+    & .single-product{
         padding 0 15px;
         box-shadow 0 -6px 75px 0 rgba(46, 61, 73, 0.07) !important;
     }
@@ -3873,21 +3873,21 @@ ul.main-menu-nav li.dropdown a i{
 }
 
 
-           Single Course Page One
+           Single Product Page One
 
-.course-single-body{
+.product-single-body{
     padding 108px 0 0 0;
-    & .single-course{
+    & .single-product{
         box-shadow none;
     }
 }
-.course-details-1x{
+.product-details-1x{
     background $color-white;
     padding 50px;
     box-shadow 0 10px 75px 0 rgba(46, 61, 73, 0.07);
-    & .course-details-sidebar{
+    & .product-details-sidebar{
         border 1px solid $color-border;
-        & .course-feature{
+        & .product-feature{
             & h2{  
                 background $color-section-bg;          
                 font-size 16px;
@@ -3948,8 +3948,8 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .course-details-left{
-        & .course-video{
+    & .product-details-left{
+        & .product-video{
             background linear-gradient(rgba($color-dark-black, 0.6), rgba($color-dark-black, 0.6)), url(imagesevent-5.png);
             background-size cover;
             background-repeat no-repeat;
@@ -3964,7 +3964,7 @@ ul.main-menu-nav li.dropdown a i{
             margin-top 20px;
         }
     }
-    & .course-menu-nav{
+    & .product-menu-nav{
         & ul{
             margin 50px 0 0 0;
             padding 0;            
@@ -3990,7 +3990,7 @@ ul.main-menu-nav li.dropdown a i{
             }
         }
     }
-    & .course-menu-tab{
+    & .product-menu-tab{
         margin 50px 0 0 0;
         & h4{
             font-size 24px;
@@ -4065,7 +4065,7 @@ ul.main-menu-nav li.dropdown a i{
     }
 
 }
-.course-details-1x .instructor-profile .media .media-body{
+.product-details-1x .instructor-profile .media .media-body{
     padding 0;
 }
 .review-bar .progress-bar{
