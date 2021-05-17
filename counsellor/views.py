@@ -12,6 +12,7 @@ from django.core.paginator import Page,PageNotAnInteger,Paginator
 from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory
 from django.db.models import Q
 
+
 def counsellor_login(request):
     if request.method == "POST":
         email = request.POST.get('email')

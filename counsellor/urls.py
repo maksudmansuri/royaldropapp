@@ -27,5 +27,7 @@ urlpatterns = [
 
     path('counsellor_login', views.counsellor_login,name='counsellor_login'),
     # path('counsellor_singup', views.counsellor_singup,name='counsellor_singup'),
-    path('counsellor_logout', views.counsellor_logout,name='counsellor_logout')
+    path('counsellor_logout', views.counsellor_logout,name='counsellor_logout'),
+    # path('admin_home', views.admin_home,name='admin_home')
+
 ]

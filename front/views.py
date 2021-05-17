@@ -8,8 +8,20 @@ from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q
 from django.core.paginator import Page,PageNotAnInteger,Paginator
 from accounts.models import Staffs, Customers as Customers
+from django.views.generic import ListView,CreateView,UpdateView,DetailView
 # Create your vie ws here.v
  
+
+
+# class CategoriesListViews(ListView):
+#     model = ProductCategory
+#     tem_name = "front/category_list.html"
+
+# class CategoriesCreateView(CreateView):
+#     model = ProductCategory
+#     fields = "__all__"
+#     template_name = "front/categorycreate.html"
+
 def index(request):
     allProduct=[]
     allcats=[]

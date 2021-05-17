@@ -28,16 +28,17 @@ from rest_framework import viewsets
 #     return render(request,'dologin')
 
 def dologin(request):
-    # print(request.user)
+    print(request.user)
     if request.method == "POST":
     #check user is authenticate or not
         user=EmailBackEnd.authenticate(request,username=request.POST.get("username"),password=request.POST.get("password"))
         if user is not None:
             if user.is_active == True:
+                print(user.is_active)
                 login(request,user)
                 # request.session['logged in']=True
-                if user.user_type=="1":
-                    return redirect("/counsellor")
+                if user.user_type=="4":
+                    return redirect("counsellor/")
                 elif user.user_type=="2":
                     return redirect("/instructor_lms")
                 elif user.user_type=="3":
@@ -46,12 +47,15 @@ def dologin(request):
                     else:
                         return redirect("/customer_lms")
                 else:
-                    return redirect("/admin")
+   # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
+                    return HttpResponseRedirect(reverse('admin_home'))
+
             else:
                 messages.add_message(request,messages.ERROR,"Please Verify Your Account First")
                 return redirect('/accounts/dologin')
         else:
-            messages.add_message(request,messages.ERROR,"User Not Found Register First")
+            # print(user.is_active)
+            messages.add_message(request,messages.ERROR,"User Not Found you haved to Register First")
             return redirect("dologin")
     return render(request,'accounts/dologin.html')
 
@@ -79,7 +83,8 @@ def instructor_singup(request):
             return HttpResponseRedirect(reverse("instructor_singup"))
 
         try:
-            user=CustomUser.objects.create_user(username=username,password=password1,email=email,user_type=2)
+            user=CustomUser.objects.create_user(username=username,password=password1,email=email)
+            user.user_type="2"
             user.is_active=True
             user.save()
             current_site=get_current_site(request)

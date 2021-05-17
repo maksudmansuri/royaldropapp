@@ -13,9 +13,9 @@ from django.utils.text import slugify
 
 class ProductCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    category                =           models.CharField(unique=True,max_length=250)
+    title                   =           models.CharField(unique=True,max_length=250)
     slug                    =           models.CharField(max_length=255,default="")
-    thumbnail               =           models.FileField(default = "")
+    thumbnail               =           models.FileField(null=True,blank=True)
     description             =           models.TextField(default="")
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
@@ -25,11 +25,18 @@ class ProductCategory(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return self.category
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse("category_list")
+    
+
+   
+    
 
 class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    title                   =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     subcategory             =           models.CharField(unique=True,max_length=255)
     thumbnail               =           models.FileField(default = "")
     slug                    =           models.CharField(max_length=255,default="")

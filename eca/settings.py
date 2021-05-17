@@ -10,15 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-# from pathlib import Path
+from pathlib import Path
 import os
 import django_heroku
 import dj_database_url 
 # import decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,8 +28,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-oa$c14fx9h-axyl0f%9+ij)(m35$0axixug)8&+)znm!mi689j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = True
+# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
 ALLOWED_HOSTS = ['royaldrop.herokuapp.com','127.0.0.1']
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'front.apps.FrontConfig',
     'customer_lms.apps.CustomerLmsConfig',
+    'ecaadmin',
     'instructor_lms.apps.InstructorLmsConfig',
     'counsellor.apps.CounsellorConfig',
     'crispy_forms',
@@ -72,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'accounts.LoginCheckMiddleWare.LoginCheckMiddleWare',
+    # 'accounts.LoginCheckMiddleWare.LoginCheckMiddleWare',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -82,7 +83,7 @@ ROOT_URLCONF = 'eca.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,7 +138,7 @@ CORS_ORIGIN_WHITELIST = (
 
 WSGI_APPLICATION = 'eca.wsgi.application'
 
-ASGI_APPLICATION = 'eca.routing.application'
+# ASGI_APPLICATION = 'eca.routing.application'
 
 AUTH_USER_MODEL="accounts.CustomUser"
 # AUTH_USER_MODEL = 'accounts.User'
@@ -153,10 +154,10 @@ CHANNEL_LAYERS = {
 }
 
 
-LOGIN_URL='dologin'
-LOGOUT_URL = 'dologout'
+# LOGIN_URL='dologin'
+# LOGOUT_URL = 'dologout'
 
-LOGIN_REDIRECT_URL = "/"
+# LOGIN_REDIRECT_URL = "/"
 
 # from datetime import timedelta
 # REST_KNOX = {
@@ -169,7 +170,7 @@ LOGIN_REDIRECT_URL = "/"
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-TEMP = os.path.join(BASE_DIR, "temp")
+# TEMP = os.path.join(BASE_DIR, "temp")
 
 # LOGIN_URL = 'login'
 
@@ -229,11 +230,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 
+STATIC_URL = "/static/"
+STATIC_ROOT=os.path.join(BASE_DIR,"static")
+
+# BASE_URL="http://127.0.0.1:8000"
 # Manualy Added
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
