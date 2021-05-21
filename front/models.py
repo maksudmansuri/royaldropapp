@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth import user_logged_in
 from ckeditor_uploader.fields import RichTextUploadingField
-from instructor_lms.models import Staffs
-from accounts.models import Customers as Customers,CustomUser
+# from staff_lms.models import Staffs
+from accounts.models import Customers as Customers,CustomUser, Merchants,Staffs
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models.signals import post_delete, pre_save
@@ -26,18 +26,23 @@ class ProductCategory(models.Model):
 
     def __str__(self):
         return self.title
+
+    # def get_absolute_url(self):
+    #     return redirect('instructor_lesson_add', kwargs={'slug': self.product_slug})
     
     def get_absolute_url(self):
         return reverse("category_list")
-    
 
-   
-    
+def pre_save_ProductCategory_post_receiever(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+pre_save.connect(pre_save_ProductCategory_post_receiever, sender=ProductCategory)
 
 class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    title                   =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    subcategory             =           models.CharField(unique=True,max_length=255)
+    category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    title                   =           models.CharField(unique=True,max_length=255)
     thumbnail               =           models.FileField(default = "")
     slug                    =           models.CharField(max_length=255,default="")
     description             =           models.TextField(default="")
@@ -47,25 +52,31 @@ class ProductSubCategory(models.Model):
 
 
     objects = models.Manager()
-    
-    def __str__(self):
-        return self.subcategory  
+
+    def get_absolute_url(self):
+        return reverse("subcategory_list")
+   
+def pre_save_ProductSubCategory_post_receiever(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+pre_save.connect(pre_save_ProductSubCategory_post_receiever, sender=ProductSubCategory)
+
 
 class Product(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_category        =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     product_name            =           models.CharField(unique=True,max_length=255,blank=True,null=True,default="")
     product_subcategory     =           models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE)
     product_mrp             =           models.IntegerField(blank=True,null=True)
     product_selling_price   =           models.IntegerField(blank=True,null=True)
-    added_by_merchant       =           models.ForeignKey(CustomUser ,on_delete=models.CASCADE,blank=True,null=True)
+    added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,blank=True,null=True)
     product_brand           =           models.CharField(max_length=255,blank=True,null=True,default="")
     # product_image         =           models.ImageField(upload_to="front/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
     # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
     product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
     product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
-    product_desc            =           RichTextUploadingField()
-    product_l_desc          =           RichTextUploadingField()
+    product_desc            =           models.TextField()
+    product_l_desc          =           models.TextField()
     product_slug            =           models.CharField(max_length=255,blank=True,null=True,unique=True,default="")
     # product_why_take      =           RichTextUploadingField(blank=True,null=True)
     # is_appiled            =           models.BooleanField(blank=True,null=True,default=False)
@@ -80,7 +91,14 @@ class Product(models.Model):
         return self.product_name
     
     def get_absolute_url(self):
-        return redirect('instructor_lesson_add', kwargs={'slug': self.product_slug})
+        return reverse('product_view', kwargs={'slug': self.product_slug})
+
+
+def pre_save_product_post_receiever(sender, instance, *args, **kwargs):
+    if not instance.product_slug:
+        instance.product_slug = slugify(instance.product_name)
+
+pre_save.connect(pre_save_product_post_receiever, sender=Product)
 
 class productMedia(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -93,6 +111,9 @@ class productMedia(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
+    def __str__(self):
+        return self.product.product_name
+
 class ProductTransaction(models.Model):
     id                      =           models.AutoField(primary_key=True)
     transaction_type_choises=           ((1,"BUY"),(2,"SELL"))
@@ -104,25 +125,32 @@ class ProductTransaction(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class ProductDetails(models.CharField):
+class ProductDetails(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_details         =           models.CharField(max_length=255)
+    title_details           =           models.CharField(max_length=255)
+    title                   =           models.CharField(max_length=255)
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     is_active               =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class ProductAbout(models.CharField):
+    def __str__(self):
+        return self.product.product_name
+
+class ProductAbout(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_about           =           models.CharField(max_length=255,default="")
+    title                   =           models.CharField(max_length=255,default="")
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     is_active               =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class ProductTag(models.CharField):
+    def __str__(self):
+        return self.product.product_name
+
+class ProductTag(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product_tags            =           models.CharField(max_length=255,default="")
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -131,7 +159,10 @@ class ProductTag(models.CharField):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class ProductQuestions(models.CharField):
+    def __str__(self):
+        return self.product.product_name
+
+class ProductQuestions(models.Model):
     id                      =           models.AutoField(primary_key=True)
     user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product_question        =           models.TextField(default="")
@@ -210,11 +241,6 @@ class OderDeliveryStatus(models.Model):
 def submission_delete(sender, instance, **kwargs):
 	instance.image.delete(False)
 
-def pre_save_product_post_receiever(sender, instance, *args, **kwargs):
-    if not instance.product_slug:
-        instance.product_slug = slugify(instance.teacher.admin.username + "-" + instance.product_name)
-
-pre_save.connect(pre_save_product_post_receiever, sender=Product)
 
 # class Images(models.Model):
 #     post = models.ForeignKey(Post, default=None)

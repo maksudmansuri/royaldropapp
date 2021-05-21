@@ -19,10 +19,24 @@
        
         {% for field in form %}
         <div class="form-group">
+            {% if field.field.widget.input_type != "select" %}
             <label>{{ field.label}}</label>
+            <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
+              {% endif %}
+            {% if field.field.widget.input_type == "select" %}
+            <label>{{ field.label}}</label>
+                <select  name={{field.name}} id="{{field.name}}" class="form-control" >
+                    <option >select</option>
+                {% for id,value in field.field.choices %}
+                    {% if value == field.value  %}
+                    <option value="{{id}}"selected >{{value}}</option>
+                    
+                    {% endif %}
+                    <option value="{{id}}">{{value}}</option>
+                {% endfor %}
+                </select>
             
-            <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = {{field.value}}>
-
+            {% endif %}
             {% if field.errors %}
                 <div class = "alert alert-danger" style ="margin:10px;">
                 {{field.errors }}
@@ -36,14 +50,14 @@
         <div class="card">
                   
                   <div class="card-body">
-                    <img src="/media/{{field.value}}" style = "height:150px"/>
+                    <img src="/media/{{field.value}}" style = "height:150px"/>z
                   </div>
                   
         </div>
                
             {% endif %}
         {% endfor %}
-        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE CATEGORY</button>    
+        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE SUBCATEGORY</button>    
     </div>
 </div>
 </div>

@@ -30,6 +30,13 @@
   ul.errorlist{
     margin:0px;
   }
+
+  .no-margin{
+    margin:0px;
+  }
+  .no-maxwidth{
+    max-width:100%
+  }
   </style>
 <!-- Start GA -->
 
@@ -102,9 +109,9 @@
   <script src="{% static '/admin/js/custom.js' %}"></script>
 {% block custom_js %}{% endblock custom_js %}
 <script>
-  document.getElementById("title").onkeyup=function(){
+  {% comment %} document.getElementById("title").onkeyup=function(){
     document.getElementById("slug").value= document.getElementById("title").value.toLowerCase().replace(" ","-");
-  }
+  } {% endcomment %}
 </script>
 
 </body>

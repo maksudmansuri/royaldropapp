@@ -46,11 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'front.apps.FrontConfig',
-    'customer_lms.apps.CustomerLmsConfig',
+    'front',
     'ecaadmin',
-    'instructor_lms.apps.InstructorLmsConfig',
-    'counsellor.apps.CounsellorConfig',
     'crispy_forms',
     'ckeditor',
     'ckeditor_uploader',
@@ -59,7 +56,6 @@ INSTALLED_APPS = [
     'moviepy',
     'django.contrib.humanize',
     # 'channels',
-    'chat',
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
@@ -237,7 +233,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 STATIC_URL = "/static/"
 STATIC_ROOT=os.path.join(BASE_DIR,"static")
 
-# BASE_URL="http://127.0.0.1:8000"
+BASE_URL="http://127.0.0.1:8000"
 # Manualy Added
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

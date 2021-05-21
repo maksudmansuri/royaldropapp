@@ -16,7 +16,7 @@ from django.db.models import Q
 class MyAccountManager(BaseUserManager):
     # create _create_user for mobiel number for facebbook and for google and for userid password so it can be solve your all problem regarding social login/auth
     use_in_migrations = True
-    def create_user(self, email, username, password=None):
+    def create_user(self, email, username,user_type,password=None):
         if not email:
             pass
             raise ValueError("User must have an Email Address")
@@ -26,9 +26,11 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
                 email=self.normalize_email(email),
                 username=username,
+                user_type=user_type,
+                
                
             )
-        is_active= True
+        user.is_active= True
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -38,10 +40,11 @@ class MyAccountManager(BaseUserManager):
                 email=self.normalize_email(email),
                 password=password,
                 username=username,
+                user_type='1',
                
                 
             )
-        user.user_type=1,
+        
         # phone = "7801925101"
         user.is_active = True
         # user.is_admin = True
@@ -81,7 +84,6 @@ class CustomUser(AbstractBaseUser):
 
     def has_module_perms(self,app_label):
         return True    
-
 
 class PhoneOTP(models.Model):
     
@@ -166,19 +168,20 @@ class Customers(models.Model):
 class Merchants(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
-    fisrt_name=models.CharField(max_length=250,blank=True,null=True)
-    last_name=models.CharField(max_length=250,blank=True,null=True)
-    company_registaer_year = models.DateField(blank=True,null=True)
+    company_register_year = models.DateField(blank=True,null=True)
     company_name = models.CharField(max_length=255)
     gts_number =  models.CharField(max_length=255)
     address=models.TextField(max_length=500,blank=True,null=True)
     city=models.CharField(max_length=250,blank=True,null=True)
-    state=models.CharField(max_length=250,blank=True,null=True)
-    country=models.CharField(max_length=250,blank=True,null=True)
+    state=models.CharField(max_length=250,blank=True,null=True,default="Gujarat")
+    country=models.CharField(max_length=250,blank=True,null=True,default="India")
+    profile_pic=models.FileField(upload_to="Merchant/images",blank=True,null=True)
+    zip_code=models.CharField(max_length=250,blank=True,null=True,default="")
+    is_added_by_admin=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     is_verified=models.BooleanField(blank=True,null=True,default=False)
-    website=models.URLField(max_length=200,blank=True,null=True)
+    website=models.URLField(max_length=200,blank=True,null=True,default="www.google.com")
 
     objects = models.Manager()
 

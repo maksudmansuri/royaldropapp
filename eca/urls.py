@@ -30,16 +30,16 @@ urlpatterns = [
     # path('saccount/',include('allauth.urls'),name='saccount'),
     
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('chat/', include('chat.urls'),name='chat'),
+    # path('chat/', include('chat.urls'),name='chat'),
     path('', include("front.urls")),
-    path('customer_lms/', include("customer_lms.urls")),
-    path('instructor_lms/', include("instructor_lms.urls")),
-    path('counsellor/', include("counsellor.urls")),
+    # path('customer_lms/', include("customer_lms.urls")),
+    # path('staff_lms/', include("staff_lms.urls")),
+    # path('counsellor/', include("counsellor.urls")),
     path('accounts/', include("accounts.urls")),
     path('account/', include("django.contrib.auth.urls")),
 
     #Rest Framework Urls
-    path('api/front/',include("front.api.urls")),
+    # path('api/front/',include("front.api.urls")),
     path('api/accounts/',include("accounts.api.urls")),
 
 

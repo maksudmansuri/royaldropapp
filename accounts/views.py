@@ -38,14 +38,14 @@ def dologin(request):
                 login(request,user)
                 # request.session['logged in']=True
                 if user.user_type=="4":
-                    return redirect("counsellor/")
+                    return HttpResponseRedirect(reverse('admin_home'))
                 elif user.user_type=="2":
-                    return redirect("/instructor_lms")
+                    return HttpResponseRedirect(reverse('admin_home'))
                 elif user.user_type=="3":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
-                        return redirect("/customer_lms")
+                        return HttpResponseRedirect(reverse('admin_home'))
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
                     return HttpResponseRedirect(reverse('admin_home'))
@@ -86,28 +86,29 @@ def instructor_singup(request):
             user=CustomUser.objects.create_user(username=username,password=password1,email=email)
             user.user_type="2"
             user.is_active=True
+            print(user,username,password1,email)
             user.save()
-            current_site=get_current_site(request)
-            email_subject='Active your Account',
-            message=render_to_string('accounts/activate.html',
-            {
-                'user':user,
-                'domain':current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':generate_token.make_token(user)
-            }
-            )
-            print(urlsafe_base64_encode(force_bytes(user.pk)),)
-            print(generate_token.make_token(user))
-            print(current_site.domain)
-            email_message=EmailMessage(
-                email_subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [email]
-            )
-            email_message.send()
-            msg=messages.success(request,"Sucessfully Singup Please Verify Your Account First")
+            # current_site=get_current_site(request)
+            # email_subject='Active your Account',
+            # message=render_to_string('accounts/activate.html',
+            # {
+            #     'user':user,
+            #     'domain':current_site.domain,
+            #     'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token':generate_token.make_token(user)
+            # }
+            # )
+            # print(urlsafe_base64_encode(force_bytes(user.pk)),)
+            # print(generate_token.make_token(user))
+            # print(current_site.domain)
+            # email_message=EmailMessage(
+            #     email_subject,
+            #     message,
+            #     settings.EMAIL_HOST_USER,
+            #     [email]
+            # )
+            # email_message.send()
+            # msg=messages.success(request,"Sucessfully Singup Please Verify Your Account First")
             return HttpResponseRedirect(reverse("dologin"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
