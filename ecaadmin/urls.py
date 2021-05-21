@@ -20,8 +20,23 @@ urlpatterns = [
     # Product
     path('product_list', views.ProductListViews.as_view(),name='product_list'),
     path('product_create', views.ProductView.as_view(),name='product_view'),
-    path('product_update/<slug:pk>', views.MerchantUserUpdate.as_view(),name='product_update'),
+    path('product_update/<str:product_id>', views.ProductUpdate.as_view(),name='product_update'),
+    path('product_add_media/<str:product_id>', views.ProductAddMedia.as_view(),name='product_add_media'),
+    path('product_edit_media/<str:product_id>',views.ProductEditMedia.as_view(),name="product_edit_media"),
+    path('product_media_delete/<str:id>',views.ProductMediaDelete.as_view(),name="product_media_delete"),
+    path('product_add_stocks/<str:product_id>',views.ProductAddStocks.as_view(),name="product_add_stocks"),
     path('file_upload', views.file_upload,name='file_upload'),
+
+    #Staff User
+    path('staff_create',views.StaffUserCreateView.as_view(),name="staff_create"),
+    path('staff_list',views.StaffUserListView.as_view(),name="staff_list"),
+    path('staff_update/<slug:pk>',views.StaffUserUpdateView.as_view(),name="staff_update"),
+
+    #Customer User
+    path('customer_create',views.CustomerUserCreateView.as_view(),name="customer_create"),
+    path('customer_list',views.CustomerUserListView.as_view(),name="customer_list"),
+    path('customer_update/<slug:pk>',views.CustomerUserUpdateView.as_view(),name="customer_update"),
+
 
 
 ]
