@@ -15,7 +15,6 @@ urlpatterns = [
     path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('instructor_singup', views.instructor_singup,name='instructor_singup'),
-    path('instructor_logout', views.instructor_logout,name='instructor_logout'),
     # path('instructor_logout', views.instructor_logout,name='instructor_logout'),
     path('logout', views.dologout,name='dologout'),
     path('about_us', views.about_us,name='about_us'),

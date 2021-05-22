@@ -23,28 +23,28 @@ from django.views.generic import ListView,CreateView,UpdateView,DetailView
 #     template_name = "front/categorycreate.html"
 
 def index(request):
-    allProduct=[]
-    allcats=[]
-    allcrs=Product.objects.all()
-    allcrscnt=Product.objects.all().count()
-    allstfcnt=Staffs.objects.all().count()
-    allstdcnt=Customers.objects.all().count()
-    catProduct=Product.objects.values('product_category','id')
-    print(catProduct)
-    cats={item['product_category'] for item in catProduct}
-    for cat in cats:
-        allcat=ProductCategory.objects.get(id=cat)
-        crs=Product.objects.filter(product_category=cat,is_verified=True)
-        n=len(crs)
-        # nSlides=n/4+ceil((n/4)-(n//4))    
-        allProduct.append([crs,range(1,n)])
-        allcats.append(allcat)
-        for i in crs:  
-            print(i.Product_category)
+    # allProduct=[]
+    # allcats=[]
+    # allcrs=Product.objects.all()
+    # allcrscnt=Product.objects.all().count()
+    # allstfcnt=Staffs.objects.all().count()
+    # allstdcnt=Customers.objects.all().count()
+    # catProduct=Product.objects.values('product_category','id')
+    # print(catProduct)
+    # cats={item['product_category'] for item in catProduct}
+    # for cat in cats:
+    #     allcat=ProductCategory.objects.get(id=cat)
+    #     crs=Product.objects.filter(product_category=cat,is_verified=True)
+    #     n=len(crs)
+    #     # nSlides=n/4+ceil((n/4)-(n//4))    
+    #     allProduct.append([crs,range(1,n)])
+    #     allcats.append(allcat)
+    #     for i in crs:  
+    #         print(i.Product_category)
 
-    print(allcats)
-    params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
-    return render(request,'index.html',params)
+    # print(allcats)
+    # params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
+    return render(request,'index.html')
     
 def home_two(request):
     return render(request,'home_two.html')
@@ -125,10 +125,6 @@ def Product_details_2(request):
 def dologout(request):
     logout(request)
     return redirect('/')
-
-def instructor_logout(request):
-    logout(request)
-    return redirect('/login')
 
 def about_us(request):
     stf=Staffs.objects.all()

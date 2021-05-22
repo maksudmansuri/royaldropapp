@@ -293,7 +293,6 @@ class ProductUpdate(View):
 
         return HttpResponse("ok")
     
-
 class ProductView(View):
     def get(self,request,*args,**kwargs):
         form=ProductCreateView()
@@ -391,9 +390,6 @@ class ProductAddMedia(View):
             i=i+1
         return HttpResponse("ok")
 
-
-
-
 class ProductEditMedia(View):
     def get(self,request,*args,**kwargs):
         product_id=kwargs["product_id"]
@@ -436,7 +432,6 @@ class ProductAddStocks(View):
         product_transaction.save()
         return HttpResponseRedirect(reverse("product_add_stocks",kwargs={"product_id":product_id}))
 
-
 class StaffUserListView(ListView):
     model=Staffs
     template_name="ecaadmin/staff_list.html"
@@ -458,7 +453,6 @@ class StaffUserListView(ListView):
         context["orderby"]=self.request.GET.get("orderby","id")
         context["all_table_fields"]=Staffs._meta.get_fields()
         return context
-
 
 class StaffUserCreateView(SuccessMessageMixin,CreateView):
     template_name="ecaadmin/staff_create.html"
@@ -515,7 +509,6 @@ class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
         messages.success(self.request,"Staff User Updated")
         return HttpResponseRedirect(reverse("staff_list"))
 
-
 class CustomerUserListView(ListView):
     model=Customers
     template_name="ecaadmin/customer_list.html"
@@ -537,7 +530,6 @@ class CustomerUserListView(ListView):
         context["orderby"]=self.request.GET.get("orderby","id")
         context["all_table_fields"]=Customers._meta.get_fields()
         return context
-
 
 class CustomerUserCreateView(SuccessMessageMixin,CreateView):
     template_name="ecaadmin/customer_create.html"
