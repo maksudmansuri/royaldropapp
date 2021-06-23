@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from ckeditor_uploader.fields import RichTextUploadingField
+# from ckeditor_uploader.fields import RichTextUploadingField
 from rest_framework.authtoken.models import Token
 from django.conf import settings
 from django.core.validators import RegexValidator
@@ -16,7 +16,7 @@ from django.db.models import Q
 class MyAccountManager(BaseUserManager):
     # create _create_user for mobiel number for facebbook and for google and for userid password so it can be solve your all problem regarding social login/auth
     use_in_migrations = True
-    def create_user(self, email, username,user_type,password=None):
+    def create_user(self, email, username,password=None):
         if not email:
             pass
             raise ValueError("User must have an Email Address")
@@ -25,14 +25,14 @@ class MyAccountManager(BaseUserManager):
 
         user = self.model(
                 email=self.normalize_email(email),
-                username=username,
-                user_type=user_type,
-                
+                username=username,                
                
             )
         user.is_active= True
         user.set_password(password)
+        print(user.username)
         user.save(using=self._db)
+        print(user.email)
         return user
 
     def create_superuser(self, email, username, password,**extra_fields):
@@ -40,8 +40,7 @@ class MyAccountManager(BaseUserManager):
                 email=self.normalize_email(email),
                 password=password,
                 username=username,
-                user_type='1',
-               
+                user_type='0',              
                 
             )
         

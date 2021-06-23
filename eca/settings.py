@@ -48,17 +48,17 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'front',
     'ecaadmin',
-    'crispy_forms',
-    'ckeditor',
-    'ckeditor_uploader',
+    # 'crispy_forms',
+    # 'ckeditor',
+    # 'ckeditor_uploader',
     'accounts',
-    'simple_email_confirmation',
-    'moviepy',
+    # 'simple_email_confirmation',
+    # 'moviepy',
     'django.contrib.humanize',
     # 'channels',
     'rest_framework',
     'rest_framework.authtoken',
-    'social_django',
+    # 'social_django',
 
 ]
 
@@ -69,7 +69,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 'accounts.LoginCheckMiddleWare.LoginCheckMiddleWare',
+    'accounts.LoginCheckMiddleWare.LoginCheckMiddleWare',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -150,8 +150,8 @@ CHANNEL_LAYERS = {
 }
 
 
-# LOGIN_URL='dologin'
-# LOGOUT_URL = 'dologout'
+LOGIN_URL='dologin'
+LOGOUT_URL = 'dologout'
 
 # LOGIN_REDIRECT_URL = "/"
 
@@ -253,7 +253,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'intellecttec@gmail.com'
-EMAIL_HOST_PASSWORD = 'Aot567@lk'
+EMAIL_HOST_PASSWORD = 'Aot567{LK}'
 EMAIL_USE_TLS = True
 
 django_heroku.settings(locals())

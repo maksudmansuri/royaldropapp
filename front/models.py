@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import user_logged_in
-from ckeditor_uploader.fields import RichTextUploadingField
+# from ckeditor_uploader.fields import RichTextUploadingField
 # from staff_lms.models import Staffs
 from accounts.models import Customers as Customers,CustomUser, Merchants,Staffs
 from django.urls import reverse
@@ -9,7 +9,7 @@ from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 
-# Create your models  .
+# Create your models   .
 
 class ProductCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -23,9 +23,8 @@ class ProductCategory(models.Model):
 
 
     objects = models.Manager()
-
-    def __str__(self):
-        return self.title
+    
+    
 
     # def get_absolute_url(self):
     #     return redirect('instructor_lesson_add', kwargs={'slug': self.product_slug})
@@ -38,7 +37,7 @@ def pre_save_ProductCategory_post_receiever(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.title)
 
 pre_save.connect(pre_save_ProductCategory_post_receiever, sender=ProductCategory)
-
+ 
 class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
     category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
@@ -67,6 +66,7 @@ class Product(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product_name            =           models.CharField(unique=True,max_length=255,blank=True,null=True,default="")
     product_subcategory     =           models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE)
+    product_category        =           models.ForeignKey(ProductCategory,on_delete=models.CASCADE)
     product_mrp             =           models.IntegerField(blank=True,null=True)
     product_selling_price   =           models.IntegerField(blank=True,null=True)
     added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,blank=True,null=True)

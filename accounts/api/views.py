@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from django.http import HttpResponse,JsonResponse
 import http.client
 import json
-import requests
+# import requests
 import ast
 import random
 from django.contrib.auth import authenticate,login,logout

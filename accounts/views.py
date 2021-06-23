@@ -1,4 +1,6 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render,redirect,HttpResponseRedirect
+from django.views.generic.edit import CreateView
 from .models import CustomUser
 from accounts.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import login,logout,authenticate
@@ -15,6 +17,7 @@ from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 from rest_framework import viewsets
+from django.core.files.storage import FileSystemStorage
 
 #API for Apps
 # class CustomUserViewSet(viewsets.ModelViewSet):
@@ -45,7 +48,7 @@ def dologin(request):
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
-                        return HttpResponseRedirect(reverse('admin_home'))
+                        return HttpResponseRedirect(reverse('home'))
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
                     return HttpResponseRedirect(reverse('admin_home'))
@@ -58,6 +61,92 @@ def dologin(request):
             messages.add_message(request,messages.ERROR,"User Not Found you haved to Register First")
             return redirect("dologin")
     return render(request,'accounts/dologin.html')
+       
+class dosingup(SuccessMessageMixin,CreateView):
+    template_name="accounts/dosingup.html"
+    model=CustomUser
+    fields=["email","phone","username","password"]
+  
+    def form_valid(self,form):
+
+        #Saving Custom User Object for Merchant User
+        user=form.save(commit=False)
+        user.is_active=True
+        user.user_type=3
+        user.set_password(form.cleaned_data["password"])
+        user.save()
+
+        #Saving Merchant user
+        # profile_pic=self.request.FILES["profile_pic"]
+        # fs=FileSystemStorage()
+        # filename=fs.save(profile_pic.name,profile_pic)
+        # profile_pic_url=fs.url(filename)
+
+        # user.customers.profile_pic=profile_pic_url
+        # user.save()
+        messages.success(self.request,"Customer User Created")
+        return HttpResponseRedirect(reverse("dologin"))
+
+def dosingup1(request):
+    if request.method=="POST":
+        username = request.POST.get('username')
+        r=CustomUser.objects.filter(username=username)
+        if r.count():
+            msg=messages.error(request,"Username  Already Exits")
+            return HttpResponseRedirect(reverse("dosingup"))
+
+        email = request.POST.get('email')
+        e=CustomUser.objects.filter(email=email)
+        if e.count():        
+            msg=messages.error(request,"Email Already Exits")
+            return HttpResponseRedirect(reverse("dosingup"))
+            
+        phone = request.POST.get('phone')
+        p=CustomUser.objects.filter(phone=phone)
+        if p.count():
+            msg=messages.error(request,"Phone Already Exits")
+            return HttpResponseRedirect(reverse("dosingup"))
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 and password2 and password1 != password2:
+            msg=messages.error(request,"Password Does Match")
+            return HttpResponseRedirect(reverse("dosingup"))
+
+        try:
+            user=CustomUser.objects.create_user(username=username,password=password1,email=email)
+            user.save(commit=False)
+            user.phone=phone
+            user.user_type="3"
+            print(user,username,password1,email,phone)
+            user.save()
+            # current_site=get_current_site(request)
+            # email_subject='Active your Account',
+            # message=render_to_string('accounts/activate.html',
+            # {
+            #     'user':user,
+            #     'domain':current_site.domain,
+            #     'uid':urlsafe_base64_encode(force_bytes(user.pk/tt)),
+            #     'token':generate_token.make_token(user)
+            # }
+            # )
+            # print(urlsafe_base64_encode(force_bytes(user.pk)),)
+            # print(generate_token.make_token(user))
+            # print(current_site.domain)
+            # email_message=EmailMessage(
+            #     email_subject,
+            #     message,
+            #     settings.EMAIL_HOST_USER,
+            #     [email]
+            # )
+            # email_message.send()
+            # msg=messages.success(request,"Sucessfully Singup Please Verify Your Account First")
+            print("hello bhia ahiya ayo em")           
+            return HttpResponseRedirect(reverse("dologin"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("dosingup"))
+    return render(request,"accounts/dosingup.html")
+
 
 def instructor_singup(request):
     if request.method=="POST":

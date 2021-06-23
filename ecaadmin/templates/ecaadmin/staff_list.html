@@ -49,22 +49,22 @@ Staff User List
 <div class="col-12 col-sm-6 col-md-6 col-lg-3">
     <article class="article article-style-b">
         <div class="article-header">
-        <div class="article-image" data-background="{{ staffuser.profile_pic }}" style="background-image: url(&quot;assets/img/news/img13.jpg&quot;);">
+        <div class="article-image" data-background="{{ staffuser.profile_pic }}" style="background-image: url(&quot;{{staffuser.profile_pic}}&quot;);">
         </div>
         <div class="article-badge">
-            <div class="article-badge-item bg-danger"><i class="fas fa-fire"></i>{{ staffuser.admin_id.username }}</div>
+            <div class="article-badge-item bg-danger"><i class="fas fa-fire"></i>{{ staffuser.admin.username }}</div>
         </div>
         </div>
         <div class="article-details">
-        <p class="no-margin"><span class="badge badge-warning"><i class="fas fa-user-circle"></i> Name : {{ staffuser.admin_id.first_name }} {{ staffuser.admin_id.last_name }}</span></p>
-        <p class="no-margin"><span class="badge badge-info"><i class="fas fa-envelope-o "></i> Email : {{ staffuser.admin_id.email }}</span></p>
+        <p class="no-margin"><span class="badge badge-warning"><i class="fas fa-user-circle"></i> Name : {{ staffuser.admin.first_name }} {{ staffuser.admin.last_name }}</span></p>
+        <p class="no-margin"><span class="badge badge-info"><i class="fas fa-envelope-o "></i> Email : {{ staffuser.admin.email }}</span></p>
         <div class="article-cta">
             <label class="custom-switch mt-2" style="float:left">
-                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" {% if staffuser.admin_id.is_active == 1 %}checked{% endif %}>
+                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" {% if staffuser.admin.is_active == 1 %}checked{% endif %}>
                         <span class="custom-switch-indicator"></span>
                         <span class="custom-switch-description">ACTIVE</span>
             </label>
-            <a href="{% url 'staff_update' staffuser.admin_id.id %}" class="btn btn-warning">EDIT <i class="fas fa-chevron-right"></i></a>
+            <a href="{% url 'staff_update' staffuser.admin.id %}" class="btn btn-warning">EDIT <i class="fas fa-chevron-right"></i></a>
         </div>
         </div>
     </article>

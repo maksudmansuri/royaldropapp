@@ -1,9 +1,9 @@
 {% extends 'base1.html' %}
 {% load static %}
 {% block title %}
-    <title>Ludus - Electronics, Apparel, Computers, Books, DVDs & more</title>
+    <title>RoyalDrop Shipping | E-commerce | All Product online</title>
 {% endblock title %}
-
+ 
 {% block custom_css %}{% endblock custom_css %}
 {% comment %} {% block loader %}
 <div class="preloader is-active">
@@ -13,7 +13,10 @@
     </div>
 {% endblock loader %} {% endcomment %}
 
-    
+{% block fixed_list %}
+
+{% endblock fixed_list %}
+
 {% block content %}
 
         <!--====== App Content ======-->
@@ -28,7 +31,7 @@
                                 <div class="col-12">
                                     <div class="slider-content slider-content--animation">
 
-                                        <span class="content-span-1 u-c-secondary">Latest Update Stock</span>
+                                        <span class="content-span-1 u-c-secondary">Latest Update Stock </span>
 
                                         <span class="content-span-2 u-c-secondary">30% Off On Electronics</span>
 
@@ -180,32 +183,27 @@
                                     <div class="filter__category-wrapper">
 
                                         <button class="btn filter__btn filter__btn--style-1 js-checked" type="button" data-filter="*">ALL</button></div>
-                                    <div class="filter__category-wrapper">
+                                    
+                                    {% for category in productcategory  %}
+                                        <div class="filter__category-wrapper">
 
-                                        <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".headphone">HEADPHONES</button></div>
-                                    <div class="filter__category-wrapper">
-
-                                        <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".smartphone">SMARTPHONES</button></div>
-                                    <div class="filter__category-wrapper">
-
-                                        <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".sportgadget">SPORT GADGETS</button></div>
-                                    <div class="filter__category-wrapper">
-
-                                        <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".dslr">DSLR</button></div>
+                                        <button class="btn filter__btn filter__btn--style-1" type="button" data-filter=".{{ category.id }}">{{ category.title }}</button></div>
+                                    {% endfor %}
                                 </div>
                                 <div class="filter__grid-wrapper u-s-m-t-30">
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item headphone">
+                                    {% for product in products %}
+                                        
+                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item {{ product.product.product_category.id }} ">
                                             <div class="product-o product-o--hover-on product-o--radius">
                                                 <div class="product-o__wrap">
-
+                                                
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product2.jpg' %}" alt=""></a>
+                                                        <img class="aspect__img" src="{{ product.media.media_content}}" alt=""></a>
                                                     <div class="product-o__action-wrap">
                                                         <ul class="product-o__action-list">
                                                             <li>
-
+                                                                
                                                                 <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
                                                             <li>
 
@@ -222,348 +220,22 @@
 
                                                 <span class="product-o__category">
 
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
+                                                    <a href="shop-side-version-2.html">{{ product.product.product_category.title }}</a></span>
 
                                                 <span class="product-o__name">
 
-                                                    <a href="product-detail.html">Red Wireless Headphone</a></span>
+                                                    <a href="product-detail.html">{{ product.product.product_name }}</a></span>
                                                 <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
 
                                                     <span class="product-o__review">(23)</span></div>
 
-                                                <span class="product-o__price">$125.00
+                                                <span class="product-o__price">{{ product.product.product_selling_price }}
 
-                                                    <span class="product-o__discount">$160.00</span></span>
+                                                    <span class="product-o__discount">{{ product.product.product_mrp }}</span></span>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item headphone">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product3.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Yellow Wireless Headphone</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item sportgadget">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product4.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Hover Skateboard Scooter</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item sportgadget">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product5.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Hover Red Skateboard Scooter</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item dslr">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product6.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Canon DSLR Camera 4k</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item dslr">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product7.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Nikon DSLR Camera 4k</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item smartphone">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product8.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Smartphone RAM 4GB New</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item smartphone">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product9.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Smartphone RAM 8GB New</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30 filter__item smartphone">
-                                            <div class="product-o product-o--hover-on product-o--radius">
-                                                <div class="product-o__wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product10.jpg' %}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="product-detail.html">Smartphone RAM 16GB New</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                                    <span class="product-o__review">(23)</span></div>
-
-                                                <span class="product-o__price">$125.00
-
-                                                    <span class="product-o__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
+                                      
+                                    {% endfor %}  
                                     </div>
                                 </div>
                             </div>
@@ -578,8 +250,1068 @@
                 <!--====== End - Section Content ======-->
             </div>
             <!--====== End - Section 2 ======-->
+            {% for products in product_list %}
+             <!--======product category Slider ======-->
+            <div class="u-s-p-b-60">
+
+                        <!--====== Section Intro ======-->
+                        <div class="section__intro u-s-m-b-46">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="block">
+
+                                            <span class="block__title">{{products.product_subcategory.category.title}}</span>
+                                            <ul class="nav tab-list">
+                                                <li class="nav-item">
+
+                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#m-l-p">LATEST PRODUCTS</a></li>
+                                                <li class="nav-item">
+
+                                                    <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab" href="#m-b-s">BEST SELLING</a></li>
+                                                <li class="nav-item">
+
+                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#m-t-r">TOP RATING</a></li>
+                                                <li class="nav-item">
+
+                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#m-f-p">FEATURED PRODUCTS</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--====== End - Section Intro ======-->
+
+                    
+                        <!--====== Section Content ======-->
+                        <div class="section__content">
+                            <div class="container">
+                                <div class="tab-content">
+
+                                    <!--====== Tab 1 ======-->
+                                    <div class="tab-pane" id="m-l-p">
+                                        <div>
+                                            <div class="owl-carousel tab-slider owl-loaded owl-drag" data-item="4">
+                                            <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s;"><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product5.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">{{products.product_subcategory.title}}</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion A Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product6.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion B Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product7.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion C Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product8.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product9.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion E Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product10.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion F Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div></div></div><div class="owl-nav"><div class="t-prev"><i class="fas fa-long-arrow-alt-left"></i></div><div class="t-next"><i class="fas fa-long-arrow-alt-right"></i></div></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Tab 1 ======-->
 
 
+                                    <!--====== Tab 2 ======-->
+                                    <div class="tab-pane fade show active" id="m-b-s">
+                                        <div>
+                                            <div class="owl-carousel tab-slider owl-loaded owl-drag" data-item="4">
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-555px, 0px, 0px); transition: all 3s ease 0s; width: 1665px;"><div class="owl-item" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product5.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion A Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product6.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion B Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item active" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product7.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion C Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item active" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product8.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item active" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product9.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion E Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item active" style="width: 277.5px;"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product10.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion F Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(0)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div></div></div><div class="owl-nav"><div class="t-prev"><i class="fas fa-long-arrow-alt-left"></i></div><div class="t-next"><i class="fas fa-long-arrow-alt-right"></i></div></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Tab 2 ======-->
+
+
+                                    <!--====== Tab 3 ======-->
+                                    <div class="tab-pane" id="m-t-r">
+                                        <div>
+                                            <div class="owl-carousel tab-slider owl-loaded owl-drag" data-item="4">
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s;"><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product5.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion A Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product6.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion B Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product7.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion C Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product8.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product9.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion E Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product10.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion F Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div></div></div><div class="owl-nav"><div class="t-prev"><i class="fas fa-long-arrow-alt-left"></i></div><div class="t-next"><i class="fas fa-long-arrow-alt-right"></i></div></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Tab 3 ======-->
+
+
+                                    <!--====== Tab 4 ======-->
+                                    <div class="tab-pane" id="m-f-p">
+                                        <div>
+                                            <div class="owl-carousel tab-slider owl-loaded owl-drag" data-item="4">
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s;"><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product5.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion A Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product6.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion B Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product7.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion C Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product8.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product9.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion E Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div><div class="owl-item"><div class="u-s-m-b-30">
+                                                    <div class="product-o product-o--hover-on">
+                                                        <div class="product-o__wrap">
+
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                                <img class="aspect__img" src="images/product/men/product10.jpg" alt=""></a>
+                                                            <div class="product-o__action-wrap">
+                                                                <ul class="product-o__action-list">
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                    <li>
+
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                                    <li>
+
+                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="" data-original-title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="product-o__category">
+
+                                                            <a href="shop-side-version-2.html">Men Clothing</a></span>
+
+                                                        <span class="product-o__name">
+
+                                                            <a href="product-detail.html">New Fashion F Nice Elegant</a></span>
+                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                                            <span class="product-o__review">(23)</span></div>
+
+                                                        <span class="product-o__price">$125.00
+
+                                                            <span class="product-o__discount">$160.00</span></span>
+                                                    </div>
+                                                </div></div></div></div><div class="owl-nav"><div class="t-prev"><i class="fas fa-long-arrow-alt-left"></i></div><div class="t-next"><i class="fas fa-long-arrow-alt-right"></i></div></div><div class="owl-dots disabled"></div></div>
+                                        </div>
+                                    </div>
+                                    <!--====== End - Tab 4 ======-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--====== End - Section Content ======-->
+            </div>
+            <!--====== end product category slider ======-->
+            {% endfor %}
             <!--====== Section 3 ======-->
             <div class="u-s-p-b-60">
 
@@ -2158,6 +2890,9 @@
     
 
 {% endblock content %}
+
+
+{% block custom_js %}{% endblock custom_js %}
        
 
 

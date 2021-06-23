@@ -95,19 +95,18 @@ class MerchantUserCreateView(SuccessMessageMixin,CreateView):
     fields = ['first_name','last_name','email','phone','username','password']
 
     def form_valid(self, form):
-        # user = form.save(commit=False) this will not not WORK WITH auto intense
-        username=self.request.POST.get("username")
-        password=self.request.POST.get("password")
-        email=self.request.POST.get("email")
-        print(username,password,email)
-        user=CustomUser.objects.create_user(username=username,password=password,email=email,user_type=4)
+        user = form.save(commit=False)# this will not not WORK WITH auto intense
+        # username=self.request.POST.get("username")
+        # password=self.request.POST.get("password")
+        # email=self.request.POST.get("email")
+        # print(username,password,email)
+        # user=CustomUser.objects.create_user(username=username,password=password,email=email)
         user.is_active=True
-        # user.user_type = "2"
-        # user.set_password(form.cleaned_data["password"])
-        user.phone=self.request.POST.get("phone")
-        user.first_name=self.request.POST.get("first_name")
-        user.last_name=self.request.POST.get("last_name")
-
+        user.user_type = 4
+        user.set_password(form.cleaned_data["password"])
+        # user.phone=self.request.POST.get("phone")
+        # user.first_name=self.request.POST.get("first_name")
+        # user.last_name=self.request.POST.get("last_name")
         user.save()
 
         profile_pic=self.request.FILES['profile_pic']
@@ -118,19 +117,20 @@ class MerchantUserCreateView(SuccessMessageMixin,CreateView):
         # print(profile_pic_url)
 
         # print(user.merchants)
-        # merchant = Merchants.objects.get(admin=user.id)
+        # merchants = Merchants.objects.get(admin=user.id)
         # print(merchant)
         user.merchants.profile_pic=profile_pic_url
         user.merchants.company_name=self.request.POST.get("company_name")
         user.merchants.gts_number=self.request.POST.get("gts_number")
         user.merchants.address=self.request.POST.get("address")
+        # merchants.user_type=4
 
         is_added_by_admin = False
 
         if self.request.POST.get("is_added_by_admin") == "on":
             is_added_by_admin=True
         user.merchants.is_added_by_admin=is_added_by_admin
-        user.save()
+        user.merchants.save()
 
         messages.success(self.request,"Merchant Created Succesfully")
         return HttpResponseRedirect(reverse("merchant_list"))
@@ -143,7 +143,7 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        merchant =Merchants.objects.get(admin_id=self.object.pk)
+        merchant =Merchants.objects.get(admin=self.object.pk)
         context["merchant"] = merchant
         return context
 
@@ -151,7 +151,7 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
         user = form.save(commit=False) #this will not not WORK WITH auto intense
         user.save()
 
-        merchant  = Merchants.objects.get(admin_id=user.id)
+        merchant  = Merchants.objects.get(admin=user.id)
         if self.request.FILES.get('profile_pic'):
             profile_pic=self.request.FILES['profile_pic']
             fs=FileSystemStorage()
@@ -303,7 +303,7 @@ class ProductView(View):
             categories_list.append({"category":category,"sub_category":sub_category})
         merchants_users=Merchants.objects.filter(admin_id__is_active =True)
         return render(self.request,"ecaadmin/product_create.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form})
-    
+        
     def post(self,request,*args,**kwargs):
         product_name=request.POST.get("product_name")
         product_brand=request.POST.get("product_brand")
@@ -322,43 +322,52 @@ class ProductView(View):
         about_title_list=request.POST.getlist("about_title[]")
         product_tags=request.POST.get("product_tags")
         long_desc=request.POST.get("long_desc")
-
+ 
         subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        print(cat_obj)
         merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
+        try:
+            product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_weight=product_weight,product_desc=product_desc,added_by_merchant=merchant_user_obj,product_l_desc=long_desc,in_stock_total=in_stock_total)
+            print("product addded")
+            print(product_name,product_brand,product_model_number,cat_obj,subcat_obj,product_mrp,product_selling_price,product_weight,product_desc,merchant_user_obj,long_desc,in_stock_total)
+            product.save()
+            print("product saved")
 
-        product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_weight=product_weight,product_desc=product_desc,product_l_desc=long_desc,in_stock_total=in_stock_total,added_by_merchant=merchant_user_obj)
-        
-        product.save()
+            i=0
+            for media_content in media_content_list:
+                fs=FileSystemStorage()
+                filename=fs.save(media_content.name,media_content)
+                media_url=fs.url(filename)
+                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
+                product_media.save()
+                i=i+1
 
-        i=0
-        for media_content in media_content_list:
-            fs=FileSystemStorage()
-            filename=fs.save(media_content.name,media_content)
-            media_url=fs.url(filename)
-            product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
-            product_media.save()
-            i=i+1
+            j=0
+            for title_title in title_title_list:
+                product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
+                product_details.save()
+                j=j+1
+            k=0
+            for about in about_title_list:
+                product_about=ProductAbout(title=about,product=product)
+                product_about.save()
+                k=k+1
 
-        j=0
-        for title_title in title_title_list:
-            product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
-            product_details.save()
-            j=j+1
-        k=0
-        for about in about_title_list:
-            product_about=ProductAbout(title=about,product=product)
-            product_about.save()
-            k=k+1
+            product_tags_list=product_tags.split(",")
 
-        product_tags_list=product_tags.split(",")
+            for product_tag in product_tags_list:
+                product_tag_obj=ProductTag(product_tags=product_tag,product=product)
+                product_tag_obj.save()
 
-        for product_tag in product_tags_list:
-            product_tag_obj=ProductTag(product_tags=product_tag,product=product)
-            product_tag_obj.save()
-
-        product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
-        product_transaction.save()
-        return HttpResponse("ok")
+            product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
+            product_transaction.save()
+            print("all data stored")
+            messages.success(self.request,"Product Created Succesfully")
+            return HttpResponseRedirect(reverse("product_list"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("product_list"))
 
 @csrf_exempt
 def file_upload(request):
@@ -426,9 +435,9 @@ class ProductAddStocks(View):
         new_stocks=int(new_instock)+int(old_stocks)
         product.in_stock_total=new_stocks
         product.save()
-
+ 
         product_obj=Product.objects.get(id=product_id)
-        product_transaction=ProductTransaction(product=product_obj,transaction_product_count=new_instock,transaction_description="New Product Added",transaction_type=1)
+        product_transaction=ProductTransaction(product=product_obj,transation_product_count=new_instock,transation_desc="New Product Added",transation_type=1)
         product_transaction.save()
         return HttpResponseRedirect(reverse("product_add_stocks",kwargs={"product_id":product_id}))
 
@@ -474,7 +483,7 @@ class StaffUserCreateView(SuccessMessageMixin,CreateView):
         filename=fs.save(profile_pic.name,profile_pic)
         profile_pic_url=fs.url(filename)
 
-        user.staffuser.profile_pic=profile_pic_url
+        user.staffs.profile_pic=profile_pic_url
         user.save()
         messages.success(self.request,"Staff User Created")
         return HttpResponseRedirect(reverse("staff_list"))
@@ -486,7 +495,7 @@ class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        staffuser=Staffs.objects.get(admin_id=self.object.pk)
+        staffuser=Staffs.objects.get(admin=self.object.pk)
         context["staffuser"]=staffuser
         return context
 
@@ -497,7 +506,7 @@ class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
         user.save()
 
         #Saving Merchant user
-        staffuser=Staffs.objects.get(admin_id=user.id)
+        staffuser=Staffs.objects.get(admin=user.id)
         if self.request.FILES.get("profile_pic",False):
             profile_pic=self.request.FILES["profile_pic"]
             fs=FileSystemStorage()
@@ -563,7 +572,7 @@ class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
 
     def get_context_data(self,**kwargs):
         context=super().get_context_data(**kwargs)
-        customeruser=Customers.objects.get(admin_id=self.object.pk)
+        customeruser=Customers.objects.get(admin=self.object.pk)
         context["CustomerUser"]=customeruser
         return context
 
@@ -574,7 +583,7 @@ class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
         user.save()
 
         #Saving Merchant user
-        customeruser=Customers.objects.get(admin_id=user.id)
+        customeruser=Customers.objects.get(admin=user.id)
         if self.request.FILES.get("profile_pic",False):
             profile_pic=self.request.FILES["profile_pic"]
             fs=FileSystemStorage()

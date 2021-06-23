@@ -6,7 +6,8 @@ from .import views
 
 urlpatterns = [
    
-    path('dologin', views.dologin,name='dologin'),
+    path('login', views.dologin,name='dologin'),
+    path('singup', views.dosingup.as_view(),name='dosingup'),
     path('instructor_singup', views.instructor_singup,name='instructor_singup'),
     path('customer_singup', views.customer_singup,name='customer_singup'),
     path('counsellor_singup', views.counsellor_singup,name='counsellor_singup'),

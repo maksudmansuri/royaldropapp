@@ -26,10 +26,10 @@ urlpatterns = [
     # path('admin', RedirectView.as_view(url=reverse_lazy('admin:index'))),
     path('admin/', admin.site.urls,name="admin_login"),
     #socialmedialogin url
-    path('oauth/', include('social_django.urls', namespace='social')), 
+    # path('oauth/', include('social_django.urls', namespace='social')), 
     # path('saccount/',include('allauth.urls'),name='saccount'),
     
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path('ckeditor/', include('ckeditor_uploader.urls')),
     # path('chat/', include('chat.urls'),name='chat'),
     path('', include("front.urls")),
     # path('customer_lms/', include("customer_lms.urls")),

@@ -40,7 +40,7 @@
                 <div class="col-lg-6">
                 <label>Product Model Number</label>
                 <input class="form-control" name="product_model_number" placeholder="Product Model Number" />
-
+ 
                 </div>
                
                 <div class="col-lg-6">
@@ -390,6 +390,8 @@
         }
         xhr.open("POST","{% url 'product_view' %}",true);
         $("#progressbar").show();
+        
+        
 
         //Updating Prograssbar
         xhr.upload.addEventListener("progress",function(ev){
@@ -397,9 +399,11 @@
                 var percentage=(ev.loaded/ev.total*100|0);
                 $("#progressbar").css({"width":""+percentage+"%"}).text("Uploading..."+percentage+"%");
                 console.log(percentage);
+                
             }
         });
         xhr.send(form);
+        window.location.replace("{% url 'product_list' %}");
 
     })
   </script>

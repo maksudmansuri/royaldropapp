@@ -1,17 +1,18 @@
+from django.db import models
 from django.shortcuts import render , redirect
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Product,Product_Session,ProductCategory,ProductSubCategory,Product_Modules
+from front.models import Product,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, productMedia
 from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
-from django.db.models import Q
+from django.db.models import Q, fields
 from django.core.paginator import Page,PageNotAnInteger,Paginator
 from accounts.models import Staffs, Customers as Customers
 from django.views.generic import ListView,CreateView,UpdateView,DetailView
 # Create your vie ws here.v
  
-
+ 
 
 # class CategoriesListViews(ListView):
 #     model = ProductCategory
@@ -22,7 +23,29 @@ from django.views.generic import ListView,CreateView,UpdateView,DetailView
 #     fields = "__all__"
 #     template_name = "front/categorycreate.html"
 
-def index(request):
+class indexView(ListView):
+    model = Product
+    fields ="__all__"
+    template_name="index.html"
+ 
+    def get(self,request,*args,**kwargs):
+        product_list = []
+        products=Product.objects.filter(is_active=1)
+        n=len(products)
+        nSlides=n//4 + ceil((n/4)-(n//4))
+        params={'no_of_slides':nSlides,'range':range(nSlides),'product':products}
+        productcategory = ProductCategory.objects.filter(is_active=1)
+        productsubcategory = ProductSubCategory.objects.filter(is_active=1)
+        for product in products:
+            media=productMedia.objects.filter(product=product).first()
+            product_list.append({"product":product,"media":media})
+        return render(request,"index.html",{"productcategory":productcategory,"productsubcategory":productsubcategory,"products":product_list})
+ 
+
+        
+
+
+# def index(request):
     # allProduct=[]
     # allcats=[]
     # allcrs=Product.objects.all()
@@ -44,8 +67,44 @@ def index(request):
 
     # print(allcats)
     # params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
-    return render(request,'index.html')
-    
+    # return render(request,'index.html')
+
+class home2(ListView):
+    model = Product
+    fields ="__all__"
+    template_name="index2.html"
+ 
+    def get(self,request,*args,**kwargs):
+        allprods=[]
+        catprods=Product.objects.values('product_category')
+        subcatprod=Product.objects.values('product_subcategory')
+        # print(subcatprods)
+        # print(catprods)
+        subcatprods = {item['product_subcategory'] for item in subcatprod}
+        cats={item['product_category'] for item in catprods}
+        prod =[]
+        for cat in cats:
+            prods = Product.objects.filter(product_category=cat,is_active=1)
+            # print(prods)
+            prod =[]
+            for product in prods:
+                media=productMedia.objects.filter(product=product).first()
+                prod.append({"product":product,"media":media})            
+            n=len(prod)
+            # print(prod)
+            nSlides=n//4 + ceil((n/4)-(n//4))
+            productcategories = ProductCategory.objects.get(id=cat,is_active=1)
+            # productsubcategories=[]
+            # for productcategory in productcategories:
+            #     productsubcategy = ProductSubCategory.objects.filter(category=productcategory,is_active=1)
+            #     productsubcategories.append({productsubcategy})
+            
+            prodsub=ProductSubCategory.objects.filter(category=cat,is_active=1)
+            allprods.append([prod,range(nSlides),nSlides,productcategories,prodsub])           
+        print(allprods)
+        params={'allprods':allprods}
+        return render(request,"index2.html",params)
+
 def home_two(request):
     return render(request,'home_two.html')
 
@@ -106,7 +165,7 @@ def testing_file(request):
     print(crs)
     
     return render(request,'testing_file.html',params)
-
+ 
 def Product_details(request,slug):
     stf=Staffs.objects.all()
     allcrs=Product.objects.all()

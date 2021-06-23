@@ -15,7 +15,7 @@
             {% url 'category_list' as category_list %}
             {% url 'category_update' id as category_update %}
             <li class="dropdown {% if request.path == category_list%}active{% endif %} {% if request.path == category_create %}active{% endif %} {% if request.path == category_update%}active{% endif %}">
-              <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Category</span></a>
+              <a href="#" class="nav-link has-dropdown"><i class="fas fa-cat"></i><span>Category</span></a>
               <ul class="dropdown-menu">
                 <li class='{% if request.path == category_list%}active{% endif %}'><a class="nav-link" href="{% url 'category_list' %}">All Categories</a></li>
                 <li class='{% if request.path == category_create%}active{% endif %}'><a class="nav-link" href="{% url 'category_create' %}">Add Categories</a></li>
