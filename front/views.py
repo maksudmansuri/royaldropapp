@@ -1,5 +1,6 @@
 from django.db import models
-from django.shortcuts import render , redirect
+from django.shortcuts import get_object_or_404, render , redirect
+from django.views.generic.base import View
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
@@ -69,7 +70,7 @@ class indexView(ListView):
     # params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
     # return render(request,'index.html')
 
-class home2(ListView):
+class HomeListview(ListView):
     model = Product
     fields ="__all__"
     template_name="index2.html"
@@ -104,7 +105,7 @@ class home2(ListView):
         print(allprods)
         params={'allprods':allprods}
         return render(request,"index2.html",params)
-
+ 
 def home_two(request):
     return render(request,'home_two.html')
 
@@ -120,6 +121,14 @@ def search_list(query=None):
             queryset.append(Product)
     
     return list(set(queryset)) 
+
+class ProductDetailView(DetailView):
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, product_slug=kwargs['product_slug'])
+        media = productMedia.objects.filter(product=product)
+        context = {'product': product,'media':media}
+        return render(request, 'product_detail.html', context)
+    
 
 def Product_list(request):
     stf=Staffs.objects.all()

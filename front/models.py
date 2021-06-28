@@ -23,6 +23,9 @@ class ProductCategory(models.Model):
 
 
     objects = models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
     
     
 
@@ -37,7 +40,7 @@ def pre_save_ProductCategory_post_receiever(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.title)
 
 pre_save.connect(pre_save_ProductCategory_post_receiever, sender=ProductCategory)
- 
+
 class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
     category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
@@ -51,6 +54,9 @@ class ProductSubCategory(models.Model):
 
 
     objects = models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
 
     def get_absolute_url(self):
         return reverse("subcategory_list")
@@ -89,6 +95,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    class Meta:
+        ordering = ["-updated_at"]
     
     def get_absolute_url(self):
         return reverse('product_view', kwargs={'slug': self.product_slug})
@@ -125,6 +134,9 @@ class ProductTransaction(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
+    class Meta:
+        ordering = ["-updated_at"]
+
 class ProductDetails(models.Model):
     id                      =           models.AutoField(primary_key=True)
     title_details           =           models.CharField(max_length=255)
@@ -138,6 +150,9 @@ class ProductDetails(models.Model):
     def __str__(self):
         return self.product.product_name
 
+    class Meta:
+        ordering = ["-updated_at"]
+
 class ProductAbout(models.Model):
     id                      =           models.AutoField(primary_key=True)
     title                   =           models.CharField(max_length=255,default="")
@@ -149,6 +164,9 @@ class ProductAbout(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+    class Meta:
+        ordering = ["-updated_at"]
 
 class ProductTag(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -228,6 +246,9 @@ class CustomersOrders(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
+    class Meta:
+        ordering = ["-updated_at"]
+
 class OderDeliveryStatus(models.Model):
     id                      = models.AutoField(primary_key=True)
     product                 = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -236,6 +257,9 @@ class OderDeliveryStatus(models.Model):
     created_date            = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 = models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
 
 @receiver(post_delete, sender=Product)
 def submission_delete(sender, instance, **kwargs):
