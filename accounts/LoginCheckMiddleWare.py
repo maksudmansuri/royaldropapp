@@ -63,15 +63,27 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 # else:
                 #     return redirect("/admin")
                     # return HttpResponseRedirect(reverse("django/contrib/admin"))
-            elif user.user_type==0:
+            elif user.user_type=="0":
+                if modulename == "ecaadmin.views" or modulename == "django.views.static":
+                    pass
+                elif modulename == "front.views":
+                    pass
+                elif modulename == "media.views":
+                    pass
+                elif modulename == "django.contrib.auth.views":
+                    pass
+                elif  modulename == "chat.views":
+                    pass
+                else:
+                    return HttpResponseRedirect(reverse("admin_home"))
                 # if modulename == "django.contrib.auth.views":
                 #     pass
                 # if modulename == "front.views":
                 #     pass
                 # return HttpResponseRedirect(reverse('index'))
-                pass
+                # else:
                 # return RedirectView.as_view(url=reverse_lazy('admin'))
-                return reverse('admin:index')
+                    # return reverse('admin:index')
             else:
                 pass
         else:
