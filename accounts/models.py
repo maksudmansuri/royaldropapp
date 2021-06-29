@@ -47,7 +47,7 @@ class MyAccountManager(BaseUserManager):
         # phone = "7801925101"
         user.is_active = True
         # user.is_admin = True
-        user_type="0"
+        # user_type="0"
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
