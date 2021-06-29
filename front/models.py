@@ -24,9 +24,11 @@ class ProductCategory(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return self.title
+        
     class Meta:
-        ordering = ["-updated_at"]
-    
+        ordering = ["-updated_at"]    
     
 
     # def get_absolute_url(self):
@@ -55,6 +57,9 @@ class ProductSubCategory(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ["-updated_at"]
 
@@ -77,7 +82,7 @@ class Product(models.Model):
     product_selling_price   =           models.IntegerField(blank=True,null=True)
     added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,blank=True,null=True)
     product_brand           =           models.CharField(max_length=255,blank=True,null=True,default="")
-    # product_image         =           models.ImageField(upload_to="front/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
+    product_image           =           models.ImageField(upload_to="product_main/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
     # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
     product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
     product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
@@ -137,6 +142,18 @@ class ProductTransaction(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
+    
+class ProductWishlist(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title                   =           models.CharField(max_length=255)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    total_Wishlist          =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+ 
 class ProductDetails(models.Model):
     id                      =           models.AutoField(primary_key=True)
     title_details           =           models.CharField(max_length=255)

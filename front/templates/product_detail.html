@@ -47,7 +47,7 @@
                             </div>
                             <!--====== End - Product Breadcrumb ======-->
 
-
+ 
                             <!--====== Product Detail Zoom ======-->
                             <div class="pd u-s-m-b-30">
                                 <div class="slider-fouc pd-wrap">
@@ -105,13 +105,13 @@
                             <div class="pd-detail">
                                 <div>
 
-                                    <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+                                    <span class="pd-detail__name">{{product.product_name}}</span></div>
                                 <div>
                                     <div class="pd-detail__inline">
 
-                                        <span class="pd-detail__price">$6.99</span>
+                                        <span class="pd-detail__price">&#8377;{{product.product_selling_price}}</span>
 
-                                        <span class="pd-detail__discount">(76% OFF)</span><del class="pd-detail__del">$28.97</del></div>
+                                        <span class="pd-detail__discount">(76% OFF)</span><del class="pd-detail__del">&#8377;{{product.product_mrp}}</del></div>
                                 </div>
                                 <div class="u-s-m-b-15">
                                     <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
@@ -123,13 +123,13 @@
                                 <div class="u-s-m-b-15">
                                     <div class="pd-detail__inline">
 
-                                        <span class="pd-detail__stock">200 in stock</span>
+                                        <span class="pd-detail__stock">{{product.in_stock_total}} in stock</span>
 
-                                        <span class="pd-detail__left">Only 2 left</span></div>
+                                        <span class="pd-detail__left">Only {{product.in_stock_total}} left</span></div>
                                 </div>
                                 <div class="u-s-m-b-15">
 
-                                    <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></div>
+                                    <span class="pd-detail__preview-desc">{{product.product_desc}}</span></div>
                                 <div class="u-s-m-b-15">
                                     <div class="pd-detail__inline">
 
@@ -237,13 +237,13 @@
                                     <div class="tab-pane fade show active" id="pd-desc">
                                         <div class="pd-tab__desc">
                                             <div class="u-s-m-b-15">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                <p>{{product.product_l_desc|safe}}</p>
                                             </div>
                                             <div class="u-s-m-b-30"><iframe src="https://www.youtube.com/embed/qKqSBm07KZk" allowfullscreen></iframe></div>
                                             <div class="u-s-m-b-30">
                                                 <ul>
                                                     <li><i class="fas fa-check u-s-m-r-8"></i>
-
+ 
                                                         <span>Buyer Protection.</span></li>
                                                     <li><i class="fas fa-check u-s-m-r-8"></i>
 
@@ -260,11 +260,13 @@
                                                 <div class="pd-table gl-scroll">
                                                     <table>
                                                         <tbody>
+                                                        {% for about in abouts  %}
                                                             <tr>
-                                                                <td>Main Material</td>
-                                                                <td>Cotton</td>
+                                                                <td>{{about.title}}</td>
+                                                                <td>{{about.title_details}}</td>
                                                             </tr>
-                                                            <tr>
+                                                            {% endfor %}
+                                                            {% comment %} <tr>
                                                                 <td>Color</td>
                                                                 <td>Green, Blue, Red</td>
                                                             </tr>
@@ -295,7 +297,7 @@
                                                             <tr>
                                                                 <td>Shipping Weight (kg)</td>
                                                                 <td>0.5</td>
-                                                            </tr>
+                                                            </tr> {% endcomment %}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -617,13 +619,14 @@
                     <div class="container">
                         <div class="slider-fouc">
                             <div class="owl-carousel product-slider" data-item="4">
+                            {% for rproduct in related_products %}
                                 <div class="u-s-m-b-30">
                                     <div class="product-o product-o--hover-on">
                                         <div class="product-o__wrap">
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="images/product/electronic/product1.jpg" alt=""></a>
+                                                <img class="aspect__img" src="{{rproduct.}}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -644,21 +647,22 @@
 
                                         <span class="product-o__category">
 
-                                            <a href="shop-side-version-2.html">Electronics</a></span>
+                                            <a href="shop-side-version-2.html">{{rproduct.product_subcategory}}</a></span>
 
                                         <span class="product-o__name">
 
-                                            <a href="product-detail.html">Beats Bomb Wireless Headphone</a></span>
+                                            <a href="product-detail.html">{{rproduct.product_name}}</a></span>
                                         <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
 
                                             <span class="product-o__review">(20)</span></div>
 
-                                        <span class="product-o__price">$125.00
+                                        <span class="product-o__price">&#8377;{{rproduct.product_mrp}}
 
-                                            <span class="product-o__discount">$160.00</span></span>
+                                            <span class="product-o__discount">&#8377;{{rproduct.product_selling_price}}</span></span>
                                     </div>
                                 </div>
-                                <div class="u-s-m-b-30">
+                            {% endfor %}
+                                {% comment %}<div class="u-s-m-b-30">
                                     <div class="product-o product-o--hover-on">
                                         <div class="product-o__wrap">
 
@@ -698,7 +702,7 @@
 
                                             <span class="product-o__discount">$160.00</span></span>
                                     </div>
-                                </div>
+                                 </div>
                                 <div class="u-s-m-b-30">
                                     <div class="product-o product-o--hover-on">
                                         <div class="product-o__wrap">
@@ -862,7 +866,7 @@
 
                                             <span class="product-o__discount">$160.00</span></span>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
                     </div>

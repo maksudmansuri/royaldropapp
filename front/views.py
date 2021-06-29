@@ -4,7 +4,7 @@ from django.views.generic.base import View
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Product,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, productMedia
+from front.models import Product, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, productMedia
 from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q, fields
@@ -125,8 +125,11 @@ def search_list(query=None):
 class ProductDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(Product, product_slug=kwargs['product_slug'])
+        related_products = Product.objects.filter(product_category=product.product_category,is_active=1)         
         media = productMedia.objects.filter(product=product)
-        context = {'product': product,'media':media}
+        abouts = ProductDetails.objects.filter(product=product)
+        context = {'product': product,'media':media,'abouts':abouts,'related_products':related_products}
+        print(related_products)
         return render(request, 'product_detail.html', context)
     
 

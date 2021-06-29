@@ -339,6 +339,16 @@ class ProductView(View):
                 fs=FileSystemStorage()
                 filename=fs.save(media_content.name,media_content)
                 media_url=fs.url(filename)
+                # print(media_content[1],"gjkbdgjdfg")
+                if media_type_list[0]:
+                    p=Product.objects.get(id=product.id)
+                    p.product_image=media_url
+                    print("inside zero in images")                    
+                    p.save()
+                # if media_type_list[1]:
+                #     product.product_image=media_url
+                #     print("inside one in images")                    
+                #     product.save()
                 product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
                 product_media.save()
                 i=i+1
