@@ -1,6 +1,6 @@
 from django.contrib import admin
 # from .models import Account
-from accounts.models import CustomUser,AdminHOD,Merchants,Customers,Staffs,PhoneOTP,
+from accounts.models import CustomUser,AdminHOD,Merchants,Customers,Staffs,PhoneOTP
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 # from .forms import UserCreationForm, UserChangeForm
