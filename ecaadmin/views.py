@@ -221,7 +221,7 @@ class ProductUpdate(View):
         return render(request,"ecaadmin/product_update.html",{"categories":categories_list,"product":product,"product_details":product_details,"product_about":product_about,"product_tag":product_tag})
 
     def post(self,request,*args,**kwargs):
-
+        print("i m in product update post")
         product_name=request.POST.get("product_name")
         product_brand=request.POST.get("product_brand")
         product_model_number=request.POST.get("product_model_number")
