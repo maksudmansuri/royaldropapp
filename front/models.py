@@ -82,7 +82,7 @@ class Product(models.Model):
     product_selling_price   =           models.IntegerField(blank=True,null=True)
     added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,blank=True,null=True)
     product_brand           =           models.CharField(max_length=255,blank=True,null=True,default="")
-    product_image           =           models.ImageField(upload_to="product_main/images", height_field=None, width_field=None, max_length=None,blank=True,null=True)
+    product_image           =           models.FileField(upload_to="product_main/images",default="",blank=True,null=True)
     # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
     product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
     product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
