@@ -404,6 +404,11 @@ class ProductAddMedia(View):
             fs=FileSystemStorage()
             filename=fs.save(media_content.name,media_content)
             media_url=fs.url(filename)
+            if product.product_image == None:
+                if media_type_list[0]:
+                    product.product_image=media_url
+                    print("inside zero in images")                    
+                    product.save()
             product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
             product_media.save()
             i=i+1
@@ -425,7 +430,7 @@ class ProductMediaDelete(View):
 
         #It will work too Sometimes
         #product_media.media_content.delete()
-        os.remove(settings.MEDIA_ROOT.replace("\media","")+str(product_media.media_content).replace("/","\\"))
+        # os.remove(settings.MEDIA_ROOT.replace("","")+str(product_media.media_content).replace("/","\\"))
         
         product_id=product_media.product.id
         product_media.delete()

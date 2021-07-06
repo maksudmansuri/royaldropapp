@@ -232,9 +232,45 @@
                                                 <span class="product-o__price">{{ product.product.product_selling_price }}
 
                                                     <span class="product-o__discount">{{ product.product.product_mrp }}</span></span>
+                                                <span class="btn btn-primary"
                                             </div>
                                         </div>
-                                      
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <div class="product-m">
+                                                <div class="product-m__thumb">
+
+                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                        <img class="aspect__img" src="images/product/men/product6.jpg" alt=""></a>
+                                                    <div class="product-m__quick-look">
+
+                                                        <a class="fas fa-search" data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a></div>
+                                                    <div class="product-m__add-cart">
+
+                                                        <a class="btn--e-brand" data-modal="modal" data-modal-id="#add-to-cart">Add to Cart</a></div>
+                                                </div>
+                                                <div class="product-m__content">
+                                                    <div class="product-m__category">
+
+                                                        <a href="shop-side-version-2.html">Men Clothing</a></div>
+                                                    <div class="product-m__name">
+
+                                                        <a href="product-detail.html">New Fashion B Nice Elegant</a></div>
+                                                    <div class="product-m__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+
+                                                        <span class="product-m__review">(23)</span></div>
+                                                    <div class="product-m__price">$125.00</div>
+                                                    <div class="product-m__hover">
+                                                        <div class="product-m__preview-description">
+
+                                                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></div>
+                                                        <div class="product-m__wishlist">
+
+                                                            <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"></a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}  
                                     </div>
                                 </div>
@@ -543,11 +579,6 @@
                                     <div class="tab-pane fade show active" id="m-b-s">
                                         <div>
                                             <div class="owl-carousel tab-slider owl-loaded owl-drag" data-item="4">
-                                                
-                                                
-                                                
-                                                
-                                                
                                                 
                                             <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-555px, 0px, 0px); transition: all 3s ease 0s; width: 1665px;"><div class="owl-item" style="width: 277.5px;"><div class="u-s-m-b-30">
                                                     <div class="product-o product-o--hover-on">
@@ -2890,8 +2921,37 @@
     
 
 {% endblock content %}
+<script>
+if(localStorage.getItem('cart') == null){
+    var cart = {};
+}
+else{
+    cart=JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cart').innerHTMl = Object.keys(cart)
+}
+//if the add to cart button is clicked, add/increamental the item
+$('.cart').click(function(){
+    console.log('clicked');
+    var idstr = this.id.toString();
+    console.log(idstr);
+    if(cart[idstr] != undefined){
+        cart[idstr] = cart[idstr] + 1;
+    }
+    else{
+        cart[idstr] = 1;
+    }
+    console.log(cart);
+    localStorage.setItem('cart',JSON.stringify(cart))
+});
 
+document.getElementById("popcart").setAttribute('data-content')
 
+function updateCart(cart){
+    for(var item in cart){
+        document.getElementById('div' +k).innerHTMl="<button id='minus"+ k+ "' class='btn btn-primary minus'>-</button> <span id='val" + k + "''>"+ cart[item] + "</span<"
+    }
+}
+</script>
 {% block custom_js %}{% endblock custom_js %}
        
 

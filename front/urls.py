@@ -13,6 +13,7 @@ urlpatterns = [
     path('testing_file', views.testing_file,name='testing_file'),
     # path('testing_file', views.testing_file,name='testing_file'),
     path('product_details/<slug:product_slug>', views.ProductDetailView.as_view(),name='product_details'),
+    path('checkout', views.CheckoutListView.as_view(),name='checkout'),
     # path('product_details/<slug:slug>', views.Product_details,name='product_details'),
     path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('product_details_2', views.Product_details_2,name='product_details_2'),

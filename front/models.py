@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import user_logged_in
-# from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor_uploader.fields import RichTextUploadingField
 # from staff_lms.models import Staffs
 from accounts.models import Customers as Customers,CustomUser, Merchants,Staffs
 from django.urls import reverse
@@ -86,8 +86,8 @@ class Product(models.Model):
     # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
     product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
     product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
-    product_desc            =           models.TextField()
-    product_l_desc          =           models.TextField()
+    product_desc            =           models.TextField(blank=True,null=True)
+    product_l_desc          =           models.TextField(blank=True,null=True)
     product_slug            =           models.CharField(max_length=255,blank=True,null=True,unique=True,default="")
     # product_why_take      =           RichTextUploadingField(blank=True,null=True)
     # is_appiled            =           models.BooleanField(blank=True,null=True,default=False)
@@ -142,7 +142,6 @@ class ProductTransaction(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
-    
 class ProductWishlist(models.Model):
     id                      =           models.AutoField(primary_key=True)
     user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -153,7 +152,6 @@ class ProductWishlist(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
- 
 class ProductDetails(models.Model):
     id                      =           models.AutoField(primary_key=True)
     title_details           =           models.CharField(max_length=255)
@@ -299,7 +297,7 @@ class Product_Modules(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     position=models.IntegerField(default=0)
     objects = models.Manager()
-
+ 
     class Meta:
         ordering = ['position']
 

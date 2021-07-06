@@ -41,9 +41,7 @@ class indexView(ListView):
             media=productMedia.objects.filter(product=product).first()
             product_list.append({"product":product,"media":media})
         return render(request,"index.html",{"productcategory":productcategory,"productsubcategory":productsubcategory,"products":product_list})
- 
-
-        
+    
 
 
 # def index(request):
@@ -122,7 +120,12 @@ def search_list(query=None):
     
     return list(set(queryset)) 
 
-class ProductDetailView(DetailView):
+class CheckoutListView(ListView):
+    model = Product
+    template_name="checkout.html"
+ 
+
+class ProductDetailView(DetailView): 
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(Product, product_slug=kwargs['product_slug'])
         related_products = Product.objects.filter(product_category=product.product_category,is_active=1)         

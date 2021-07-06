@@ -16,7 +16,7 @@ urlpatterns = [
     path('merchant_list', views.MerchantUserListViews.as_view(),name='merchant_list'),
     path('merchant_create', views.MerchantUserCreateView.as_view(),name='merchant_create'),
     path('merchant_update/<slug:pk>', views.MerchantUserUpdate.as_view(),name='merchant_update'),
-   
+    
     # Product
     path('product_list', views.ProductListViews.as_view(),name='product_list'),
     path('product_create', views.ProductView.as_view(),name='product_view'),

@@ -510,11 +510,11 @@
                                                 {% for prods in prod %}
                                                 <div class="u-s-m-b-30">
                                                     <div class="product-o product-o--hover-on">
-                                                        <div class="product-o__wrap">
+                                                        <div class="product-o__wrap" >
 
-                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                                <img class="aspect__img" src="{{prods.media.media_content}}" alt=""></a>
+                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block"  href="product-detail.html">
+                                                         
+                                                                <img class="aspect__img" id="imagepr{{prods.product.id}}" src="{{prods.media.media_content}}" alt=""></a>
                                                             <div class="product-o__action-wrap">
                                                                 <ul class="product-o__action-list">
                                                                     <li>
@@ -533,20 +533,30 @@
                                                             </div>
                                                         </div>
  
-                                                        <span class="product-o__category">
+                                                        <span class="product-o__category" id="catpr{{prods.product.id}}">
 
                                                             <a href="shop-side-version-2.html">{{prods.product.product_category.title}}</a></span>
 
-                                                        <span class="product-o__name">
+                                                        <span class="product-o__name" >
 
-                                                            <a href="{% url 'product_details' prods.product.product_slug %}">{{prods.product.product_name}}</a></span>
+                                                            <a href="{% url 'product_details' prods.product.product_slug %}" id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
                                                         <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
 
                                                             <span class="product-o__review">(23)</span></div>
 
-                                                        <span class="product-o__price">${{prods.product.product_mrp}}
+                                                        <span class="product-o__price" ><span id="pricepr{{prods.product.id}}">${{prods.product.product_selling_price}}</span>
 
-                                                            <span class="product-o__discount">${{prods.product.product_selling_price}}</span></span>
+                                                            <span class="product-o__discount">${{ prods.product.product_mrp }}</span>
+                                                            
+                                                            </span>
+                                                        <div class="u-s-m-b-15">
+                                                            <span id="divpr{{prods.product.id}}" class="divpr">
+                                                            <button class="gl-tag btn btn--e-brand-b-2 cart" id="pr{{prods.product.id}}">Add to Cart</button></span></div>
+
+                                                        
+
+                                                        
+                                                         
                                                     </div>
                                                 </div>
                                                 {% endfor %}
@@ -4171,5 +4181,120 @@
 
 
 
-{% block custom_js %}{% endblock custom_js %}
+{% block custom_js %}
+<script>
+const itemsList = document.getElementById('popcartpr')
+//find the the cart from localstorage
+if(localStorage.getItem('cart') == null){
+    var cart = {};
+}
+else{
+    cart=JSON.parse(localStorage.getItem('cart'));
+    updateCart(cart);
+}
+//if the add to cart button is clicked, add/increamental the item
+//$('.cart').click(function(){ for add to cart error after clear or zero minus
+
+$('.divpr').on('click', 'button.cart', function(){
+    var idstr = this.id.toString();    
+    if(cart[idstr] != undefined){
+        qty = cart[idstr][0] + 1;
+        cart[idstr]=[qty,name,image,price];
+    }
+    else{
+        qty=1;
+        image = document.getElementById('image'+idstr).src; 
+        name = document.getElementById('name' + idstr).innerHTML;
+        price = document.getElementById('price' + idstr).innerHTML
+        cart[idstr]=[qty,name,image,price];
+    }
+    updateCart(cart);
+    updatePopover(cart);
+});
+updatePopover(cart);
+//popover cart 
+function updatePopover(cart){
+    console.log("we are inside popover");
+    var popStr = "";
+    var i= 1;
+    console.log(cart)
+    for(var item in cart){
+        if(cart[item].qyt == 0){
+            popStr = popStr +"";
+        }
+        else{
+            popStr = popStr + "<div class='card-mini-product rmdiv' id='rm"+ item +"'><div class='mini-product'><div class='mini-product__image-wrapper'><a class='mini-product__link' href='product-detail.html'><img class='u-img-fluid' src='"+document.getElementById('image'+item).src +"' alt=''></a></div><div class='mini-product__info-wrapper'><span class='mini-product__category'><a href='shop-side-version-2.html'>"+document.getElementById('cat' + item).innerHTML +"</a></span><span class='mini-product__name'><a href='product-detail.html'>"+document.getElementById('name' + item).innerHTML +"</a></span><span class='mini-product__quantity'>"+ cart[item][0] +" x</span><span class='mini-product__price'>"+document.getElementById('price' + item).innerHTML +"</span></div></div><a class='mini-product__delete-link far fa-trash-alt popremove' id='rmdl"+ item +"' ></a></div>";
+        }
+        i=i+1;
+    }
+    document.getElementById('popcartpr').innerHTML = popStr;
+}
+function clearCart(){
+    cart = JSON.parse(localStorage.getItem('cart'));
+    for (var item in cart){
+        document.getElementById('div'+item).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id='"+ item +"'>Add to Cart</button>"
+    }
+    localStorage.clear();
+    cart = {};
+    updateCart(cart); 
+
+}
+//remove one element or product form cart 
+$('.popcartpr').on("click", "a.popremove", function(){
+    a = this.id.slice(4,);
+    console.log("inside remove fuction")
+    document.getElementById('div'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ a +">Add To Cart </button>";
+    delete cart[a]
+    localStorage.setItem('cart',JSON.stringify(cart));
+    console.log("now we are exit")
+    updateCart(cart);
+   
+});
+
+
+// Html Code replace with plus minus button updating cart in localStorage
+function updateCart(cart){
+    var sum = 0;
+    for(var item in cart){
+        sum= sum + cart[item][0];
+        document.getElementById('div'+item).innerHTML = "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";    
+                                                            
+    }
+    localStorage.setItem('cart',JSON.stringify(cart));
+    //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
+
+    //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
+    document.getElementById('cart').innerHTML = sum;
+    updatePopover(cart);
+}
+//minus buton works from here
+$('.divpr').on("click", "span.minus", function(){
+    a = this.id.slice(7, );
+    cart['pr'+a][0] = cart ['pr'+a][0] -1;
+    cart['pr'+a][0] = Math.max(0,cart['pr'+a][0]);
+    r=cart['pr'+a][0]
+    var str="Add to Cart"
+    console.log(a)
+    //if(r==0){
+    //    document.getElementById('divpr'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id='pr"+ a +"'>"+ str +"</button>";
+    //    localStorage.setItem('cart',JSON.stringify(cart));
+    //    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    //}
+    //else{
+    document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+    updateCart(cart);
+    //}
+    
+});
+//plus button works from here
+$('.divpr').on("click", "span.plus", function(){
+    a = this.id.slice(6, );
+    cart['pr'+a][0] = cart ['pr'+a][0] +1;
+    document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+    updateCart(cart);
+});
+</script>
+
+
+{% endblock custom_js %}
        

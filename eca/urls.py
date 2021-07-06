@@ -29,7 +29,7 @@ urlpatterns = [
     # path('oauth/', include('social_django.urls', namespace='social')), 
     # path('saccount/',include('allauth.urls'),name='saccount'),
     
-    # path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     # path('chat/', include('chat.urls'),name='chat'),
     path('', include("front.urls")),
     # path('customer_lms/', include("customer_lms.urls")),

@@ -8,9 +8,9 @@
 
                         <!--====== Main Logo ======-->
 
-                        <a class="main-logo" href="index.html">
+                        {% comment %} <a class="main-logo" href="index.html">
 
-                            <img src="{% static '/ecafront/images/logo/logo-1.png' %}" alt=""></a>
+                            <img src="{% static '/ecafront/images/logo/logo-1.png' %}" alt=""></a> {% endcomment %}
                         <!--====== End - Main Logo ======-->
 
                           <!--====== Dropdown Main plugin ======-->
@@ -27,7 +27,7 @@
                                 <ul class="ah-list">
                                     <li class="has-dropdown">
 
-                                        <span class="mega-text">M</span>
+                                        <span class="mega-text mx--10">M</span>
 
                                         <!--====== Mega Menu ======-->
 
@@ -811,7 +811,7 @@
 
                                         <a class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
 
-                                            <span class="total-item-round">2</span></a>
+                                            <span class="total-item-round" id="cart">0</span></a>
 
                                         <!--====== Dropdown ======-->
 
@@ -819,10 +819,10 @@
                                         <div class="mini-cart">
 
                                             <!--====== Mini Product Container ======-->
-                                            <div class="mini-product-container gl-scroll u-s-m-b-15">
-
+                                            <div class="mini-product-container gl-scroll u-s-m-b-15 popcartpr" id ="popcartpr">
+                                                {% comment %}
                                                 <!--====== Card for mini cart ======-->
-                                                <div class="card-mini-product">
+                                                <div class="card-mini-product rmdiv" >
                                                     <div class="mini-product">
                                                         <div class="mini-product__image-wrapper">
 
@@ -848,7 +848,7 @@
                                                 </div>
                                                 <!--====== End - Card for mini cart ======-->
 
-
+                                                     
                                                 <!--====== Card for mini cart ======-->
                                                 <div class="card-mini-product">
                                                     <div class="mini-product">
@@ -930,7 +930,7 @@
 
                                                     <a class="mini-product__delete-link far fa-trash-alt"></a>
                                                 </div>
-                                                <!--====== End - Card for mini cart ======-->
+                                                <!--====== End - Card for mini cart ======--> {% endcomment %}
                                             </div>
                                             <!--====== End - Mini Product Container ======-->
 
@@ -944,9 +944,9 @@
                                                     <span class="subtotal-value">$16</span></div>
                                                 <div class="mini-action">
 
-                                                    <a class="mini-link btn--e-brand-b-2" href="checkout.html">PROCEED TO CHECKOUT</a>
+                                                    <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a>
 
-                                                    <a class="mini-link btn--e-transparent-secondary-b-2" href="cart.html">VIEW CART</a></div>
+                                                    <a class="mini-link btn--e-transparent-secondary-b-2" id ="clearCart" onclick="clearCart()" >REMOVE ALL</a></div>
                                             </div>
                                             <!--====== End - Mini Product Statistics ======-->
                                         </div>
