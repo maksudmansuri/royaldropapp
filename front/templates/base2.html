@@ -96,20 +96,9 @@
             </div>
         </div>
     </noscript>
-   <script>
-   if(localStorage.getItem('cart') == null){
-        var cart = {};
-    }
-    else{
-        cart=JSON.parse(localStorage.getItem('cart'));
-
-    }
-    var sum1 = 0;
-    for(item in cart){ 
-        sum1=sum1 + cart[item][0];        
-    }
-    document.getElementById('cart').innerHTML = sum1;
-    </script>
+   
+   
     {% block custom_js %}{% endblock custom_js %}
+   
 </body>
 </html>

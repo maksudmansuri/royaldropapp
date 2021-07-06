@@ -892,24 +892,43 @@ if(localStorage.getItem('cart') == null){
 }
 else{
     cart=JSON.parse(localStorage.getItem('cart'));
-    document.getElementById('cart').innerHTMl = Object.keys(cart).lenght;
+    
 }
-//if the add to cart button is clicked, add/increamental the item
-$('.cart').click(function(){
-    console.log('clicked');
-    var idstr = this.id.toString();
-    console.log(idstr);
-    if(cart[idstr] != undefined){
-        cart[idstr] = cart[idstr] + 1;
-    }
-    else{
-        cart[idstr] = 1;
-    }
-    console.log(cart);
-    localStorage.setItem('cart',JSON.stringify(cart))
-});
 
-document.getElementById("popcart").setAttribute('data-content');
+
+
+
+function updatePopover(cart){
+    console.log("we are inside popover");
+    var popStr = "";
+    var sum=0;
+    console.log(cart)
+    for(var item in cart){
+        if(cart[item].qyt == 0){
+            popStr = popStr +"";
+        }
+        else{
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let image = cart[item][2];
+            let price = cart[item][3];
+            let cat = cart[item][4];
+            let slug = cart[item][5];
+            let tprice = price.slice(1);
+            let total = tprice*qty;
+            sum=sum+qty;
+            popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}></a></div>`;
+            $('#popcartpr').append(popStr);
+        }
+        document.getElementById('cart').innerHTML = sum;
+        
+    }
+   
+}
+updatePopover(cart);
+
+
+
 
 </script>
 

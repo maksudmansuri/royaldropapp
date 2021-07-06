@@ -533,9 +533,9 @@
                                                             </div>
                                                         </div>
  
-                                                        <span class="product-o__category" id="catpr{{prods.product.id}}">
+                                                        <span class="product-o__category" >
 
-                                                            <a href="shop-side-version-2.html">{{prods.product.product_category.title}}</a></span>
+                                                            <a href="shop-side-version-2.html" id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
 
                                                         <span class="product-o__name" >
 
@@ -543,6 +543,7 @@
                                                         <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
 
                                                             <span class="product-o__review">(23)</span></div>
+                                                        <input type="hidden" id="slugpr{{prods.product.id}}" value="{{prods.product.product_slug}}">
 
                                                         <span class="product-o__price" ><span id="pricepr{{prods.product.id}}">${{prods.product.product_selling_price}}</span>
 
@@ -4205,8 +4206,12 @@ $('.divpr').on('click', 'button.cart', function(){
         qty=1;
         image = document.getElementById('image'+idstr).src; 
         name = document.getElementById('name' + idstr).innerHTML;
-        price = document.getElementById('price' + idstr).innerHTML
-        cart[idstr]=[qty,name,image,price];
+        price = document.getElementById('price' + idstr).innerHTML;
+        cat = document.getElementById('cat' + idstr).innerHTML;
+        slug = document.getElementById('slug' + idstr).value;
+
+        cart[idstr]=[qty,name,image,price,cat,slug];
+        console.log(cart)
     }
     updateCart(cart);
     updatePopover(cart);
