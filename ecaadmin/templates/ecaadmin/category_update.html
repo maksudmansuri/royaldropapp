@@ -19,11 +19,20 @@
        
         {% for field in form %}
         <div class="form-group">
-            {% if field.field.widget.input_type != "select" %}
-            <label>{{ field.label}}</label>
-            <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
-              {% endif %}
-            {% if field.field.widget.input_type == "select" %}
+            {% if field.field.widget.input_type == "checkbox" %}
+            <div class="article-cta">
+                <label class="custom-switch mt-2" style="float:center">
+                        <input type="checkbox" name="{{field.name}}" class="custom-switch-input update" id="{{field.name}}" {% if field.value == True %}checked{% endif %}> 
+                        <span class="custom-switch-indicator"></span>
+                        <span class="custom-switch-description">ACTIVE</span>
+                </label>
+            </div>              
+            {% else %}            
+                <label>{{ field.label}}</label>
+                <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
+            {% endif %}
+           
+            {% comment %} {% if field.field.widget.input_type == "select" %}
             <label>{{ field.label}}</label>
                 <select  name={{field.name}} id="{{field.name}}" class="form-control" >
                     <option >select</option>
@@ -36,7 +45,7 @@
                 {% endfor %}
                 </select>
             
-            {% endif %}
+            {% endif %} {% endcomment %}
             {% if field.errors %}
                 <div class = "alert alert-danger" style ="margin:10px;">
                 {{field.errors }}
@@ -71,4 +80,20 @@
 
 
 {% block custom_js %}
+<script>
+//function myFunction() {
+{% comment %} $('.update').on("click", function(){
+    var checkBox = document.getElementById("myCheck");
+    var form=new FormData($("#myform")[0]);
+    if (checkBox.checked == true){
+        console.log("inside if")
+        open("POST","{% url 'category_active' category.id %}",true);
+    } else {
+        open("POST","{% url 'category_deactive' category.id %}",true);
+    }
+    xhr.send(form);
+})
+  
+} {% endcomment %}
+</script>
 {% endblock custom_js %}

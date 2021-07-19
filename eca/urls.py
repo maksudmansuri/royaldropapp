@@ -24,7 +24,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     # path('admin', RedirectView.as_view(url=reverse_lazy('admin:index'))),
-    path('admin/', admin.site.urls,name="admin_login"),
+    path('ecaadmin/', admin.site.urls,name="admin_login"),
     #socialmedialogin url
     # path('oauth/', include('social_django.urls', namespace='social')), 
     # path('saccount/',include('allauth.urls'),name='saccount'),
@@ -57,7 +57,7 @@ urlpatterns = [
     path('reset/done',auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
     
     # url(r'^api/v1/account/', include(('rest_accounts.urls', 'restprofile'), namespace='rest_accounts')),
-    path('ecaadmin/',include('ecaadmin.urls'),name='admin_home'),
+    path('admin/',include('ecaadmin.urls'),name='admin_home'),
     
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

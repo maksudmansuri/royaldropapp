@@ -24,6 +24,7 @@
         <div class="card-body"> 
         <h5>Product Basic Details</h5>
         <hr>
+ 
             <div class="row">
                 <div class="col-lg-6">
                 <label>Product Name</label>
@@ -36,34 +37,43 @@
                 </div>
             </div>
              <br>
-            <div class="row">
-                <div class="col-lg-6">
-                <label>Product Model Number</label>
-                <input class="form-control" name="product_model_number" placeholder="Product Model Number" />
- 
-                </div>
-               
-                <div class="col-lg-6">
-                <label>Category</label>
-                <select name="sub_category" class="form-control">
+            <div class="row">               
+                <div class="col-lg-6" onload="resetSelection()">
+                <label>Sub Category</label>
+                <select name="sub_category" class="form-control" size="1">
+                <option disabled selected>Choose Category</option>
                     {% for category in categories  %}
                         <optgroup label={{ category.category.title}}>
                         {% for sub_cat in category.sub_category  %}
-                            <option value="{{ sub_cat.id }}">{{sub_cat.title}}</option>
+                            <option value="{{sub_cat.id}}">{{sub_cat.title}}</option>
                         {% endfor %}   
                         </optgroup>     
                     {% endfor %}
                 </select>
                 </div>
+                <div class="col-lg-6">
+                <label>Child Category</label>
+                <select name="child_sub_cat" id="childCategory"  class="form-control" size="1" >
+                <option value="" disabled selected>Choose Category</option>
+                    {% for childcategory in childCategories  %}
+                        <option value="{{childcategory.id}}">{{childcategory.title}}</option>
+                    {% endfor %} 
+                </select>
+                </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-lg-6">
+                 <div class="col-lg-4">
+                <label>Product Model Number</label>
+                <input class="form-control" name="product_model_number" placeholder="Product Model Number" />
+ 
+                </div>
+                <div class="col-lg-4">
                 <label>Max Price</label>
                 <input class="form-control" name="product_mrp" placeholder="Max Price" id="product_mrp" />
 
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                 <label>Discount Price</label>
                 <input class="form-control" name="product_selling_price" placeholder="Discount Price" id="product_selling_price" />
                 </div>
@@ -301,9 +311,9 @@
 
         input.click();
     },
-});
-  </script>
-  <script>
+    });
+</script>
+<script>
     $(".add_media").click(function(){
         var media_row=$(".first_media").clone();
         media_row.removeClass("first_media");  
@@ -403,10 +413,50 @@
             }
         });
         xhr.send(form);
-        window.location.replace("{% url 'product_list' %}");
+       // window.location.replace("{% url 'product_list' %}");
 
     })
-  </script>
+</script>
+       
+{% comment %} <script type="text/javascript">
+    var subcategory = {
+        
+        }
+
+    function makeSubmenu(value){
+        console.log(value)
+        if (value.length == 0){
+            document.getElementById("categorySelect").innerHTML = "<option></option>";
+        }
+        else {
+            var citiesOptions = "";
+            var cats = [];
+            
+            console.log(cats)
+            var cats = "{{allchldct}}";
+            for (categoryId in subcategory[value]) { 
+                console.log(categoryId)              
+                if (value == categoryId.subcategory){
+                    console.log(categoryId)
+                    citiesOptions += "<option>" + categoryId + "</option>";
+                }
+            citiesOptions += "<option>" + categoryId + "</option>";}
+            document.getElementById("categorySelect").innerHTML = citiesOptions;
+        }
+    }
+
+    //function displaySelected() {
+      ///  var country = document.getElementById("category").value;
+     //   var city = document.getElementById("categorySelect").value;
+     //   alert(country + "\n" + city);
+    //}
+
+    function resetSelection() {
+        document.getElementById("category").selectedIndex = 0;
+        document.getElementById("categorySelect").selectedIndex = 0;
+    }
+</script> {% endcomment %}
+
 
   <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js">
   </script>

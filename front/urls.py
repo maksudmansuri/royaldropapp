@@ -5,6 +5,7 @@ urlpatterns = [
     path('home2', views.indexView.as_view(),name='home2'),
     # path('', views.index,name='home'),
     path('home_two', views.home_two,name='home_two'),
+    path('base', views.baseView,name='base'),
     path('', views.HomeListview.as_view(),name='home'),
 
     # path('home_two', views.home_two,name='home_two'),

@@ -10,17 +10,18 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 
 # Create your models   .
-
+ 
 class ProductCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    title                   =           models.CharField(unique=True,max_length=250)
-    slug                    =           models.CharField(max_length=255,default="")
+    title                   =           models.CharField(unique=True,max_length=64)
+    slug                    =           models.CharField(max_length=64,default="")
     thumbnail               =           models.FileField(null=True,blank=True)
-    description             =           models.TextField(default="")
+    description             =           models.TextField(default="",max_length=256)
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
-    is_active               =           models.IntegerField(default=1)   
-
+    is_active               =           models.BooleanField(default=False)   
+    # CHOICES                 =           [('M','Male'),('F','Female')]
+    # Gender=forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
 
     objects = models.Manager()
 
@@ -46,13 +47,13 @@ pre_save.connect(pre_save_ProductCategory_post_receiever, sender=ProductCategory
 class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
     category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    title                   =           models.CharField(unique=True,max_length=255)
-    thumbnail               =           models.FileField(default = "")
-    slug                    =           models.CharField(max_length=255,default="")
-    description             =           models.TextField(default="")
+    title                   =           models.CharField(unique=True,max_length=64)
+    thumbnail               =           models.FileField()
+    slug                    =           models.CharField(max_length=64)
+    description             =           models.TextField(max_length=256)
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
-    is_active               =           models.IntegerField(default=1)   
+    is_active               =           models.BooleanField(default=False)   
 
 
     objects = models.Manager()
@@ -73,26 +74,56 @@ def pre_save_ProductSubCategory_post_receiever(sender, instance, *args, **kwargs
 pre_save.connect(pre_save_ProductSubCategory_post_receiever, sender=ProductSubCategory)
 
 
+class ProductChildSubCategory(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    subcategory             =           models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
+    title                   =           models.CharField(unique=True,max_length=64)
+    thumbnail               =           models.FileField()
+    slug                    =           models.CharField(max_length=64)
+    description             =           models.TextField(max_length=256)
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    is_active               =           models.IntegerField(default=1)   
+
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ["-updated_at"]
+
+    def get_absolute_url(self):
+        return reverse("childsubcategory_list")
+   
+def pre_save_ProductChildSubCategory_post_receiever(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+pre_save.connect(pre_save_ProductChildSubCategory_post_receiever, sender=ProductChildSubCategory)
+
 class Product(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_name            =           models.CharField(unique=True,max_length=255,blank=True,null=True,default="")
+    product_name            =           models.CharField(max_length=64)
+    product_sku             =           models.CharField(unique=True,max_length=128)
     product_subcategory     =           models.ForeignKey(ProductSubCategory,on_delete=models.CASCADE)
+    product_childsubcategory=           models.ForeignKey(ProductChildSubCategory,on_delete=models.CASCADE)
     product_category        =           models.ForeignKey(ProductCategory,on_delete=models.CASCADE)
-    product_mrp             =           models.IntegerField(blank=True,null=True)
-    product_selling_price   =           models.IntegerField(blank=True,null=True)
-    added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,blank=True,null=True)
-    product_brand           =           models.CharField(max_length=255,blank=True,null=True,default="")
+    product_mrp             =           models.IntegerField()
+    product_selling_price   =           models.IntegerField()
+    added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE)
+    product_brand           =           models.CharField(max_length=64,blank=True,null=True,default="")
     product_image           =           models.FileField(upload_to="product_main/images",default="",blank=True,null=True)
     # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
-    product_model_number    =           models.CharField(max_length=255,blank=True,null=True,default="") 
-    product_weight          =           models.CharField(max_length=255,blank=True,null=True,default="")
-    product_desc            =           models.TextField(blank=True,null=True)
-    product_l_desc          =           models.TextField(blank=True,null=True)
-    product_slug            =           models.CharField(max_length=255,blank=True,null=True,unique=True,default="")
+    product_model_number    =           models.CharField(max_length=64,blank=True,null=True,default="")
+    product_desc            =           models.TextField(max_length=256,blank=True,null=True)
+    product_l_desc          =           models.TextField(max_length=500,blank=True,null=True)
+    product_slug            =           models.CharField(max_length=64,blank=True,null=True,unique=True,default="")
     # product_why_take      =           RichTextUploadingField(blank=True,null=True)
     # is_appiled            =           models.BooleanField(blank=True,null=True,default=False)
     is_active               =           models.IntegerField(default=1)   
-    in_stock_total          =           models.IntegerField(default=1)
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -128,6 +159,20 @@ class productMedia(models.Model):
     def __str__(self):
         return self.product.product_name
 
+class productGST(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    Tax_GST                 =           models.CharField(max_length=16,default="")
+    GST_type_choice         =           ((1,"0%"),(2,"3%"),(3,"5%"),(4,"12%"),(5,"18%"),(6,"28%"))
+    GST_in_percentage       =           models.FileField(choices=GST_type_choice,default="")
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.product.product_name
+
 class ProductTransaction(models.Model):
     id                      =           models.AutoField(primary_key=True)
     transaction_type_choises=           ((1,"BUY"),(2,"SELL"))
@@ -145,17 +190,74 @@ class ProductTransaction(models.Model):
 class ProductWishlist(models.Model):
     id                      =           models.AutoField(primary_key=True)
     user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    title                   =           models.CharField(max_length=255)
+    title                   =           models.CharField(max_length=64)
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     total_Wishlist          =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class ProductDetails(models.Model):
+class ProductMetaTag(models.Model):
     id                      =           models.AutoField(primary_key=True)
     title_details           =           models.CharField(max_length=255)
-    title                   =           models.CharField(max_length=255)
+    title                   =           models.CharField(max_length=64)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    def __str__(self):
+        return self.product.product_name
+
+    class Meta:
+        ordering = ["-updated_at"]
+
+class ProductSizeWeight(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    lenght                  =           models.IntegerField()
+    width                   =           models.IntegerField()
+    height                  =           models.IntegerField()
+    weight                  =           models.FloatField()
+    lenght_type_choice      =           ((1,"Inch"),(2,"Centimeter"))
+    lenght_type             =           models.CharField(max_length=16,choices=lenght_type_choice,default="")
+    weight_type_choice      =           ((1,"Gram"),(2,"Kilogram"))
+    lenght_weight           =           models.CharField(max_length=16,choices=lenght_type_choice,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    def __str__(self):
+        return self.product.product_name
+
+    class Meta:
+        ordering = ["-updated_at"]
+
+class ProductStockManage(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    in_stock_total          =           models.IntegerField(default=1)
+    Mini_Quantity           =           models.IntegerField()
+    Quantity                =           models.IntegerField()
+    stock_type_choice       =           ((1,"Out Of Stock"),(2,"Product Discontinued"))
+    Out_Of_Stock_Status     =           models.CharField(max_length=64,choices=stock_type_choice,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    is_active               =           models.IntegerField(default=1)   
+    created_date            =           models.DateTimeField(auto_now_add=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    def __str__(self):
+        return self.product.product_name
+
+    class Meta:
+        ordering = ["-updated_at"]
+
+class ProductDetails(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    title_details           =           models.CharField(max_length=256)
+    title                   =           models.CharField(max_length=64)
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     is_active               =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -170,7 +272,7 @@ class ProductDetails(models.Model):
 
 class ProductAbout(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    title                   =           models.CharField(max_length=255,default="")
+    title                   =           models.CharField(max_length=256,default="")
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     is_active               =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -185,7 +287,7 @@ class ProductAbout(models.Model):
 
 class ProductTag(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_tags            =           models.CharField(max_length=255,default="")
+    product_tags            =           models.CharField(max_length=256,default="")
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     is_active               =           models.IntegerField(default=1)   
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -275,6 +377,21 @@ class OderDeliveryStatus(models.Model):
 
     class Meta:
         ordering = ["-updated_at"]
+
+class ProductDiscount(models.Model):
+    id                      = models.AutoField(primary_key=True)
+    product                 = models.ForeignKey(Product, on_delete=models.CASCADE)
+    Quantity                = models.IntegerField()
+    Price                   = models.IntegerField()
+    Start_date              = models.DateTimeField()
+    end_date                = models.DateTimeField()
+    created_date            = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              = models.DateTimeField(auto_now_add=True)
+    objects                 = models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
+
 
 @receiver(post_delete, sender=Product)
 def submission_delete(sender, instance, **kwargs):

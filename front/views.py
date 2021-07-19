@@ -86,7 +86,7 @@ class HomeListview(ListView):
             prods = Product.objects.filter(product_category=cat,is_active=1)
             # print(prods)
             prod =[]
-            for product in prods:
+            for product in prods: 
                 media=productMedia.objects.filter(product=product).first()
                 prod.append({"product":product,"media":media})            
             n=len(prod)
@@ -124,6 +124,21 @@ class CheckoutListView(ListView):
     model = Product
     template_name="checkout.html"
  
+class baseView(ListView):
+    def get(self, request, *args, **kwargs):
+        related_products = Product.objects.filter(is_active=1)
+        catProduct=Product.objects.values('Product_category','id')
+        cats={item['Product_category'] for item in catProduct}
+        allcats=[]
+        for cat in cats:
+            allcat=ProductCategory.objects.get(id=cat)
+            # crs=Product.objects.filter(Product_category=cat,is_verified=True)
+            crscnt=Product.objects.filter(Product_category=cat).count()
+            # nSlides=n/4+ceil((n/4)-(n//4))
+            # Products.append(crs)
+            allcats.append([allcat,crscnt])
+        context = {'related_products':related_products}
+        return render(request, 'product_detail.html', context)
 
 class ProductDetailView(DetailView): 
     def get(self, request, *args, **kwargs):

@@ -545,7 +545,7 @@
                                                             <span class="product-o__review">(23)</span></div>
                                                         <input type="hidden" id="slugpr{{prods.product.id}}" value="{{prods.product.product_slug}}">
 
-                                                        <span class="product-o__price" ><span id="pricepr{{prods.product.id}}">${{prods.product.product_selling_price}}</span>
+                                                        <span class="product-o__price" >$<span id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
 
                                                             <span class="product-o__discount">${{ prods.product.product_mrp }}</span>
                                                             
@@ -4226,6 +4226,7 @@ function updatePopover(cart){
     for(var item in cart){
         if(cart[item].qyt == 0){
             popStr = popStr +"";
+            document.getElementById('div'+item).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ item +">Add To Cart </button>";
         }
         else{
             popStr = popStr + "<div class='card-mini-product rmdiv' id='rm"+ item +"'><div class='mini-product'><div class='mini-product__image-wrapper'><a class='mini-product__link' href='product-detail.html'><img class='u-img-fluid' src='"+document.getElementById('image'+item).src +"' alt=''></a></div><div class='mini-product__info-wrapper'><span class='mini-product__category'><a href='shop-side-version-2.html'>"+document.getElementById('cat' + item).innerHTML +"</a></span><span class='mini-product__name'><a href='product-detail.html'>"+document.getElementById('name' + item).innerHTML +"</a></span><span class='mini-product__quantity'>"+ cart[item][0] +" x</span><span class='mini-product__price'>"+document.getElementById('price' + item).innerHTML +"</span></div></div><a class='mini-product__delete-link far fa-trash-alt popremove' id='rmdl"+ item +"' ></a></div>";

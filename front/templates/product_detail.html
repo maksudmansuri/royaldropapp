@@ -170,19 +170,19 @@
                                 <div class="u-s-m-b-15">
                                    
                                         <div class="pd-detail-inline-2 pd-detail__form">
-                                            <div class="u-s-m-b-15">
+                                            <div class="u-s-m-b-15" id="pdpr{{product.id}}">
 
                                                 <!--====== Input Counter ======-->
-                                                <div class="input-counter">
+                                                <div class="input-counter" id="divpr{{product.id}}">
 
-                                                    <span class="input-counter__minus fas fa-minus"></span>
+                                                    <span class="input-counter__minus fas fa-minus minus" id="misunpr{{product.id}}"></span>
 
-                                                    <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
+                                                    <input class="input-counter__text input-counter--text-primary-style" id="valpr{{product.id}}" type="text" value="1" data-min="1" data-max="1000">
 
-                                                    <span class="input-counter__plus fas fa-plus"></span></div>
+                                                    <span class="input-counter__plus fas fa-plus plus" id="pluspr{{product.id}}"></span></div>
                                                 <!--====== End - Input Counter ======-->
                                             </div>
-                                            <div class="u-s-m-b-15">
+                                            <div class="u-s-m-b-15 divpr">
 
                                                 <button class="btn btn--e-brand-b-2 cart" id="pr{{product.id}}" type="submit">Add to Cart</button></div>
                                             <div class="u-s-m-b-15">
@@ -891,44 +891,126 @@ if(localStorage.getItem('cart') == null){
     var cart = {};
 }
 else{
-    cart=JSON.parse(localStorage.getItem('cart'));
+    cart=JSON.parse(localStorage.getItem('cart'));  
     
 }
 
-
-
+updateCart(cart)
 
 function updatePopover(cart){
     console.log("we are inside popover");
     var popStr = "";
     var sum=0;
     console.log(cart)
-    for(var item in cart){
-        if(cart[item].qyt == 0){
-            popStr = popStr +"";
-        }
-        else{
-            let name = cart[item][1];
-            let qty = cart[item][0];
-            let image = cart[item][2];
-            let price = cart[item][3];
-            let cat = cart[item][4];
-            let slug = cart[item][5];
-            let tprice = price.slice(1);
-            let total = tprice*qty;
-            sum=sum+qty;
-            popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}></a></div>`;
+    document.getElementById('popcartpr').innerHTML="";
+    if ($.isEmptyObject(cart)){
+        sum = 0;        
+    } 
+    else{
+        for(var item in cart){
+            if(cart[item].qty == 0){
+                popStr = popStr +"";
+            }
+            else{
+                
+                let name = cart[item][1];
+                let qty = cart[item][0];
+                let image = cart[item][2];
+                let price = cart[item][3];
+                let cat = cart[item][4];
+                let slug = cart[item][5];
+                let tprice = price;
+                let total = tprice*qty;
+                sum=sum+qty;
+                popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
+                
+            }
             $('#popcartpr').append(popStr);
-        }
-        document.getElementById('cart').innerHTML = sum;
-        
+           
+            
+        }      
     }
+    document.getElementById('cart').innerHTML = sum;
+    console.log("we are exit popover");
+  
+       
    
 }
-updatePopover(cart);
+function clearCart(){
+    cart = JSON.parse(localStorage.getItem('cart'));
+    localStorage.clear();
+    cart = {};
+    localStorage.setItem('cart',JSON.stringify(cart));
+    updatePopover(cart);
+}
 
+$('.divpr').on('click', 'button.cart', function(){
+    var idstr = this.id.toString();
+    console.log(idstr)
+    if(cart[idstr] != undefined){
+        qty = parseInt(document.getElementById('val'+idstr).value);
+        console.log(qty)
+        cart[idstr]=[qty,name,image,price,cat,slug];
+    }
+    else{
+        qty=parseInt(document.getElementById('val'+idstr).value);
+        image = "{{product.product_image}}"; 
+        name = "{{product.product_name}}";
+        price = "${{product.product_mrp}}";
+        cat = "{{product.product_category.title}}";
+        slug = "{{product.product_slug}}";
 
+        cart[idstr]=[qty,name,image,price,cat,slug];
+        console.log(cart)
 
+    }
+    updateCart(cart);
+});
+
+function updateCart(cart){
+    console.log("we are inside pupdatecart");
+    var sum = 0;
+    var pid="{{product.id}}";
+    console.log(pid)
+    
+    for(var item in cart){
+        sum= sum + cart[item][0];
+        if(item == ('pr'+pid)){
+            document.getElementById('valpr'+pid).value = cart[item][0];
+        }
+    } 
+    
+    localStorage.setItem('cart',JSON.stringify(cart));
+    //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
+
+    //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
+    
+    document.getElementById('cart').innerHTML = sum;
+    updatePopover(cart);
+}
+$('.popcartpr').on("click", "a.popremove", function(){
+    a = this.id.slice(4,);
+    console.log("inside remove fuction")
+    console.log(a)
+    //document.getElementById('div'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ a +">Add To Cart </button>";
+    updatedeletecart(cart);
+    delete cart[a] 
+    localStorage.setItem('cart',JSON.stringify(cart));
+    cart=JSON.parse(localStorage.getItem('cart'));
+    updateCart(cart);
+    console.log("now we are exit")
+    
+});
+
+function updatedeletecart(cart){
+    for(var item in cart){
+            document.getElementById('val'+item).value = 1;
+        }
+}
+
+//minus buton works from here
+
+//plus button works from here
 
 </script>
 

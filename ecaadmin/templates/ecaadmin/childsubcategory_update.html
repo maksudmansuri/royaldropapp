@@ -1,0 +1,74 @@
+{% extends 'ecaadmin/admin_base.html' %}
+
+{% block title %} sub Category Update{% endblock title %} 
+
+
+{% block page_content %}
+
+<div class="raw">
+<div class="col-12 col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+        <h4>Cetegory Update </h4>
+        </div>
+        <div class="card-body">
+          
+            
+        <form method="post", enctype = "multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Category</label>
+                <select name="sub_category" class="form-control">
+                    {% for category in categories  %}
+                        <optgroup label={{ category.category.title}}>
+                        {% for sub_cat in category.sub_category  %}
+                            <option value="{{ sub_cat.id }}" {% if sub_cat.id == pchsbct.subcategory.id %} selected {% endif %}>{{sub_cat.title}}</option>
+                        {% endfor %}   
+                        </optgroup>     
+                    {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" name="title" placeholder="Child Sub Category" id="title" value="{{ pchsbct.title }}"/>
+        </div>
+          <div class="form-group">
+            <label>Thumbnail</label>
+            <input type="file" class="form-control" name="thumbnail" placeholder="thumbnail" id="thumbnail" value="{{ pchsbct.thumbnail}}"/> <br>
+            <div class="card">   
+                  <label>Thumbnail</label>     
+                  <div class="card-body">
+                    <img src="{{pchsbct.thumbnail}}" style = "height:150px"/>
+                  </div>
+                  
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" name="description" placeholder="description" id="title" value="{{ pchsbct.description }}"/>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" name="is_active" placeholder="is_active" id="is_active" value="{{ pchsbct.is_active }}"/>
+        </div>
+
+
+     
+               
+        
+        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE CHILD SUB CATEGORY</button>    
+    </div>
+</div>
+</div>
+                
+
+
+    
+
+
+{% endblock page_content %}
+
+
+{% block custom_js %}
+{% endblock custom_js %}

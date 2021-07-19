@@ -107,12 +107,13 @@
   <!-- Template JS File -->
   <script src="{% static '/admin/js/scripts.js' %}"></script>
   <script src="{% static '/admin/js/custom.js' %}"></script>
-{% block custom_js %}{% endblock custom_js %}
+
 <script>
   {% comment %} document.getElementById("title").onkeyup=function(){
     document.getElementById("slug").value= document.getElementById("title").value.toLowerCase().replace(" ","-");
   } {% endcomment %}
 </script>
+{% block custom_js %}{% endblock custom_js %}
 
 </body>
 </html>

@@ -16,19 +16,16 @@
             
         <form method="post", enctype = "multipart/form-data">
         {% csrf_token %}
-       
+        
         {% for field in form %}
         <div class="form-group">
-            {% if field.label != "Slug" %}
-                <label>{{ field.label}}</label>
-                <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control">
+            <label>{{ field.label}}</label>
+            <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control">
             
             {% if field.errors %}
                 <div class = "alert alert-danger" style ="margin:10px;">
                 {{field.errors }}
-                </div>                
-
-            {% endif %}
+                </div> 
             {% endif %}
         </div>
         {% endfor %}
@@ -46,4 +43,5 @@
 
 
 {% block custom_js %}
+
 {% endblock custom_js %}

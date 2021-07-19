@@ -33,7 +33,9 @@
         {% block fixed_list %}
         {% endblock fixed_list %}
         <!--====== Main Header ======-->
-        <header class="header--style-1">
+        <header class="header--style-1" style=" position: sticky;
+   top: 0;
+   z-index: 100; height:0">
 
            {% include 'navbar1.html' %}
            {% comment %} {% include 'navbar2.html' %} {% endcomment %}

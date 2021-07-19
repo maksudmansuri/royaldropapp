@@ -2,7 +2,7 @@ from django.contrib.messages import views
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
-from front.models import Product, ProductSubCategory,ProductCategory,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductComments,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems
+from front.models import Product, ProductSubCategory,ProductCategory,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductComments,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems,ProductChildSubCategory
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import CustomUser, Customers, Merchants, Staffs
 from django.core.files.storage import FileSystemStorage
@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-from .form import ProductCreateView
+from .form import ProductCreateView,ProductChildSubCategoryCreateVIew
 from eca.settings import BASE_URL
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -40,7 +40,29 @@ class ProductCategoryListViews(ListView):
         context["orderby"]=self.request.GET.get("orderby","id")
         context["all_table_fields"]=ProductCategory._meta.get_fields()
         return context
-        
+
+class ProductCategoryTabListViews(ListView):
+    model=ProductCategory
+    template_name="ecaadmin/category_tab_list.html"
+    paginate_by=3
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            cat=ProductCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
+        else:
+            cat=ProductCategory.objects.all().order_by(order_by)
+
+        return cat
+   
+    def get_context_data(self,**kwargs):
+        context=super(ProductCategoryTabListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=ProductCategory._meta.get_fields()
+        return context
+
 class ProductCategoryUpdate(SuccessMessageMixin,UpdateView):
     model = ProductCategory
     success_message = "category Updated!"
@@ -48,10 +70,16 @@ class ProductCategoryUpdate(SuccessMessageMixin,UpdateView):
     print(fields)
     template_name = "ecaadmin/category_update.html"
 
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+        category =ProductCategory.objects.get(id=self.object.pk)
+        context["category"] = category
+        return context
+
 class ProductCategoryCreate(SuccessMessageMixin,CreateView):
-    model = ProductCategory
+    model = ProductCategory 
     success_message = "category added"
-    fields = ['title','thumbnail','description','is_active']
+    fields = ['title','thumbnail','description']
     template_name = "ecaadmin/category_create.html"
 
 class ProductSubCategoryListViews(ListView):
@@ -76,6 +104,28 @@ class ProductSubCategoryListViews(ListView):
         context["all_table_fields"]=ProductSubCategory._meta.get_fields()
         return context
 
+class ProductSubCategoryTabListViews(ListView):
+    model = ProductSubCategory
+    template_name = "ecaadmin/subcategory_tab_list.html"
+    paginate_by=3
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            cat=ProductSubCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
+        else:
+            cat=ProductSubCategory.objects.all().order_by(order_by)
+
+        return cat
+   
+    def get_context_data(self,**kwargs):
+        context=super(ProductSubCategoryTabListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=ProductSubCategory._meta.get_fields()
+        return context
+
 class ProductSubCategoryUpdate(SuccessMessageMixin,UpdateView):
     model = ProductSubCategory
     success_message = "category Updated!"
@@ -87,6 +137,129 @@ class ProductSubCategoryCreate(SuccessMessageMixin,CreateView):
     success_message = "subcategory added"
     fields = ['category','title','thumbnail','description','is_active']
     template_name = "ecaadmin/subcategory_create.html"
+
+class ProductChildSubCategoryListViews(ListView):
+    model = ProductChildSubCategory
+    template_name = "ecaadmin/childsubcategory_list.html"
+    paginate_by=3
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            cat=ProductChildSubCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
+        else:
+            cat=ProductChildSubCategory.objects.all().order_by(order_by)
+
+        return cat
+   
+    def get_context_data(self,**kwargs):
+        context=super(ProductChildSubCategoryListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=ProductChildSubCategory._meta.get_fields()
+        return context
+    
+class ProductChildSubCategoryTabListViews(ListView):
+    model = ProductChildSubCategory
+    template_name = "ecaadmin/childsubcategory_tab_list.html"
+    paginate_by=3
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            cat=ProductChildSubCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
+        else:
+            cat=ProductChildSubCategory.objects.all().order_by(order_by)
+
+        return cat
+   
+    def get_context_data(self,**kwargs):
+        context=super(ProductChildSubCategoryTabListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=ProductChildSubCategory._meta.get_fields()
+        return context
+
+class ProductChildSubCategoryUpdate(SuccessMessageMixin,UpdateView):
+
+    def get(self,request,*args,**kwargs):
+        product_id=kwargs["pk"]
+        pchsbct=ProductChildSubCategory.objects.get(id=product_id)
+        categories = ProductCategory.objects.filter(is_active=1)
+        categories_list = []
+        for category in categories:
+            sub_category = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
+            categories_list.append({"category":category,"sub_category":sub_category})
+        return render(self.request,"ecaadmin/childsubcategory_update.html",{"pchsbct":pchsbct,"categories":categories_list})
+
+    def post(self,request,*args,**kwargs):
+        title=request.POST.get("title")
+        description=request.POST.get("description")
+        is_active=request.POST.get("is_active")
+        thumbnail=request.FILES.get("thumbnail")
+        sub_category=request.POST.get("sub_category")
+
+        subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        try:
+            pchsbcat_id=kwargs["pk"]
+            # pchsbcat=Product.objects.get(id=pchsbcat_id)
+            pchsbcat=ProductChildSubCategory.objects.get(id=pchsbcat_id)
+            pchsbcat.title=title
+            pchsbcat.description=description
+            pchsbcat.is_active=is_active
+            pchsbcat.subcategory=subcat_obj
+            pchsbcat.category=cat_obj
+            if thumbnail: 
+                fs=FileSystemStorage()
+                filename=fs.save(thumbnail.name,thumbnail)
+                media_url=fs.url(filename)
+                pchsbcat.thumbnail = media_url
+                print(media_url)
+            pchsbcat.save()
+            messages.success(self.request,"Product child subcategory has been Updated Succesfully")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
+
+class ProductChildSubCategoryCreate(SuccessMessageMixin,CreateView):
+    
+    def get(self,request,*args,**kwargs):
+        form = ProductChildSubCategoryCreateVIew()
+        categories = ProductCategory.objects.filter(is_active=1)
+        categories_list = []
+        for category in categories:
+            sub_category = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
+            categories_list.append({"category":category,"sub_category":sub_category})
+        return render(self.request,"ecaadmin/childsubcategory_create.html",{"categories":categories_list,"form":form})
+
+    def post(self,request,*args,**kwargs):
+        title=request.POST.get("title")
+        description=request.POST.get("description")
+        is_active=request.POST.get("is_active")
+        thumbnail=request.FILES.get("thumbnail")
+        sub_category=request.POST.get("sub_category")
+        product_selling_price=request.POST.get("product_selling_price")
+       
+ 
+        subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        try:
+            pchsbcat=ProductChildSubCategory(title=title,description=description,is_active=is_active,subcategory=subcat_obj,category=cat_obj)
+            pchsbcat.save()
+            fs=FileSystemStorage()
+            filename=fs.save(thumbnail.name,thumbnail)
+            media_url=fs.url(filename)
+            pchsbcat.thumbnail = media_url
+            pchsbcat.save()
+            messages.success(self.request,"Product  child subcategory has been Created Succesfully")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
 
 class MerchantUserCreateView(SuccessMessageMixin,CreateView):
     model = CustomUser
@@ -176,7 +349,28 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
 class MerchantUserListViews(ListView):
     model = Merchants
     template_name = "ecaadmin/merchant_list.html"
+
+class MerchantUserTabListViews(ListView):
+    model = Merchants
+    template_name = "ecaadmin/merchant_tab_list.html"
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            cat=Merchants.objects.filter(Q(company_name__contains=filter_val)).order_by(order_by)
+        else:
+            cat=Merchants.objects.all().order_by(order_by)
+
+        return cat
    
+    def get_context_data(self,**kwargs):
+        context=super(MerchantUserTabListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=Merchants._meta.get_fields()
+        return context
+
 class ProductListViews(ListView):
     model = Product
     template_name = "ecaadmin/product_list.html"
@@ -203,6 +397,32 @@ class ProductListViews(ListView):
         context["all_table_fields"]=Product._meta.get_fields()
         return context
 
+class ProductTabListViews(ListView):
+    model = Product
+    template_name = "ecaadmin/product_tab_list.html"
+    paginate_by=3
+
+    def get_queryset(self):
+        filter_val=self.request.GET.get("filter","")
+        order_by=self.request.GET.get("orderby","id")
+        if filter_val!="":
+            products=Product.objects.filter(Q(product_name__contains=filter_val) | Q(product_desc__contains=filter_val)).order_by(order_by)
+        else:
+            products=Product.objects.all().order_by(order_by)
+        product_list=[]
+        for product in products:
+            product_media=productMedia.objects.filter(product=product.id,media_type=1,is_active=1).first()
+            product_list.append({"product":product,"media":product_media})
+        
+        return product_list
+   
+    def get_context_data(self,**kwargs):
+        context=super(ProductTabListViews,self).get_context_data(**kwargs)
+        context["filter"]=self.request.GET.get("filter","")
+        context["orderby"]=self.request.GET.get("orderby","id")
+        context["all_table_fields"]=Product._meta.get_fields()
+        return context
+
 class ProductUpdate(View):
     
     def get(self,request,*args,**kwargs):
@@ -216,9 +436,10 @@ class ProductUpdate(View):
         categories_list = []
         for category in categories:
             sub_category = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
-            categories_list.append({"category":category,"sub_category":sub_category})     
-
-        return render(request,"ecaadmin/product_update.html",{"categories":categories_list,"product":product,"product_details":product_details,"product_about":product_about,"product_tag":product_tag})
+            categories_list.append({"category":category,"sub_category":sub_category})    
+        childCategory = ProductChildSubCategory.objects.filter(is_active=1)
+        print(childCategory)
+        return render(request,"ecaadmin/product_update.html",{"categories":categories_list,"product":product,"product_details":product_details,"product_about":product_about,"product_tag":product_tag,"childCategory":childCategory})
 
     def post(self,request,*args,**kwargs):
         print("i m in product update post")
@@ -301,8 +522,21 @@ class ProductView(View):
         for category in categories:
             sub_category = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
             categories_list.append({"category":category,"sub_category":sub_category})
+        # for category in categories:
+        #     sub_categories = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
+        #     for sub_category in sub_categories:
+        #         child_sub_category = ProductChildSubCategory.objects.filter(is_active=1,subcategory_id=sub_category.id)
+        #         categories_list.append({"category":category,"sub_categories":sub_categories})
         merchants_users=Merchants.objects.filter(admin_id__is_active =True)
-        return render(self.request,"ecaadmin/product_create.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form})
+        # allchldct=[]
+        # chcattosbcat=ProductChildSubCategory.objects.values('subcategory')
+        # subcats={item['subcategory'] for item in chcattosbcat}
+        # for subcat in subcats:
+        #     chldcat = ProductChildSubCategory.objects.filter(subcategory=subcat,is_active=1)
+        #     subcat = ProductSubCategory.objects.filter(id=subcat,is_active=1)
+        #     allchldct.append([chldcat,subcat])
+        childCategories = ProductChildSubCategory.objects.filter(is_active=1)
+        return render(self.request,"ecaadmin/product_create.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form,'childCategories':childCategories})
         
     def post(self,request,*args,**kwargs):
         product_name=request.POST.get("product_name")
@@ -321,14 +555,18 @@ class ProductView(View):
         title_details_list=request.POST.getlist("title_details[]")
         about_title_list=request.POST.getlist("about_title[]")
         product_tags=request.POST.get("product_tags")
+        product_childsubcategory=request.POST.get("child_sub_cat")
         long_desc=request.POST.get("long_desc")
  
+        child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
         subcat_obj=ProductSubCategory.objects.get(id=sub_category)
         cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
         print(cat_obj)
+        print(subcat_obj)
+        print(child_subcat_obj)
         merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
         try:
-            product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_weight=product_weight,product_desc=product_desc,added_by_merchant=merchant_user_obj,product_l_desc=long_desc,in_stock_total=in_stock_total)
+            product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_weight=product_weight,product_childsubcategory=child_subcat_obj,product_desc=product_desc,added_by_merchant=merchant_user_obj,product_l_desc=long_desc,in_stock_total=in_stock_total)
             print("product addded")
             print(product_name,product_brand,product_model_number,cat_obj,subcat_obj,product_mrp,product_selling_price,product_weight,product_desc,merchant_user_obj,long_desc,in_stock_total)
             product.save()
@@ -374,9 +612,116 @@ class ProductView(View):
             product_transaction.save()
             print("all data stored")
             messages.success(self.request,"Product Created Succesfully")
+            # return HttpResponse("ok")
             return HttpResponseRedirect(reverse("product_list"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
+            # return HttpResponse("error in connection")
+            return HttpResponseRedirect(reverse("product_list"))
+
+class AddProductView(View):
+    def get(self,request,*args,**kwargs):
+        form=ProductCreateView()
+        categories = ProductCategory.objects.filter(is_active=1)
+        categories_list = []
+        for category in categories:
+            sub_category = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
+            categories_list.append({"category":category,"sub_category":sub_category})
+        # for category in categories:
+        #     sub_categories = ProductSubCategory.objects.filter(is_active=1,category_id=category.id)
+        #     for sub_category in sub_categories:
+        #         child_sub_category = ProductChildSubCategory.objects.filter(is_active=1,subcategory_id=sub_category.id)
+        #         categories_list.append({"category":category,"sub_categories":sub_categories})
+        merchants_users=Merchants.objects.filter(admin_id__is_active =True)
+        # allchldct=[]
+        # chcattosbcat=ProductChildSubCategory.objects.values('subcategory')
+        # subcats={item['subcategory'] for item in chcattosbcat}
+        # for subcat in subcats:
+        #     chldcat = ProductChildSubCategory.objects.filter(subcategory=subcat,is_active=1)
+        #     subcat = ProductSubCategory.objects.filter(id=subcat,is_active=1)
+        #     allchldct.append([chldcat,subcat])
+        childCategories = ProductChildSubCategory.objects.filter(is_active=1)
+        return render(self.request,"ecaadmin/add_product.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form,'childCategories':childCategories})
+        
+    def post(self,request,*args,**kwargs):
+        product_name=request.POST.get("product_name")
+        product_brand=request.POST.get("product_brand")
+        product_model_number=request.POST.get("product_model_number")
+        sub_category=request.POST.get("sub_category")
+        product_mrp=request.POST.get("product_mrp")
+        product_selling_price=request.POST.get("product_selling_price")
+        product_desc=request.POST.get("product_desc")
+        product_weight=request.POST.get("product_weight")
+        added_by_merchant=request.POST.get("added_by_merchant")
+        in_stock_total=request.POST.get("in_stock_total")
+        media_type_list=request.POST.getlist("media_type[]")
+        media_content_list=request.FILES.getlist("media_content[]")
+        title_title_list=request.POST.getlist("title_title[]")
+        title_details_list=request.POST.getlist("title_details[]")
+        about_title_list=request.POST.getlist("about_title[]")
+        product_tags=request.POST.get("product_tags")
+        product_childsubcategory=request.POST.get("child_sub_cat")
+        long_desc=request.POST.get("long_desc")
+ 
+        child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
+        subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        print(cat_obj)
+        print(subcat_obj)
+        print(child_subcat_obj)
+        merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
+        try:
+            product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_weight=product_weight,product_childsubcategory=child_subcat_obj,product_desc=product_desc,added_by_merchant=merchant_user_obj,product_l_desc=long_desc,in_stock_total=in_stock_total)
+            print("product addded")
+            print(product_name,product_brand,product_model_number,cat_obj,subcat_obj,product_mrp,product_selling_price,product_weight,product_desc,merchant_user_obj,long_desc,in_stock_total)
+            product.save()
+            print("product saved")
+
+            i=0
+            for media_content in media_content_list:
+                fs=FileSystemStorage()
+                filename=fs.save(media_content.name,media_content)
+                media_url=fs.url(filename)
+                # print(media_content[1],"gjkbdgjdfg")
+                if media_type_list[0]:
+                    p=Product.objects.get(id=product.id)
+                    p.product_image=media_url
+                    print("inside zero in images")                    
+                    p.save()
+                # if media_type_list[1]:
+                #     product.product_image=media_url
+                #     print("inside one in images")                    
+                #     product.save()
+                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
+                product_media.save()
+                i=i+1
+
+            j=0
+            for title_title in title_title_list:
+                product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
+                product_details.save()
+                j=j+1
+            k=0
+            for about in about_title_list:
+                product_about=ProductAbout(title=about,product=product)
+                product_about.save()
+                k=k+1
+
+            product_tags_list=product_tags.split(",")
+
+            for product_tag in product_tags_list:
+                product_tag_obj=ProductTag(product_tags=product_tag,product=product)
+                product_tag_obj.save()
+
+            product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
+            product_transaction.save()
+            print("all data stored")
+            messages.success(self.request,"Product Created Succesfully")
+            # return HttpResponse("ok")
+            return HttpResponseRedirect(reverse("product_list"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("product_list"))
 
 @csrf_exempt
@@ -609,3 +954,19 @@ class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
         customeruser.save()
         messages.success(self.request,"Customer User Updated")
         return HttpResponseRedirect(reverse("customer_list"))
+
+
+def activeCategory(request,pk):
+        cat = ProductCategory.objects.get(id=pk)
+        print(cat)
+        cat.is_active =True
+        cat.save()
+        return HttpResponse("active")
+
+def deactiveCategory(request,pk):
+    cat = ProductCategory.objects.get(id=pk)
+    cat.is_active =False
+    cat.save()
+    return HttpResponse("deactive")
+
+

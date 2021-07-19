@@ -1,0 +1,82 @@
+{% extends 'ecaadmin/admin_base.html' %}
+
+{% block title %} Child Category Create{% endblock title %} 
+
+
+{% block page_content %}
+
+<div class="raw">
+<div class="col-12 col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+        <h4>Add Child Cetegory</h4>
+        </div>
+        <div class="card-body">
+          
+             
+        <form method="post", enctype = "multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+        <label>Category</label>
+            <select name="sub_category" class="form-control">
+                {% for category in categories  %}
+                    <optgroup label={{ category.category.title}}>
+                    {% for sub_cat in category.sub_category  %}
+                        <option value="{{ sub_cat.id }}">{{sub_cat.title}}</option>
+                    {% endfor %}   
+                    </optgroup>     
+                {% endfor %}
+            </select>
+        </div>
+        {% for field in form %}
+        <div class="form-group">
+             {% if field.field.widget.input_type == "boolean" %}
+                <label class="custom-switch mt-2" style="float:left">
+                    <input type="{{field.field.widget.input_type}}" name="{{field.name}}"  id="{{field.name}}" class="custom-switch-input" {% if field.is_active %} checked{% endif %}> 
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">ACTIVE</span>
+                </label>
+            {% endif %}
+            {% if field.field.widget.input_type != "select" %}
+            <label>{{ field.label}}</label>
+                <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control">
+           
+            {% endif %}
+            {% if field.field.widget.input_type == "select" %}
+            <label>{{ field.label}}</label>
+                <select  name={{field.name}} id="{{field.name}}" class="form-control" >
+                    <option >select</option>
+                {% for id,value in field.field.choices %}
+                    <option value="{{id}}">{{value}}</option>
+                {% endfor %}
+                </select>
+            
+            {% endif %}
+            
+            
+
+            {% if field.errors %}
+                <div class = "alert alert-danger" style ="margin:10px;">
+                {{field.errors }}
+                </div>                
+
+            
+            {% endif %}
+        </div>
+        
+        {% endfor %}
+        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE SUBCATEGORY</button>    
+    </div>
+</div>
+</div>
+                
+
+
+    
+
+
+{% endblock page_content %}
+
+
+{% block custom_js %}
+{% endblock custom_js %}

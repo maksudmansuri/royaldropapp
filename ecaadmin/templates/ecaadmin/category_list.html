@@ -55,13 +55,17 @@
     <div class="article-title">
         <h2><a href="#">{{category.title}}</a></h2>
     </div>
-    <p>{{category.description}} </p>
+    <p>{{category.description|truncatewords:8}} </p>
+    
     <div class="article-cta">
+    <form method= "post" action="{% url 'category_active' category.id %}" id="update">
+    {% csrf_token %}
         <label class="custom-switch mt-2" style="float:left">
-                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" {% if category.is_active == 1 %} checked{% endif %}> 
+                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" {% if category.is_active == 1 %} checked{% endif %} onclick="myFucntion()"> 
                         <span class="custom-switch-indicator"></span>
                         <span class="custom-switch-description">ACTIVE</span>
                       </label>
+    </form>
         <a href="{% url 'category_update' category.id %}" class= "btn btn-warning">EDIT  <i class="fas fa-chevron-right"></i></a>
 
         
@@ -107,5 +111,11 @@
 
 
 {% block custom_js %}
+<script>
+function myFucntion(){
+    document.getElementById("update").submit();
+}
+</script>
+
 {% endblock custom_js %}
 
