@@ -633,15 +633,14 @@ class AddProductView(View):
         #         child_sub_category = ProductChildSubCategory.objects.filter(is_active=1,subcategory_id=sub_category.id)
         #         categories_list.append({"category":category,"sub_categories":sub_categories})
         merchants_users=Merchants.objects.filter(admin_id__is_active =True)
-        # allchldct=[]
-        # chcattosbcat=ProductChildSubCategory.objects.values('subcategory')
-        # subcats={item['subcategory'] for item in chcattosbcat}
-        # for subcat in subcats:
-        #     chldcat = ProductChildSubCategory.objects.filter(subcategory=subcat,is_active=1)
-        #     subcat = ProductSubCategory.objects.filter(id=subcat,is_active=1)
-        #     allchldct.append([chldcat,subcat])
+        subcategories = ProductSubCategory.objects.filter(is_active=1)
         childCategories = ProductChildSubCategory.objects.filter(is_active=1)
-        return render(self.request,"ecaadmin/add_product.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form,'childCategories':childCategories})
+        childsubcategories = ProductChildSubCategory.objects.filter(is_active=1)
+        subcategories_list = []
+        for subcategory in subcategories:
+            child_sub_category = ProductChildSubCategory.objects.filter(is_active=1,category_id=subcategory.id)
+            subcategories_list.append({"subcategory":subcategory,"child_sub_category":child_sub_category})
+        return render(self.request,"ecaadmin/add_product.html",{"categories":categories_list,'merchants_users':merchants_users,'form':form,'subcategories_list':subcategories_list,"childCategories":childCategories})
         
     def post(self,request,*args,**kwargs):
         product_name=request.POST.get("product_name")

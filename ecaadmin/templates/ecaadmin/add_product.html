@@ -8,6 +8,7 @@
     width:100%;
 }
 </style>
+
 {% endblock custom_css %}
 
 
@@ -35,11 +36,17 @@
         <li class="nav-item">
             <a class="nav-link " id="price-tab" data-toggle="tab" href="#price" role="tab" aria-controls="price" aria-selected="true">Price</a>
         </li>
+         <li class="nav-item">
+            <a class="nav-link " id="discount-tab" data-toggle="tab" href="#discount" role="tab" aria-controls="discount" aria-selected="true">Discount</a>
+        </li>
         <li class="nav-item">
             <a class="nav-link " id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="media" aria-selected="true">Media</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="varient-tab" data-toggle="tab" href="#varient" role="tab" aria-controls="varient" aria-selected="true">Varient</a>
         </li>
     </ul>
     <div class="tab-content " id="myTabContent">
@@ -47,18 +54,22 @@
             <div class="row">
                 <div class="col-lg-6">
                 <label>Product Name</label>
-                <input class="form-control" name="product_name" placeholder="Product Name" id="product_name" />
+                <input class="form-control" name="product_name" placeholder="Product Name" id="product_name" maxlength="256" />
 
                 </div>
                 <div class="col-lg-6">
                 <label>Product Brand</label>
-                <input class="form-control" name="product_brand" placeholder="Product Brand" id="product_brand" />
+                <input class="form-control" name="product_brand" placeholder="Product Brand" id="product_brand" maxlength="64" />
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                 <label>Product Model Number</label>
-                <input class="form-control" name="product_model_number" placeholder="Product Model Number" />
+                <input class="form-control" name="product_model_number" placeholder="Product Model Number" maxlength="256" />
+                </div>
+                <div class="col-lg-6">
+                <label>Product SKU</label>
+                <input class="form-control" name="product_sku" placeholder="Product SKU" />
                 </div>
             </div><br>
             <div class="row">
@@ -77,10 +88,189 @@
 
         </div>
         <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+             <div class="row">               
+                <div class="col-lg-6">
+                <label>Sub Category</label>
+                <select class="form-control" size="1" id="sub_category" name="product_subcategory">
+                <option disabled selected>Choose Category</option>
+                    {% for category in categories  %}
+                        <optgroup label={{category.category.title}}>
+                        {% for sub_cat in category.sub_category  %}
+                            <option value="{{sub_cat.id}}">{{sub_cat.title}}</option>
+                        {% endfor %}   
+                        </optgroup>     
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col-lg-6">
+                <label>Child Category</label>
+                <select name="product_childsubcategory" id="product_childsubcategory"  class="form-control" size="1" >
+                <option value="" disabled selected>Choose Child Category</option>
+                    {% for childcategory in childCategories  %}
+                        <option value="{{childcategory.id}}">{{childcategory.title}}</option>
+                    {% endfor %} 
+                </select>
+                </div>
+            </div>
+            <br>
         </div>
         <div class="tab-pane fade" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+            <div class="row">
+                <div class="col-lg-3">                
+                    <label style= "margin-top:10px;margin-left:28px;"><b>Total Stock</b></label> 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="in_stock_total" placeholder="Add Stock" id="in_stock_total" />
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                    <label style= "margin-top:10px;margin-left:28px;"><b>Minimum Quantity</b></label>
+ 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="Mini_Quantity" placeholder="Minimum Quantity" id="Mini_Quantity" />
+
+                </div>
+            </div>
+            <br>
+              <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Stock Status</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="Out_Of_Stock_Status" id="Out_Of_Stock_Status"  class="form-control" size="1" >
+                    <option value="" disabled selected>Stock</option>
+                            <option value="1">Out of Stock</option>
+                            <option value="2">Product Discontinue</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Dimension(H x L x W)</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-3">
+                
+                <input class="form-control" name="height" id="height" placeholder="Enter Height" />
+ 
+                </div>
+                
+                <div class="col-lg-3">
+                <input class="form-control" name="lenght" id="lenght" placeholder="Enter Length" id="Length" />
+
+                </div>
+                <div class="col-lg-3">
+                <input class="form-control" name="width" placeholder="Enter Width" id="width" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Length Type</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="lenght_type" id="lenght_type"  class="form-control" size="1" >
+                    <option value="" disabled selected>Choose Type</option>
+                            <option value="1">Inch</option>
+                            <option value="2">Centimeter</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Product Weight</b></label>
+ 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="weight" placeholder="Add Product Weight" id="weight" />
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Weight Type</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="weight_type" id="weight_type"  class="form-control" size="1" >
+                    <option value="" disabled selected>Choose Type</option>
+                            <option value="1">Gram</option>
+                            <option value="2">Kilogram</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
         </div>
         <div class="tab-pane fade " id="price" role="tabpanel" aria-labelledby="price-tab">
+            <div class="row">
+                <div class="col-lg-3">
+                <label style= "margin-top:10px;margin-left:28px;" ><b>Product Price</b></label> 
+                </div>
+                <div class="col-lg-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        &#8377
+                        </div>
+                    </div>
+                <input type="text"class="form-control currency" name="product_mrp" placeholder="Price On package" id="product_mrp" />
+
+                </div>
+                <div class="col-lg-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        &#8377
+                        </div>
+                    </div>
+                <input type="text" class="form-control currency" name="product_selling_price" placeholder="Online Selling Price" id="product_selling_price" />
+                </div>
+            </div>
+            <br>
+             <div class="row">
+                <div class="col-lg-3">
+                <label style= "margin-top:10px;margin-left:28px;"><b>GST Percentage</b></label> 
+                </div>
+                <div class="col-lg-9">
+                    <select name="GST_in_percentage" id="GST_in_percentage"  class="form-control" size="1" >
+                    <option value="" disabled selected>GST Tax </option>
+                            <option value="1">0%(Exempted)</option>
+                            <option value="2">3%</option>
+                            <option value="3">5%</option>
+                            <option value="4">12%</option>
+                            <option value="5">18%</option>
+                            <option value="6">28%</option>
+                    </select>
+                </div>
+                
+            </div>
+            <br>
         </div>
         <div class="tab-pane fade " id="media" role="tabpanel" aria-labelledby="media-tab">
             <div class="media_div">
@@ -120,17 +310,63 @@
             <br>
 
         </div>
+        <div class="tab-pane fade " id="discount" role="tabpanel" aria-labelledby="discount-tab">
+            <div class="discount_div">
+                <div class="row discount_div_row first_discount" >
+                    <div class="col-lg-3">
+                        <label><b>Minimum Quantity for Discount</b></label>
+                        
+                        <input type="number" min="1" max="10000" value="1" name="quantity" id="quantity" class="form-control select_discount">
+                        
+                    </div>
+                    <div class="col-lg-3">                        
+                        <label><b>Discounted Price Per Item</b></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                &#8377
+                                </div>
+                            </div>
+                            <input name="dis_price" id="dis_price" class="form-control currency select_discount">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                            <label>Date Picker</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control">
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Date Picker</label>
+                            <input type="date" name="end_date"  id="end_date" class="form-control datepicker">
+                        </div>
+                    </div>
+                   
+                </div>             
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button class="btn btn-success btn-block add_discount" type="button">ADD MEDIA CONTENT</button>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-danger btn-block remove_discount" type="button">REMOVE MEDIA CONTENT</button>
+                </div>
+            </div>
+
+            <br>
+
+        </div>
         <div class="tab-pane fade " id="about" role="tabpanel" aria-labelledby="about-tab">
             <div class="details_div">
                 <div class="row details_div_row first_details" >
                     <div class="col-lg-6">
                         <label>Title</label>
-                        <input type="text" name="title_title[]" class="form-control title_title" placeholder="Title">
+                        <input type="text" name="title_title[]" class="form-control title_title input-group-text" placeholder="Title">
                     
                     </div>
                     <div class="col-lg-6">
                         <label>Details</label>
-                        <input type="text" name="title_details[]" class="form-control title_details" placeholder="Title Details">
+                        <input type="text" name="title_details[]" class="form-control title_details input-group-text" placeholder="Title Details">
                     </div>               
                     
                 </div>             
@@ -138,7 +374,7 @@
                 <br>
                 <div class="row">
                     <div class="col-lg-6">
-                        <button class="btn btn-success btn-block add_details" type="button">ADD Details</button>
+                        <button class="btn btn-success btn-block add_details " type="button">ADD Details</button>
                     </div>
                     <div class="col-lg-6">
                         <button class="btn btn-danger btn-block remove_details" type="button">REMOVE Details</button>
@@ -175,8 +411,7 @@
                 </div>
             </div>
             <br>
-        </div>
-         <div class="row">
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="progress mb-3" style="height:auto">
                       <div class="progress-bar bg-warning" role="progressbar" id="progressbar" data-width="0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="display:none; width: 0%;height:30px;border-radius:10px;">0%</div>
@@ -187,7 +422,11 @@
             <div class="row">
                 <button type="button" class="btn btn-primary btn-block submit_btn">ADD PRODUCT</button>
 
-            </div>
+           </div>
+        </div>
+        <div class="tab-pane fade " id="varient" role="tabpanel" aria-labelledby="varient-tab">
+        </div>
+       
     </div>
     </div>
     </form>
@@ -213,6 +452,20 @@
     $(".remove_media").click(function(){
         if ($(".media_div").find(".media_div_row").length>1){
             $(".media_div").children().last().remove();
+        }
+    });
+
+     $(".add_discount").click(function(){
+        var discount_row=$(".first_discount").clone();
+        discount_row.removeClass("first_discount");  
+        discount_row.replaceAll("src","")
+        discount_row.find(".select_discount").val("");
+
+        $(".discount_div").append(discount_row);
+    });
+    $(".remove_discount").click(function(){
+        if ($(".discount_div").find(".discount_div_row").length>1){
+            $(".discount_div").children().last().remove();
         }
     });
 
@@ -303,6 +556,30 @@
 
     })
 </script>
+<script>
+    $(document).on('ready', function () {
+
+        $("#source").on('change', function () {
+            var el = $(this);
+            console.log(el)
+            for(sub_category in subcategories_list){
+                if (el.val() === "sub_category.subcategory.id") {
+                    for(childcategory in sub_category.child_sub_category){
+                        $("#status").append("<option>SHIPPED</option>");
+                    }
+                    
+                } 
+                
+            }
+        
+            //else if (el.val() === "MANUAL") {
+            //  $("#status option:last-child").remove();
+            //}
+        });
+
+    });
+</script>
 <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js">
-  </script>
+</script>
+
 {% endblock custom_js %}
