@@ -30,17 +30,17 @@
         </div>
         {% for field in form %}
         <div class="form-group">
-             {% if field.field.widget.input_type == "boolean" %}
-                <label class="custom-switch mt-2" style="float:left">
-                    <input type="{{field.field.widget.input_type}}" name="{{field.name}}"  id="{{field.name}}" class="custom-switch-input" {% if field.is_active %} checked{% endif %}> 
-                    <span class="custom-switch-indicator"></span>
-                    <span class="custom-switch-description">ACTIVE</span>
-                </label>
-            {% endif %}
             {% if field.field.widget.input_type != "select" %}
-            <label>{{ field.label}}</label>
-                <input type="{{field.field.widget.input_type}}" name="{{field.name}}" id="{{field.name}}" class="form-control">
-           
+                {% if field.field.widget.input_type == "checkbox"  %}
+                <label class="custom-switch mt-2">
+                    <input type="checkbox" name="is_active" id ="is_active" class="custom-switch-input">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">Is_active</span>
+                </label> 
+                {% else %}
+                <label>{{ field.label}}</label>
+                <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control">
+                {% endif %}
             {% endif %}
             {% if field.field.widget.input_type == "select" %}
             <label>{{ field.label}}</label>

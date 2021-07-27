@@ -1,0 +1,729 @@
+{% extends 'ecaadmin/admin_base.html' %}
+{% block title %} Product Create{% endblock title %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css"/>
+<style>
+.bootstrap-tagsinput{
+    width:100%;
+}
+</style>
+
+{% endblock custom_css %}
+
+
+{% block page_title %} Update Details Of {{product.product_name}}{% endblock page_title %} 
+
+
+{% block page_content %}
+<div class="row">
+<div class="col-lg-12" >
+<div class="card">      
+    <form id="myform">
+    {% csrf_token %}
+    <div class="card-body">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active show" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="false">Category</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="stock-tab" data-toggle="tab" href="#stock" role="tab" aria-controls="stock" aria-selected="true">Stock and Dimension</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="price-tab" data-toggle="tab" href="#price" role="tab" aria-controls="price" aria-selected="true">Price</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link " id="discount-tab" data-toggle="tab" href="#discount" role="tab" aria-controls="discount" aria-selected="true">Discount</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="media" aria-selected="true">Media</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " id="varient-tab" data-toggle="tab" href="#varient" role="tab" aria-controls="varient" aria-selected="true">Varient</a>
+        </li>
+    </ul>
+    <div class="tab-content " id="myTabContent">
+        <div class="tab-pane fade active show" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <div class="row">
+                <div class="col-lg-6">
+                <label>Product Name</label>
+                <input class="form-control" name="product_name" placeholder="Product Name" id="product_name" maxlength="256" value="{{product.product_name}}" />
+
+                </div>
+                <div class="col-lg-6">
+                <label>Product Brand</label>
+                <input class="form-control" name="product_brand" placeholder="Product Brand" id="product_brand" maxlength="64" value="{{product.product_brand}}" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-6">
+                <label>Product Model Number</label>
+                <input class="form-control" name="product_model_number" placeholder="Product Model Number" maxlength="256" value="{{product.product_model_number}}" />
+                </div>
+                <div class="col-lg-6">
+                <label>Product SKU</label>
+                <input class="form-control" name="product_sku" placeholder="Product SKU" value="{{product.product_sku}}" />
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-12">
+                <label>Product Short Description</label>
+                <textarea class="form-control" name="product_desc" placeholder="Product Short Description" id="product_desc" rows="7" />{{product.product_desc}}</textarea>
+                </div>               
+            </div>
+            <br>
+            <div class="row">
+               <div class="col-lg-12">
+                <label> Product Long Description</label>
+                <textarea class="summernote" name="product_l_desc" placeholder="Product Long Description" id="product_l_desc" rows="30" />{{product.product_l_desc|safe}}</textarea>
+                </div>
+            </div><br>
+             <div class="row">
+                <div class="col-lg-12">
+                <label>Mercahnt User</label>
+                <select class="form-control" name="added_by_merchant"  id="added_by_merchant"/>
+                {% for merchant_user in merchants_users  %}
+                    <option value="{{merchant_user.id}}" {% if merchant_user == product.added_by_merchant %}selected{% endif %}>{{merchant_user.admin.username}}</option>
+                {% endfor %} 
+                </select>
+
+                </div>
+            </div>
+            <br>
+
+        </div>
+        <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+             <div class="row">               
+                <div class="col-lg-6">
+                <label>Sub Category</label>
+                <select class="form-control" size="1" id="product_subcategory" name="product_subcategory">
+                <option >Choose Category</option>
+                    {% for category in categories  %}
+                        <optgroup label={{category.category.title}}>
+                        {% for sub_cat in category.sub_category  %}
+                            <option value="{{sub_cat.id}}" {% if product.product_subcategory == sub_cat %}selected{% endif %} >{{sub_cat.title}}</option>
+                        {% endfor %}   
+                        </optgroup>     
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col-lg-6">
+                <label>Child Category</label>
+                <select name="product_childsubcategory" id="product_childsubcategory"  class="form-control" size="1" >
+                <option>Choose Child Category</option>
+                    {% for childcategory in childCategories  %}
+                        <option value="{{childcategory.id}}"{% if product.product_childsubcategory == childcategory %}selected{% endif %}>{{childcategory.title}}</option>
+                    {% endfor %} 
+                </select>
+                </div>
+            </div>
+            <br>
+            <div class ="row">
+                <div class="form-group" style="margin-left: 20px;">
+                    <label class="custom-switch mt-2">
+                        <input type="checkbox" name="is_active" id ="is_active" class="custom-switch-input"  {% if product.is_active %} checked{% endif %}>
+                        <span class="custom-switch-indicator" ></span>
+                        <span class="custom-switch-description">Product is active ?</span>
+                    </label>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="tab-pane fade" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+            <div class="row">
+                <div class="col-lg-3">                
+                    <label style= "margin-top:10px;margin-left:28px;"><b>Total Stock</b></label> 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="in_stock_total" placeholder="Add Stock" id="in_stock_total" value="{{product_stock.in_stock_total}}"/>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                    <label style= "margin-top:10px;margin-left:28px;"><b>Minimum Quantity</b></label>
+ 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="mini_Quantity" placeholder="Minimum Quantity" id="mini_Quantity" value="{{product_stock.mini_Quantity}}" />
+
+                </div>
+            </div>
+            <br>
+              <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Stock Status</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="Out_Of_Stock_Status" id="Out_Of_Stock_Status"  class="form-control" size="1">
+                            <option value="">Product Status</option>
+                            <option value="1" {% if product_stock.Out_Of_Stock_Status == "1" %}selected{% endif %}>available</option>
+                            <option value="2" {% if product_stock.Out_Of_Stock_Status == "2" %}selected{% endif %}>Out of Stock</option>
+                            <option value="3" {% if product_stock.Out_Of_Stock_Status == "3" %}selected{% endif %}>Product Discontinue</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Dimension( H x L x W )</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-3">
+                
+                <input class="form-control" name="height" id="height" placeholder="Enter Height" value="{{product_size_weight.height}}"/>
+ 
+                </div>
+                
+                <div class="col-lg-3">
+                <input class="form-control" name="lenght" id="lenght" placeholder="Enter Length" id="Length" value="{{product_size_weight.lenght}}"/>
+
+                </div>
+                <div class="col-lg-3">
+                <input class="form-control" name="width" placeholder="Enter Width" id="width" value="{{product_size_weight.width}}" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Length Type</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="lenght_type" id="lenght_type"  class="form-control" size="1" value="{{product_size_weight.lenght_type}}" >
+                    <option value="">Choose Type</option>
+                            <option value="1" {% if product_size_weight.lenght_type == "1" %}selected{% endif %} >Inch</option>
+                            <option value="2" {% if product_size_weight.lenght_type == "2" %}selected{% endif %}>Centimeter</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Product Weight</b></label>
+ 
+                </div>
+                <div class="col-lg-9">
+                    <input class="form-control" name="weight" placeholder="Add Product Weight" id="weight" value="{{product_size_weight.weight}}" />
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                
+                <label style= "margin-top:10px;margin-left:28px;"><b>Weight Type</b></label>
+ 
+                </div>
+                
+                <div class="col-lg-9">
+                
+                    <select name="weight_type" id="weight_type"  class="form-control" size="1" value="{{product_size_weight.weight_type}}" >
+                    <option value="">Choose Type</option>
+                            <option value="1" {% if product_size_weight.weight_type == "1" %}selected{% endif %}>Gram</option>
+                            <option value="2" {% if product_size_weight.weight_type == "2" %}selected{% endif %}>Kilogram</option>
+                    </select>
+ 
+                </div>
+                
+            </div>
+            <br>
+        </div>
+        <div class="tab-pane fade " id="price" role="tabpanel" aria-labelledby="price-tab">
+            <div class="row">
+                <div class="col-lg-3">
+                <label style= "margin-top:10px;margin-left:28px;" ><b>Product Price</b></label> 
+                </div>
+                <div class="col-lg-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        &#8377
+                        </div>
+                    </div>
+                <input type="text"class="form-control currency" name="product_mrp" placeholder="Price On package" id="product_mrp" value="{{product.product_mrp}}" />
+
+                </div>
+                <div class="col-lg-4 input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                        &#8377
+                        </div>
+                    </div>
+                <input type="text" class="form-control currency" name="product_selling_price" placeholder="Online Selling Price" id="product_selling_price" value="{{product.product_selling_price}}" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                <label style= "margin-top:10px;margin-left:28px;"><b>GST Percentage</b></label> 
+                </div>
+                <div class="col-lg-9">
+                  <select name="gst_percentage" id="gst_percentage"  class="form-control" size="1" >
+                        <option value="1" {% if product_gst.percentage == "1" %}selected{% endif %}>0%</option>
+                        <option value="2" {% if product_gst.percentage == "2" %}selected{% endif %}>3%</option>
+                        <option value="3" {% if product_gst.percentage == "3" %}selected{% endif %}>5%</option>
+                        <option value="4" {% if product_gst.percentage == "4" %}selected{% endif %}>12%</option>
+                        <option value="5" {% if product_gst.percentage == "5" %}selected{% endif %}>18%</option>
+                        <option value="6" {% if product_gst.percentage == "6" %}selected{% endif %}>28%</option>                            
+                    </select>
+                </div>
+                
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <label style= "margin-top:10px;margin-left:28px;" ><b>HSN Code</b></label> 
+                </div>
+                <div class="col-lg-9 input-group">
+                   
+                    <input type="text" class="form-control" name="hsn_number" placeholder="Enter HSN Code" id="hsn_number" value="{{product_gst.hsn_number}}"/>
+                </div>
+            </div>
+            
+        </div>
+        <div class="tab-pane fade " id="media" role="tabpanel" aria-labelledby="media-tab">
+            <div class="row " >
+                <div class="col-lg-12">
+                    <div class="card">
+                    <div class="card-header">
+                        <h4>Image Check</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Image Check</label>
+                            <div class="row gutters-sm">
+                            {% if productmedia %}
+                            {% for media in productmedia %}
+                                <div class="col-6 col-sm-4">
+                                    <label class="imagecheck mb-4">
+                                    <input name="imagecheck" type="checkbox" class="imagecheck-input" {% if media.media_content == product.product_image %}disabled{% endif %}value="1">
+                                    <figure class="imagecheck-figure" >
+                                    <img src="{{media.media_content}}" alt="}" class="imagecheck-image" height="200" width="200">
+                                    </figure>
+                                </label>
+                                </div>
+                            {% endfor %}
+                            {% else %}
+                                    <h5>No Image Uploded yet</h5> 
+                            {% endif %}                               
+                            </div>
+                        </div>
+                    </div>
+                    </div>    
+                </div>
+            </div>
+            <br>
+        
+
+            <div class="media_div">
+                <div class="row media_div_row first_media" >
+                    <div class="col-lg-4">
+                        <label>Media Type</label>
+                        <select name="media_type[]" class="form-control media_type">
+                            <option value="1" {% if pmedia.media_type == 1 %}selected{% endif %}>Image</option>
+                            <option value="2" {% if pmedia.media_type == 2 %}selected{% endif %}>Video</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                    <label>Select Media</label>
+                    <input type="file" name="media_content[]" class="form-control select_media">
+                    </div>
+                    <div class="col-lg-4">
+                    <label>Preview</label>
+                    <br>
+                    <img style="width:70%;display:none" class="img_preview">
+                    <br>
+                    <video style="width:70%;display:none" class="video_preview" controls> 
+                    </div> 
+                
+                </div>             
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button class="btn btn-success btn-block add_media" type="button">ADD MEDIA CONTENT</button>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-danger btn-block remove_media" type="button">REMOVE MEDIA CONTENT</button>
+                </div>
+            </div>
+
+            <br>
+           
+        </div>
+        <div class="tab-pane fade " id="discount" role="tabpanel" aria-labelledby="discount-tab">
+            <div class="">
+             {% for discount in product_discount %}
+                <div class="row" >
+                    <div class="col-lg-3">
+                        <label><b>Minimum Quantity for Discount</b></label>
+                        
+                        <input type="number" min="1" max="10000"  name="quantity[]" id="quantity" value="{{discount.quantity}}" class="form-control ">
+                        
+                    </div>
+                    <div class="col-lg-3">                        
+                        <label><b>Discounted Price Per Item</b></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                &#8377
+                                </div>
+                            </div>
+                            <input name="price[]" id="price" value="{{discount.price}}" class="form-control currency select_discount">
+                             <input type="hidden" name="quantity_id[]" value="{{ discount.id }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                            <label>Date Picker</label>
+                            <input type="date" name="start_date[]" value="{{discount.start_date|date:'Y-m-d'}}" id="start_date" class="form-control">
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Date Picker</label>
+                            <input type="date" name="end_date[]"  value="{{discount.end_date|date:'Y-m-d'}}" id="end_date" class="form-control">
+                        </div>
+                    </div>
+                   
+                </div> 
+             {% endfor %}            
+            </div>
+            <br>
+
+            <div class="discount_div">
+                <div class="row discount_div_row first_discount" >
+                    <div class="col-lg-3">
+                        <label><b>Minimum Quantity for Discount</b></label>
+                        
+                        <input type="number" min="1" max="10000" name="quantity[]"  class="form-control select_discount">
+                        
+                    </div>
+                    <div class="col-lg-3">                        
+                        <label><b>Discounted Price Per Item</b></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                &#8377
+                                </div>
+                            </div>
+                            <input name="price[]" id="price" class="form-control currency select_discount">
+                             <input type="hidden" name="quantity_id[]" value="blank" >
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                            <label>Date Picker</label>
+                            <input type="date" name="start_date[]" id="start_date[]" class="form-control">
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Date Picker</label>
+                            <input type="date" name="end_date[]"  id="end_date[]" class="form-control">
+                        </div>
+                    </div>
+                   
+                </div>             
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button class="btn btn-success btn-block add_discount" type="button">ADD MEDIA CONTENT</button>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-danger btn-block remove_discount" type="button">REMOVE MEDIA CONTENT</button>
+                </div>
+            </div>
+
+            <br>
+
+        </div>
+        <div class="tab-pane fade " id="about" role="tabpanel" aria-labelledby="about-tab">
+            <br>
+                <h5>Product Details</h5>
+            <hr>
+            <div class="">
+                {% for details in product_details %}
+                <div class="row" >
+                    <div class="col-lg-6">
+                        <label>Title</label>
+                        <input type="text" name="title_title[]" value="{{ details.title }}" class="form-control title_title" placeholder="Title">
+                        <input type="hidden" name="details_id[]" value="{{ details.id }}" >
+                    
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Details</label>
+                        <input type="text" name="title_details[]"  value="{{ details.title_details}}" class="form-control title_details" placeholder="Title Details">
+                    </div>               
+                    
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+            
+            <div class="details_div">
+                <div class="row details_div_row first_details" >
+                    <div class="col-lg-6">
+                        <label>Title</label>
+                        <input type="text" name="title_title[]" class="form-control title_title" placeholder="Title">
+                        <input type="hidden" name="details_id[]" value="blank" >
+                    
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Details</label>
+                        <input type="text" name="title_details[]" class="form-control title_details" placeholder="Title Details">
+                    </div>               
+                    
+                </div>             
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <button class="btn btn-success btn-block add_details " type="button">ADD Details</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="btn btn-danger btn-block remove_details" type="button">REMOVE Details</button>
+                    </div>
+            </div>            
+            <br>
+             <h5>Product About</h5>
+            <hr>
+            <div class="">
+                {% for about in  product_about %}
+                <div class="row" >
+                    <div class="col-lg-12">
+                        <label>Title</label>
+                        <input type="text" name="about_title[]" value="{{about.title}}" class="form-control about_title" placeholder="Title" >                   
+                        <input type="hidden" name="about_id[]" value="{{ about.id }}">                   
+                    </div>                 
+                    
+                </div>  
+                {% endfor %}           
+            </div>
+            <br>
+            <div class="about_div">
+                <div class="row about_div_row first_about" >
+                    <div class="col-lg-12">
+                        <label>Title</label>
+                        <input type="text" name="about_title[]" class="form-control about_title" placeholder="Title">
+                        <input type="hidden" name="about_id[]" value="blank">  
+                    
+                    </div>                           
+                    
+                </div>             
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button class="btn btn-success btn-block add_about" type="button">ADD ABOUT DETAILS</button>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-danger btn-block remove_about" type="button">REMOVE ABOUT DETAILS</button>
+                </div>
+            </div>
+            <br>
+                <h5>Product TAgs</h5>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <input type="text" name="product_tags" class="form-control" data-role="tagsinput" value ="{% for tags in product_tag %} {{tags.product_tags}} ,{% endfor %}" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="progress mb-3" style="height:auto">
+                      <div class="progress-bar bg-warning" role="progressbar" id="progressbar" data-width="0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="display:none; width: 0%;height:30px;border-radius:10px;">0%</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="button" class="btn btn-primary btn-block submit_btn">ADD PRODUCT</button>
+
+           </div>
+        </div>
+        <div class="tab-pane fade " id="varient" role="tabpanel" aria-labelledby="varient-tab">
+        </div>
+       
+    </div>
+    </div>
+    </form>
+</div>
+</div>
+</div>
+
+{% endblock page_content %}
+
+
+{% block custom_js %}
+<script>
+
+    $(".add_media").click(function(){
+        var media_row=$(".first_media").clone();
+        media_row.removeClass("first_media");  
+        media_row.replaceAll("src","")
+        media_row.find(".select_media").val("");
+        media_row.find(".img_preview").attr("src","").css({"border":"none"}).css({"border-radius":"0px"}).hide();
+        media_row.find(".video_preview").attr("src","").css({"border":"none"}).css({"border-radius":"0px"}).hide();
+
+        $(".media_div").append(media_row);
+    });
+    $(".remove_media").click(function(){
+        if ($(".media_div").find(".media_div_row").length>1){
+            $(".media_div").children().last().remove();
+        }
+    });
+
+     $(".add_discount").click(function(){
+        var discount_row=$(".first_discount").clone();
+        discount_row.removeClass("first_discount");  
+        discount_row.replaceAll("src","")
+        discount_row.find(".select_discount").val("");
+
+        $(".discount_div").append(discount_row);
+    });
+    $(".remove_discount").click(function(){
+        if ($(".discount_div").find(".discount_div_row").length>1){
+            $(".discount_div").children().last().remove();
+        }
+    });
+
+    $(".add_details").click(function(){
+        var details_row=$(".first_details").clone();
+        details_row.removeClass("first_details");  
+        details_row.find(".title_title").val("");
+        details_row.find(".title_details").val("");
+        $(".details_div").append(details_row);
+    });
+    $(".remove_details").click(function(){
+        if ($(".details_div").find(".details_div_row").length>1){
+            $(".details_div").children().last().remove();
+        }
+    });
+
+    $(".add_about").click(function(){
+        var about_row=$(".first_about").clone();
+        about_row.removeClass("first_about");  
+        about_row.find(".about_title").val("");
+        $(".about_div").append(about_row);
+    });
+    $(".remove_about").click(function(){
+        if ($(".about_div").find(".about_div_row").length>1){
+            $(".about_div").children().last().remove();
+        }
+    });
+
+    $(document).on("change",".select_media",function(){
+        var media_type=$(this).parents(".media_div_row").find(".media_type").val();
+        var img_preview=$(this).parents(".media_div_row").find(".img_preview");
+        var vid_preview=$(this).parents(".media_div_row").find(".video_preview");
+        showPreviewMedia(this,media_type,img_preview,vid_preview);
+
+    });
+
+    function showPreviewMedia(input,media_type,img_preview,video_preview){
+        if(input.files && input.files[0]){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                if(media_type=="1"){
+                    img_preview.attr("src",e.target.result);
+                    img_preview.show();
+                    img_preview.css({"border":"5px solid orange"});
+                    img_preview.css({"border-radius":"10px"});
+                }
+                if(media_type=="2"){
+                    video_preview.attr("src",e.target.result);
+                    video_preview.show();
+                    video_preview.css({"border":"5px solid orange"});
+                    video_preview.css({"border-radius":"10px"});
+                    video_preview.load();
+                    video_preview.play();
+                    
+                }                
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".submit_btn").click(function(){
+        var form=new FormData($("#myform")[0]);
+       // form.append("long_desc",tinyMCE.activeEditor.getContent());
+
+        //Ajax code
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.status==200){
+                console.log(xhr.responseText);
+            }
+        }
+        xhr.open("POST","{% url 'product_new_update' product.id %}",true);
+        $("#progressbar").show();
+       
+        
+        
+
+        //Updating Prograssbar
+        xhr.upload.addEventListener("progress",function(ev){
+            if(ev.lengthComputable){
+                var percentage=(ev.loaded/ev.total*100|0);
+                $("#progressbar").css({"width":""+percentage+"%"}).text("Uploading..."+percentage+"%");
+                console.log(percentage);
+                
+            }
+        });
+        xhr.send(form);
+        
+        setTimeout(location.reload.bind(location), 2000);
+
+
+    })
+    
+</script>
+<script>
+    $(document).on('ready', function () {
+
+        $("#source").on('change', function () {
+            var el = $(this);
+            console.log(el)
+            for(sub_category in subcategories_list){
+                if (el.val() === "sub_category.subcategory.id") {
+                    for(childcategory in sub_category.child_sub_category){
+                        $("#status").append("<option>SHIPPED</option>");
+                    }
+                    
+                } 
+                
+            }
+        
+            //else if (el.val() === "MANUAL") {
+            //  $("#status option:last-child").remove();
+            //}
+        });
+
+    });
+   
+</script>
+<script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js">
+</script>
+
+{% endblock custom_js %}

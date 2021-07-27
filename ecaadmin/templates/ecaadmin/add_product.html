@@ -15,7 +15,6 @@
 {% block page_title %} Product Create{% endblock page_title %} 
 
 
-
 {% block page_content %}
 <div class="row">
 <div class="col-lg-12" >
@@ -85,31 +84,53 @@
                 <textarea class="summernote" name="product_l_desc" placeholder="Product Long Description" id="product_l_desc" rows="30" ></textarea>
                 </div>
             </div><br>
+             <div class="row">
+                <div class="col-lg-12">
+                <label>Mercahnt User</label>
+                <select class="form-control" name="added_by_merchant"  id="added_by_merchant"/>
+                {% for merchant_user in merchants_users  %}
+                    <option value="{{merchant_user.id}}">{{merchant_user.admin.username}}</option>
+                {% endfor %} 
+                </select>
+
+                </div>
+            </div>
+            <br>
 
         </div>
         <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
-             <div class="row">               
+             <div class="row">                
                 <div class="col-lg-6">
-                <label>Sub Category</label>
-                <select class="form-control" size="1" id="sub_category" name="product_subcategory">
-                <option disabled selected>Choose Category</option>
-                    {% for category in categories  %}
-                        <optgroup label={{category.category.title}}>
-                        {% for sub_cat in category.sub_category  %}
-                            <option value="{{sub_cat.id}}">{{sub_cat.title}}</option>
-                        {% endfor %}   
-                        </optgroup>     
-                    {% endfor %}
-                </select>
+                    <label>Sub Category</label>
+                    <select class="form-control" size="1" id="product_subcategory" name="product_subcategory">
+                        <option >Choose Category</option>
+                            {% for category in categories  %}
+                                <optgroup label={{category.category.title}}>
+                                {% for sub_cat in category.sub_category  %}
+                                    <option value="{{sub_cat.id}}">{{sub_cat.title}}</option>
+                                {% endfor %}   
+                                </optgroup>     
+                            {% endfor %}
+                    </select>
                 </div>
                 <div class="col-lg-6">
-                <label>Child Category</label>
-                <select name="product_childsubcategory" id="product_childsubcategory"  class="form-control" size="1" >
-                <option value="" disabled selected>Choose Child Category</option>
-                    {% for childcategory in childCategories  %}
-                        <option value="{{childcategory.id}}">{{childcategory.title}}</option>
-                    {% endfor %} 
-                </select>
+                    <label>Child Category</label>
+                    <select name="product_childsubcategory" id="product_childsubcategory"  class="form-control" size="1" >
+                    <option>Choose Child Category</option>
+                        {% for childcategory in childCategories  %}
+                            <option value="{{childcategory.id}}">{{childcategory.title}}</option>
+                        {% endfor %} 
+                    </select>
+                </div>
+            </div>
+            <br>    
+            <div class ="row">
+                <div class="form-group" style="margin-left: 20px;">
+                    <label class="custom-switch mt-2">
+                        <input type="checkbox" name="is_active" id ="is_active" class="custom-switch-input">
+                        <span class="custom-switch-indicator"></span>
+                        <span class="custom-switch-description">Product is active ?</span>
+                    </label>
                 </div>
             </div>
             <br>
@@ -132,7 +153,7 @@
  
                 </div>
                 <div class="col-lg-9">
-                    <input class="form-control" name="Mini_Quantity" placeholder="Minimum Quantity" id="Mini_Quantity" />
+                    <input class="form-control" name="mini_Quantity" placeholder="Minimum Quantity" id="mini_Quantity" />
 
                 </div>
             </div>
@@ -147,7 +168,7 @@
                 <div class="col-lg-9">
                 
                     <select name="Out_Of_Stock_Status" id="Out_Of_Stock_Status"  class="form-control" size="1" >
-                    <option value="" disabled selected>Stock</option>
+                    <option value="">Stock</option>
                             <option value="1">Out of Stock</option>
                             <option value="2">Product Discontinue</option>
                     </select>
@@ -159,7 +180,7 @@
             <div class="row">
                 <div class="col-lg-3">
                 
-                <label style= "margin-top:10px;margin-left:28px;"><b>Dimension(H x L x W)</b></label>
+                <label style= "margin-top:10px;margin-left:28px;"><b>Dimension( H x L x W )</b></label>
  
                 </div>
                 
@@ -188,7 +209,7 @@
                 <div class="col-lg-9">
                 
                     <select name="lenght_type" id="lenght_type"  class="form-control" size="1" >
-                    <option value="" disabled selected>Choose Type</option>
+                    <option value="">Choose Type</option>
                             <option value="1">Inch</option>
                             <option value="2">Centimeter</option>
                     </select>
@@ -219,7 +240,7 @@
                 <div class="col-lg-9">
                 
                     <select name="weight_type" id="weight_type"  class="form-control" size="1" >
-                    <option value="" disabled selected>Choose Type</option>
+                    <option value="">Choose Type</option>
                             <option value="1">Gram</option>
                             <option value="2">Kilogram</option>
                     </select>
@@ -253,24 +274,34 @@
                 </div>
             </div>
             <br>
-             <div class="row">
+            <div class="row">
                 <div class="col-lg-3">
                 <label style= "margin-top:10px;margin-left:28px;"><b>GST Percentage</b></label> 
                 </div>
                 <div class="col-lg-9">
-                    <select name="GST_in_percentage" id="GST_in_percentage"  class="form-control" size="1" >
-                    <option value="" disabled selected>GST Tax </option>
-                            <option value="1">0%(Exempted)</option>
-                            <option value="2">3%</option>
-                            <option value="3">5%</option>
-                            <option value="4">12%</option>
-                            <option value="5">18%</option>
-                            <option value="6">28%</option>
+                    <select name="gst_percentage" id="gst_percentage"  class="form-control" size="1" >
+                        <option value="1" >0%</option>
+                        <option value="2" >3%</option>
+                        <option value="3" >5%</option>
+                        <option value="4" >12%</option>
+                        <option value="5" >18%</option>
+                        <option value="6" >28%</option>
+                            
                     </select>
                 </div>
-                
             </div>
             <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <label style= "margin-top:10px;margin-left:28px;" ><b>HSN Code</b></label> 
+                </div>
+                <div class="col-lg-9 input-group">
+                   
+                    <input type="text" class="form-control" name="hsn_number" placeholder="Enter HSN Code" id="hsn_number" />
+                </div>
+            </div>
+            
+            
         </div>
         <div class="tab-pane fade " id="media" role="tabpanel" aria-labelledby="media-tab">
             <div class="media_div">
@@ -282,17 +313,16 @@
                             <option value="2">Video</option>
                         </select>
                     </div>
-                        <div class="col-lg-4">
-                        <label>Select Media</label>
-                        <input type="file" name="media_content[]" class="form-control select_media">
+                    <div class="col-lg-4">
+                    <label>Select Media</label>
+                    <input type="file" name="media_content[]" class="form-control select_media">
                     </div>
-                        <div class="col-lg-4">
-                        <label>Preview</label>
-                        <br>
-                        <img style="width:70%;display:none" class="img_preview">
-                        <br>
-                        <video style="width:70%;display:none" class="video_preview" controls>
-                        
+                    <div class="col-lg-4">
+                    <label>Preview</label>
+                    <br>
+                    <img style="width:70%;display:none" class="img_preview">
+                    <br>
+                    <video style="width:70%;display:none" class="video_preview" controls> 
                     </div> 
                 
                 </div>             
@@ -316,7 +346,7 @@
                     <div class="col-lg-3">
                         <label><b>Minimum Quantity for Discount</b></label>
                         
-                        <input type="number" min="1" max="10000" value="1" name="quantity" id="quantity" class="form-control select_discount">
+                            <input type="number" min="1" max="10000" value="1" name="quantity[]" id="quantity" class="form-control select_discount">
                         
                     </div>
                     <div class="col-lg-3">                        
@@ -327,17 +357,17 @@
                                 &#8377
                                 </div>
                             </div>
-                            <input name="dis_price" id="dis_price" class="form-control currency select_discount">
+                            <input name="price[]" id="price[]" class="form-control currency select_discount">
                         </div>
                     </div>
                     <div class="col-lg-3">
                             <label>Date Picker</label>
-                            <input type="date" name="start_date" id="start_date" class="form-control">
+                            <input type="date" name="start_date[]" id="start_date" class="form-control">
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Date Picker</label>
-                            <input type="date" name="end_date"  id="end_date" class="form-control datepicker">
+                            <input type="date" name="end_date[]"  id="end_date" class="form-control">
                         </div>
                     </div>
                    
@@ -407,7 +437,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <input type="text" name="product_tags" data-role="tagsinput"/>
+                    <input type="text" name="product_tags" class="form-control" data-role="tagsinput"/>
                 </div>
             </div>
             <br>
@@ -528,7 +558,7 @@
 
     $(".submit_btn").click(function(){
         var form=new FormData($("#myform")[0]);
-        form.append("long_desc",tinyMCE.activeEditor.getContent());
+       // form.append("long_desc",tinyMCE.activeEditor.getContent());
 
         //Ajax code
         var xhr = new XMLHttpRequest();
@@ -537,7 +567,7 @@
                 console.log(xhr.responseText);
             }
         }
-        xhr.open("POST","{% url 'product_view' %}",true);
+        xhr.open("POST","{% url 'add_product' %}",true);
         $("#progressbar").show();
         
         
@@ -552,7 +582,7 @@
             }
         });
         xhr.send(form);
-       // window.location.replace("{% url 'product_list' %}");
+        window.location.replace("{% url 'product_tab_list' %}");
 
     })
 </script>

@@ -11,9 +11,16 @@ from django.db.models import Q, fields
 from django.core.paginator import Page,PageNotAnInteger,Paginator
 from accounts.models import Staffs, Customers as Customers
 from django.views.generic import ListView,CreateView,UpdateView,DetailView
+from django import template
+from django.urls import reverse
+
+register = template.Library()
 # Create your vie ws here.v
  
- 
+#use it for url and its section inside same page
+@register.simple_tag
+def anchor(url_name, section_id):
+    return reverse(url_name) + '#' + section_id
 
 # class CategoriesListViews(ListView):
 #     model = ProductCategory
@@ -72,8 +79,27 @@ class HomeListview(ListView):
     model = Product
     fields ="__all__"
     template_name="index2.html"
+    
+    # def get_queryset(self):
+    #     filter_val=self.request.GET.get("filter","")
+    #     order_by=self.request.GET.get("orderby","id")
+    #     if filter_val!="":
+    #         product=Product.objects.filter(Q(product_name__contains=filter_val) | Q(product_brand__contains=filter_val) | Q(product_desc__contains=filter_val) | Q(product_l_desc__contains=filter_val) |Q(updated_at__contains=filter_val) ).order_by(order_by)
+    #     else:
+    #         product=Product.objects.all().order_by(order_by)
+
+    #     return product
+   
+    # def get_context_data(self,**kwargs):
+    #     context=super(HomeListview,self).get_context_data(**kwargs)
+    #     context["filter"]=self.request.GET.get("filter","")
+    #     context["orderby"]=self.request.GET.get("orderby","id")
+    #     context["all_table_fields"]=Product._meta.get_fields()
+    #     return context
  
     def get(self,request,*args,**kwargs):
+        cats = ProductCategory.objects.all(is_active=1)
+        
         allprods=[]
         catprods=Product.objects.values('product_category')
         subcatprod=Product.objects.values('product_subcategory')
@@ -101,7 +127,7 @@ class HomeListview(ListView):
             prodsub=ProductSubCategory.objects.filter(category=cat,is_active=1)
             allprods.append([prod,range(nSlides),nSlides,productcategories,prodsub])           
         print(allprods)
-        params={'allprods':allprods}
+        params={'allprods':allprods,"cats":cats}
         return render(request,"index2.html",params)
  
 def home_two(request):
@@ -150,7 +176,6 @@ class ProductDetailView(DetailView):
         print(related_products)
         return render(request, 'product_detail.html', context)
     
-
 def Product_list(request):
     stf=Staffs.objects.all()
     allcrs=Product.objects.all()

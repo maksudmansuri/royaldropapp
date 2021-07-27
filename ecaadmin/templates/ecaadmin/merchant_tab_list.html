@@ -1,7 +1,11 @@
 {% extends 'ecaadmin/admin_base.html' %}
 
 {% block page_title %} Merchant Tab List{% endblock page_title %} 
-
+{% block button %}
+   <a href="{% url 'merchant_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
+   <a href="{% url 'merchant_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+           
+{% endblock button %}
  
 {% block page_content %}
 <div class="col-12 ">
@@ -36,7 +40,7 @@
                     <td>{{merchant.admin.email}}</td>
                     <td>{{merchant.admin.phone}}</td>   
                     <td>{{merchant.company_name}}</td>
-                    <td>{% if merchant.admin.is_active %}<div class="badge badge-success">Active</div>{% else %}<div class="badge badge-danger">Not Active</div>{% endif %}</td>         
+                   <td>{% if merchant.admin.is_active %}<a href="{% url 'merchant_deactive' merchant.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'merchant_active' merchant.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>         
                     <td>
                         <div class="dropdown d-inline ">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

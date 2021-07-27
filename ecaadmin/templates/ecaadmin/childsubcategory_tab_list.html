@@ -1,7 +1,11 @@
 {% extends 'ecaadmin/admin_base.html' %}
 
 {% block page_title %} Child SubCategory Tab List{% endblock page_title %} 
-
+{% block button %}
+   <a href="{% url 'childsubcategory_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
+   <a href="{% url 'childsubcategory_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+           
+{% endblock button %}
  
 {% block page_content %}
 <div class="col-12 ">
@@ -33,7 +37,7 @@
                     <td><img src="{{childsubcat.thumbnail}}" width="40" height="40" class="img-thumbnail"> </td>                
                     <td>{{childsubcat.title}}</td>
                     <td>{{childsubcat.created_date|date:'Y-m-d' }}</td>
-                    <td>{% if childsubcat.is_active %}<div class="badge badge-success">Active</div>{% else %}<div class="badge badge-danger">Not Active</div>{% endif %}</td>    
+                    <td>{% if childsubcat.is_active %}<a href="{% url 'childsubcategory_deactive' childsubcat.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'childsubcategory_active' childsubcat.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>   
                     <td>{{childsubcat.category.title}}->{{childsubcat.subcategory.title}}</td>         
                     <td>
                         <div class="dropdown d-inline ">

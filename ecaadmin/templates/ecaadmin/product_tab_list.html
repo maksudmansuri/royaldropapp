@@ -1,0 +1,89 @@
+{% extends 'ecaadmin/admin_base.html' %}
+
+{% block page_title %}Product Tab List{% endblock page_title %} 
+{% block button %}
+   <a href="{% url 'add_product' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
+   <a href="{% url 'add_product' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+           
+{% endblock button %}
+ 
+{% block page_content %}
+<div class="col-12 ">
+    <div class="card">
+        <div class="card-header">
+            <h4>All Products </h4>
+            <div class="card-header-form">
+                <form method="get">
+                    <button class="btn btn-primary" type="submit" style="float:right"><i class="fas fa-search" ></i> Search</button>
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250" style="width: 250px; float:right" name="filter" id="filter">
+                        </form>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-md">
+                <tbody><tr>
+                    <th><a href="#">Model Number</a></th>
+                    <th><a href="#">Imgae</a></th>
+                    <th><a href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=product_name">Product Name</a></th>
+                    <th><a href="#">Price</a></th>
+                    <th><a href="#">Quantity</a></th>
+                    <th><a href="#">Status</a></th>
+                    <th>Action</th>
+                </tr>
+                {{products}}
+                {% for product in product_list %}
+                <tr>
+                    <td>{{product.product_model_number}}</td>
+                    <td><img src="{{product.product_image}}" width="40" height="40" class="img-thumbnail"> </td>                
+                    <td>{{product.product_name}}</td>
+                    <td>{{product.product_selling_price}} <p> <strike>{{product.product_mrp}}</strike></p></td>
+                    <td>{% for productstock in productstocks  %}{% if productstock.product == product %}<div><a href="{% url 'product_add_stocks' product.id %}" class="btn btn-outline-primary" >{{productstock.in_stock_total}}</a></div>{% endif %}{% endfor %}</td>
+                    <td>{% if product.is_active %}<a href="{% url 'product_deactive' product.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'product_active' product.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>            
+                    <td>
+                        <div class="dropdown d-inline ">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                More
+                            </button>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-edit"></i> Edit</a>
+                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-clone"></i> Duplicate </a>
+                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="fas fa-trash"></i>Delete</a>
+                            </div>
+                        </div></td>
+                                 
+                </tr>
+                {% endfor %}          
+                </tbody></table>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <nav class="d-inline-block">
+                <ul class="pagination mb-0">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                {% endif %}
+
+                {% for i in  paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ i }}">{{ i }}</a></li>
+
+                {% endfor %}
+         
+        
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.next_page_number }}">Next</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+
+{% block custom_js %}
+{% endblock custom_js %}

@@ -1,7 +1,11 @@
 {% extends 'ecaadmin/admin_base.html' %}
 
 {% block page_title %} SubCategory  Tab List{% endblock page_title %} 
-
+{% block button %}
+   <a href="{% url 'subcategory_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
+   <a href="{% url 'subcategory_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+           
+{% endblock button %}
  
 {% block page_content %}
 <div class="col-12 ">
@@ -19,12 +23,12 @@
             <div class="table-responsive">
                 <table class="table table-striped table-md">
                 <tbody><tr>
-                    <th><a href="{% url 'subcategory_tab_list' %}?filter={{filter}}&orderby=id">ID</a></th>
+                    <th><a href="{% url 'childsubcategory_list' %}?filter={{filter}}&orderby=id">ID</a></th>
                     <th>Thumbnail</th>
-                    <th><a href="{% url 'subcategory_tab_list' %}?filter={{filter}}&orderby=title">Title</a></th>
-                    <th><a href="{% url 'subcategory_tab_list' %}?filter={{filter}}&orderby=created_date">Created</a></th>
-                    <th><a href="{% url 'subcategory_tab_list' %}?filter={{filter}}&orderby=is_active">Status</a></th>
-                    <th><a href="{% url 'subcategory_tab_list' %}?filter={{filter}}&orderby=category">Category</a></th>
+                    <th><a href="{% url 'childsubcategory_list' %}?filter={{filter}}&orderby=title">Title</a></th>
+                    <th><a href="{% url 'childsubcategory_list' %}?filter={{filter}}&orderby=created_date">Created</a></th>
+                    <th><a href="{% url 'childsubcategory_list' %}?filter={{filter}}&orderby=is_active">Status</a></th>
+                    <th><a href="{% url 'childsubcategory_list' %}?filter={{filter}}&orderby=category">Category</a></th>
                     <th>Action</th>
                 </tr>
                 {% for subcat in productsubcategory_list %}
@@ -33,7 +37,7 @@
                     <td><img src="/media/{{subcat.thumbnail}}" width="40" height="40" class="img-thumbnail"> </td>                
                     <td>{{subcat.title}}</td>
                     <td>{{subcat.created_date|date:'Y-m-d' }}</td>
-                    <td>{% if subcat.is_active %}<div class="badge badge-success">Active</div>{% else %}<div class="badge badge-danger">Not Active</div>{% endif %}</td>    
+                    <td>{% if subcat.is_active %}<a href="{% url 'subcategory_deactive' subcat.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'subcategory_active' subcat.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>   
                     <td>{{subcat.category.title}}</td>         
                     <td>
                         <div class="dropdown d-inline ">

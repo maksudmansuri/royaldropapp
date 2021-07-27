@@ -65,11 +65,12 @@
             {% url 'product_list' as product_list %}
             {% url 'product_tab_list' as product_tab_list %}
             {% url 'product_update' product_id as product_update %}
+            {% url 'product_new_update' product_id as product_new_update %}
             {% url 'product_add_media' product_id as product_add_media %}
-            <li class="dropdown {% if request.path == product_list%}active{% endif %} {% if request.path == product_view %}active{% endif %} {% if request.path == product_update%}active{% endif %} {% if request.path == product_add_media %}active{% endif %}{% if request.path == add_product %}active{% endif %}{% if request.path == product_tab_list %}active{% endif %}">
+            <li class="dropdown {% if request.path == product_list%}active{% endif %} {% if request.path == product_view %}active{% endif %} {% if request.path == product_update%}active{% endif %} {% if request.path == product_add_media %}active{% endif %}{% if request.path == add_product %}active{% endif %}{% if request.path == product_tab_list %}active{% endif %}{% if request.path == product_new_update%}active{% endif %}">
             <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Products</span></a>
               <ul class="dropdown-menu">
-                <li class="{% if request.path == product_list %}active{% endif %} {% if request.path == product_upadte %}active{% endif %} {% if request.path == product_add_media%}active{% endif %}"><a class="nav-link" href="{% url 'product_list' %}">All Products</a></li>
+                <li class="{% if request.path == product_list %}active{% endif %} {% if request.path == product_upadte %}active{% endif %} {% if request.path == product_add_media%}active{% endif %} {% if request.path == product_new_update %}active{% endif %} "><a class="nav-link" href="{% url 'product_list' %}">All Products</a></li>
                 <li class="{% if request.path == product_tab_list %}active{% endif %} {% if request.path == product_upadte %}active{% endif %} {% if request.path == product_add_media%}active{% endif %}"><a class="nav-link" href="{% url 'product_tab_list' %}">Tab All Products</a></li>                
                 <li class="{% if request.path == product_view %}active{% endif %}"><a class="nav-link" href="{% url 'product_view' %}">Create Product</a></li>
                 <li class="{% if request.path == add_product %}active{% endif %}"><a class="nav-link" href="{% url 'add_product' %}">Add Product</a></li>
@@ -85,7 +86,14 @@
                 <li class='{% if request.path == staff_create %} active {% endif %}'><a class="nav-link" href="{% url 'staff_create' %}">Add Staff User</a></li>
                 <li class='{% if request.path == staff_list %} active {% endif %} {% if request.path == staff_update %} active {% endif %}' ><a class="nav-link" href="{% url 'staff_list' %}">Staff User List</a></li>
               </ul>
-            </li>      
+            </li>
+            {% url 'gst_create' as gst_create %}
+            <li class="dropdown {% if request.path == gst_create %} active {% endif %}">
+              <a href="#" class="nav-link has-dropdown"><i class="fas fa-dice-d6"></i><span>GST Details</span></a>
+              <ul class="dropdown-menu">
+                <li class='{% if request.path == gst_create %} active {% endif %}'><a class="nav-link" href="{% url 'gst_create' %}">Add GST Detail</a></li>
+              </ul>
+            </li>           
             {% comment %} CUSTOMER USER URLS {% endcomment %}
             {% url 'customer_create' as customer_create %}
             {% url 'customer_list' as customer_list %}
