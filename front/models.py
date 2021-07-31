@@ -22,7 +22,7 @@ class ProductCategory(models.Model):
     is_active               =           models.BooleanField(default=False)   
     # CHOICES                 =           [('M','Male'),('F','Female')]
     # Gender=forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
-
+ 
     objects = models.Manager()
 
     def __str__(self):
@@ -62,7 +62,7 @@ class ProductSubCategory(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["-updated_at"]
+        ordering = ["updated_at"]
 
     def get_absolute_url(self):
         return reverse("subcategory_tab_list")

@@ -162,41 +162,12 @@
                                                 <img class="aspect__img category-o__img" src="/media/{{psc.thumbnail}}" alt=""></div>
                                             <div class="category-o__info">
 
-                                                <a class="category-o__shop-now btn--e-white-brand" href="shop-side-version-2.html">{{psc.title}}</a></div>
+                                                <a class="category-o__shop-now btn--e-white-brand" href="{% url 'product_filter_list' %}">{{psc.title}}</a></div>
                                         </div>
                                     </div>
                                    
                                     {% endfor %}
-                                    {% comment %} <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                        <div class="category-o">
-                                            <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
-
-                                                <img class="aspect__img category-o__img" src="{% static '/ecafront/images/product/electronic/product35.jpg' %}" alt=""></div>
-                                            <div class="category-o__info">
-
-                                                <a class="category-o__shop-now btn--e-white-brand" href="shop-side-version-2.html">Smartphones</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                        <div class="category-o">
-                                            <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
-
-                                                <img class="aspect__img category-o__img" src="{% static '/ecafront/images/product/electronic/product3.jpg' %}" alt=""></div>
-                                            <div class="category-o__info">
-
-                                                <a class="category-o__shop-now btn--e-white-brand" href="shop-side-version-2.html">Headphones</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                        <div class="category-o">
-                                            <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
-
-                                                <img class="aspect__img category-o__img" src="{% static '/ecafront/images/product/electronic/product32.jpg' %}" alt=""></div>
-                                            <div class="category-o__info">
-
-                                                <a class="category-o__shop-now btn--e-white-brand" href="shop-side-version-2.html">TV's</a></div>
-                                        </div>
-                                    </div> {% endcomment %}
+                                   
                                 </div>
                             </div>
                         </div>
@@ -222,7 +193,7 @@
                                             <ul class="nav tab-list">
                                                 <li class="nav-item">
 
-                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#e-l-p">LATEST PRODUCTS</a></li>
+                                                    <a class="nav-link btn--e-white-brand-shadow" href="{% url 'home' %}?filter={{filter}}&orderby=id">LATEST PRODUCTS</a></li>
                                                 <li class="nav-item">
 
                                                     <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab" href="#e-b-s">BEST SELLING</a></li>
@@ -268,10 +239,10 @@
                                                                 <ul class="product-o__action-list">
                                                                     <li>
 
-                                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                                        <a data-modal="modal" data-modal-id="#quick-look{{prods.product.id}}" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
                                                                     <li>
 
-                                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                                        <a data-modal="modal" data-modal-id="#add-to-cart{{prods.product.id}}" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
                                                                     <li>
 
                                                                         <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
@@ -294,19 +265,14 @@
                                                             <span class="product-o__review">(23)</span></div>
                                                         <input type="hidden" id="slugpr{{prods.product.id}}" value="{{prods.product.product_slug}}">
 
-                                                        <span class="product-o__price" >$<span id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
+                                                        <span class="product-o__price" >&#8377<span id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
 
-                                                            <span class="product-o__discount">${{ prods.product.product_mrp }}</span>
+                                                            <span class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
                                                             
                                                             </span>
                                                         <div class="u-s-m-b-15">
                                                             <span id="divpr{{prods.product.id}}" class="divpr">
                                                             <button class="gl-tag btn btn--e-brand-b-2 cart" id="pr{{prods.product.id}}">Add to Cart</button></span></div>
-
-                                                        
-
-                                                        
-                                                         
                                                     </div>
                                                 </div>
                                                 {% endfor %}
@@ -314,28 +280,14 @@
                                             </div>
                                           
                                         </div>
-                                    </div>
-                                    <!--====== End - Tab 2 ======-->
-                                     
-
-                                    <!--====== Tab 3 ======-->
-                                   
-                                    <!--====== End - Tab 3 ======-->
-
-
-                                    <!--====== Tab 4 ======-->
-                                 
-                                    <!--====== End - Tab 4 ======-->
-                               
+                                    </div>                               
                                 </div>
                             </div>
                         </div>
                          
                         <!--====== End - Section Content ======-->
                     </div>
-                    <!--====== End - Electronics Tab ======-->
-                    <!--====== End - Section 2 ======-->
-                   
+                    
                     {% endfor %}
 
                     <!--====== Section 3 ======-->
@@ -895,7 +847,9 @@
 {% block afterfooter %}
 
  <!--====== Quick Look Modal ======-->
-        <div class="modal fade" id="quick-look">
+  {% for prod,range,nSlides,productcategories,prodsub in allprods %}
+    {% for prods in prod %}    
+        <div class="modal fade" id="quick-look{{prods.product.id}}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content modal--shadow">
 
@@ -1079,11 +1033,14 @@
                 </div>
             </div>
         </div>
+    {% endfor %}
+    
         <!--====== End - Quick Look Modal ======-->
 
 
         <!--====== Add to Cart Modal ======-->
-        <div class="modal fade" id="add-to-cart">
+        {% for prods in prod  %}
+        <div class="modal fade" id="add-to-cart{{prods.product.id}}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content modal-radius modal-shadow">
 
@@ -1097,14 +1054,14 @@
                                         <span>Item is added successfully!</span></div>
                                     <div class="success__img-wrap">
 
-                                        <img class="u-img-fluid" src="{% static '/ecafront/images/product/electronic/product1.jpg' %}" alt=""></div>
+                                        <img class="u-img-fluid" src="{{prods.product.product_image}}" alt=""></div>
                                     <div class="success__info-wrap">
 
-                                        <span class="success__name">Beats Bomb Wireless Headphone</span>
+                                        <span class="success__name">{{prods.product.product_name}}</span>
 
                                         <span class="success__quantity">Quantity: 1</span>
 
-                                        <span class="success__price">$170.00</span></div>
+                                        <span class="success__price">${{prods.product.product_selling_price}}</span></div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
@@ -1117,7 +1074,7 @@
 
                                         <a class="s-option__link btn--e-white-brand-shadow" href="cart.html">VIEW CART</a>
 
-                                        <a class="s-option__link btn--e-brand-shadow" href="checkout.html">PROCEED TO CHECKOUT</a></div>
+                                        <a class="s-option__link btn--e-brand-shadow" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a></div>
                                 </div>
                             </div>
                         </div>
@@ -1125,6 +1082,8 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
+    {% endfor %}
         <!--====== End - Add to Cart Modal ======-->
 
 
@@ -1231,21 +1190,25 @@
     }
     //minus buton works from here
     $('.divpr').on("click", "span.minus", function(){
-        a = this.id.slice(7, );
+       var a = this.id.slice(7, );
+        var p= this.id.slice(5, );
+        console.log(a)
         cart['pr'+a][0] = cart ['pr'+a][0] -1;
         cart['pr'+a][0] = Math.max(0,cart['pr'+a][0]);
         r=cart['pr'+a][0]
         var str="Add to Cart"
-        console.log(a)
-        //if(r==0){
-        //    document.getElementById('divpr'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id='pr"+ a +"'>"+ str +"</button>";
-        //    localStorage.setItem('cart',JSON.stringify(cart));
-        //    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-        //}
-        //else{
-        document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
-        updateCart(cart);
-        //}
+        console.log("minus 0 thase")
+        if(r==0){
+            console.log("minus 0 thayu")
+            document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
+            delete cart[p]; 
+            localStorage.setItem('cart',JSON.stringify(cart));
+            cart=JSON.parse(localStorage.getItem('cart'));
+        }
+        else{
+            document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+        }
+            updateCart(cart);
         
     });
     //plus button works from here

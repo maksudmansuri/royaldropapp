@@ -7,10 +7,10 @@ urlpatterns = [
     path('home_two', views.home_two,name='home_two'),
     path('base', views.baseView,name='base'),
     path('', views.HomeListview.as_view(),name='home'),
-
+ 
     # path('home_two', views.home_two,name='home_two'),
     path('product_list', views.Product_list,name='product_list'),
-    # path('product_list', views.Product_list,name='product_list'),
+    path('product_filter_list', views.ProductFilterListView.as_view(),name='product_filter_list'),
     path('testing_file', views.testing_file,name='testing_file'),
     # path('testing_file', views.testing_file,name='testing_file'),
     path('product_details/<slug:product_slug>', views.ProductDetailView.as_view(),name='product_details'),
@@ -24,4 +24,21 @@ urlpatterns = [
     path('about_us', views.about_us,name='about_us'),
     path('career', views.career,name='career'),
     path('contact_us', views.contact_us,name='contact_us'),
+     
+    # For user login deatils
+    path('dashboard',views.dashboardView.as_view(),name='dashboard'),
+    path('dash_my_profile',views.dashMyProfileView.as_view(),name='dash_my_profile'),
+    path('dash_edit_profile/<slug:pk>',views.dashEditProfileUpdateView.as_view(),name='dash_edit_profile'),
+
+    #user Address details
+    path('dash_address_book',views.dashAddressBookView.as_view(),name='dash_address_book'),
+    path('dash_address_add',views.dashAddressAddView.as_view(),name='dash_address_add'),
+    path('dash_address_edit/<slug:pk>',views.dashAddressUpdateView.as_view(),name='dash_address_edit'),
+    path('dash_track_order/<slug:pk>',views.dashTrackOrderView.as_view(),name='dash_track_order'),
+    path('dash_my_order/<slug:pk>',views.dashMyOrderView.as_view(),name='dash_my_order'),
+    path('dash_payment_option/<slug:pk>',views.dashPaymentOptionView.as_view(),name='dash_payment_option'),
+    path('dash_cancellation/<slug:pk>',views.dashCancellationView.as_view(),name='dash_cancellation'),
+
+
+
 ]

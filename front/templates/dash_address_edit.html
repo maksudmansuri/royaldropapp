@@ -1,0 +1,142 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block title %}
+    <title>Dashboard || RoyalDrop Shipping | E-commerce | All Product online </title>
+{% endblock title %}
+ 
+{% block custom_css %}{% endblock custom_css %}
+ 
+{% block fixed_list %}{% endblock fixed_list %}
+ 
+{% block content %}
+    <div class="app-content">
+        <!--====== Section 1 ======-->
+        <div class="u-s-p-y-60">
+
+            <!--====== Section Content ======-->
+            <div class="section__content">
+                <div class="container">
+                    <div class="breadcrumb">
+                        <div class="breadcrumb__wrap">
+                            <ul class="breadcrumb__list">
+                                <li class="has-separator">
+
+                                    <a href="{% url 'home' %}">Home</a></li>
+                                <li class="is-marked">
+
+                                    <a href="{% url 'dashboard' %}">My Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--====== End - Section 1 ======-->
+
+
+        <!--====== Section 2 ======-->
+        <div class="u-s-p-b-60">
+
+            <!--====== Section Content ======-->
+            <div class="section__content">
+                <div class="dash">
+                    <div class="container">
+                        <div class="row">
+                            {% include 'snipetForUserMenu.html' %}
+                             <div class="col-lg-9 col-md-12">
+                                    <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
+                                        <div class="dash__pad-2">
+                                            <h1 class="dash__h1 u-s-m-b-14">Edit Address</h1>
+
+                                            <span class="dash__text u-s-m-b-30">We need an address where we could deliver products.</span>
+                                            <form class="dash-address-manipulation" method="post" enctype = "multipart/form-data">
+                                                    {% csrf_token %}
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-30">
+ 
+                                                        <label class="gl-label" for="address-fname">FIRST NAME *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="address-fname" placeholder="John Doe" name="first_name" value="{{customersaddress.fisrt_name}}"></div>
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="address-lname">LAST NAME *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="address-lname" placeholder="Doe" name="last_name" value="{{customersaddress.last_name}}"></div>
+                                                </div>
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="address-phone">PHONE *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="address-phone" placeholder="(+0) 900901904" name="phone" value="{{customersaddress.phone}}"></div>
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="address-street">STREET ADDRESS *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="address-street" placeholder="4247 Ashford Drive Virginia" name="address" value="{{customersaddress.address}}"></div>
+                                                </div>
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-30">
+
+                                                        <!--====== Select Box ======-->
+
+                                                        <label class="gl-label" for="address-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="address-country" name="country" value="{{customersaddress.country}}">
+                                                            <option selected value="">Choose Country</option>
+                                                            <option value="India"{% if customersaddress.country == "India" %}selected{% endif %}>India</option>
+                                                            <option value="Pakistan"{% if customersaddress.country == "Pakistan" %}selected{% endif %}>Pakistan</option>
+                                                            <option value="Nepal"{% if customersaddress.country == "Nepal" %}selected{% endif %}>Nepal</option>
+                                                        </select>
+                                                        <!--====== End - Select Box ======-->
+                                                    </div>
+                                                    <div class="u-s-m-b-30">
+
+                                                        <!--====== Select Box ======-->
+
+                                                        <label class="gl-label" for="address-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" name="state" value="{{customersaddress.state}}">
+                                                            <option selected value="">Choose State/Province</option>
+                                                            <option value="Gujarat"{% if customersaddress.state == "Gujarat" %}selected{% endif %}>Gujarat</option>
+                                                            <option value="Maharastra"{% if customersaddress.state == "Maharastra" %}selected{% endif %}>Maharastra</option>
+                                                            <option value="Delhi"{% if customersaddress.state == "Delhi" %}selected{% endif %}>Delhi</option>
+                                                        </select>
+                                                        <!--====== End - Select Box ======-->
+                                                    </div>
+                                                </div>
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="address-city" >TOWN/CITY *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" name="city" value="{{customersaddress.city}}" id="address-city"></div>
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="address-street">ZIP/POSTAL CODE *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" name="zip_Code" value="{{customersaddress.zip_Code}}" id="address-postal" placeholder="20006"></div>
+                                                </div>
+
+                                                <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section Content ======-->
+        </div>
+        <!--====== End - Section 2 ======-->
+    </div>
+
+{% endblock content %}
+
+{% block afterfooter %}
+
+{% endblock afterfooter %}
+
+
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

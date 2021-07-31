@@ -36,10 +36,10 @@
                                         <a href="/">Home</a></li>
                                     <li class="has-separator">
 
-                                        <a href="shop-side-version-2.html">{{product.product_category.title}}</a></li>
+                                        <a href="{% url 'product_filter_list' %}">{{product.product_category.title}}</a></li>
                                     <li class="has-separator">
 
-                                        <a href="shop-side-version-2.html">{{product.product_subcategory.title}}</a></li>
+                                        <a href="{% url 'product_filter_list' %}">{{product.product_subcategory.title}}</a></li>
                                     <li class="is-marked">
 
                                         <a href="#">{{product.product_name}}</a></li>
@@ -177,7 +177,7 @@
 
                                                     <span class="input-counter__minus fas fa-minus minus" id="misunpr{{product.id}}"></span>
 
-                                                    <input class="input-counter__text input-counter--text-primary-style" id="valpr{{product.id}}" type="text" value="1" data-min="1" data-max="1000">
+                                                    <input class="input-counter__text input-counter--text-primary-style" id="valpr{{product.id}}" type="text" value=1 data-min="1" data-max="1000">
 
                                                     <span class="input-counter__plus fas fa-plus plus" id="pluspr{{product.id}}"></span></div>
                                                 <!--====== End - Input Counter ======-->
@@ -892,10 +892,10 @@ if(localStorage.getItem('cart') == null){
 }
 else{
     cart=JSON.parse(localStorage.getItem('cart'));  
-    
+    updateCart(cart)
+     
 }
 
-updateCart(cart)
 
 function updatePopover(cart){
     console.log("we are inside popover");
@@ -925,15 +925,12 @@ function updatePopover(cart){
                 popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
                 
             }
-            $('#popcartpr').append(popStr);
-           
+            $('#popcartpr').append(popStr);           
             
         }      
     }
     document.getElementById('cart').innerHTML = sum;
-    console.log("we are exit popover");
-  
-       
+    console.log("we are exit popover");       
    
 }
 function clearCart(){
@@ -943,7 +940,7 @@ function clearCart(){
     localStorage.setItem('cart',JSON.stringify(cart));
     updatePopover(cart);
 }
-
+ 
 $('.divpr').on('click', 'button.cart', function(){
     var idstr = this.id.toString();
     console.log(idstr)
@@ -988,25 +985,28 @@ function updateCart(cart){
     document.getElementById('cart').innerHTML = sum;
     updatePopover(cart);
 }
-$('.popcartpr').on("click", "a.popremove", function(){
-    a = this.id.slice(4,);
-    console.log("inside remove fuction")
-    console.log(a)
-    //document.getElementById('div'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ a +">Add To Cart </button>";
-    updatedeletecart(cart);
-    delete cart[a] 
-    localStorage.setItem('cart',JSON.stringify(cart));
-    cart=JSON.parse(localStorage.getItem('cart'));
-    updateCart(cart);
-    console.log("now we are exit")
-    
-});
 
-function updatedeletecart(cart){
-    for(var item in cart){
-            document.getElementById('val'+item).value = 1;
+
+ $('.popcartpr').on("click", "a.popremove", function(){
+        a = this.id.slice(4,);
+        console.log("inside remove fuction")
+        console.log(a)
+        var pid="pr{{product.id}}";
+        console.log(pid)
+        for(var item in cart){
+            if(pid == item){
+                console.log("its same")
+                document.getElementById('val'+item).value = 0;
+            }
         }
-}
+        delete cart[a] 
+        localStorage.setItem('cart',JSON.stringify(cart));
+        cart=JSON.parse(localStorage.getItem('cart'));
+        updateCart(cart);
+        console.log("now we are exit")
+        
+    }); 
+
 
 //minus buton works from here
 

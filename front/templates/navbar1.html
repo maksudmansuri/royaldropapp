@@ -37,7 +37,7 @@
                                                 <div class="mega-menu-list">
                                                     <ul>
                                                     {% for cat in cats %}
-                                                       <li>
+                                                       <li class="js-active1">
                                                             <a href="shop-side-version-2.html"><i class="fas fa-male u-s-m-r-6"></i>
 
                                                                 <span>{{cat.title}}</span></a>
@@ -48,7 +48,8 @@
                                                 </div>
 
                                                 <!--====== Electronics ======-->
-                                                <div class="mega-menu-content js-active">
+                                                {% for subcats in subcaties %}
+                                                <div class="mega-menu-content">
 
                                                     <!--====== Mega Menu Row ======-->
                                                     <div class="row">
@@ -242,11 +243,12 @@
                                                     </div>
                                                     <!--====== End - Mega Menu Row ======-->
                                                 </div>
+                                                {% endfor %}
                                                 <!--====== End - Electronics ======-->
 
 
                                                 <!--====== Women ======-->
-                                                <div class="mega-menu-content">
+                                                {% comment %} <div class="mega-menu-content">
 
                                                     <!--====== Mega Menu Row ======-->
                                                     <div class="row">
@@ -694,7 +696,7 @@
                                                 <!--====== No Sub Categories ======-->
                                                 <div class="mega-menu-content">
                                                     <h5>No Categories</h5>
-                                                </div>
+                                                </div> {% endcomment %}
                                                 <!--====== End - No Sub Categories ======-->
                                             </div>
                                         </div>
@@ -713,7 +715,7 @@
 
                             <label for="main-search"></label>
 
-                            <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search">
+                            <input class="input-text input-text--border-radius input-text--style-1" type="search" id="filter" style="width: 350px;" placeholder="Search">
 
                             <button class="btn btn--icon fas fa-search main-search-button" type="submit"></button></form>
                         <!--====== End - Search Form ======-->
@@ -742,9 +744,9 @@
                                          {% if request.user.is_authenticated %}
                                             <li>
 
-                                                <a href="dashboard.html"><i class="fas fa-user-circle u-s-m-r-6"></i>
+                                                <a href="{% url 'dashboard' %}"><i class="fas fa-user-circle u-s-m-r-6"></i>
 
-                                                    <span>{{request.user.username}}</span></a></li>
+                                                    <span>Dashboard</span></a></li>
                                             
                                             <li> 
 

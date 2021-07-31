@@ -147,7 +147,6 @@ def dosingup1(request):
             return HttpResponseRedirect(reverse("dosingup"))
     return render(request,"accounts/dosingup.html")
 
-
 def instructor_singup(request):
     if request.method=="POST":
         username = request.POST.get('username')

@@ -8,6 +8,44 @@
     width:100%;
 }
 </style>
+<style>
+ul, #myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.box {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+.box::before {
+  content: "\2610";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.check-box::before {
+  content: "\2611"; 
+  color: dodgerblue;
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+</style>
 
 {% endblock custom_css %}
 
@@ -79,9 +117,11 @@
             </div>
             <br>
             <div class="row">
+
                <div class="col-lg-12">
                 <label> Product Long Description</label>
-                <textarea class="summernote" name="product_l_desc" placeholder="Product Long Description" id="product_l_desc" rows="30" ></textarea>
+                <textarea class="summernote" style="display: none;"></textarea>
+               
                 </div>
             </div><br>
              <div class="row">
@@ -106,9 +146,15 @@
                         <option >Choose Category</option>
                             {% for category in categories  %}
                                 <optgroup label={{category.category.title}}>
-                                {% for sub_cat in category.sub_category  %}
-                                    <option value="{{sub_cat.id}}">{{sub_cat.title}}</option>
-                                {% endfor %}   
+                                                            
+                                {% for sub_cat in category.subcategories_list  %}
+                                 
+                                           <option value="{{sub_cat.sub_category.id}}">{{sub_cat.sub_category.title}}</option>
+                                         {% comment %} {% for childcats in sub_cat.childsubcategies %}
+                                        {% endfor %} {% endcomment %}
+                                 
+                                {% endfor %}
+                                 
                                 </optgroup>     
                             {% endfor %}
                     </select>
@@ -123,6 +169,78 @@
                     </select>
                 </div>
             </div>
+            <br>
+            <div class="row">
+             <div class="col-lg-6">
+                
+                <div class="u-s-m-b-30">
+                    <div class="shop-w shop-w--style">
+                        <div class="shop-w__intro-wrap">
+                            <h1 class="shop-w__h">CATEGORY</h1>
+
+                            <span class="fas fa-minus shop-w__toggle collapsed" data-target="#s-category" data-toggle="collapse" aria-expanded="false"></span>
+                        </div>
+                        <div class="shop-w__wrap collapse" id="s-category" style="">
+                            <ul class="shop-w__category-list gl-scroll">
+                                {% for cat in categories %}
+                                <li class="has-list">
+
+                                    <span>{{cat.category.title}}</span>
+
+                                    <span class="category-list__text u-s-m-l-6">(23)</span>
+
+                                    <span class="js-shop-category-span fas fa-plus u-s-m-l-6 is-expanded"></span>
+                                    <ul style="display: block;">
+                                        {% for sub_cat in cat.subcategories_list %}
+                                        <li class="has-list">
+
+                                            <span>{{sub_cat.sub_category.title}}</span>
+
+                                            <span class="js-shop-category-span fas fa-plus u-s-m-l-6"></span>
+                                            <ul>
+                                             {% comment %} <select class="form-control" size="1" id="product_subcategory" name="product_subcategory">
+                                             <option disabled >Choose Category</option> {% endcomment %}
+                                            {% for childcats in sub_cat.childsubcategies %}
+                                                <li>
+                                                   <a>{{childcats.title}}</a>
+                                                </li>
+                                            {% endfor %} 
+                                             
+                                            </ul>
+                                        </li>
+                                        {% endfor %}
+                                        
+                                    </ul>
+                                </li>
+                             {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+               
+             </div>
+             <div class="col-lg-6">
+                <ul id="myUL">
+                 {% for category in categories  %}
+                <li><span class="box">{{category.category.title}}</span>
+                    <ul class="nested">
+                    {% for sub_cat in category.subcategories_list  %}
+                    <li> <span class="box">{{sub_cat.sub_category.title}}</span>
+                        <ul class="nested">
+                        {% for childcats in sub_cat.childsubcategies %}
+                       
+                            <li>{{childcats.title}}</li>
+                           
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}  
+                    </ul>
+                </li>
+                {% endfor %}
+                </ul>
+             </div>
+            </div> 
             <br>    
             <div class ="row">
                 <div class="form-group" style="margin-left: 20px;">
@@ -585,6 +703,18 @@
         window.location.replace("{% url 'product_tab_list' %}");
 
     })
+</script>
+
+<script>
+var toggler = document.getElementsByClassName("box");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("check-box");
+  });
+}
 </script>
 <script>
     $(document).on('ready', function () {

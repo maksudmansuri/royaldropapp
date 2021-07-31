@@ -152,9 +152,10 @@ class Customers(models.Model):
     city=models.CharField(max_length=250,blank=True,null=True)
     state=models.CharField(max_length=250,blank=True,null=True)
     country=models.CharField(max_length=250,blank=True,null=True)
+    zip_Code =models.CharField(max_length=250,blank=True,null=True)
     # qualification =models.CharField(max_length=250,blank=True,null=True)
     dob=models.DateField(blank=True,null=True)
-    # phone=models.CharField(max_length=250,blank=True,null=True)
+    phone=models.CharField(max_length=250,blank=True,null=True)
     profile_pic=models.FileField(upload_to="customer_lms/profile/images",blank=True,null=True)
     gender=models.CharField(max_length=255,null=True)
     # is_appiled=models.BooleanField(blank=True,null=True,default=False)
@@ -165,6 +166,23 @@ class Customers(models.Model):
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
+ 
+class CustomersAddress(models.Model):
+    id=models.AutoField(primary_key=True)
+    customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
+    fisrt_name=models.CharField(max_length=250,blank=True,null=True,default="")
+    last_name=models.CharField(max_length=250,blank=True,null=True,default="")
+    address=models.CharField(max_length=500,blank=True,null=True,default="")
+    city=models.CharField(max_length=250,blank=True,null=True,default="")
+    state=models.CharField(max_length=250,blank=True,null=True,default="")
+    country=models.CharField(max_length=250,blank=True,null=True,default="")
+    zip_Code =models.CharField(max_length=250,blank=True,null=True)       
+    phone=models.CharField(max_length=250,blank=True,null=True,default="")
+    is_default = models.BooleanField(blank=True,null=True,default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+ 
 class Merchants(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
@@ -190,6 +208,16 @@ def create_auth_token(sender,instance=None,created=False,**kwargs):
     if created:
         Token.objects.create(user=instance)
 
+# @receiver(post_save,sender=Customers)
+# def create_user_profile(sender,instance,created,**kwargs):
+#     if created:
+#         CustomersAddress.objects.create(customer=instance)
+#             # Customers.objects.create(admin=instance,product_id=Products.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
+
+# @receiver(post_save,sender=Customers)
+# def save_user_profile(sender,instance,**kwargs):
+#     instance.customersaddress.save()
+
 @receiver(post_save,sender=CustomUser)
 def create_user_profile(sender,instance,created,**kwargs):
     if created:
@@ -201,8 +229,6 @@ def create_user_profile(sender,instance,created,**kwargs):
             Customers.objects.create(admin=instance)
         if instance.user_type==4:
             Merchants.objects.create(admin=instance)
-
-
             # Customers.objects.create(admin=instance,product_id=Products.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
 
 @receiver(post_save,sender=CustomUser)
