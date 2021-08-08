@@ -142,7 +142,7 @@ class Staffs(models.Model):
     
     def __str__(self):
         return self.first_name  
-
+ 
 class Customers(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)

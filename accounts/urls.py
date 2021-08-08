@@ -4,7 +4,7 @@ from .import views
 # router = routers.SimpleRouter()
 # router.register(r'users', views.CustomUserViewSet)
 
-urlpatterns = [
+urlpatterns = [ 
    
     path('login', views.dologin,name='dologin'),
     path('singup', views.dosingup.as_view(),name='dosingup'),

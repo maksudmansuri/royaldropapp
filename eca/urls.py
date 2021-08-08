@@ -24,7 +24,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     # path('admin', RedirectView.as_view(url=reverse_lazy('admin:index'))),
-    path('ecaadmin/', admin.site.urls,name="admin_login"),
+    path('systemadmin/', admin.site.urls,name="admin_login"),
     #socialmedialogin url
     # path('oauth/', include('social_django.urls', namespace='social')), 
     # path('saccount/',include('allauth.urls'),name='saccount'),

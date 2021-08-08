@@ -52,11 +52,11 @@
                                         <div class="row">
                                             <div class="col-lg-4 u-s-m-b-30">
                                                 <div class="dash__box dash__box--bg-grey dash__box--shadow-2 u-h-100">
-                                                    <div class="dash__pad-3">
+                                                     <div class="dash__pad-3">
                                                         <h2 class="dash__h2 u-s-m-b-8">PERSONAL PROFILE</h2>
                                                         <div class="dash__link dash__link--secondary u-s-m-b-8">
 
-                                                            <a href="dash-edit-profile.html">Edit</a></div>
+                                                            <a href="{% url 'dash_edit_profile' %}">Edit</a></div>
 
                                                         <span class="dash__text">{{customer.admin.username}}</span>
 
@@ -75,12 +75,12 @@
                                                         <span class="dash__text-2 u-s-m-b-8">Default Shipping Address</span>
                                                         <div class="dash__link dash__link--secondary u-s-m-b-8">
 
-                                                            <a href="dash-address-book.html">Edit</a></div>
+                                                            <a href="{% url 'dash_address_book' %}">Edit</a></div>
                                                         {% if customer.address %}
                                                             <span class="dash__text">4247 Ashford Drive Virginia - VA-20006 - USA</span>
 
                                                             <span class="dash__text">(+0) 900901904</span>
-                                                        {% else %}
+                                                        {% else %} 
                                                             <span class="dash__text">Add your address here for shipping</span>
 
                                                         {% endif %}

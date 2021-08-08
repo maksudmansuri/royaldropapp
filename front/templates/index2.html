@@ -258,9 +258,12 @@
                                                             <a href="shop-side-version-2.html" id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
 
                                                         <span class="product-o__name" >
-
+ 
                                                             <a href="{% url 'product_details' prods.product.product_slug %}" id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
                                                         <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                            <input type="hidden" id="subcatpr{{prods.product.id}}" value="{{prods.product.product_subcategory.title}}">
+                                                            <input type="hidden" id="childcatpr{{prods.product.id}}" value="{{prods.product.product_childsubcategory.title}}">
+                                                            <input type="hidden" id="idpr{{prods.product.id}}" value="{{prods.product.id}}">
 
                                                             <span class="product-o__review">(23)</span></div>
                                                         <input type="hidden" id="slugpr{{prods.product.id}}" value="{{prods.product.product_slug}}">
@@ -1115,7 +1118,7 @@
         var idstr = this.id.toString();    
         if(cart[idstr] != undefined){
             qty = cart[idstr][0] + 1;
-            cart[idstr]=[qty,name,image,price];
+            cart[idstr]=[qty,name,image,price,cat,slug,subcat,childcat,id];
         }
         else{
             qty=1;
@@ -1124,8 +1127,11 @@
             price = document.getElementById('price' + idstr).innerHTML;
             cat = document.getElementById('cat' + idstr).innerHTML;
             slug = document.getElementById('slug' + idstr).value;
+            subcat = document.getElementById('subcat' + idstr).value;
+            childcat = document.getElementById('childcat' + idstr).value;
+            id = document.getElementById('id' + idstr).value;
 
-            cart[idstr]=[qty,name,image,price,cat,slug];
+            cart[idstr]=[qty,name,image,price,cat,slug,subcat,childcat,id];
             console.log(cart)
         }
         updateCart(cart);
@@ -1172,7 +1178,7 @@
     
     });
 
-
+ 
     // Html Code replace with plus minus button updating cart in localStorage
     function updateCart(cart){
         var sum = 0;
@@ -1200,7 +1206,7 @@
         console.log("minus 0 thase")
         if(r==0){
             console.log("minus 0 thayu")
-            document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
+            //document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
             delete cart[p]; 
             localStorage.setItem('cart',JSON.stringify(cart));
             cart=JSON.parse(localStorage.getItem('cart'));

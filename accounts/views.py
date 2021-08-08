@@ -23,7 +23,7 @@ from django.core.files.storage import FileSystemStorage
 # class CustomUserViewSet(viewsets.ModelViewSet):
 #     queryset = CustomUser.objects.all().order_by('username')
 #     serializer_class = CustomUserSerializer
- 
+  
 
 # Create your views here .gg
 
@@ -37,13 +37,23 @@ def dologin(request):
         user=EmailBackEnd.authenticate(request,username=request.POST.get("username"),password=request.POST.get("password"))
         if user is not None:
             if user.is_active == True:
-                print(user.is_active)
                 login(request,user)
                 # request.session['logged in']=True
+                if user.user_type=="":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    else:
+                        return HttpResponseRedirect(reverse('admin:index'))
                 if user.user_type=="4":
-                    return HttpResponseRedirect(reverse('admin_home'))
-                elif user.user_type=="2":
-                    return HttpResponseRedirect(reverse('admin_home'))
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    else:
+                        return HttpResponseRedirect(reverse('admin_home'))
+                elif user.user_type=="1":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    else:
+                        return HttpResponseRedirect(reverse('admin_home'))
                 elif user.user_type=="3":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
@@ -52,7 +62,6 @@ def dologin(request):
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
                     return HttpResponseRedirect(reverse('admin_home'))
-
             else:
                 messages.add_message(request,messages.ERROR,"Please Verify Your Account First")
                 return redirect('/accounts/dologin')

@@ -23,10 +23,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="cart.html">Cart</a></li>
+                                        <a href="#">Cart</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -61,165 +61,13 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
                                 <div class="table-responsive">
                                     <table class="table-p">
-                                        <tbody>
-
+                                        <tbody class="cartitems" id="cartitems">
+                                        
                                             <!--====== Row ======-->
-                                            <tr>
-                                                <td>
-                                                    <div class="table-p__box">
-                                                        <div class="table-p__img-wrap">
-
-                                                            <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
-                                                        <div class="table-p__info">
-
-                                                            <span class="table-p__name">
-
-                                                                <a href="product-detail.html">Yellow Wireless Headphone</a></span>
-
-                                                            <span class="table-p__category">
-
-                                                                <a href="shop-side-version-2.html">Electronics</a></span>
-                                                            <ul class="table-p__variant-list">
-                                                                <li>
-
-                                                                    <span>Size: 22</span></li>
-                                                                <li>
-
-                                                                    <span>Color: Red</span></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <span class="table-p__price">$125.00</span></td>
-                                                <td>
-                                                    <div class="table-p__input-counter-wrap">
-
-                                                        <!--====== Input Counter ======-->
-                                                        <div class="input-counter">
-
-                                                            <span class="input-counter__minus fas fa-minus"></span>
-
-                                                            <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
-
-                                                            <span class="input-counter__plus fas fa-plus"></span></div>
-                                                        <!--====== End - Input Counter ======-->
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-p__del-wrap">
-
-                                                        <a class="far fa-trash-alt table-p__delete-link" href="#"></a></div>
-                                                </td>
-                                            </tr>
+                                          
                                             <!--====== End - Row ======-->
-
-
-                                            <!--====== Row ======-->
-                                            <tr>
-                                                <td>
-                                                    <div class="table-p__box">
-                                                        <div class="table-p__img-wrap">
-
-                                                            <img class="u-img-fluid" src="images/product/women/product8.jpg" alt=""></div>
-                                                        <div class="table-p__info">
-
-                                                            <span class="table-p__name">
-
-                                                                <a href="product-detail.html">New Dress D Nice Elegant</a></span>
-
-                                                            <span class="table-p__category">
-
-                                                                <a href="shop-side-version-2.html">Women Clothing</a></span>
-                                                            <ul class="table-p__variant-list">
-                                                                <li>
-
-                                                                    <span>Size: 22</span></li>
-                                                                <li>
-
-                                                                    <span>Color: Red</span></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <span class="table-p__price">$125.00</span></td>
-                                                <td>
-                                                    <div class="table-p__input-counter-wrap">
-
-                                                        <!--====== Input Counter ======-->
-                                                        <div class="input-counter">
-
-                                                            <span class="input-counter__minus fas fa-minus"></span>
-
-                                                            <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
-
-                                                            <span class="input-counter__plus fas fa-plus"></span></div>
-                                                        <!--====== End - Input Counter ======-->
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-p__del-wrap">
-
-                                                        <a class="far fa-trash-alt table-p__delete-link" href="#"></a></div>
-                                                </td>
-                                            </tr>
-                                            <!--====== End - Row ======-->
-
-
-                                            <!--====== Row ======-->
-                                            <tr>
-                                                <td>
-                                                    <div class="table-p__box">
-                                                        <div class="table-p__img-wrap">
-
-                                                            <img class="u-img-fluid" src="images/product/men/product8.jpg" alt=""></div>
-                                                        <div class="table-p__info">
-
-                                                            <span class="table-p__name">
-
-                                                                <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
-
-                                                            <span class="table-p__category">
-
-                                                                <a href="shop-side-version-2.html">Men Clothing</a></span>
-                                                            <ul class="table-p__variant-list">
-                                                                <li>
-
-                                                                    <span>Size: 22</span></li>
-                                                                <li>
-
-                                                                    <span>Color: Red</span></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <span class="table-p__price">$125.00</span></td>
-                                                <td>
-                                                    <div class="table-p__input-counter-wrap">
-
-                                                        <!--====== Input Counter ======-->
-                                                        <div class="input-counter">
-
-                                                            <span class="input-counter__minus fas fa-minus"></span>
-
-                                                            <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
-
-                                                            <span class="input-counter__plus fas fa-plus"></span></div>
-                                                        <!--====== End - Input Counter ======-->
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-p__del-wrap">
-
-                                                        <a class="far fa-trash-alt table-p__delete-link" href="#"></a></div>
-                                                </td>
-                                            </tr>
-                                            <!--====== End - Row ======-->
+                                      
+ 
                                         </tbody>
                                     </table>
                                 </div>
@@ -228,16 +76,16 @@
                                 <div class="route-box">
                                     <div class="route-box__g1">
 
-                                        <a class="route-box__link" href="shop-side-version-2.html"><i class="fas fa-long-arrow-alt-left"></i>
+                                        <a class="route-box__link" href="{% url 'home' %}"><i class="fas fa-long-arrow-alt-left"></i>
 
                                             <span>CONTINUE SHOPPING</span></a></div>
                                     <div class="route-box__g2">
 
-                                        <a class="route-box__link" href="cart.html"><i class="fas fa-trash"></i>
+                                        <a class="route-box__link" id ="clearCart" onclick="clearCart()" ><i class="fas fa-trash"></i>
 
                                             <span>CLEAR CART</span></a>
 
-                                        <a class="route-box__link" href="cart.html"><i class="fas fa-sync"></i>
+                                        <a class="route-box__link" id ="refresCart" onclick="refresCart()"><i class="fas fa-sync"></i>
 
                                             <span>UPDATE CART</span></a></div>
                                 </div>
@@ -318,26 +166,26 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>SHIPPING</td>
-                                                                <td>$4.00</td>
-                                                            </tr>
+                                                                <td class="shipping" id="shipping"></td>
+                                                            </tr> 
                                                             <tr>
                                                                 <td>TAX</td>
-                                                                <td>$0.00</td>
+                                                                <td class="totaltax" id="totaltax" ></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>SUBTOTAL</td>
-                                                                <td>$379.00</td>
+                                                                <td class="subtotal" id="subtotal" ></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>GRAND TOTAL</td>
-                                                                <td>$379.00</td>
+                                                                <td class="grandtotal" id="grandtotal" ></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div>
 
-                                                    <button class="btn btn--e-brand-b-2" type="submit"> PROCEED TO CHECKOUT</button></div>
+                                                    <a class="btn btn--e-brand-b-2" href="{% url 'checkout' %}" > PROCEED TO CHECKOUT</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -362,5 +210,284 @@
 
 
 {% block custom_js %}
+<script>
+var sum=0;
+if(localStorage.getItem('cart') == null){
+    var cart = {};
+}
+else{
+    cart=JSON.parse(localStorage.getItem('cart'));
+    updateChekOut(cart);
+    calculation(cart)
+}
 
+function calculation(cart){
+    var totaltax = 0;
+    var shipping = 40;
+    var subtotal = 0;
+    var grandtotal = 0;
+    for(var item in cart){
+        var qty     = cart[item][0];
+        console.log(qty)
+        var price   = cart[item][3];
+        //product multipy by qty
+        var tprice  = price;
+        var total   = tprice*qty;
+        console.log(total)
+        //porduct's total
+        subtotal = subtotal + total;
+        console.log(subtotal)
+        //gst  5 % tax overall
+        
+
+    }
+    totaltax = (subtotal*5/100);
+    console.log(totaltax)
+
+    grandtotal = subtotal + totaltax + shipping;
+    console.log(grandtotal)
+
+    document.getElementById('grandtotal').innerHTML = grandtotal;
+    document.getElementById('totaltax').innerHTML = totaltax;
+    document.getElementById('shipping').innerHTML = shipping;
+    document.getElementById('subtotal').innerHTML = subtotal;
+}
+
+ 
+//remove one element or product form cart 
+$('.cartitems').on("click", "a.cartremove", function(){
+    a = this.id.slice(7,);
+    console.log(a)
+    sum = sum - cart[a].qyt;
+    document.getElementById('cart').innerHTML = sum;
+    delete cart[a]
+    localStorage.setItem('cart',JSON.stringify(cart));
+    cart = JSON.parse(localStorage.getItem('cart'));
+    $( "#cart" ).load(window.location.href);
+    var div = document.getElementById('divcart'+a);
+    div.remove();
+    calculation(cart)
+    if ($.isEmptyObject(cart)){
+        // for Empty Cart 
+        mystr = `<tr>
+                    <td>
+                        <div class="table-p__box cartitems">
+                            <div class="table-p__img-wrap">
+
+                                <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
+                            <div class="table-p__info">
+
+                                <span class="table-p__name"> 
+
+                                    <a href="product-detail.html">Yellow Wireless Headphone</a></span>
+
+                                <span class="table-p__category">
+
+                                    <a href="shop-side-version-2.html">Electronics</a></span>
+                                <ul class="table-p__variant-list">
+                                    <li>
+
+                                        <span>Size: 22</span></li>
+                                    <li>
+
+                                        <span>Color: Red</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+
+                        <span class="table-p__price">$125.00</span></td>
+                    <td>
+                        <div class="table-p__input-counter-wrap">
+
+                            <!--====== Input Counter ======-->
+                            <div class="input-counter">
+
+                                <span class="input-counter__minus fas fa-minus"></span>
+
+                                <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
+
+                                <span class="input-counter__plus fas fa-plus"></span></div>
+                            <!--====== End - Input Counter ======-->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="table-p__del-wrap">
+
+                            <a class="far fa-trash-alt table-p__delete-link cartremove" id="rmdl${item}" href="#" ></a></div>
+                    </td>
+                </tr>`
+        
+            document.getElementById('emptycart').innerHTML = mystr;
+    }
+    
+    
+});
+ 
+function updateChekOut(cart){
+    var mystr = "";
+    sum= 0;
+    document.getElementById('cartitems').innerHTML=""
+    if ($.isEmptyObject(cart)){
+        // for Empty Cart 
+        mystr = `<div class="app-content ">
+ 
+                <!--====== Section 1 ======-->
+                <div class="u-s-p-y-60">
+
+                    <!--====== Section Content ======-->
+                    <div class="section__content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                                    <div class="empty">
+                                        <div class="empty__wrap">
+
+                                            <span class="empty__big-text">EMPTY</span>
+
+                                            <span class="empty__text-1">No items found on your cart.</span>
+
+                                            <a class="empty__redirect-link btn--e-brand" href="{% url 'home' %}">CONTINUE SHOPPING</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--====== End - Section Content ======-->
+                    </div>
+                    <!--====== End - Section 1 ======-->
+                </div>`
+        
+            document.getElementById('cartitems').innerHTML = mystr;
+    }
+    else{
+        for(item in cart){
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let image = cart[item][2];
+            let price = cart[item][3];
+            let id = cart[item][8];
+            let cat = cart[item][4];
+            let subcat = cart[item][6];
+            let childcat = cart[item][7];
+            let slug = cart[item][5];
+            
+            let tprice = price.slice(1);
+            let total = tprice*qty;
+            sum=sum+qty;
+            mystr =`<tr id="divcart${item}">
+                    <td> 
+                        <div class="table-p__box">
+                            <div class="table-p__img-wrap">
+
+                                <img class="u-img-fluid" src="${image}" alt=""></div>
+                            <div class="table-p__info">
+
+                                <span class="table-p__name"> 
+
+                                    <a href="product-detail.html">${name}</a></span>
+
+                                <span class="table-p__category">
+
+                                    <a href="shop-side-version-2.html">Electronics</a></span>
+                                {% comment %} if it is cloth then work on it
+                                <ul class="table-p__variant-list">
+                                    <li>
+                                     
+                                        <span>Size: 22</span></li>
+                                    <li>
+
+                                        <span>Color: Red</span></li>
+                                </ul>{% endcomment %}
+                                 <ul class="table-p__variant-list">
+                                    <li>
+                                     
+                                        <span>Category:<b> ${cat} -> ${subcat} -> ${childcat}</b> </span></li>
+                                                                
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+
+                        <span class="table-p__price">${price}</span></td>
+                    <td>
+                       
+                        <div class="table-p__input-counter-wrap " >
+                        <span class="divpr" id="divpr${id}">
+                            <!--====== Input Counter ======-->
+                            <div class="input-counter">
+
+                                <span class="input-counter__minus fas fa-minus minus" id="minuspr${id}"></span>
+
+                                <input class="input-counter__text input-counter--text-primary-style" type="text" id="valpr${id}" data-min="1" data-max="1000" value="${qty}">${id}
+
+                                <span class="input-counter__plus fas fa-plus plus" id="pluspr${id}"></span></div></span>
+                            <!--====== End - Input Counter ======-->
+                        </div>
+                    </td>
+                    <td>
+                        <div class="table-p__del-wrap">
+
+                            <a class="far fa-trash-alt table-p__delete-link cartremove" id="cartdiv${item}"></a></div>
+                    </td>
+                </tr>`
+        
+            console.log("updatecartcheckout")
+            $('#cartitems').append(mystr);
+        }       
+    }
+    document.getElementById('cart').innerHTML = sum;
+    calculation(cart)
+
+}
+   function refresCart(){
+        cart = JSON.parse(localStorage.getItem('cart'));
+        $( "#cartitems" ).load(window.location.href);
+        calculation(cart)
+
+    }
+    function clearCart(){
+        cart = JSON.parse(localStorage.getItem('cart'));
+        console.log(cart)
+        localStorage.clear();
+        cart = {};
+        console.log(cart)
+        updateChekOut(cart); 
+
+    }
+     //minus buton works from here
+    $('.divpr').on("click", "span.minus", function(){
+        var a = this.id.slice(7, );       
+        console.log(cart)
+        cart['pr'+a][0] = cart ['pr'+a][0] -1;
+        cart['pr'+a][0] = Math.max(0,cart['pr'+a][0]);
+        r=cart['pr'+a][0]
+        var str="Add to Cart"
+        console.log("minus 0 thase")
+        if(r==0){
+            //console.log("minus 0 thayu")
+           // document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
+           // delete cart[p];            
+        }
+        else{
+            document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+        }
+        localStorage.setItem('cart',JSON.stringify(cart));
+        cart=JSON.parse(localStorage.getItem('cart'));        
+        console.log(cart);
+        updateChekOut(cart);
+        
+    });
+    //plus button works from here
+    $('.divpr').on("click", "span.plus", function(){
+        a = this.id.slice(6, );
+        cart['pr'+a][0] = cart ['pr'+a][0] +1;
+        document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+        localStorage.setItem('cart',JSON.stringify(cart));
+        cart=JSON.parse(localStorage.getItem('cart'));
+        updateChekOut(cart);
+    });
+</script>
 {% endblock custom_js %}

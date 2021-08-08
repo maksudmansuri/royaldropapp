@@ -54,13 +54,13 @@
 
                                             <span class="dash__link dash__link--black u-s-m-r-8">
 
-                                                <a href="dash-address-make-default.html">Make default shipping address</a></span>
+                                                <a href="{% url 'dash_address_make_default'%}">Make default shipping address</a></span>
 
                                             <span class="dash__link dash__link--black">
 
-                                                <a href="dash-address-make-default.html">Make default shipping address</a></span></div>
+                                                <a href="{% url 'dash_address_make_default'%}">Make default shipping address</a></span></div>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                             <div class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30">
                                 <div class="dash__table-2-wrap gl-scroll">
@@ -84,10 +84,12 @@
                                                 <td>{{add.fisrt_name}} {{add.last_name}}</td>
                                                 <td>{{add.address}}</td>
                                                 <td>{{add.city}},{{add.state}}-{{add.zip_Code}},{{add.country}}</td>
-                                                <td>{{add.phone}}</td>
+                                                <td>{{add.phone}}</td> 
                                                 <td>
+                                                {% if customer.address == add.address %}
                                                     <div class="gl-text">Default Shipping Address</div>
                                                     <div class="gl-text">Default Billing Address</div>
+                                                {% endif %}
                                                 </td>
                                             </tr>
                                         {% endfor %}

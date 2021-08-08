@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.shortcuts import get_object_or_404, render , redirect
-from django.views.generic.base import View
+# from django.views.generic.base import View
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
@@ -12,7 +13,7 @@ from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q, fields
 from django.core.paginator import Page,PageNotAnInteger,Paginator
 from accounts.models import CustomersAddress, Staffs, Customers as Customers
-from django.views.generic import ListView,CreateView,UpdateView,DetailView
+from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 from django import template
 from django.urls import reverse
 from django.contrib import messages
@@ -53,8 +54,6 @@ class indexView(ListView):
             product_list.append({"product":product,"media":media})
         return render(request,"index.html",{"productcategory":productcategory,"productsubcategory":productsubcategory,"products":product_list})
     
-
-
 # def index(request):
     # allProduct=[]
     # allcats=[]
@@ -134,6 +133,13 @@ class HomeListview(ListView):
         print(allprods)
         params={'allprods':allprods,"cats":caties,"subcaties":subcaties}
         return render(request,"index2.html",params)
+
+class CartListView(ListView): 
+    def get(self, request, *args, **kwargs):
+        product = Product.objects.filter(is_active=True)
+        customer = Customers.objects.get(admin=request.user.id)
+        param = {"product":product,"customer":customer}
+        return render(request,"cart.html",param)
  
 class ProductFilterListView(ListView):
 
@@ -141,9 +147,7 @@ class ProductFilterListView(ListView):
         caties = ProductCategory.objects.filter(is_active=True)
         subCaties = ProductSubCategory.objects.filter(is_active=True)
         childSubCaties = ProductChildSubCategory.objects.filter(is_active=True)
-        products = Product.objects.filter(is_active=True)
-
-        
+        products = Product.objects.filter(is_active=True)        
 
         categories = ProductCategory.objects.filter(is_active=1)
         categories_list = []
@@ -199,130 +203,6 @@ class ProductFilterListView(ListView):
     #     params={'allprods':allprods,"cats":caties,"subcaties":subcaties}
     #     return render(request,"product_filter_list.html",{'products_list':products})
 
-class dashboardView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
-
-class dashMyProfileView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dash_my_profile.html",{"customer":customer})
-
-class dashEditProfileUpdateView(UpdateView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dash_edit_profile.html",{"customer":customer})
-    
-    def post(self,request,*args,**kwargs):        
-        first_name=request.POST.get("first_name")
-        last_name=request.POST.get("last_name")
-        gender=request.POST.get("gender")
-        dob=request.POST.get("dob")
-        print(first_name,last_name,gender)
-
-        try:
-            # user_id=kwargs["customers_id"]
-            customer = Customers.objects.get(admin=request.user.id)
-            customer.fisrt_name = first_name
-            customer.last_name= last_name   
-            customer.gender = gender
-            customer.dob = dob
-            customer.save()
-
-            customer.admin.first_name = first_name
-            customer.admin.last_name = last_name
-            customer.admin.save()
-
-            messages.success(self.request,"Product Updated Succesfully")
-            # return HttpResponse("error in connection")
-            return HttpResponseRedirect(reverse("dash_my_profile"))
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
-            # return HttpResponse("error in connection")
-            return HttpResponseRedirect(reverse("dash_my_profile"))
- 
-class dashAddressBookView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        address = CustomersAddress.objects.filter(customer=customer)
-        param = {"customer":customer,"address":address,}
-        return render(request,"dash_address_book.html",param)
-
-class dashAddressAddView(SuccessMessageMixin,CreateView):
-    model = CustomersAddress
-    fields ="__all__"
-    template_name="dash_address_add.html"
-
-    def post(self,request,*args,**kwargs):
-        first_name=request.POST.get("first_name")
-        last_name=request.POST.get("last_name")
-        address=request.POST.get("address")
-        city=request.POST.get("city")
-        state=request.POST.get("state")
-        country=request.POST.get("country")
-        zip_Code=request.POST.get("zip_Code")
-        phone=request.POST.get("phone")
-       
-        customer = Customers.objects.get(admin=request.user.id)
-        print(customer)
-        addresss = CustomersAddress(customer=customer,fisrt_name=first_name,last_name=last_name,address=address,city=city,state=state,country=country,phone=phone,zip_Code=zip_Code)
-        addresss.save()
-        print(address)
-        
-        return HttpResponseRedirect(reverse("dash_address_book"))
-
-class dashAddressUpdateView(SuccessMessageMixin,UpdateView):
-    model = CustomersAddress
-    fields = "__all__"
-    template_name="dash_address_edit.html"
-
-    def post(self,request,*args,**kwargs):
-        first_name=request.POST.get("first_name")
-        last_name=request.POST.get("last_name")
-        address=request.POST.get("address")
-        city=request.POST.get("city")
-        state=request.POST.get("state")
-        country=request.POST.get("country")
-        zip_Code=request.POST.get("zip_Code")
-        phone=request.POST.get("phone")
-       
-        address_id = kwargs["pk"]
-        customer = Customers.objects.get(admin=request.user.id)
-        addresss = CustomersAddress.objects.get(id=address_id)
-        addresss.customer=customer
-        addresss.fisrt_name=first_name
-        addresss.last_name=last_name
-        addresss.address=address
-        addresss.city=city
-        addresss.state=state
-        addresss.country=country
-        addresss.phone=phone
-        addresss.zip_Code=zip_Code
-        addresss.save()
-        
-        return HttpResponseRedirect(reverse("dash_address_book"))
-
-class dashTrackOrderView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
-
-class dashMyOrderView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
-
-class dashPaymentOptionView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
-
-class dashCancellationView(DetailView):
-    def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
-
 def home_two(request):
     return render(request,'home_two.html')
 
@@ -338,11 +218,8 @@ def search_list(query=None):
             queryset.append(Product)
     
     return list(set(queryset)) 
-
-class CheckoutListView(ListView):
-    model = Product
-    template_name="checkout.html"
  
+
 class baseView(ListView):
     def get(self, request, *args, **kwargs):
         related_products = Product.objects.filter(is_active=1)
