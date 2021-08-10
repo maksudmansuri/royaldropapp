@@ -12,7 +12,7 @@ urlpatterns = [
     # path('home_two', views.home_two,name='home_two'),
     path('product_list', views.Product_list,name='product_list'),
     path('product_filter_list', views.ProductFilterListView.as_view(),name='product_filter_list'),
-    path('testing_file', views.testing_file,name='testing_file'),
+    path('testing_file', views.testing_file,name='testing_file'),  
     # path('testing_file', views.testing_file,name='testing_file'),
     path('product_details/<slug:product_slug>', views.ProductDetailView.as_view(),name='product_details'),
     path('checkout', login_required(orderviews.CheckoutListView.as_view()),name='checkout'),
@@ -26,7 +26,7 @@ urlpatterns = [
     path('about_us', views.about_us,name='about_us'),
     path('career', views.career,name='career'),
     path('contact_us', views.contact_us,name='contact_us'),
-     
+       
     # For user login deatils
     path('dashboard',orderviews.dashboardView.as_view(),name='dashboard'),
     path('dash_my_profile',orderviews.dashMyProfileView.as_view(),name='dash_my_profile'),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('dash_address_book',orderviews.dashAddressBookView.as_view(),name='dash_address_book'),
     path('dash_address_make_default',orderviews.dashAddressMakeDefaultView.as_view(),name='dash_address_make_default'),
     path('dash_address_add',orderviews.dashAddressAddView.as_view(),name='dash_address_add'),
+    path('checoutAddressAdd',orderviews.checoutAddressAddView.as_view(),name='checoutAddressAdd'),
     path('dash_address_edit/<slug:pk>',orderviews.dashAddressUpdateView.as_view(),name='dash_address_edit'),
     path('dash_track_order/<slug:pk>',orderviews.dashTrackOrderView.as_view(),name='dash_track_order'),
     path('dash_my_order/<slug:pk>',orderviews.dashMyOrderView.as_view(),name='dash_my_order'),

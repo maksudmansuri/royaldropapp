@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 from django.db import models
+from django.db.models.fields import AutoField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 # from ckeditor_uploader.fields import RichTextUploadingField
@@ -52,7 +53,6 @@ class MyAccountManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
-
 
 class CustomUser(AbstractBaseUser): 
     email = models.EmailField(verbose_name="email", max_length=254, unique=True)
@@ -165,9 +165,8 @@ class Customers(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
-
  
-class CustomersAddress(models.Model):
+class CustomersAddress(models.Model):  
     id=models.AutoField(primary_key=True)
     customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
     fisrt_name=models.CharField(max_length=250,blank=True,null=True,default="")
@@ -178,7 +177,7 @@ class CustomersAddress(models.Model):
     country=models.CharField(max_length=250,blank=True,null=True,default="")
     zip_Code =models.CharField(max_length=250,blank=True,null=True)       
     phone=models.CharField(max_length=250,blank=True,null=True,default="")
-    is_default = models.BooleanField(blank=True,null=True,default=False)
+    is_active = models.BooleanField(blank=True,null=True,default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
@@ -202,6 +201,23 @@ class Merchants(models.Model):
     website=models.URLField(max_length=200,blank=True,null=True,default="www.google.com")
 
     objects = models.Manager()
+
+class userPayment(models.Model):
+    id=models.AutoField(primary_key=True)
+    customers=models.ForeignKey(Customers, on_delete=models.CASCADE)
+    payment_type=models.CharField(max_length=50)
+    payment_provider = models.CharField(max_length=50)
+    account_info =models.IntegerField()
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+
+class shoppingSession(models.Model):
+    id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    total = models.CharField(max_length=50)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
+
 
 @receiver(post_save,sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender,instance=None,created=False,**kwargs):

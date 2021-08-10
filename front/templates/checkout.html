@@ -141,7 +141,8 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
-                                    <form class="checkout-f__delivery">
+                                    <form class="checkout-f__delivery" id="addressform" method="post" enctype = "multipart/form-data" action ="{% url 'checoutAddressAdd'%}">
+                                        {% csrf_token %}
                                         <div class="u-s-m-b-30">
                                             <div class="u-s-m-b-15">
 
@@ -162,12 +163,12 @@
 
                                                     <label class="gl-label" for="billing-fname">FIRST NAME *</label>
 
-                                                    <input class="input-text input-text--primary-style" type="text" id="billing-fname" data-bill=""></div>
+                                                    <input class="input-text input-text--primary-style" type="text" id="billing-fname" data-bill="" name="first_name"></div>
                                                 <div class="u-s-m-b-15">
 
                                                     <label class="gl-label" for="billing-lname">LAST NAME *</label>
 
-                                                    <input class="input-text input-text--primary-style" type="text" id="billing-lname" data-bill=""></div>
+                                                    <input class="input-text input-text--primary-style" type="text" id="billing-lname" data-bill="" name="last_name"></div>
                                             </div>
                                             <!--====== End - First Name, Last Name ======-->
 
@@ -177,7 +178,7 @@
 
                                                 <label class="gl-label" for="billing-email">E-MAIL *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill="" name="email"></div>
                                             <!--====== End - E-MAIL ======-->
 
 
@@ -186,7 +187,7 @@
 
                                                 <label class="gl-label" for="billing-phone">PHONE *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-phone" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-phone" data-bill="" name="phone"></div>
                                             <!--====== End - PHONE ======-->
 
 
@@ -195,12 +196,12 @@
 
                                                 <label class="gl-label" for="billing-street">STREET ADDRESS *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-street" placeholder="House name and street name" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-street" placeholder="House name and street name" data-bill="" name="address"></div>
                                             <div class="u-s-m-b-15">
 
                                                 <label for="billing-street-optional"></label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-street-optional" placeholder="Apartment, suite unit etc. (optional)" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-street-optional" placeholder="Apartment, suite unit etc. (optional)" data-bill="" name="address2"></div>
                                             <!--====== End - Street Address ======-->
 
 
@@ -208,13 +209,13 @@
                                             <div class="u-s-m-b-15">
 
                                                 <!--====== Select Box ======-->
-
-                                                <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="billing-country" data-bill="">
-                                                    <option selected value="">Choose Country</option>
-                                                    <option value="uae">United Arab Emirate (UAE)</option>
-                                                    <option value="uk">United Kingdom (UK)</option>
-                                                    <option value="us">United States (US)</option>
-                                                </select>
+                                                 <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="billing-country" name ="country" data-bill="" >
+                                                        <option selected value="">Choose Country</option>
+                                                        <option value="India">India</option>
+                                                        <option value="Pakistan">Pakistan</option>
+                                                        <option value="Nepal">Nepal</option>
+                                                    </select> 
+                                               
                                                 <!--====== End - Select Box ======-->
                                             </div>
                                             <!--====== End - Country ======-->
@@ -225,7 +226,7 @@
 
                                                 <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill="" name="city"></div>
                                             <!--====== End - Town / City ======-->
 
 
@@ -233,13 +234,13 @@
                                             <div class="u-s-m-b-15">
 
                                                 <!--====== Select Box ======-->
-
-                                                <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="billing-state" data-bill="">
+                                                <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="billing-state" name ="state" data-bill="">
                                                     <option selected value="">Choose State/Province</option>
-                                                    <option value="al">Alabama</option>
-                                                    <option value="al">Alaska</option>
-                                                    <option value="ny">New York</option>
+                                                    <option value="Gujarat">Gujarat</option>
+                                                    <option value="Maharastra">Maharastra</option>
+                                                    <option value="Delhi">Delhi</option>
                                                 </select>
+
                                                 <!--====== End - Select Box ======-->
                                             </div>
                                             <!--====== End - STATE/PROVINCE ======-->
@@ -250,21 +251,21 @@
 
                                                 <label class="gl-label" for="billing-zip">ZIP/POSTAL CODE *</label>
 
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-zip" placeholder="Zip/Postal Code" data-bill=""></div>
+                                                <input class="input-text input-text--primary-style" type="text" id="billing-zip" placeholder="Zip/Postal Code" data-bill="" name="zip_Code"></div>
                                             <!--====== End - ZIP/POSTAL ======-->
                                             <div class="u-s-m-b-10">
 
                                                 <!--====== Check Box ======-->
                                                 <div class="check-box">
 
-                                                    <input type="checkbox" id="make-default-address" data-bill="">
+                                                    <input type="checkbox" id="make-default-address" data-bill="" name="is_default">
                                                     <div class="check-box__state check-box__state--primary">
 
                                                         <label class="check-box__label" for="make-default-address">Make default shipping and billing address</label></div>
                                                 </div>
                                                 <!--====== End - Check Box ======-->
                                             </div>
-                                            <div class="u-s-m-b-10">
+                                            {% comment %} <div class="u-s-m-b-10">
 
                                                 <a class="gl-link" href="#create-account" data-toggle="collapse">Want to create a new account?</a></div>
                                             <div class="collapse u-s-m-b-15" id="create-account">
@@ -274,11 +275,11 @@
 
                                                     <label class="gl-label" for="reg-password">Account Password *</label>
 
-                                                    <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password"></div>
-                                            </div>
+                                                    <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password"  name="password"></div>
+                                            </div> {% endcomment %}
                                             <div class="u-s-m-b-10">
 
-                                                <label class="gl-label" for="order-note">ORDER NOTE</label><textarea class="text-area text-area--primary-style" id="order-note"></textarea></div>
+                                                <label class="gl-label" for="order-note">ORDER NOTE</label><textarea class="text-area text-area--primary-style" id="order-note" name="order_note"></textarea></div>
                                             <div>
 
                                                 <button class="btn btn--e-transparent-brand-b-2" type="submit">SAVE</button></div>
@@ -301,16 +302,26 @@
                                                 <div class="ship-b">
 
                                                     <span class="ship-b__text">Ship to:</span>
+                                                   <!--here we added recently added address from checkout page -->
+                                                      {% if is_active_address.is_active == 1 %}
                                                     <div class="ship-b__box u-s-m-b-10">
-                                                        <p class="ship-b__p">{{customer.address}} {{customer.city}} {{customer.state}}-{{customer.zipcode}} {{customer.country}} (+91) {{customer.phone}}</p>
+                                                        <p class="ship-b__p">{{is_active_address.fisrt_name}} {{is_active_address.last_name}} {{is_active_address.address}} {{is_active_address.city}} {{is_active_address.state}}-{{is_active_address.zipcode}} {{is_active_address.country}} (+91) {{is_active_address.phone}}</p>
 
                                                         <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
                                                     </div>
-                                                    <div class="ship-b__box">
+                                                    <!-- if is_active in not availble then its select deafault address -->
+                                                    {% else %}                                                     
+                                                        <div class="ship-b__box u-s-m-b-10">
+                                                            <p class="ship-b__p">{{customer.address}} {{customer.city}} {{customer.state}}-{{customer.zipcode}} {{customer.country}} (+91) {{customer.phone}}</p>
+
+                                                            <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
+                                                        </div>
+                                                     {% endif %}
+                                                    {% comment %} <div class="ship-b__box">
 
                                                         <span class="ship-b__text">Bill to default billing address</span>
 
-                                                        <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a></div>
+                                                        <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a></div> {% endcomment %}
                                                 </div>
                                             </div>
                                         </div>
@@ -341,13 +352,14 @@
                                         <div class="o-summary__section u-s-m-b-30">
                                             <div class="o-summary__box">
                                                 <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
-                                                <form class="checkout-f__payment">
+                                                <form class="checkout-f__payment" method="post">
+                                                {% csrf_token %}
                                                     <div class="u-s-m-b-10">
 
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="cash-on-delivery" name="payment">
+                                                            <input type="radio" id="cash-on-delivery" name="payment" value="cod">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label></div>
@@ -361,7 +373,7 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="direct-bank-transfer" name="payment">
+                                                            <input type="radio" id="direct-bank-transfer" name="payment" value="neft">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="direct-bank-transfer">Direct Bank Transfer</label></div>
@@ -375,10 +387,10 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-with-check" name="payment">
+                                                            <input type="radio" id="pay-with-check" name="payment" value="wallet">
                                                             <div class="radio-box__state radio-box__state--primary">
 
-                                                                <label class="radio-box__label" for="pay-with-check">Pay With Check</label></div>
+                                                                <label class="radio-box__label" for="pay-with-check">Pay with Debit Card</label></div>
                                                         </div>
                                                         <!--====== End - Radio Box ======-->
 
@@ -389,10 +401,10 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-with-card" name="payment">
+                                                            <input type="radio" id="pay-with-card" name="payment" value="card">
                                                             <div class="radio-box__state radio-box__state--primary">
 
-                                                                <label class="radio-box__label" for="pay-with-card">Pay With Credit / Debit Card</label></div>
+                                                                <label class="radio-box__label" for="pay-with-card">Pay With Credit Card</label></div>
                                                         </div>
                                                         <!--====== End - Radio Box ======-->
 
@@ -406,7 +418,7 @@
                                                             <input type="radio" id="pay-pal" name="payment">
                                                             <div class="radio-box__state radio-box__state--primary">
 
-                                                                <label class="radio-box__label" for="pay-pal">Pay Pal</label></div>
+                                                                <label class="radio-box__label" for="pay-pal">Pay With Wallet</label></div>
                                                         </div>
                                                         <!--====== End - Radio Box ======-->
 
@@ -417,14 +429,18 @@
                                                         <!--====== Check Box ======-->
                                                         <div class="check-box">
 
-                                                            <input type="checkbox" id="term-and-condition">
+                                                            <input type="checkbox" id="term-and-condition" >
                                                             <div class="check-box__state check-box__state--primary">
 
                                                                 <label class="check-box__label" for="term-and-condition">I consent to the</label></div>
                                                         </div>
                                                         <!--====== End - Check Box ======-->
 
-                                                        <a class="gl-link">Terms of Service.</a>
+                                                        <a class="gl-link" href="#">Terms of Service.</a>
+                                                    </div> 
+                                                        <input type="hidden" id="qty" name="qty">
+                                                    <div class="hidden_div" id="hidden_div">
+                                                        
                                                     </div>
                                                     <div>
 
@@ -525,7 +541,8 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="checkout-modal1">
-                            <form class="checkout-modal1__form">
+                            <form class="checkout-modal1__form" id="addressform" method="post" enctype = "multipart/form-data" action ="{% url 'checoutAddressAdd' %}">
+                             {% csrf_token %}
                                 <div class="u-s-m-b-30">
                                     <h1 class="gl-modal-h1">Add new Shipping Address</h1>
                                 </div>
@@ -534,47 +551,47 @@
 
                                         <label class="gl-label" for="address-fname">FIRST NAME *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-fname" placeholder="First Name"></div>
+                                        <input class="input-text input-text--primary-style" type="text" id="address-fname" placeholder="First Name" name="first_name"></div>
                                     <div class="u-s-m-b-30">
 
                                         <label class="gl-label" for="address-lname">LAST NAME *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-lname" placeholder="Last Name"></div>
+                                        <input class="input-text input-text--primary-style" type="text" id="address-lname" placeholder="Last Name" name="last_name"></div>
                                 </div>
                                 <div class="gl-inline">
                                     <div class="u-s-m-b-30">
 
                                         <label class="gl-label" for="address-phone">PHONE *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-phone"></div>
+                                        <input class="input-text input-text--primary-style" type="text" id="address-phone" name="phone"></div>
                                     <div class="u-s-m-b-30">
 
                                         <label class="gl-label" for="address-street">STREET ADDRESS *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-street" placeholder="House Name and Street"></div>
+                                        <input class="input-text input-text--primary-style" type="text" id="address-street" placeholder="House Name and Street" name="address"></div>
                                 </div>
                                 <div class="gl-inline">
                                     <div class="u-s-m-b-30">
 
                                         <!--====== Select Box ======-->
 
-                                        <label class="gl-label" for="address-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="address-country">
-                                            <option selected value="">Choose Country</option>
-                                            <option value="uae">United Arab Emirate (UAE)</option>
-                                            <option value="uk">United Kingdom (UK)</option>
-                                            <option value="us">United States (US)</option>
-                                        </select>
+                                        <label class="gl-label" for="address-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="address-country" name ="country" >
+                                                        <option selected value="">Choose Country</option>
+                                                        <option value="India">India</option>
+                                                        <option value="Pakistan">Pakistan</option>
+                                                        <option value="Nepal">Nepal</option>
+                                                    </select> 
                                         <!--====== End - Select Box ======-->
                                     </div>
                                     <div class="u-s-m-b-30">
 
                                         <!--====== Select Box ======-->
 
-                                        <label class="gl-label" for="address-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state">
+                                        <label class="gl-label" for="address-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" name ="state">
                                             <option selected value="">Choose State/Province</option>
-                                            <option value="al">Alabama</option>
-                                            <option value="al">Alaska</option>
-                                            <option value="ny">New York</option>
+                                            <option value="Gujarat">Gujarat</option>
+                                            <option value="Maharastra">Maharastra</option>
+                                            <option value="Delhi">Delhi</option>
                                         </select>
                                         <!--====== End - Select Box ======-->
                                     </div>
@@ -584,12 +601,12 @@
 
                                         <label class="gl-label" for="address-city">TOWN/CITY *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-city"></div>
-                                    <div class="u-s-m-b-30">
+                                        <input class="input-text input-text--primary-style" type="text" id="address-city" name="city"></div>
+                                    <div class="u-s-m-b-30" >
 
                                         <label class="gl-label" for="address-street">ZIP/POSTAL CODE *</label>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="address-postal" placeholder="Zip/Postal Code"></div>
+                                        <input class="input-text input-text--primary-style" type="text" id="address-postal" placeholder="Zip/Postal Code" name="zip_Code"></div>
                                 </div>
                                 <div class="gl-modal-btn-group">
 
@@ -675,31 +692,36 @@ function calculation(cart){
     var shipping = 40;
     var subtotal = 0;
     var grandtotal = 0;
+    var myhidden ="";
+    document.getElementById("hidden_div").innerHTML = ""
     for(var item in cart){
+
         var qty     = cart[item][0];
-        console.log(qty)
+        var product_id     = cart[item][8];
+        console.log(cart)
         var price   = cart[item][3];
         //product multipy by qty
         var tprice  = price;
         var total   = tprice*qty;
-        console.log(total)
         //porduct's total
         subtotal = subtotal + total;
-        console.log(subtotal)
         //gst  5 % tax overall
         
+        console.log(item)
 
+        myhidden = `<input type="hidden" name="product_id[]" value="${product_id}">`;
+        console.log(myhidden);
+        $(".hidden_div").append(myhidden);
     }
     totaltax = (subtotal*5/100);
-    console.log(totaltax)
 
     grandtotal = subtotal + totaltax + shipping;
-    console.log(grandtotal)
 
     document.getElementById('grandtotal').innerHTML = grandtotal;
     document.getElementById('totaltax').innerHTML = totaltax;
     document.getElementById('shipping').innerHTML = shipping;
     document.getElementById('subtotal').innerHTML = subtotal;
+    document.getElementById('qty').value = qty;
 }
 
 function updateChekOut(cart){
@@ -767,13 +789,12 @@ function updateChekOut(cart){
         }
        
     }
-    calculation(cart);
-    
-   
-    
+    calculation(cart); 
 }
 document.getElementById('cart').innerHTML = sum;
 
 
+//var dflt_address_is_on = document.getElementById('get-address').value;
+//console.log(dflt_address_is_on)
 </script>
 {% endblock custom_js %}

@@ -46,7 +46,7 @@
                                         <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
 
                                         <span class="dash__text u-s-m-b-30">We need an address where we could deliver products.</span>
-                                        <form class="dash-address-manipulation" method= "post"  enctype = "multipart/form-data">
+                                        <form class="dash-address-manipulation" method= "post" enctype = "multipart/form-data" id="addAddressform">
                                                     {% csrf_token %}
                                             <div class="gl-inline">
                                                 <div class="u-s-m-b-30">
@@ -91,9 +91,9 @@
 
                                                     <label class="gl-label" for="address-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" name ="state">
                                                         <option selected value="">Choose State/Province</option>
-                                                        <option value="Alabama">Gujarat</option>
-                                                        <option value="Alaska">Maharastra</option>
-                                                        <option value="ny">Delhi</option>
+                                                        <option value="Gujarat">Gujarat</option>
+                                                        <option value="Maharastra">Maharastra</option>
+                                                        <option value="Delhi">Delhi</option>
                                                     </select>
                                                     <!--====== End - Select Box ======-->
                                                 </div>
@@ -111,7 +111,7 @@
                                                     <input class="input-text input-text--primary-style" type="text" id="address-postal" placeholder="Zip/Postal Code" name ="zip_Code"></div>
                                             </div>
 
-                                            <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                                            <button class="btn btn--e-brand-b-2 submit_btn" type="submit">SAVE</button>
                                         </form>
                                     </div>
                                 </div>
@@ -138,5 +138,25 @@
 
 
 {% block custom_js %}
+<script>
+ $(".submit_btn").click(function(){
+        var form=new FormData($("#addAddressform")[0]);
+       // form.append("long_desc",tinyMCE.activeEditor.getContent());
 
+        //Ajax code
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.status==200){
+                console.log(xhr.responseText);
+            }
+        }  
+        xhr.open("POST","{% url 'dash_address_add' %}",true);
+        
+        
+
+        //Updating Prograssbar
+        xhr.send(form);
+
+    })
+</script>
 {% endblock custom_js %}

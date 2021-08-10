@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import user_logged_in
 from ckeditor_uploader.fields import RichTextUploadingField
 # from staff_lms.models import Staffs
-from accounts.models import Customers as Customers,CustomUser, Merchants,Staffs
+from accounts.models import Customers as Customers,CustomUser, CustomersAddress, Merchants,Staffs,shoppingSession
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models.signals import post_delete, pre_save
@@ -255,7 +255,7 @@ class ProductStockManage(models.Model):
     mini_Quantity           =           models.IntegerField(blank=True,null=True,default=1)
     stock_type_choice       =           ((1,"available"),(2,"Out Of Stock"),(3,"Product Discontinued"))
     Out_Of_Stock_Status     =           models.CharField(max_length=64,choices=stock_type_choice,default="")
-    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     is_active               =           models.BooleanField(default=False)     
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
@@ -364,14 +364,41 @@ class ProductVariantItems(models.Model):
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
-    
+
+class CartProduct(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    session                 =           models.ForeignKey(shoppingSession, on_delete=models.CASCADE)
+    product                 =           models.OneToOneField(Product, on_delete=models.CASCADE)
+    quantity                =           models.IntegerField()
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    customersaddress        =           models.ForeignKey(CustomersAddress,on_delete=models.DO_NOTHING)
+    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING)
     product_price           =           models.CharField(max_length=255,default="")
+    product_quantity        =           models.CharField(max_length=255,default="")
     coupon_Code             =           models.CharField(max_length=255,default="")
     discount_amt            =           models.CharField(max_length=255,default="")
-    product_status          =           models.CharField(max_length=255,default="")
+    status_type_choice      =           (("O","Ordered"),("C","Cancelled "),("P","Pending"))
+    order_status            =           models.CharField(max_length=255,default="",choices=status_type_choice)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    class Meta: 
+        ordering = ["-updated_at"]
+
+class OderDeliveryStatus(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.DO_NOTHING)
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    status                  =           models.CharField(max_length=255,default="")
+    status_type_choice      =           (("Pr","Prosesing"),("On","On the Way "),("D","Delivered"))
+    status_msg              =           models.CharField(max_length=255,default="",choices=status_type_choice)
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -379,29 +406,29 @@ class CustomersOrders(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
-class OderDeliveryStatus(models.Model):
-    id                      = models.AutoField(primary_key=True)
-    product                 = models.ForeignKey(Product, on_delete=models.CASCADE)
-    status                  = models.CharField(max_length=255,default="")
-    status_msg              = models.CharField(max_length=255,default="")
-    created_date            = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+class ProductCouponCode(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    quantity                =           models.IntegerField(default="",null=True)
+    price                   =           models.IntegerField(null=True)
+    start_date              =           models.DateField(default="",null=True)
+    end_date                =           models.DateField(default="",null=True)
+    is_active               =           models.BooleanField(default=False)  
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
-    objects                 = models.Manager()
-
-    class Meta:
-        ordering = ["-updated_at"]
+    objects                 =           models.Manager()
 
 class ProductDiscount(models.Model):
-    id                      = models.AutoField(primary_key=True)
-    product                 = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity                = models.IntegerField(default="",null=True)
-    price                   = models.IntegerField(null=True)
-    start_date              = models.DateField(default="",null=True)
-    end_date                = models.DateField(default="",null=True)
-    is_active               = models.BooleanField(default=False)  
-    created_date            = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    updated_at              = models.DateTimeField(auto_now_add=True)
-    objects                 = models.Manager()
+    id                      =           models.AutoField(primary_key=True)
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    quantity                =           models.IntegerField(default="",null=True)
+    price                   =           models.IntegerField(null=True)
+    start_date              =           models.DateField(default="",null=True)
+    end_date                =           models.DateField(default="",null=True)
+    is_active               =           models.BooleanField(default=False)  
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
 
     class Meta:
         ordering = ["-updated_at"]
