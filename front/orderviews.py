@@ -1,5 +1,5 @@
 from accounts import admin
-from front.models import Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, productMedia
+from front.models import Orders, Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules,productMedia
 from accounts.EmailBackEnd import EmailBackEnd
 from accounts.models import CustomUser, CustomersAddress, Staffs, Customers as Customers
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
@@ -248,9 +248,11 @@ class CheckoutListView(View):
         product = Product.objects.filter(is_active=True)
         customer = Customers.objects.get(admin=request.user.id)
         address = CustomersAddress.objects.filter(customer=customer)
+        print(address)
         # is_active_address=get_object_or_404(CustomersAddress,customer=customer,is_active=True)
         
         is_active_address = CustomersAddress.objects.filter(customer=customer,is_active=True)
+        print(is_active_address)
         is_active_addres =[]
         if is_active_address:
             is_active_addres = is_active_address[0]
@@ -259,22 +261,25 @@ class CheckoutListView(View):
         return render(request,"checkout.html",param)
     def post(self,request,*args, **kwargs):
         paymet_method = request.POST.get("payment") 
-        product_id_list = request.POST.getlist("product_id[]")
-        print(product_id_list)
+        product_Json = request.POST.get("product_Json")
+        print(product_Json)
         print(paymet_method)
         customer = Customers.objects.get(admin=request.user.id)
-        address = CustomersAddress.objects.filter(customer=customer)
+        # address = CustomersAddress.objects.filter(customer=customer)
         is_active_address = CustomersAddress.objects.filter(customer=customer,is_active=True)
+        #if other then deafual addres is active 
+
+        order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json)
         is_active_addres =[]
-
-        customersorders = CustomersOrders(product=product)
-
         if is_active_address:
-            pass
-        else:
-            pass
-
-        return HttpResponseRedirect(reverse("checkout"))
+            order.address = is_active_address[0]
+        order.save()
+        thank =True
+        if thank:
+            param = {'thank':thank}
+            return render(request,"checkout.html",param)
+        else:      
+            return HttpResponseRedirect(reverse("checkout"))
     
     
     # def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:

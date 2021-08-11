@@ -415,7 +415,7 @@
                                                         <!--====== Radio Box ======-->
                                                         <div class="radio-box">
 
-                                                            <input type="radio" id="pay-pal" name="payment">
+                                                            <input type="radio" id="pay-pal" name="payment" value="wallet">
                                                             <div class="radio-box__state radio-box__state--primary">
 
                                                                 <label class="radio-box__label" for="pay-pal">Pay With Wallet</label></div>
@@ -438,10 +438,10 @@
 
                                                         <a class="gl-link" href="#">Terms of Service.</a>
                                                     </div> 
-                                                        <input type="hidden" id="qty" name="qty">
-                                                    <div class="hidden_div" id="hidden_div">
+                                                        <input type="hidden" id="product_Json" name="product_Json">
+                                                        <div class="hidden_div" id="hidden_div">
                                                         
-                                                    </div>
+                                                        </div>
                                                     <div>
 
                                                         <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button></div>
@@ -692,8 +692,8 @@ function calculation(cart){
     var shipping = 40;
     var subtotal = 0;
     var grandtotal = 0;
-    var myhidden ="";
-    document.getElementById("hidden_div").innerHTML = ""
+  //  var myhidden ="";
+   // document.getElementById("hidden_div").innerHTML = ""
     for(var item in cart){
 
         var qty     = cart[item][0];
@@ -709,9 +709,9 @@ function calculation(cart){
         
         console.log(item)
 
-        myhidden = `<input type="hidden" name="product_id[]" value="${product_id}">`;
-        console.log(myhidden);
-        $(".hidden_div").append(myhidden);
+       //myhidden = `<input type="hidden" name="product_id[]" value="${product_id}">`;
+        //console.log(myhidden);
+        //$(".hidden_div").append(myhidden);
     }
     totaltax = (subtotal*5/100);
 
@@ -721,7 +721,7 @@ function calculation(cart){
     document.getElementById('totaltax').innerHTML = totaltax;
     document.getElementById('shipping').innerHTML = shipping;
     document.getElementById('subtotal').innerHTML = subtotal;
-    document.getElementById('qty').value = qty;
+   // document.getElementById('qty').value = qty;
 }
 
 function updateChekOut(cart){
@@ -794,7 +794,15 @@ function updateChekOut(cart){
 document.getElementById('cart').innerHTML = sum;
 
 
+
 //var dflt_address_is_on = document.getElementById('get-address').value;
 //console.log(dflt_address_is_on)
+$('#product_Json').val(JSON.stringify(cart));
+thank = "{{thank}}";
+if(thank){
+    alert('Do not refresh or close this page,We will redirect you to payment gateway wait for few second....')
+    windows.localStorage.clear();
+}
+
 </script>
 {% endblock custom_js %}

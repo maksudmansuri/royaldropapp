@@ -211,12 +211,7 @@ class userPayment(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
 
-class shoppingSession(models.Model):
-    id = models.AutoField(primary_key=True)
-    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
-    total = models.CharField(max_length=50)
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
+
 
 
 @receiver(post_save,sender=settings.AUTH_USER_MODEL)

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import user_logged_in
 from ckeditor_uploader.fields import RichTextUploadingField
 # from staff_lms.models import Staffs
-from accounts.models import Customers as Customers,CustomUser, CustomersAddress, Merchants,Staffs,shoppingSession
+from accounts.models import Customers as Customers,CustomUser, CustomersAddress, Merchants,Staffs
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models.signals import post_delete, pre_save
@@ -365,14 +365,18 @@ class ProductVariantItems(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class CartProduct(models.Model):
+class Orders(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    session                 =           models.ForeignKey(shoppingSession, on_delete=models.CASCADE)
-    product                 =           models.OneToOneField(Product, on_delete=models.CASCADE)
-    quantity                =           models.IntegerField()
+    product_Json            =           models.CharField(max_length=5000,default="")
+    payment_method          =           models.CharField(max_length=256,default="")
+    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.DO_NOTHING,default="")
+    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING,default="")
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
 
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -518,4 +522,3 @@ class viewed(models.Model):
     created_date=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     objects = models.Manager()
-
