@@ -378,6 +378,7 @@ class Orders(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
+
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
@@ -396,10 +397,19 @@ class CustomersOrders(models.Model):
     class Meta: 
         ordering = ["-updated_at"]
 
+class OrderTacker(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    ordes_id                =           models.IntegerField()
+    desc                    =           models.CharField(max_length=5000)
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+
 class OderDeliveryStatus(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.DO_NOTHING)
-    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.DO_NOTHING,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING,default="")
     status                  =           models.CharField(max_length=255,default="")
     status_type_choice      =           (("Pr","Prosesing"),("On","On the Way "),("D","Delivered"))
     status_msg              =           models.CharField(max_length=255,default="",choices=status_type_choice)

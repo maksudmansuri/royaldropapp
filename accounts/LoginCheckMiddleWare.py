@@ -27,7 +27,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     return HttpResponseRedirect(reverse("admin_home"))
             elif user.user_type=="2":
                 if modulename == "staffs.views" or modulename == "django.views.static":
-                    pass
+                    pass 
                 elif modulename == "front.views":
                     pass
                 elif modulename == "media":
@@ -65,7 +65,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 # else:
                 #     return redirect("/admin")
                     # return HttpResponseRedirect(reverse("django/contrib/admin"))
-            elif user.user_type=="0" or user.is_superuser==True:
+            elif user.is_superuser==True:
                 if modulename == "ecaadmin.views" or modulename == "django.views.static":
                     pass
                 elif modulename == "front.views":

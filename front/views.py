@@ -73,7 +73,7 @@ class indexView(ListView):
     #     allcats.append(allcat)
     #     for i in crs:  
     #         print(i.Product_category)
-
+ 
     # print(allcats)
     # params= {'allProduct':allProduct,'allcats':allcats,'allcrscnt':allcrscnt,'allstfcnt':allstfcnt,'allstdcnt':allstdcnt,'allcrs':allcrs}
     # return render(request,'index.html')

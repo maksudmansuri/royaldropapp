@@ -178,6 +178,7 @@ class CustomersAddress(models.Model):
     zip_Code =models.CharField(max_length=250,blank=True,null=True)       
     phone=models.CharField(max_length=250,blank=True,null=True,default="")
     is_active = models.BooleanField(blank=True,null=True,default=False)
+    is_default = models.BooleanField(blank=True,null=True,default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()

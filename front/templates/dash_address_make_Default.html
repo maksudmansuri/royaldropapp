@@ -71,8 +71,7 @@
                                                                 <!--====== Radio Box ======-->
                                                                 <div class="radio-box">
  
-                                                                    <input type="radio" value="{{add.id}}"  name="address" id="address_id" {% if customer.address == add.address %} checked {% endif %}>
-                                                                    <input type="hidden" name="address_hide" value="" id="address_hidden">
+                                                                    <input type="radio" value="{{add.id}}"  name="address" id="address_id" {% if add.is_default %} checked {% endif %}>
                                                                     <div class="radio-box__state radio-box__state--primary">
 
                                                                         <label class="radio-box__label" for="address-1"></label></div>
@@ -83,7 +82,7 @@
                                                             <td>{{add.address}}</td>
                                                             <td>{{add.city}},{{add.state}}-{{add.zip_Code}},{{add.country}}</td>
                                                             <td>{{add.phone}}</td>
-                                                            <td> {% if customer.address == add.address %}
+                                                            <td> {% if add.is_default %}
                                                                 <div class="gl-text">Default Shipping Address</div>
                                                                 <div class="gl-text">Default Billing Address</div>{% endif %}
                                                             </td>

@@ -31,7 +31,6 @@ from django.core.files.storage import FileSystemStorage
 #     return render(request,'dologin')
 
 def dologin(request):
-    print(request.user)
     if request.method == "POST":
     #check user is authenticate or not
         user=EmailBackEnd.authenticate(request,username=request.POST.get("username"),password=request.POST.get("password"))
@@ -39,7 +38,7 @@ def dologin(request):
             if user.is_active == True:
                 login(request,user)
                 # request.session['logged in']=True
-                if user.user_type=="":
+                if user.user_type=="2":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
@@ -57,7 +56,9 @@ def dologin(request):
                 elif user.user_type=="3":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
+                        print("we have next")
                     else:
+                        print("we dont have next")
                         return HttpResponseRedirect(reverse('home'))
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))

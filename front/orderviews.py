@@ -1,5 +1,6 @@
+from django.http import response
 from accounts import admin
-from front.models import Orders, Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules,productMedia
+from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules,productMedia
 from accounts.EmailBackEnd import EmailBackEnd
 from accounts.models import CustomUser, CustomersAddress, Staffs, Customers as Customers
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
@@ -10,6 +11,7 @@ from django.contrib.auth import login,authenticate,logout
 from django.shortcuts import get_object_or_404, render , redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.forms import RegistrationForm
+import json
 
 
 class dashboardView(DetailView):
@@ -60,8 +62,8 @@ class dashAddressBookView(ListView):
         customer = Customers.objects.get(admin=request.user.id)
         address = CustomersAddress.objects.filter(customer=customer)
         param = {"customer":customer,"address":address,}
+        print("WE ARE HERE IN DASH ADDRESS BOOK VIEW")
         return render(request,"dash_address_book.html",param)
-   
 
 class dashAddressMakeDefaultView(DetailView):
     def get(self,request,*args,**kwargs):
@@ -71,34 +73,48 @@ class dashAddressMakeDefaultView(DetailView):
         return render(request,"dash_address_make_default.html",param)
  
     def post(self,request,*args,**kwargs):
-        adds= request.POST.get("address_hide")
-        print(adds)
-
+        adds= request.POST.get("address")
         customer = Customers.objects.get(admin=request.user.id)
-        # addresses = CustomersAddress.objects.filter(customer=customer)
-        # add = [] 
-        # for addres in addresses:
-        #     adds= request.POST.getlist(addres.id)
-        #     if adds.id == addres.id:
-        #         customer.fisrt_name = addres.fisrt_name
-        #         customer.last_name =addres.last_name
-        #         customer.address =addres.address
-        #         customer.city = addres.city
-        #         customer.state = addres.state
-        #         customer.country = addres.country
-        #         customer.zip_Code = addres.zip_Code
-        #         customer.phone =addres.phone
-        #         customer.save()
+        is_default_address = CustomersAddress.objects.get(is_default=True,customer=customer)
+        is_default_address.is_active= False
+        is_default_address.is_default= False
+        is_default_address.save()
+        addresss = CustomersAddress.objects.filter(customer=customer)
+        
+        if adds == is_default_address.id:
+            is_default_address.is_active= True
+            is_default_address.is_default= True
+            msg=messages.success(self.request,"same adress updated")           
+            param = {"customer":customer,"address":addresss,}
+            return render(request,"dash_address_make_default.html",param)
+        try:           
+            addresses = CustomersAddress.objects.get(id=adds)
+            addresses.is_active= True
+            addresses.is_default= True
+            addresses.save()
+            customer.fisrt_name = addresses.fisrt_name
+            customer.last_name =addresses.last_name
+            customer.address =addresses.address
+            customer.city = addresses.city
+            customer.state = addresses.state
+            customer.country = addresses.country
+            customer.zip_Code = addresses.zip_Code
+            customer.phone =addresses.phone
+            customer.save()
+ 
+            msg=messages.success(self.request,"Default Address Updated Succesfully")
+            param = {"customer":customer,"address":addresss,}
+            return render(request,"dash_address_book.html",param)
+        except:
+            msg=messages.error(request,"Connection Error Try Again")            
+            return HttpResponseRedirect(reverse("dash_address_make_default"))
 
-        customer = Customers.objects.get(admin=request.user.id)
+class dashAddressAddView(SuccessMessageMixin,CreateView):   
+    def get(self, request, *args, **kwargs):
+        customer =  Customers.objects.get(admin=request.user.id)
         address = CustomersAddress.objects.filter(customer=customer)
-        param = {"customer":customer,"address":address,}
-        return render(request,"dash_address_make_default.html",param)
-
-class dashAddressAddView(SuccessMessageMixin,CreateView):
-    model = CustomersAddress
-    fields ="__all__"
-    template_name="dash_address_add.html"
+        param = {"customer":customer,"address":address}
+        return render(request,"dash_address_add.html",param)
 
     def post(self,request,*args,**kwargs):
         first_name=request.POST.get("first_name")
@@ -111,8 +127,12 @@ class dashAddressAddView(SuccessMessageMixin,CreateView):
         phone=request.POST.get("phone")
         try:
             customer = Customers.objects.get(admin=request.user.id)
-            if customer.address:
+            add = CustomersAddress.objects.filter(customer=customer)
+            print(customer,add)            
+            if customer.address and add:
                 addresss = CustomersAddress(customer=customer,fisrt_name=first_name,last_name=last_name,address=address,city=city,state=state,country=country,phone=phone,zip_Code=zip_Code)
+                addresss.is_active = False
+                addresss.is_default = False
                 addresss.save()
             else:
                 customer.fisrt_name = first_name
@@ -123,16 +143,19 @@ class dashAddressAddView(SuccessMessageMixin,CreateView):
                 customer.country = country
                 customer.zip_Code = zip_Code
                 customer.phone =phone
-                customer.save() 
+                customer.save()
+                print("we are after customer save")
                 addresss = CustomersAddress(customer=customer,fisrt_name=first_name,last_name=last_name,address=address,city=city,state=state,country=country,phone=phone,zip_Code=zip_Code)
+                addresss.is_active = True
+                addresss.is_default = True
                 addresss.save()
-            # msg=messages.success(self.request,"Product Created Succesfully")
+            msg=messages.success(self.request,"Product Created Succesfully")
             return HttpResponseRedirect(reverse("dash_address_book"))
             # return HttpResponse("Ok")
         except:
-            # msg=messages.error(request,"Connection Error Try Again")
+            msg=messages.error(request,"Connection Error Try Again")
             # return HttpResponse("error in connection")
-            return HttpResponseRedirect(reverse("dash_address_add"))
+            return HttpResponseRedirect(reverse("dash_address_book"))
 
 class checoutAddressAddView(SuccessMessageMixin,CreateView):
     def post(self,request,*args,**kwargs):
@@ -151,11 +174,20 @@ class checoutAddressAddView(SuccessMessageMixin,CreateView):
         address= address1 + address2
 
         try:
-            customer = Customers.objects.get(admin=request.user.id)
+            customer = Customers.objects.get(admin=request.user.id)            
             if customer.address:
+                is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
+                is_active_address.is_active = False
+                is_active_address.save()
                 addresss = CustomersAddress(customer=customer,fisrt_name=first_name,last_name=last_name,address=address,city=city,state=state,country=country,phone=phone,zip_Code=zip_Code)
                 addresss.is_active = True
-                if is_default == "on":
+                addresss.is_default = False
+                if is_default == "on":       
+                    is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
+                    is_default_address.is_default = False
+                    is_default_address.save()            
+                    addresss.is_active = True
+                    addresss.is_default = True
                     customer.fisrt_name = first_name
                     customer.last_name =last_name
                     customer.address =address
@@ -178,6 +210,7 @@ class checoutAddressAddView(SuccessMessageMixin,CreateView):
                 customer.save() 
                 addresss = CustomersAddress(customer=customer,fisrt_name=first_name,last_name=last_name,address=address,city=city,state=state,country=country,phone=phone,zip_Code=zip_Code)
                 addresss.is_active = True
+                addresss.is_default = True
                 # if is_default == "on":
                 #     addresss.is_active = 1
                 addresss.save()
@@ -190,7 +223,6 @@ class checoutAddressAddView(SuccessMessageMixin,CreateView):
             msg=messages.error(request,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("checkout"))
-
 
 class dashAddressUpdateView(SuccessMessageMixin,UpdateView):
     model = CustomersAddress
@@ -223,63 +255,157 @@ class dashAddressUpdateView(SuccessMessageMixin,UpdateView):
         
         return HttpResponseRedirect(reverse("dash_address_book"))
 
+class dashTrackOrderByTrackerView(DetailView):
+    def get(self,request,*args,**kwargs):
+        customer = Customers.objects.get(admin=request.user.id)
+        return render(request,"dash_manage_order.html.html",{"customer":customer})
+
 class dashTrackOrderView(DetailView):
     def get(self,request,*args,**kwargs):
         customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
+        return render(request,"dash_track_order.html",{"customer":customer})
+
+    def post(self,request,*args, **kwargs):
+        email=request.POST.get('email')
+        ordes_id=request.POST.get('order_id')
+        print("i m here")
+        try:
+            if email == request.user.email:
+                order = Orders.objects.get(id=ordes_id)
+                if order:
+                    update = OrderTacker.objects.filter(ordes_id=ordes_id)
+                    updates = []
+                    for item in update:
+                        updates.append({'id':item.id,'text':item.desc,'time':item.created_date})
+                        response = json.dumps([updates,order.product_Json,order.address.fisrt_name,order.address.last_name,order.address.address,order.address.city,order.address.state,order.address.country,order.address.zip_Code,order.address.phone ,order.payment_method],default=str)
+                    return HttpResponse(response)
+                else:
+                    return HttpResponse('{}')
+            else:
+                return HttpResponse('{}')
+        except Exception as e:
+            return HttpResponse('{}')
+        # return render(request,"dash_track_order.html")
+        # messages.add_message(request,messages.ERROR,'Email id or Order can not be match !')
+        # return HttpResponseRedirect(reverse("dash_track_order"))
+
+
+class dashManageOrderView(DetailView):
+    def get(self,request,*args,**kwargs):
+        customer = Customers.objects.get(admin=request.user.id)
+        param = {"customer":customer}
+        return render(request,"dash_manage_order.html",param)
 
 class dashMyOrderView(DetailView):
     def get(self,request,*args,**kwargs):
-        customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
+        try:
+            customer = Customers.objects.get(admin=request.user.id)
+            orders = Orders.objects.filter(customer = customer)
+            order_products = []
+            for order in orders:
+                data = ProductJsonList(order)
+                print(data)
+                order_products.append(data)
+
+            return render(request,"dash_my_order.html",{"customer":customer,'orders':orders})
+        except Exception as e:
+            return HttpResponse('{}')
+
+from django.http import JsonResponse
+
+def ProductJsonList(request,order):
+    data = Orders.objects.values('product_Json',id=order)
+    print(data)
+    return JsonResponse({'data': data})
 
 class dashPaymentOptionView(DetailView):
     def get(self,request,*args,**kwargs):
         customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
+        return render(request,"dash_payment_option.html",{"customer":customer})
  
 class dashCancellationView(DetailView):
     def get(self,request,*args,**kwargs):
         customer = Customers.objects.get(admin=request.user.id)
-        return render(request,"dashboard.html",{"customer":customer})
+        return render(request,"dash_cancellation.html",{"customer":customer})
+
+class checkoutDefaultAddresschangeView(View):
+    def post(self,request,*args,**kwargs):
+        adds= request.POST.get("default-address")
+        customer = Customers.objects.get(admin=request.user.id)
+        is_default_address = CustomersAddress.objects.get(is_default=True,customer=customer)
+        is_default_address.is_default= False
+        is_default_address.save()
+        is_active_address = CustomersAddress.objects.get(is_active=True,customer=customer)
+        is_active_address.is_active= False
+        is_active_address.save()
+
+        addresss = CustomersAddress.objects.filter(customer=customer)
+        
+        if adds == is_default_address.id:
+            is_default_address.is_active= True
+            is_default_address.is_default= True
+            msg=messages.success(self.request,"same adress updated")           
+            param = {"customer":customer,"address":addresss,}
+            return HttpResponseRedirect(reverse("checkout"))
+        try:           
+            addresses = CustomersAddress.objects.get(id=adds)
+            addresses.is_active= True
+            addresses.is_default= True
+            addresses.save()
+            customer.fisrt_name = addresses.fisrt_name
+            customer.last_name =addresses.last_name
+            customer.address =addresses.address
+            customer.city = addresses.city
+            customer.state = addresses.state
+            customer.country = addresses.country
+            customer.zip_Code = addresses.zip_Code
+            customer.phone =addresses.phone
+            customer.save()
+ 
+            msg=messages.success(self.request,"Default Address Updated Succesfully")
+            return HttpResponseRedirect(reverse("checkout"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")            
+            return HttpResponseRedirect(reverse("checkout"))
+    
 
 class CheckoutListView(View):
     def get(self, request, *args, **kwargs):
         product = Product.objects.filter(is_active=True)
         customer = Customers.objects.get(admin=request.user.id)
         address = CustomersAddress.objects.filter(customer=customer)
-        print(address)
-        # is_active_address=get_object_or_404(CustomersAddress,customer=customer,is_active=True)
-        
-        is_active_address = CustomersAddress.objects.filter(customer=customer,is_active=True)
+
+        is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
+        is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
         print(is_active_address)
-        is_active_addres =[]
-        if is_active_address:
-            is_active_addres = is_active_address[0]
-        param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_addres}
-      
+        param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address}      
         return render(request,"checkout.html",param)
+
     def post(self,request,*args, **kwargs):
         paymet_method = request.POST.get("payment") 
         product_Json = request.POST.get("product_Json")
-        print(product_Json)
-        print(paymet_method)
-        customer = Customers.objects.get(admin=request.user.id)
-        # address = CustomersAddress.objects.filter(customer=customer)
-        is_active_address = CustomersAddress.objects.filter(customer=customer,is_active=True)
-        #if other then deafual addres is active 
+        try:
+            customer = Customers.objects.get(admin=request.user.id)
+            is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
 
-        order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json)
-        is_active_addres =[]
-        if is_active_address:
-            order.address = is_active_address[0]
-        order.save()
-        thank =True
-        if thank:
-            param = {'thank':thank}
-            return render(request,"checkout.html",param)
-        else:      
+            order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json)
+            order.address = is_active_address
+            order.save()
+
+            tracker = OrderTacker(ordes_id=order.id,desc="product purchase successfuly !")
+            tracker.save()
+
+            thank =True
+            if thank:
+                param = {'thank':thank}
+                return render(request,"checkout.html",param)
+            else:
+                return HttpResponseRedirect(reverse("dash_manage_order"))
+        except:
+            msg=messages.error(request,"Connection Error Try Again")
+            # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("checkout"))
+
     
     
     # def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:

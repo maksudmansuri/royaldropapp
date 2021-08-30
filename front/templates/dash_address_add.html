@@ -46,7 +46,7 @@
                                         <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
 
                                         <span class="dash__text u-s-m-b-30">We need an address where we could deliver products.</span>
-                                        <form class="dash-address-manipulation" method= "post" enctype = "multipart/form-data" id="addAddressform">
+                                        <form class="dash-address-manipulation" method= "post" enctype = "multipart/form-data" action="{% url 'dash_address_add' %}">
                                                     {% csrf_token %}
                                             <div class="gl-inline">
                                                 <div class="u-s-m-b-30">
@@ -86,7 +86,7 @@
                                                     <!--====== End - Select Box ======-->
                                                 </div>
                                                 <div class="u-s-m-b-30">
-
+ 
                                                     <!--====== Select Box ======-->
 
                                                     <label class="gl-label" for="address-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="address-state" name ="state">
@@ -139,24 +139,6 @@
 
 {% block custom_js %}
 <script>
- $(".submit_btn").click(function(){
-        var form=new FormData($("#addAddressform")[0]);
-       // form.append("long_desc",tinyMCE.activeEditor.getContent());
-
-        //Ajax code
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange=function(){
-            if(xhr.status==200){
-                console.log(xhr.responseText);
-            }
-        }  
-        xhr.open("POST","{% url 'dash_address_add' %}",true);
-        
-        
-
-        //Updating Prograssbar
-        xhr.send(form);
-
-    })
+ 
 </script>
 {% endblock custom_js %}

@@ -11,7 +11,7 @@
 {% block content %}
   <!--====== App Content ======-->
 <div class="app-content">
-
+ 
     <!--====== Section 1 ======-->
     <div class="u-s-p-y-60">
 
@@ -23,10 +23,10 @@
                         <ul class="breadcrumb__list">
                             <li class="has-separator">
 
-                                <a href="index.html">Home</a></li>
+                                <a href="{% url 'home' %}">Home</a></li>
                             <li class="is-marked">
 
-                                <a href="dash-edit-profile.html">My Account</a></li>
+                                <a href="{% url 'dashboard' %}">My Account</a></li>
                         </ul>
                     </div>
                 </div>
@@ -79,14 +79,14 @@
                                         {% for add in address %}
                                             <tr>
                                                 <td>
-
+ 
                                                     <a class="address-book-edit btn--e-transparent-platinum-b-2" href="{% url 'dash_address_edit' add.id %}">Edit</a></td>
                                                 <td>{{add.fisrt_name}} {{add.last_name}}</td>
                                                 <td>{{add.address}}</td>
                                                 <td>{{add.city}},{{add.state}}-{{add.zip_Code}},{{add.country}}</td>
                                                 <td>{{add.phone}}</td> 
                                                 <td>
-                                                {% if customer.address == add.address %}
+                                                 {% if add.is_default %}
                                                     <div class="gl-text">Default Shipping Address</div>
                                                     <div class="gl-text">Default Billing Address</div>
                                                 {% endif %}

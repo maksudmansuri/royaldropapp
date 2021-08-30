@@ -1182,11 +1182,11 @@
     // Html Code replace with plus minus button updating cart in localStorage
     function updateCart(cart){
         var sum = 0;
+        console.log(cart)
         for(var item in cart){
             sum= sum + cart[item][0];
-            document.getElementById('div'+item).innerHTML = "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";    
-                                                                
-        }
+            document.getElementById('div'+item).innerHTML = "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";
+            }
         localStorage.setItem('cart',JSON.stringify(cart));
         //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
 
@@ -1206,7 +1206,7 @@
         console.log("minus 0 thase")
         if(r==0){
             console.log("minus 0 thayu")
-            //document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
+            document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
             delete cart[p]; 
             localStorage.setItem('cart',JSON.stringify(cart));
             cart=JSON.parse(localStorage.getItem('cart'));

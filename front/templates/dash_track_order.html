@@ -1,0 +1,325 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block title %}
+    <title>Dashboard || RoyalDrop Shipping | E-commerce | All Product online </title>
+{% endblock title %}
+ 
+{% block custom_css %}{% endblock custom_css %}
+ 
+{% block fixed_list %}{% endblock fixed_list %}
+ 
+{% block content %}
+<div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-y-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <div class="breadcrumb__wrap">
+                                <ul class="breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="{% url 'home' %}">Home</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="{% url 'dashboard' %}">My Account</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--====== End - Section 1 ======-->
+
+
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="dash">
+                        <div class="container">
+                            <div class="row">
+                                {% include 'snipetForUserMenu.html' %}
+                               
+                                <div class="col-lg-9 col-md-12">
+                                    <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white" id="finditem">
+                                        <div class="dash__pad-2" >
+                                            <h1 class="dash__h1 u-s-m-b-14">Track your Order</h1>
+
+                                            <span class="dash__text u-s-m-b-30">To track your order please enter your Order ID in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</span>
+                                            <form class="dash-track-order" id="trackerform">
+                                            {% csrf_token %}
+                                                <div class="gl-inline">
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="order-id">Order ID *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="order-id" placeholder="Found in your confirmation email" name="order_id"></div>
+                                                    <div class="u-s-m-b-30">
+
+                                                        <label class="gl-label" for="track-email">Email *</label>
+
+                                                        <input class="input-text input-text--primary-style" type="text" id="track-email" placeholder="Email you used during checkout"  name="email"></div>
+                                                </div>
+
+                                                <button class="btn btn--e-brand-b-2" type="submit">TRACK</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="my-4" id="items">
+                                            
+                                        <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 2 ======-->
+        </div>
+
+{% endblock content %}
+
+{% block afterfooter %}
+ 
+
+{% endblock afterfooter %}
+
+
+
+{% block custom_js %}
+<script>
+$('#trackerform').submit(function(event){
+
+    $('#items').empty();
+    var formData = {
+        'order_id': $('input[name=order_id]').val(),
+        'email': $('input[name=email]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'dash_track_order' %}",
+        data: formData,
+        encode: true 
+
+    })
+
+    .done(function(data){
+        data = JSON.parse(data)
+        updates = data[0];
+        cart1= JSON.parse(data[1]);
+        orderaddressfirstname= data[2];
+        orderaddresslastname= data[3];
+        orderaddressaddressname= data[4];
+        orderaddresscity= data[5];
+        orderaddressstate= data[6];
+        orderaddresscountry= data[7];
+        orderaddresspincode= data[8];
+        orderaddressphone= data[9];
+        orderpaymentmethod= data[10];
+
+        if(updates.length > 0 & updates != {}){
+            $('#finditem').empty();
+                
+                mystr = `<h1 class="dash__h1 u-s-m-b-30">Order Details</h1>
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                            <div class="dash__pad-2">
+                                <div class="dash-l-r">
+                                    <div>
+                                        <div class="manage-o__text-2 u-c-secondary">Order #${updates[0].id}</div>
+                                        <div class="manage-o__text u-c-silver">Placed on ${updates[0].time}</div>
+                                    </div>
+                                    <div>
+                                        <div class="manage-o__text-2 u-c-silver">Total:
+
+                                            &#8377<span class="manage-o__text-2 u-c-secondary" id="grandtotal1"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+                            <div class="dash__pad-2">
+                                <div class="manage-o">
+                                    <div class="manage-o__header u-s-m-b-30">
+                                        <div class="manage-o__icon"><i class="fas fa-box u-s-m-r-5"></i>
+
+                                            <span class="manage-o__text">Package 1</span></div>
+                                    </div>
+                                    <div class="dash-l-r">
+                                        <div class="manage-o__text u-c-secondary">Delivered on 26 Oct 2016</div>
+                                        <div class="manage-o__icon"><i class="fas fa-truck u-s-m-r-5"></i>
+
+                                            <span class="manage-o__text">Standard</span></div>
+                                    </div>
+                                    <div class="manage-o__timeline">
+                                        <div class="timeline-row">`
+                                        for(i=0;i<updates.length;i++){
+                                            let text = updates[i]['text'];
+                                            let time = updates[i]['time'];
+                                            mystr = mystr+`<div class="col-lg-3 u-s-m-b-30">
+                                                <div class="timeline-step">
+                                                    <div class="timeline-l-i timeline-l-i--finish">
+
+                                                        <span class="timeline-circle"></span></div>
+
+                                                    <span class="timeline-text">${text}</span>
+                                                </div>
+                                            </div>`
+                                            } 
+                                mystr = mystr+ ` 
+                                            {% comment %} <div class="col-lg-4 u-s-m-b-30">
+                                                <div class="timeline-step">
+                                                    <div class="timeline-l-i timeline-l-i--finish">
+
+                                                        <span class="timeline-circle"></span></div>
+
+                                                    <span class="timeline-text">Shipped</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 u-s-m-b-30">
+                                                <div class="timeline-step">
+                                                    <div class="timeline-l-i timeline-l-i--finish">
+
+                                                        <span class="timeline-circle"></span></div>
+
+                                                    <span class="timeline-text">Delivered</span>
+                                                </div>
+                                            </div> {% endcomment %}
+                                        </div>
+                                    </div>`
+            for(item in cart1){
+                let name = cart1[item][1];
+                let qty = cart1[item][0];
+                let image = cart1[item][2];
+                let price = cart1[item][3];
+                let tprice = price;
+                let total = tprice*qty;
+                mystr = mystr+`                  <div class="manage-o__description">
+                                        <div class="description__container">
+                                            <div class="description__img-wrap">
+
+                                                <img class="u-img-fluid" src="${image}" alt=""></div>
+                                            <div class="description-title">${name}</div>
+                                        </div>
+                                        <div class="description__info-wrap">
+                                            <div>
+
+                                                <span class="manage-o__text-2 u-c-silver">Quantity:
+
+                                                    <span class="manage-o__text-2 u-c-secondary">${qty}</span></span></div>
+                                            <div>
+
+                                                <span class="manage-o__text-2 u-c-silver">Total:
+
+                                                    <span class="manage-o__text-2 u-c-secondary">&#8377<span>${total}</span></span></span></div>
+                                        </div>
+                                    </div>
+                                    ` }
+
+                     
+                    mystr =mystr +`
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+                                    <div class="dash__pad-3">
+                                        <h2 class="dash__h2 u-s-m-b-8">Shipping Address</h2>
+                                        <h2 class="dash__h2 u-s-m-b-8">${orderaddressfirstname} ${orderaddresslastname}</h2>
+
+                                        <span class="dash__text-2"> ${orderaddressaddressname}  ${orderaddresscity}  ${orderaddressstate}  ${orderaddresscountry} ${orderaddresspincode}</span>
+
+                                        <span class="dash__text-2"> ${orderaddressphone}</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="dash__box dash__box--bg-white dash__box--shadow u-h-100">
+                                    <div class="dash__pad-3">
+                                        <h2 class="dash__h2 u-s-m-b-8">Total Summary</h2>
+                                        <div class="dash-l-r u-s-m-b-8">
+                                            <div class="manage-o__text-2 u-c-secondary" >Subtotal</div>
+                                            <div class="manage-o__text-2 u-c-secondary" >&#8377<span id="subtotal"></span></div>
+                                        </div>
+                                        <div class="dash-l-r u-s-m-b-8">
+                                            <div class="manage-o__text-2 u-c-secondary" >GST</div>
+                                            <div class="manage-o__text-2 u-c-secondary" >&#8377<span id="totaltax"></span></div>
+                                        </div>
+                                        <div class="dash-l-r u-s-m-b-8">
+                                            <div class="manage-o__text-2 u-c-secondary">Shipping Fee</div>
+                                            <div class="manage-o__text-2 u-c-secondary" >&#8377<span id="shipping"></span></div>
+                                        </div>
+                                        <div class="dash-l-r u-s-m-b-8">
+                                            <div class="manage-o__text-2 u-c-secondary">Total</div>
+                                            <div class="manage-o__text-2 u-c-secondary" >&#8377<span id="grandtotal"></span></div>
+                                        </div>
+
+                                        <span class="dash__text-2">Paid by ${orderpaymentmethod}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                
+                $('#items').append(mystr);
+                calculation(cart1) 
+
+        }
+        else{
+            mystr = `<h5>No order has been Placed</h5>`
+            $('#items').append(mystr);
+        }
+       
+    });
+
+event.preventDefault();
+
+});
+function calculation(cart){
+    var totaltax = 0;
+    var shipping = 40;
+    var subtotal = 0;
+    var grandtotal = 0;
+  //  var myhidden ="";
+   // document.getElementById("hidden_div").innerHTML = ""
+    for(var item in cart){
+
+        var qty     = cart[item][0];
+        var product_id     = cart[item][8];
+        var price   = cart[item][3];
+        //product multipy by qty
+        var tprice  = price;
+        var total   = tprice*qty;
+        //porduct's total
+        subtotal = subtotal + total;
+        //gst  5 % tax overall
+        
+
+       //myhidden = `<input type="hidden" name="product_id[]" value="${product_id}">`;
+        //console.log(myhidden);
+        //$(".hidden_div").append(myhidden);
+    }
+    totaltax = (subtotal*5/100);
+
+    grandtotal = subtotal + totaltax + shipping;
+
+    document.getElementById('grandtotal').innerHTML = grandtotal;
+    document.getElementById('grandtotal1').innerHTML = grandtotal;
+    document.getElementById('totaltax').innerHTML = totaltax;
+    document.getElementById('shipping').innerHTML = shipping;
+    document.getElementById('subtotal').innerHTML = subtotal;
+   // document.getElementById('qty').value = qty;
+}
+
+</script>
+{% endblock custom_js %}

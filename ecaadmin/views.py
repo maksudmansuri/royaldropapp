@@ -220,7 +220,7 @@ class ProductChildSubCategoryUpdate(SuccessMessageMixin,UpdateView):
                 pchsbcat.thumbnail = media_url
                 print(media_url)
             pchsbcat.save()
-            messages.success(self.request,"Product child subcategory has been Updated Succesfully")
+            msg=messages.success(self.request,"Product child subcategory has been Updated Succesfully")
             return HttpResponseRedirect(reverse("childsubcategory_list"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
@@ -264,12 +264,12 @@ class ProductChildSubCategoryCreate(SuccessMessageMixin,CreateView):
                 media_url=fs.url(filename)
                 pchsbcat.thumbnail = media_url
                 pchsbcat.save()
-            messages.success(self.request,"Product  child subcategory has been Created Succesfully")
+            msg=messages.success(self.request,"Product  child subcategory has been Created Succesfully")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
-
+ 
 class MerchantUserCreateView(SuccessMessageMixin,CreateView):
     model = CustomUser
     success_message = "Merchant added !"
@@ -314,7 +314,7 @@ class MerchantUserCreateView(SuccessMessageMixin,CreateView):
         user.merchants.is_added_by_admin=is_added_by_admin
         user.merchants.save()
 
-        messages.success(self.request,"Merchant Created Succesfully")
+        msg=messages.success(self.request,"Merchant Created Succesfully")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
           
 class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
@@ -352,7 +352,7 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
         merchant.is_added_by_admin=is_added_by_admin
         merchant.save()
 
-        messages.success(self.request,"Merchant Created Succesfully")
+        msg=messages.success(self.request,"Merchant Created Succesfully")
         return HttpResponseRedirect(reverse("merchant_list"))
 
 class MerchantUserListViews(ListView):
@@ -740,7 +740,7 @@ class ProductNewUpdate(View):
                 product_tag_obj=ProductTag(product_tags=product_tag,product=product)
                 product_tag_obj.save()
             print("all data stored")
-            messages.success(self.request,"Product Updated Succesfully")
+            msg=messages.success(self.request,"Product Updated Succesfully")
             # return HttpResponse("ok")
             return HttpResponse("Ok")
         except:
@@ -845,7 +845,7 @@ class ProductView(View):
             product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
             product_transaction.save()
             print("all data stored")
-            messages.success(self.request,"Product Created Succesfully")
+            msg=messages.success(self.request,"Product Created Succesfully")
             # return HttpResponse("ok")
             return HttpResponseRedirect(reverse("product_list"))
         except:
@@ -1004,14 +1004,14 @@ class AddProductView(View):
             print("product Transaction saved")
             product_transaction.save()
             print("all data stored")
-            messages.success(self.request,"Product Created Succesfully")
+            msg=messages.success(self.request,"Product Created Succesfully")
             # return HttpResponse("ok")
-            return HttpResponseRedirect(reverse("product_tab_list"))
         except:
             msg=messages.error(request,"Connection Error Try Again")
-            # return HttpResponse("error in connection")
-            return HttpResponseRedirect(reverse("product_tab_list"))
 
+        products = Product.objects.all()
+        return render(request,"ecaadmin/product_tab_list.html",{"products":products})
+        
 @csrf_exempt
 def file_upload(request):
     file=request.FILES["file"]
@@ -1133,7 +1133,7 @@ class StaffUserCreateView(SuccessMessageMixin,CreateView):
 
         user.staffs.profile_pic=profile_pic_url
         user.save()
-        messages.success(self.request,"Staff User Created")
+        msg=messages.success(self.request,"Staff User Created")
         return HttpResponseRedirect(reverse("staff_list"))
 
 class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
@@ -1163,7 +1163,7 @@ class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
             staffuser.profile_pic=profile_pic_url
 
         staffuser.save()
-        messages.success(self.request,"Staff User Updated")
+        msg=messages.success(self.request,"Staff User Updated")
         return HttpResponseRedirect(reverse("staff_list"))
 
 class GstCreateView(View):
@@ -1176,7 +1176,7 @@ class GstCreateView(View):
         gstdetails=gstPercentage(gst=gst)
         gstdetails.save()
 
-        messages.success(self.request,"GST Created")
+        msg=messages.success(self.request,"GST Created")
         return HttpResponseRedirect(reverse("gst_create"))
 
 
@@ -1224,7 +1224,7 @@ class CustomerUserCreateView(SuccessMessageMixin,CreateView):
 
         user.customers.profile_pic=profile_pic_url
         user.save()
-        messages.success(self.request,"Customer User Created")
+        msg=messages.success(self.request,"Customer User Created")
         return HttpResponseRedirect(reverse("customer_list"))
 
 class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
@@ -1254,7 +1254,7 @@ class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
             customeruser.profile_pic=profile_pic_url
 
         customeruser.save()
-        messages.success(self.request,"Customer User Updated")
+        msg=messages.success(self.request,"Customer User Updated")
         return HttpResponseRedirect(reverse("customer_list"))
 
 
@@ -1264,7 +1264,7 @@ def activeCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        messages.success(request,"Activated Succesfully")
+        msg=messages.success(request,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("category_tab_list"))
     except:
@@ -1278,7 +1278,7 @@ def deactiveCategory(request,pk):
         cat = ProductCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        messages.success(request,"Deactivated Succesfully")
+        msg=messages.success(request,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("category_tab_list"))
     except:
@@ -1292,7 +1292,7 @@ def activeSubCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        messages.success(request,"Activated Succesfully")
+        msg=messages.success(request,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("subcategory_tab_list"))
     except:
@@ -1306,7 +1306,7 @@ def deactiveSubCategory(request,pk):
         cat = ProductSubCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        messages.success(request,"Deactivated Succesfully")
+        msg=messages.success(request,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("subcategory_tab_list"))
     except:
@@ -1321,7 +1321,7 @@ def activeChildSubCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        messages.success(request,"Activated Succesfully")
+        msg=messages.success(request,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
     except:
@@ -1335,7 +1335,7 @@ def deactiveChildSubCategory(request,pk):
         cat = ProductChildSubCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        messages.success(request,"Deactivated Succesfully")
+        msg=messages.success(request,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
     except:
@@ -1348,7 +1348,7 @@ def activeMerchant(request,pk):
         cat = Merchants.objects.get(id=pk)
         cat.admin.is_active =True
         cat.admin.save()
-        messages.success(request,"Activated Succesfully")
+        msg=messages.success(request,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
     except:
@@ -1362,7 +1362,7 @@ def deactiveMerchant(request,pk):
         cat = Merchants.objects.get(id=pk)
         cat.admin.is_active =False
         cat.admin.save()
-        messages.success(request,"Deactivated Succesfully")
+        msg=messages.success(request,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
     except:
@@ -1372,9 +1372,9 @@ def deactiveMerchant(request,pk):
 
 def gstDelete(request,pk):
     try:
-        gst_details = productGST.objects.get(id=pk)
-        gst_details.delete()
-        messages.success(request,"Deleted  Succesfully")
+        # gst_details = productGST.objects.get(id=pk)
+        # gst_details.delete()
+        msg=messages.success(request,"Deleted  Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("gst_create"))
     except:
@@ -1387,7 +1387,7 @@ def activeProduct(request,pk):
         cat = Product.objects.get(id=pk)
         cat.is_active =True
         cat.save()
-        messages.success(request,"Activated Succesfully")
+        msg=messages.success(request,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("product_tab_list"))
     except:
@@ -1401,7 +1401,7 @@ def deactiveProduct(request,pk):
         cat = Product.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        messages.success(request,"Deactivated Succesfully")
+        msg=messages.success(request,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("product_tab_list"))
     except:
@@ -1414,7 +1414,7 @@ def deactiveProduct(request,pk):
 #         for pk in pks:
 #             cat = ProductCategory.objects.get(id=pk)
 #             cat.delete()
-#             messages.success(request,"Deleted  Succesfully")
+#             msg=messages.success(request,"Deleted  Succesfully")
 #             # return HttpResponse("ok")
 #         return HttpResponseRedirect(reverse("category_tab_list"))
 #     except:
