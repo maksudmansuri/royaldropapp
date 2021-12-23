@@ -174,17 +174,17 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>SUBTOTAL</td>
-                                                                <td class="subtotal" id="subtotal" ></td>
+                                                                <td class="subtotal" id="subtotal" >{{basket.get_total_price}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>GRAND TOTAL</td>
                                                                 <td class="grandtotal" id="grandtotal" ></td>
                                                             </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 <div>
-
                                                     <a class="btn btn--e-brand-b-2" href="{% url 'checkout' %}" > PROCEED TO CHECKOUT</a></div>
                                             </div>
                                         </div>
@@ -250,7 +250,6 @@ function calculation(cart){
     document.getElementById('grandtotal').innerHTML = grandtotal;
     document.getElementById('totaltax').innerHTML = totaltax;
     document.getElementById('shipping').innerHTML = shipping;
-    document.getElementById('subtotal').innerHTML = subtotal;
 }
 
  
@@ -266,7 +265,8 @@ $('.cartitems').on("click", "a.cartremove", function(){
     $( "#cart" ).load(window.location.href);
     var div = document.getElementById('divcart'+a);
     div.remove();
-    calculation(cart)
+    calculation(cart);
+    refresCart();
     if ($.isEmptyObject(cart)){
         // for Empty Cart 
         mystr = `<tr>
@@ -421,7 +421,7 @@ function updateChekOut(cart){
 
                                 <span class="input-counter__minus fas fa-minus minus" id="minuspr${id}"></span>
 
-                                <input class="input-counter__text input-counter--text-primary-style" type="text" id="valpr${id}" data-min="1" data-max="1000" value="${qty}">${id}
+                                <input class="input-counter__text input-counter--text-primary-style" type="text" id="valpr${id}" data-min="1" data-max="1000" value="${qty}">
 
                                 <span class="input-counter__plus fas fa-plus plus" id="pluspr${id}"></span></div></span>
                             <!--====== End - Input Counter ======-->
@@ -467,17 +467,16 @@ function updateChekOut(cart){
         var str="Add to Cart"
         console.log("minus 0 thase")
         if(r==0){
-            //console.log("minus 0 thayu")
-           // document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
-           // delete cart[p];            
+              delete cart['pr'+a];      
         }
         else{
             document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
         }
         localStorage.setItem('cart',JSON.stringify(cart));
         cart=JSON.parse(localStorage.getItem('cart'));        
-        console.log(cart);
+        console.log(cart);        
         updateChekOut(cart);
+        refresCart();
         
     });
     //plus button works from here
@@ -488,6 +487,7 @@ function updateChekOut(cart){
         localStorage.setItem('cart',JSON.stringify(cart));
         cart=JSON.parse(localStorage.getItem('cart'));
         updateChekOut(cart);
+        refresCart();
     });
 </script>
 {% endblock custom_js %}

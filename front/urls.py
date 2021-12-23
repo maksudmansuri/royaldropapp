@@ -3,6 +3,10 @@ from .import views,orderviews
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [ 
+    #for session stored
+    path('basket_add', views.basket_add,name='basket_add'),
+    path('basket_delete', views.basket_delete,name='basket_delete'),
+
     path('home2', views.indexView.as_view(),name='home2'),
     # path('', views.index,name='home'),
     path('home_two', views.home_two,name='home_two'),
@@ -41,6 +45,7 @@ urlpatterns = [
     path('dash_address_edit/<slug:pk>',orderviews.dashAddressUpdateView.as_view(),name='dash_address_edit'),
     # path('dash_track_order/<slug:pk>',orderviews.dashTrackOrderView.as_view(),name='dash_track_order'),
     path('dash_my_order',orderviews.dashMyOrderView.as_view(),name='dash_my_order'),
+    path('dash_my_order_detial',orderviews.dashMyOrderDetailView.as_view(),name='dash_my_order_detial'),
     path('dash_track_order',orderviews.dashTrackOrderView.as_view(),name='dash_track_order'),
     path('dash_track_order_by_tracker/<slug:pk>',orderviews.dashTrackOrderByTrackerView.as_view(),name='dash_track_order_by_tracker'),
     path('dash_manage_order',orderviews.dashManageOrderView.as_view(),name='dash_manage_order'),

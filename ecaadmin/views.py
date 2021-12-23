@@ -20,7 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 def admin_home(request):
     return render(request,"ecaadmin/home.html")
 
-class ProductCategoryListViews(ListView):
+class ProductCategoryListViews( ):
     model=ProductCategory
     template_name="ecaadmin/category_list.html"
     paginate_by=3

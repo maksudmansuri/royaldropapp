@@ -365,10 +365,11 @@ class ProductVariantItems(models.Model):
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
 
-class Orders(models.Model):
+class TempOrder(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product_Json            =           models.CharField(max_length=5000,default="")
-    payment_method          =           models.CharField(max_length=256,default="")
+    amount                  =           models.FloatField(default=1)
+    product                 =           models.CharField(default="",max_length=5000)
+    quantity                =           models.IntegerField()
     address                 =           models.ForeignKey(CustomersAddress, on_delete=models.DO_NOTHING,default="")
     customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING,default="")
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
@@ -378,6 +379,19 @@ class Orders(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
+class Orders(models.Model):
+    id                      =           models.AutoField(primary_key=True)
+    product_Json            =           models.CharField(max_length=5000,default="")
+    amount                  =           models.FloatField(default=1)
+    payment_method          =           models.CharField(max_length=256,default="")
+    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.DO_NOTHING,default="")
+    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING,default="")
+    created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at              =           models.DateTimeField(auto_now_add=True)
+    objects                 =           models.Manager()
+
+    class Meta:
+        ordering = ["-updated_at"]
 
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -404,7 +418,6 @@ class OrderTacker(models.Model):
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
-
 
 class OderDeliveryStatus(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -446,7 +459,6 @@ class ProductDiscount(models.Model):
 
     class Meta:
         ordering = ["-updated_at"]
-
 
 @receiver(post_delete, sender=Product)
 def submission_delete(sender, instance, **kwargs):

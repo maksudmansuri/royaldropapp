@@ -23,10 +23,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="dash-my-order.html">My Account</a></li>
+                                        <a href="{% url 'dashboard' %}">My Account</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -48,8 +48,7 @@
                                 <div class="col-lg-9 col-md-12">
                                     <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
                                         <div class="dash__pad-2">
-                                            <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
-
+                                            <h1 class="dash__h1 u-s-m-b-14"id="myFrame" onload="myFunction({{data}})">My Orders</h1>
                                             <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
                                             <form class="m-order u-s-m-b-30">
                                                 <div class="m-order__select-wrapper">
@@ -79,12 +78,15 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <div id = "jsonvalue">
+                                                    {% for product in response.items %}
                                                     <div class="manage-o__description">
                                                         <div class="description__container">
                                                             <div class="description__img-wrap">
 
-                                                                <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
-                                                            <div class="description-title">Yellow Wireless Headphone</div>
+                                                                <img class="u-img-fluid" src="{{product.value}}" alt=""></div>
+                                                            <div class="description-title">{{product.value}}</div>
                                                         </div>
                                                         <div class="description__info-wrap">
                                                             <div>
@@ -101,6 +103,9 @@
 
                                                                     <span class="manage-o__text-2 u-c-secondary">$16.00</span></span></div>
                                                         </div>
+                                                    </div>
+                                                    <br>
+                                                    {% endfor %}
                                                     </div>
                                                 </div>
                                             {% endfor %}
@@ -205,7 +210,28 @@
 
 
 {% block custom_js %}
+<script>
+response = "{{response}}"
+
+{% comment %} res= JSON.parse(response) {% endcomment %}
+
+(function(){
+var url ="{% url 'dash_my_order_detial' %}"
+$.getJSON( url,function(){
+  console.log( "success" );
+})
+.done(function( data ) {
+    console.log( "success" );
+})
+.fail(function() {
+    console.log( "error" );
+  })
+})();
 
 
+
+
+
+</script>
 
 {% endblock custom_js %}
