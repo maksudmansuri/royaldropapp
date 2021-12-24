@@ -906,8 +906,9 @@
                                                 <div class="mini-action">
 
                                                     <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a>
+                                                    <a class="mini-link btn--e-transparent-secondary-b-2" href="{% url 'cart' %}" >View Cart</a></div>
 
-                                                    <a class="mini-link btn--e-transparent-secondary-b-2" id ="clearCart" onclick="clearCart()" >REMOVE ALL</a></div>
+                                                    {% comment %} <a class="mini-link btn--e-transparent-secondary-b-2" id ="clearCart" onclick="clearCart()" >REMOVE ALL</a></div> {% endcomment %}
                                             </div>
                                             <!--====== End - Mini Product Statistics ======-->
                                         </div>

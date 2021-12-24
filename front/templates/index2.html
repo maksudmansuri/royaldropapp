@@ -1,1128 +1,1250 @@
 {% extends 'base2.html' %}
 {% load static %}
 {% block title %}
-    <title>Home2 || RoyalDrop Shipping | E-commerce | All Product online </title>
+<title>Home2 || RoyalDrop Shipping | E-commerce | All Product online </title>
 {% endblock title %}
- 
+
 {% block custom_css %}{% endblock custom_css %}
 {% comment %} {% block loader %}
 <div class="preloader is-active">
-        <div class="preloader__wrap">
+    <div class="preloader__wrap">
 
-            <img class="preloader__img" src="{% static '/ecafront/images/preloader.png' %}" alt=""></div>
-    </div>
+        <img class="preloader__img" src="{% static '/ecafront/images/preloader.png' %}" alt=""></div>
+</div>
 {% endblock loader %} {% endcomment %}
 
 {% block fixed_list %}
-        <div class="fixed-list">
-            <ul class="nav" id="init-scrollspy">
-                <li>
+<div class="fixed-list">
+    <ul class="nav" id="init-scrollspy">
+        <li>
 
-                    <a class="nav-link" href="#electronic-011" data-click-scroll="#electronic-011"><i class="fas fa-tshirt"></i></a></li>
-                <li>
+            <a class="nav-link" href="#electronic-011" data-click-scroll="#electronic-011"><i
+                    class="fas fa-tshirt"></i></a></li>
+        <li>
 
-                    <a class="nav-link" href="#electronic-012" data-click-scroll="#electronic-012"><i class="fas fa-tv"></i></a></li>
-                <li>
+            <a class="nav-link" href="#electronic-012" data-click-scroll="#electronic-012"><i class="fas fa-tv"></i></a>
+        </li>
+        <li>
 
-                    <a class="nav-link" href="#electronic-013" data-click-scroll="#electronic-013"><i class="fas fa-tools"></i></a></li>
-                <li>
+            <a class="nav-link" href="#electronic-013" data-click-scroll="#electronic-013"><i
+                    class="fas fa-tools"></i></a></li>
+        <li>
 
-                    <a class="nav-link"><i class="fas fa-fighter-jet"></i></a></li>
-                <li>
+            <a class="nav-link"><i class="fas fa-fighter-jet"></i></a></li>
+        <li>
 
-                    <a class="nav-link"><i class="fas fa-cookie-bite"></i></a></li>
-                <li>
+            <a class="nav-link"><i class="fas fa-cookie-bite"></i></a></li>
+        <li>
 
-                    <a class="nav-link"><i class="fas fa-futbol"></i></a></li>
-                <li>
+            <a class="nav-link"><i class="fas fa-futbol"></i></a></li>
+        <li>
 
-                    <a class="nav-link"><i class="fas fa-book-open"></i></a></li>
-                <li>
+            <a class="nav-link"><i class="fas fa-book-open"></i></a></li>
+        <li>
 
-                    <a class="nav-link"><i class="fas fa-briefcase-medical"></i></a></li>
-            </ul>
-        </div>
+            <a class="nav-link"><i class="fas fa-briefcase-medical"></i></a></li>
+    </ul>
+</div>
 {% endblock fixed_list %}
 
 {% block content %}
-    <div class="app-content">
+<div class="app-content">
 
-            <!--====== Anti Flash White Background ======-->
-            <div class="bg-anti-flash-white">
+    <!--====== Anti Flash White Background ======-->
+    <div class="bg-anti-flash-white">
 
-                <!--====== White Container ======-->
-                <div class="white-container">
+        <!--====== White Container ======-->
+        <div class="white-container">
+            <div class="container">
+
+                <!--====== Primary Slider ======-->
+                <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-black">
+                    <div class="owl-carousel primary-style-2" id="hero-slider">
+                        <div class="hero-slide hero-slide--4">
+                            <div class="primary-style-2-container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="slider-content slider-content--animation">
+
+                                            <span class="content-span-1 u-c-white">Find Top Brands</span>
+
+                                            <span class="content-span-2 u-c-white">10% Off On Intimates</span>
+
+                                            <span class="content-span-3 u-c-white">Find Intimates on best prices</span>
+
+                                            <span class="content-span-4 u-c-white">Starting At
+
+                                                <span class="u-c-brand">$100.00</span></span>
+
+                                            <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP
+                                                NOW</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-slide hero-slide--5">
+                            <div class="primary-style-2-container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="slider-content slider-content--animation">
+
+                                            <span class="content-span-1 u-c-white">Find Top Brands</span>
+
+                                            <span class="content-span-2 u-c-white">10% Off On Electronics</span>
+
+                                            <span class="content-span-3 u-c-white">Find electronics on best
+                                                prices</span>
+
+                                            <span class="content-span-4 u-c-white">Starting At
+
+                                                <span class="u-c-brand">$1000.00</span></span>
+
+                                            <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP
+                                                NOW</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-slide hero-slide--6">
+                            <div class="primary-style-2-container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="slider-content slider-content--animation">
+
+                                            <span class="content-span-1 u-c-white">Find Top Brands</span>
+
+                                            <span class="content-span-2 u-c-white">10% Off On Outwear</span>
+
+                                            <span class="content-span-3 u-c-white">Find outwear on best prices</span>
+
+                                            <span class="content-span-4 u-c-white">Starting At
+
+                                                <span class="u-c-brand">$100.00</span></span>
+
+                                            <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP
+                                                NOW</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Primary Slider ======-->
+            </div>
+
+            <!--====== Section 1 ======-->
+            {% for prod,range,nSlides,productcategories,prodsub in allprods %}
+
+            <!--====== Electronic Category ======-->
+            <div class="u-s-p-y-60" id="electronic-01{{productcategories.id}}">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
                     <div class="container">
 
-                        <!--====== Primary Slider ======-->
-                        <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-black">
-                            <div class="owl-carousel primary-style-2" id="hero-slider">
-                                <div class="hero-slide hero-slide--4">
-                                    <div class="primary-style-2-container">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="slider-content slider-content--animation">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="block">
 
-                                                    <span class="content-span-1 u-c-white">Find Top Brands</span>
+                                    <span class="block__title" style="text-transform:uppercase">
+                                        {{productcategories.title}} TOP CATEGORY</span></div>
 
-                                                    <span class="content-span-2 u-c-white">10% Off On Intimates</span>
-
-                                                    <span class="content-span-3 u-c-white">Find Intimates on best prices</span>
-
-                                                    <span class="content-span-4 u-c-white">Starting At
-
-                                                        <span class="u-c-brand">$100.00</span></span>
-
-                                                    <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP NOW</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hero-slide hero-slide--5">
-                                    <div class="primary-style-2-container">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="slider-content slider-content--animation">
-
-                                                    <span class="content-span-1 u-c-white">Find Top Brands</span>
-
-                                                    <span class="content-span-2 u-c-white">10% Off On Electronics</span>
-
-                                                    <span class="content-span-3 u-c-white">Find electronics on best prices</span>
-
-                                                    <span class="content-span-4 u-c-white">Starting At
-
-                                                        <span class="u-c-brand">$1000.00</span></span>
-
-                                                    <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP NOW</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hero-slide hero-slide--6">
-                                    <div class="primary-style-2-container">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="slider-content slider-content--animation">
-
-                                                    <span class="content-span-1 u-c-white">Find Top Brands</span>
-
-                                                    <span class="content-span-2 u-c-white">10% Off On Outwear</span>
-
-                                                    <span class="content-span-3 u-c-white">Find outwear on best prices</span>
-
-                                                    <span class="content-span-4 u-c-white">Starting At
-
-                                                        <span class="u-c-brand">$100.00</span></span>
-
-                                                    <a class="shop-now-link btn--e-brand" href="shop-side-version-2.html">SHOP NOW</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <!--====== End - Primary Slider ======-->
+
                     </div>
-                    
-                    <!--====== Section 1 ======-->
-                    {% for prod,range,nSlides,productcategories,prodsub in allprods %}
-                   
-                    <!--====== Electronic Category ======-->
-                    <div class="u-s-p-y-60" id="electronic-01{{productcategories.id}}">
+                </div>
+                <!--====== End - Section Intro ======-->
 
-                        <!--====== Section Intro ======-->
-                        <div class="section__intro u-s-m-b-46">
-                            <div class="container">
-                               
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="block">
-                                            
-                                            <span class="block__title" style="text-transform:uppercase"> {{productcategories.title}} TOP CATEGORY</span></div>
-                                            
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            {% for psc in prodsub %}
+
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                                <div class="category-o">
+                                    <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
+
+                                        <img class="aspect__img category-o__img" src="/media/{{psc.thumbnail}}" alt="">
                                     </div>
+                                    <div class="category-o__info">
+
+                                        <a class="category-o__shop-now btn--e-white-brand"
+                                            href="{% url 'product_filter_list' %}">{{psc.title}}</a></div>
                                 </div>
-                               
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+
+            <!--====== Electronic Category ======-->
+            <!--====== End - Section 1 ======-->
+
+            <!--====== Section 2 ======-->
+
+            <!--====== Electronics Tab ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="block">
+
+                                    <span class="block__title"
+                                        style="text-transform:uppercase">{{productcategories.title}}'s</span>
+                                    <ul class="nav tab-list">
+                                        <li class="nav-item">
+
+                                            <a class="nav-link btn--e-white-brand-shadow"
+                                                href="{% url 'home' %}?filter={{filter}}&orderby=id">LATEST PRODUCTS</a>
+                                        </li>
+                                        <li class="nav-item">
+
+                                            <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab"
+                                                href="#e-b-s">BEST SELLING</a></li>
+                                        <li class="nav-item">
+
+                                            <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
+                                                href="#e-t-r">TOP RATING</a></li>
+                                        <li class="nav-item">
+
+                                            <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
+                                                href="#e-f-p">FEATURED PRODUCTS</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <!--====== End - Section Intro ======-->
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
 
 
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="row">
-                                    {% for psc in prodsub %}  
-                                                                 
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                        <div class="category-o">
-                                            <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="tab-content">
 
-                                                <img class="aspect__img category-o__img" src="/media/{{psc.thumbnail}}" alt=""></div>
-                                            <div class="category-o__info">
+                            <!--====== Tab 1 ======-->
 
-                                                <a class="category-o__shop-now btn--e-white-brand" href="{% url 'product_filter_list' %}">{{psc.title}}</a></div>
+                            <!--====== End - Tab 1 ======-->
+
+
+                            <!--====== Tab 2 ======-->
+                            <div class="tab-pane fade show active" id="e-b-s">
+                                <div class="slider-fouc">
+
+                                    <div class="owl-carousel tab-slider" data-item="4">
+                                        {% for prods in prod %}
+                                        <div class="u-s-m-b-30">
+                                            <div class="product-o product-o--hover-on">
+                                                <div class="product-o__wrap">
+
+                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                                        href="product-detail.html">
+
+                                                        <img class="aspect__img" id="imagepr{{prods.product.id}}"
+                                                            src="{{prods.product.product_image}}" alt=""></a>
+                                                    <div class="product-o__action-wrap">
+                                                        <ul class="product-o__action-list">
+                                                            <li>
+
+                                                                <a data-modal="modal"
+                                                                    data-modal-id="#quick-look{{prods.product.id}}"
+                                                                    data-tooltip="tooltip" data-placement="top"
+                                                                    title="Quick View"><i
+                                                                        class="fas fa-search-plus"></i></a></li>
+                                                            <li>
+
+                                                                <a data-modal="modal"
+                                                                    data-modal-id="#add-to-cart{{prods.product.id}}"
+                                                                    data-tooltip="tooltip" data-placement="top"
+                                                                    title="Add to Cart"><i
+                                                                        class="fas fa-plus-circle"></i></a></li>
+                                                            <li>
+
+                                                                <a href="signin.html" data-tooltip="tooltip"
+                                                                    data-placement="top" title="Add to Wishlist"><i
+                                                                        class="fas fa-heart"></i></a></li>
+                                                            <li>
+
+                                                                <a href="signin.html" data-tooltip="tooltip"
+                                                                    data-placement="top"
+                                                                    title="Email me When the price drops"><i
+                                                                        class="fas fa-envelope"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <span class="product-o__category">
+
+                                                    <a href="shop-side-version-2.html"
+                                                        id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
+
+                                                <span class="product-o__name">
+
+                                                    <a href="{% url 'product_details' prods.product.product_slug %}"
+                                                        id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
+                                                <div class="product-o__rating gl-rating-style"><i
+                                                        class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                        class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                        class="fas fa-star"></i>
+                                                    <input type="hidden" id="subcatpr{{prods.product.id}}"
+                                                        value="{{prods.product.product_subcategory.title}}">
+                                                    <input type="hidden" id="childcatpr{{prods.product.id}}"
+                                                        value="{{prods.product.product_childsubcategory.title}}">
+                                                    <input type="hidden" id="idpr{{prods.product.id}}"
+                                                        value="{{prods.product.id}}">
+
+                                                    <span class="product-o__review">(23)</span></div>
+                                                <input type="hidden" id="slugpr{{prods.product.id}}"
+                                                    value="{{prods.product.product_slug}}">
+
+                                                <span class="product-o__price">&#8377<span
+                                                        id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
+
+                                                    <span
+                                                        class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
+
+                                                </span>
+                                                <div class="u-s-m-b-15">
+                                                    <span id="divpr{{prods.product.id}}" class="divpr">
+                                                        <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
+                                                            id="pr{{prods.product.id}}">Add to Cart</button></span>
+                                                        <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
+                                                            id="add-button{{prods.product.id}}">Add</button></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--====== End - Section Content ======-->
+            </div>
+
+            {% endfor %}
+
+            <!--====== Section 3 ======-->
+
+
+            <!--====== Section 7 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">EXCLUSIVE PRODUCT</h1>
+
+                                    <span class="section__span u-c-silver">FIND EXCLUSIVE PRODUCT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 u-s-m-b-30">
+                                <div class="x-product u-h-100">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <ul class="x-product__feature-list">
+                                                <li class="feature">
+
+                                                    <span class="feature__name">NAME</span>
+
+                                                    <span class="feature__value">New Fashion A Sweater</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">PRICE</span>
+
+                                                    <span class="feature__value">$125.00</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">COLOR</span>
+
+                                                    <span class="feature__value">Black</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">SIZE</span>
+
+                                                    <span class="feature__value">XL</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">MATERIAL</span>
+
+                                                    <span class="feature__value">Cotton</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <div class="x-product__img-wrap">
+
+                                                <a class="u-d-block" href="product-detail.html">
+
+                                                    <img class="u-d-block u-img-fluid"
+                                                        src="{% static '/ecafront/images/product/men/product11.jpg' %}"
+                                                        alt=""></a></div>
                                         </div>
                                     </div>
-                                   
-                                    {% endfor %}
-                                   
+                                </div>
+                            </div>
+                            <div class="col-lg-6 u-s-m-b-30">
+                                <div class="x-product u-h-100">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <ul class="x-product__feature-list">
+                                                <li class="feature">
+
+                                                    <span class="feature__name">NAME</span>
+
+                                                    <span class="feature__value">New Fashion A Nice Elegant</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">PRICE</span>
+
+                                                    <span class="feature__value">$125.00</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">COLOR</span>
+
+                                                    <span class="feature__value">White Black</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">SIZE</span>
+
+                                                    <span class="feature__value">XL</span></li>
+                                                <li class="feature">
+
+                                                    <span class="feature__name">MATERIAL</span>
+
+                                                    <span class="feature__value">Cotton</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8">
+                                            <div class="x-product__img-wrap">
+
+                                                <a class="u-d-block" href="product-detail.html">
+
+                                                    <img class="u-d-block u-img-fluid"
+                                                        src="{% static '/ecafront/images/product/women/product20.jpg' %}"
+                                                        alt=""></a></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!--====== End - Section Content ======-->
                     </div>
+                </div>
 
-                    <!--====== Electronic Category ======-->
-                    <!--====== End - Section 1 ======-->
+                <!--====== Section Content ======-->
+            </div>
+            <!--====== End - Section 7 ======-->
 
-                    <!--====== Section 2 ======-->
 
-                    <!--====== Electronics Tab ======-->
-                    <div class="u-s-p-b-60">
-                         
-                        <!--====== Section Intro ======-->
-                        <div class="section__intro u-s-m-b-46">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="block">
-                                            
-                                            <span class="block__title" style="text-transform:uppercase">{{productcategories.title}}'s</span>
-                                            <ul class="nav tab-list">
-                                                <li class="nav-item">
+            <!--====== Section 8 ======-->
+            <div class="u-s-p-b-60">
 
-                                                    <a class="nav-link btn--e-white-brand-shadow" href="{% url 'home' %}?filter={{filter}}&orderby=id">LATEST PRODUCTS</a></li>
-                                                <li class="nav-item">
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">FLASH DEALS</h1>
 
-                                                    <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab" href="#e-b-s">BEST SELLING</a></li>
-                                                <li class="nav-item">
+                                    <span class="section__span u-c-silver u-s-m-b-16">FILL YOUR CART WITH FLASH
+                                        PRODUCTS</span>
+                                    <div class="section_countdown-wrap">
+                                        <div class="countdown countdown--style-section" data-countdown="2020/05/01">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
 
-                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#e-t-r">TOP RATING</a></li>
-                                                <li class="nav-item">
 
-                                                    <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab" href="#e-f-p">FEATURED PRODUCTS</a></li>
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+
+                                <!--====== Product Orientation Version 2 ======-->
+                                <div class="product-o2 u-h-100">
+                                    <div class="product-o2__wrap">
+
+                                        <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                            href="product-detail.html">
+
+                                            <img class="aspect__img product-o2__img"
+                                                src="{% static '/ecafront/images/product/women/product11.jpg' %}"
+                                                alt=""></a>
+                                        <div class="product-o2__action-wrap">
+                                            <ul class="product-o2__action-list">
+                                                <li>
+
+                                                    <a data-modal="modal" data-modal-id="#quick-look"
+                                                        data-toggle="tooltip" data-placement="top" title="Quick View"><i
+                                                            class="fas fa-search-plus"></i></a></li>
+                                                <li>
+
+                                                    <a data-modal="modal" data-modal-id="#add-to-cart"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                <li>
+
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                <li>
+
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Email me When the price drops"><i
+                                                            class="fas fa-envelope"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
+                                    <div class="product-o2__content">
+
+                                        <span class="product-o2__category">
+
+                                            <a href="shop-side-version-2.html">Women Clothing</a></span>
+
+                                        <span class="product-o2__name">
+
+                                            <a href="product-detail.html">New Dress H Nice Elegant</a></span>
+                                        <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="far fa-star"></i>
+
+                                            <span class="product-o2__review">(23)</span></div>
+
+                                        <span class="product-o2__price">$125.00
+
+                                            <span class="product-o2__discount">$160.00</span></span>
+                                    </div>
                                 </div>
+                                <!--====== End - Product Orientation Version 2 ======-->
                             </div>
-                        </div>
-                        <!--====== End - Section Intro ======-->
+                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
 
-                       
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="tab-content">
-                                
-                                    <!--====== Tab 1 ======-->
-                                 
-                                    <!--====== End - Tab 1 ======-->
- 
-                                     
-                                    <!--====== Tab 2 ======-->
-                                    <div class="tab-pane fade show active" id="e-b-s">
-                                        <div class="slider-fouc">
-                                        
-                                            <div class="owl-carousel tab-slider" data-item="4">
-                                                {% for prods in prod %}
-                                                <div class="u-s-m-b-30">
-                                                    <div class="product-o product-o--hover-on">
-                                                        <div class="product-o__wrap" >
+                                <!--====== Product Orientation Version 2 ======-->
+                                <div class="product-o2 u-h-100">
+                                    <div class="product-o2__wrap">
 
-                                                            <a class="aspect aspect--bg-grey aspect--square u-d-block"  href="product-detail.html">
-                                                         
-                                                                <img class="aspect__img" id="imagepr{{prods.product.id}}" src="{{prods.product.product_image}}" alt=""></a>
-                                                            <div class="product-o__action-wrap">
-                                                                <ul class="product-o__action-list">
-                                                                    <li>
+                                        <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                            href="product-detail.html">
 
-                                                                        <a data-modal="modal" data-modal-id="#quick-look{{prods.product.id}}" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                                    <li>
+                                            <img class="aspect__img product-o2__img"
+                                                src="{% static '/ecafront/images/product/women/product12.jpg' %}"
+                                                alt=""></a>
+                                        <div class="product-o2__action-wrap">
+                                            <ul class="product-o2__action-list">
+                                                <li>
 
-                                                                        <a data-modal="modal" data-modal-id="#add-to-cart{{prods.product.id}}" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                                    <li>
+                                                    <a data-modal="modal" data-modal-id="#quick-look"
+                                                        data-toggle="tooltip" data-placement="top" title="Quick View"><i
+                                                            class="fas fa-search-plus"></i></a></li>
+                                                <li>
 
-                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                                    <li>
+                                                    <a data-modal="modal" data-modal-id="#add-to-cart"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                <li>
 
-                                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
- 
-                                                        <span class="product-o__category" >
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                <li>
 
-                                                            <a href="shop-side-version-2.html" id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
-
-                                                        <span class="product-o__name" >
- 
-                                                            <a href="{% url 'product_details' prods.product.product_slug %}" id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
-                                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                                            <input type="hidden" id="subcatpr{{prods.product.id}}" value="{{prods.product.product_subcategory.title}}">
-                                                            <input type="hidden" id="childcatpr{{prods.product.id}}" value="{{prods.product.product_childsubcategory.title}}">
-                                                            <input type="hidden" id="idpr{{prods.product.id}}" value="{{prods.product.id}}">
-
-                                                            <span class="product-o__review">(23)</span></div>
-                                                        <input type="hidden" id="slugpr{{prods.product.id}}" value="{{prods.product.product_slug}}">
-
-                                                        <span class="product-o__price" >&#8377<span id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
-
-                                                            <span class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
-                                                            
-                                                            </span>
-                                                        <div class="u-s-m-b-15">
-                                                            <span id="divpr{{prods.product.id}}" class="divpr">
-                                                            <button class="gl-tag btn btn--e-brand-b-2 cart" id="pr{{prods.product.id}}">Add to Cart</button></span></div>
-                                                    </div>
-                                                </div>
-                                                {% endfor %}
-                                                
-                                            </div>
-                                          
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Email me When the price drops"><i
+                                                            class="fas fa-envelope"></i></a></li>
+                                            </ul>
                                         </div>
-                                    </div>                               
+                                    </div>
+                                    <div class="product-o2__content">
+
+                                        <span class="product-o2__category">
+
+                                            <a href="shop-side-version-2.html">Women Clothing</a></span>
+
+                                        <span class="product-o2__name">
+
+                                            <a href="product-detail.html">New Dress I Nice Elegant</a></span>
+                                        <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="far fa-star"></i>
+
+                                            <span class="product-o2__review">(23)</span></div>
+
+                                        <span class="product-o2__price">$125.00
+
+                                            <span class="product-o2__discount">$160.00</span></span>
+                                    </div>
                                 </div>
+                                <!--====== End - Product Orientation Version 2 ======-->
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+
+                                <!--====== Product Orientation Version 2 ======-->
+                                <div class="product-o2 u-h-100">
+                                    <div class="product-o2__wrap">
+
+                                        <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                            href="product-detail.html">
+
+                                            <img class="aspect__img product-o2__img"
+                                                src="{% static '/ecafront/images/product/women/product13.jpg' %}"
+                                                alt=""></a>
+                                        <div class="product-o2__action-wrap">
+                                            <ul class="product-o2__action-list">
+                                                <li>
+
+                                                    <a data-modal="modal" data-modal-id="#quick-look"
+                                                        data-toggle="tooltip" data-placement="top" title="Quick View"><i
+                                                            class="fas fa-search-plus"></i></a></li>
+                                                <li>
+
+                                                    <a data-modal="modal" data-modal-id="#add-to-cart"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                <li>
+
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                <li>
+
+                                                    <a href="signin.html" data-toggle="tooltip" data-placement="top"
+                                                        title="Email me When the price drops"><i
+                                                            class="fas fa-envelope"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-o2__content">
+
+                                        <span class="product-o2__category">
+
+                                            <a href="shop-side-version-2.html">Women Clothing</a></span>
+
+                                        <span class="product-o2__name">
+
+                                            <a href="product-detail.html">New Dress J Nice Elegant</a></span>
+                                        <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="far fa-star"></i>
+
+                                            <span class="product-o2__review">(23)</span></div>
+
+                                        <span class="product-o2__price">$125.00
+
+                                            <span class="product-o2__discount">$160.00</span></span>
+                                    </div>
+                                </div>
+                                <!--====== End - Product Orientation Version 2 ======-->
                             </div>
                         </div>
-                         
-                        <!--====== End - Section Content ======-->
                     </div>
-                    
-                    {% endfor %}
-
-                    <!--====== Section 3 ======-->
-
-
-                    <!--====== Section 7 ======-->
-                    <div class="u-s-p-b-60">
-
-                        <!--====== Section Intro ======-->
-                        <div class="section__intro u-s-m-b-46">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="section__text-wrap">
-                                            <h1 class="section__heading u-c-secondary u-s-m-b-12">EXCLUSIVE PRODUCT</h1>
-
-                                            <span class="section__span u-c-silver">FIND EXCLUSIVE PRODUCT</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Section Intro ======-->
-
-
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-6 u-s-m-b-30">
-                                        <div class="x-product u-h-100">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                    <ul class="x-product__feature-list">
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">NAME</span>
-
-                                                            <span class="feature__value">New Fashion A Sweater</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">PRICE</span>
-
-                                                            <span class="feature__value">$125.00</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">COLOR</span>
-
-                                                            <span class="feature__value">Black</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">SIZE</span>
-
-                                                            <span class="feature__value">XL</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">MATERIAL</span>
-
-                                                            <span class="feature__value">Cotton</span></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                                    <div class="x-product__img-wrap">
-
-                                                        <a class="u-d-block" href="product-detail.html">
-
-                                                            <img class="u-d-block u-img-fluid" src="{% static '/ecafront/images/product/men/product11.jpg' %}" alt=""></a></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 u-s-m-b-30">
-                                        <div class="x-product u-h-100">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                    <ul class="x-product__feature-list">
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">NAME</span>
-
-                                                            <span class="feature__value">New Fashion A Nice Elegant</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">PRICE</span>
-
-                                                            <span class="feature__value">$125.00</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">COLOR</span>
-
-                                                            <span class="feature__value">White Black</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">SIZE</span>
-
-                                                            <span class="feature__value">XL</span></li>
-                                                        <li class="feature">
-
-                                                            <span class="feature__name">MATERIAL</span>
-
-                                                            <span class="feature__value">Cotton</span></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                                    <div class="x-product__img-wrap">
-
-                                                        <a class="u-d-block" href="product-detail.html">
-
-                                                            <img class="u-d-block u-img-fluid" src="{% static '/ecafront/images/product/women/product20.jpg' %}" alt=""></a></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--====== Section Content ======-->
-                    </div>
-                    <!--====== End - Section 7 ======-->
-
-
-                    <!--====== Section 8 ======-->
-                    <div class="u-s-p-b-60">
-
-                        <!--====== Section Intro ======-->
-                        <div class="section__intro u-s-m-b-46">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="section__text-wrap">
-                                            <h1 class="section__heading u-c-secondary u-s-m-b-12">FLASH DEALS</h1>
-
-                                            <span class="section__span u-c-silver u-s-m-b-16">FILL YOUR CART WITH FLASH PRODUCTS</span>
-                                            <div class="section_countdown-wrap">
-                                                <div class="countdown countdown--style-section" data-countdown="2020/05/01"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Section Intro ======-->
-
-
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-
-                                        <!--====== Product Orientation Version 2 ======-->
-                                        <div class="product-o2 u-h-100">
-                                            <div class="product-o2__wrap">
-
-                                                <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                    <img class="aspect__img product-o2__img" src="{% static '/ecafront/images/product/women/product11.jpg' %}" alt=""></a>
-                                                <div class="product-o2__action-wrap">
-                                                    <ul class="product-o2__action-list">
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#quick-look" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-o2__content">
-
-                                                <span class="product-o2__category">
-
-                                                    <a href="shop-side-version-2.html">Women Clothing</a></span>
-
-                                                <span class="product-o2__name">
-
-                                                    <a href="product-detail.html">New Dress H Nice Elegant</a></span>
-                                                <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-
-                                                    <span class="product-o2__review">(23)</span></div>
-
-                                                <span class="product-o2__price">$125.00
-
-                                                    <span class="product-o2__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <!--====== End - Product Orientation Version 2 ======-->
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-
-                                        <!--====== Product Orientation Version 2 ======-->
-                                        <div class="product-o2 u-h-100">
-                                            <div class="product-o2__wrap">
-
-                                                <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                    <img class="aspect__img product-o2__img" src="{% static '/ecafront/images/product/women/product12.jpg' %}" alt=""></a>
-                                                <div class="product-o2__action-wrap">
-                                                    <ul class="product-o2__action-list">
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#quick-look" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-o2__content">
-
-                                                <span class="product-o2__category">
-
-                                                    <a href="shop-side-version-2.html">Women Clothing</a></span>
-
-                                                <span class="product-o2__name">
-
-                                                    <a href="product-detail.html">New Dress I Nice Elegant</a></span>
-                                                <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-
-                                                    <span class="product-o2__review">(23)</span></div>
-
-                                                <span class="product-o2__price">$125.00
-
-                                                    <span class="product-o2__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <!--====== End - Product Orientation Version 2 ======-->
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-
-                                        <!--====== Product Orientation Version 2 ======-->
-                                        <div class="product-o2 u-h-100">
-                                            <div class="product-o2__wrap">
-
-                                                <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                                    <img class="aspect__img product-o2__img" src="{% static '/ecafront/images/product/women/product13.jpg' %}" alt=""></a>
-                                                <div class="product-o2__action-wrap">
-                                                    <ul class="product-o2__action-list">
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#quick-look" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                        <li>
-
-                                                            <a data-modal="modal" data-modal-id="#add-to-cart" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                        <li>
-
-                                                            <a href="signin.html" data-toggle="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-o2__content">
-
-                                                <span class="product-o2__category">
-
-                                                    <a href="shop-side-version-2.html">Women Clothing</a></span>
-
-                                                <span class="product-o2__name">
-
-                                                    <a href="product-detail.html">New Dress J Nice Elegant</a></span>
-                                                <div class="product-o2__rating gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-
-                                                    <span class="product-o2__review">(23)</span></div>
-
-                                                <span class="product-o2__price">$125.00
-
-                                                    <span class="product-o2__discount">$160.00</span></span>
-                                            </div>
-                                        </div>
-                                        <!--====== End - Product Orientation Version 2 ======-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--====== Section Content ======-->
-                    </div>
-                    <!--====== End - Section 8 ======-->
-
-
-                    <!--====== Section 9 ======-->
-                    <div class="u-s-p-b-60">
-
-                        <!--====== Section Intro ======-->
-                        <div class="section__intro u-s-m-b-46">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="section__text-wrap">
-                                            <h1 class="section__heading u-c-secondary u-s-m-b-12">LATEST FROM BLOG</h1>
-
-                                            <span class="section__span u-c-silver">START YOU DAY WITH FRESH AND LATEST NEWS</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Section Intro ======-->
-
-
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="bp-mini bp-mini--img u-h-100">
-                                            <div class="bp-mini__thumbnail">
-
-                                                <!--====== Image Code ======-->
-
-                                                <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
-
-                                                    <img class="aspect__img" src="{% static '/ecafront/images/blog/post-2.jpg' %}" alt=""></a>
-                                                <!--====== End - Image Code ======-->
-                                            </div>
-                                            <div class="bp-mini__content">
-                                                <div class="bp-mini__stat">
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__publish-date">
-
-                                                            <a>
-
-                                                                <span>25 February 2018</span></a></span></span>
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__preposition">By</span>
-
-                                                        <span class="bp-mini__author">
-
-                                                            <a href="#">Dayle</a></span></span>
-
-                                                    <span class="bp-mini__stat">
-
-                                                        <span class="bp-mini__comment">
-
-                                                            <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
-
-                                                                <span>8</span></a></span></span></div>
-                                                <div class="bp-mini__category">
-
-                                                    <a>Learning</a>
-
-                                                    <a>News</a>
-
-                                                    <a>Health</a></div>
-
-                                                <span class="bp-mini__h1">
-
-                                                    <a href="blog-detail.html">Life is an extraordinary Adventure</a></span>
-                                                <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                <div class="blog-t-w">
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="bp-mini bp-mini--img u-h-100">
-                                            <div class="bp-mini__thumbnail">
-
-                                                <!--====== Image Code ======-->
-
-                                                <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
-
-                                                    <img class="aspect__img" src="{% static '/ecafront/images/blog/post-12.jpg' %}" alt=""></a>
-                                                <!--====== End - Image Code ======-->
-                                            </div>
-                                            <div class="bp-mini__content">
-                                                <div class="bp-mini__stat">
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__publish-date">
-
-                                                            <a>
-
-                                                                <span>25 February 2018</span></a></span></span>
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__preposition">By</span>
-
-                                                        <span class="bp-mini__author">
-
-                                                            <a href="#">Dayle</a></span></span>
-
-                                                    <span class="bp-mini__stat">
-
-                                                        <span class="bp-mini__comment">
-
-                                                            <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
-
-                                                                <span>8</span></a></span></span></div>
-                                                <div class="bp-mini__category">
-
-                                                    <a>Learning</a>
-
-                                                    <a>News</a>
-
-                                                    <a>Health</a></div>
-
-                                                <span class="bp-mini__h1">
-
-                                                    <a href="blog-detail.html">Wait till its open</a></span>
-                                                <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                <div class="blog-t-w">
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="bp-mini bp-mini--img u-h-100">
-                                            <div class="bp-mini__thumbnail">
-
-                                                <!--====== Image Code ======-->
-
-                                                <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
-
-                                                    <img class="aspect__img" src="{% static '/ecafront/images/blog/post-5.jpg' %}" alt=""></a>
-                                                <!--====== End - Image Code ======-->
-                                            </div>
-                                            <div class="bp-mini__content">
-                                                <div class="bp-mini__stat">
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__publish-date">
-
-                                                            <a>
-
-                                                                <span>25 February 2018</span></a></span></span>
-
-                                                    <span class="bp-mini__stat-wrap">
-
-                                                        <span class="bp-mini__preposition">By</span>
-
-                                                        <span class="bp-mini__author">
-
-                                                            <a href="#">Dayle</a></span></span>
-
-                                                    <span class="bp-mini__stat">
-
-                                                        <span class="bp-mini__comment">
-
-                                                            <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
-
-                                                                <span>8</span></a></span></span></div>
-                                                <div class="bp-mini__category">
-
-                                                    <a>Learning</a>
-
-                                                    <a>News</a>
-
-                                                    <a>Health</a></div>
-
-                                                <span class="bp-mini__h1">
-
-                                                    <a href="blog-detail.html">Tell me difference between smoke and vape</a></span>
-                                                <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                                <div class="blog-t-w">
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
-
-                                                    <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Section Content ======-->
-                    </div>
-                    <!--====== End - Section 9 ======-->
-
-
-                    <!--====== Section 10 ======-->
-                    <div class="u-s-p-b-60">
-
-                        <!--====== Section Content ======-->
-                        <div class="section__content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="service u-h-100">
-                                            <div class="service__icon"><i class="fas fa-truck"></i></div>
-                                            <div class="service__info-wrap">
-
-                                                <span class="service__info-text-1">Free Shipping</span>
-
-                                                <span class="service__info-text-2">Free shipping on all US order or order above $200</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="service u-h-100">
-                                            <div class="service__icon"><i class="fas fa-redo"></i></div>
-                                            <div class="service__info-wrap">
-
-                                                <span class="service__info-text-1">Shop with Confidence</span>
-
-                                                <span class="service__info-text-2">Our Protection covers your purchase from click to delivery</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                                        <div class="service u-h-100">
-                                            <div class="service__icon"><i class="fas fa-headphones-alt"></i></div>
-                                            <div class="service__info-wrap">
-
-                                                <span class="service__info-text-1">24/7 Help Center</span>
-
-                                                <span class="service__info-text-2">Round-the-clock assistance for a smooth shopping experience</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Section Content ======-->
-                    </div>
-                    <!--====== End - Section 10 ======-->
                 </div>
-                <!--====== End - White Container ======-->
+
+                <!--====== Section Content ======-->
             </div>
-            <!--====== End - Anti Flash White Background ======-->
-    </div>  
+            <!--====== End - Section 8 ======-->
+
+
+            <!--====== Section 9 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">LATEST FROM BLOG</h1>
+
+                                    <span class="section__span u-c-silver">START YOU DAY WITH FRESH AND LATEST
+                                        NEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="bp-mini bp-mini--img u-h-100">
+                                    <div class="bp-mini__thumbnail">
+
+                                        <!--====== Image Code ======-->
+
+                                        <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
+                                            href="blog-detail.html">
+
+                                            <img class="aspect__img"
+                                                src="{% static '/ecafront/images/blog/post-2.jpg' %}" alt=""></a>
+                                        <!--====== End - Image Code ======-->
+                                    </div>
+                                    <div class="bp-mini__content">
+                                        <div class="bp-mini__stat">
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__publish-date">
+
+                                                    <a>
+
+                                                        <span>25 February 2018</span></a></span></span>
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__preposition">By</span>
+
+                                                <span class="bp-mini__author">
+
+                                                    <a href="#">Dayle</a></span></span>
+
+                                            <span class="bp-mini__stat">
+
+                                                <span class="bp-mini__comment">
+
+                                                    <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
+
+                                                        <span>8</span></a></span></span></div>
+                                        <div class="bp-mini__category">
+
+                                            <a>Learning</a>
+
+                                            <a>News</a>
+
+                                            <a>Health</a></div>
+
+                                        <span class="bp-mini__h1">
+
+                                            <a href="blog-detail.html">Life is an extraordinary Adventure</a></span>
+                                        <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and
+                                            typesetting industry.</p>
+                                        <div class="blog-t-w">
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="bp-mini bp-mini--img u-h-100">
+                                    <div class="bp-mini__thumbnail">
+
+                                        <!--====== Image Code ======-->
+
+                                        <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
+                                            href="blog-detail.html">
+
+                                            <img class="aspect__img"
+                                                src="{% static '/ecafront/images/blog/post-12.jpg' %}" alt=""></a>
+                                        <!--====== End - Image Code ======-->
+                                    </div>
+                                    <div class="bp-mini__content">
+                                        <div class="bp-mini__stat">
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__publish-date">
+
+                                                    <a>
+
+                                                        <span>25 February 2018</span></a></span></span>
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__preposition">By</span>
+
+                                                <span class="bp-mini__author">
+
+                                                    <a href="#">Dayle</a></span></span>
+
+                                            <span class="bp-mini__stat">
+
+                                                <span class="bp-mini__comment">
+
+                                                    <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
+
+                                                        <span>8</span></a></span></span></div>
+                                        <div class="bp-mini__category">
+
+                                            <a>Learning</a>
+
+                                            <a>News</a>
+
+                                            <a>Health</a></div>
+
+                                        <span class="bp-mini__h1">
+
+                                            <a href="blog-detail.html">Wait till its open</a></span>
+                                        <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and
+                                            typesetting industry.</p>
+                                        <div class="blog-t-w">
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="bp-mini bp-mini--img u-h-100">
+                                    <div class="bp-mini__thumbnail">
+
+                                        <!--====== Image Code ======-->
+
+                                        <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
+                                            href="blog-detail.html">
+
+                                            <img class="aspect__img"
+                                                src="{% static '/ecafront/images/blog/post-5.jpg' %}" alt=""></a>
+                                        <!--====== End - Image Code ======-->
+                                    </div>
+                                    <div class="bp-mini__content">
+                                        <div class="bp-mini__stat">
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__publish-date">
+
+                                                    <a>
+
+                                                        <span>25 February 2018</span></a></span></span>
+
+                                            <span class="bp-mini__stat-wrap">
+
+                                                <span class="bp-mini__preposition">By</span>
+
+                                                <span class="bp-mini__author">
+
+                                                    <a href="#">Dayle</a></span></span>
+
+                                            <span class="bp-mini__stat">
+
+                                                <span class="bp-mini__comment">
+
+                                                    <a href="blog-detail.html"><i class="far fa-comments u-s-m-r-4"></i>
+
+                                                        <span>8</span></a></span></span></div>
+                                        <div class="bp-mini__category">
+
+                                            <a>Learning</a>
+
+                                            <a>News</a>
+
+                                            <a>Health</a></div>
+
+                                        <span class="bp-mini__h1">
+
+                                            <a href="blog-detail.html">Tell me difference between smoke and
+                                                vape</a></span>
+                                        <p class="bp-mini__p">Lorem Ipsum is simply dummy text of the printing and
+                                            typesetting industry.</p>
+                                        <div class="blog-t-w">
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Travel</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Culture</a>
+
+                                            <a class="gl-tag btn--e-transparent-hover-brand-b-2">Place</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 9 ======-->
+
+
+            <!--====== Section 10 ======-->
+            <div class="u-s-p-b-60">
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="service u-h-100">
+                                    <div class="service__icon"><i class="fas fa-truck"></i></div>
+                                    <div class="service__info-wrap">
+
+                                        <span class="service__info-text-1">Free Shipping</span>
+
+                                        <span class="service__info-text-2">Free shipping on all US order or order above
+                                            $200</span></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="service u-h-100">
+                                    <div class="service__icon"><i class="fas fa-redo"></i></div>
+                                    <div class="service__info-wrap">
+
+                                        <span class="service__info-text-1">Shop with Confidence</span>
+
+                                        <span class="service__info-text-2">Our Protection covers your purchase from
+                                            click to delivery</span></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 u-s-m-b-30">
+                                <div class="service u-h-100">
+                                    <div class="service__icon"><i class="fas fa-headphones-alt"></i></div>
+                                    <div class="service__info-wrap">
+
+                                        <span class="service__info-text-1">24/7 Help Center</span>
+
+                                        <span class="service__info-text-2">Round-the-clock assistance for a smooth
+                                            shopping experience</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 10 ======-->
+        </div>
+        <!--====== End - White Container ======-->
+    </div>
+    <!--====== End - Anti Flash White Background ======-->
+</div>
 
 {% endblock content %}
 
 {% block afterfooter %}
 
- <!--====== Quick Look Modal ======-->
-  {% for prod,range,nSlides,productcategories,prodsub in allprods %}
-    {% for prods in prod %}    
-        <div class="modal fade" id="quick-look{{prods.product.id}}">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content modal--shadow">
+<!--====== Quick Look Modal ======-->
+{% for prod,range,nSlides,productcategories,prodsub in allprods %}
+{% for prods in prod %}
+<div class="modal fade" id="quick-look{{prods.product.id}}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal--shadow">
 
-                    <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-5">
+            <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-5">
 
-                                <!--====== Product Breadcrumb ======-->
-                                <div class="pd-breadcrumb u-s-m-b-30">
-                                    <ul class="pd-breadcrumb__list">
-                                        <li class="has-separator">
+                        <!--====== Product Breadcrumb ======-->
+                        <div class="pd-breadcrumb u-s-m-b-30">
+                            <ul class="pd-breadcrumb__list">
+                                <li class="has-separator">
 
-                                            <a href="index.hml">Home</a></li>
-                                        <li class="has-separator">
+                                    <a href="index.hml">Home</a></li>
+                                <li class="has-separator">
 
-                                            <a href="shop-side-version-2.html">Electronics</a></li>
-                                        <li class="has-separator">
+                                    <a href="shop-side-version-2.html">Electronics</a></li>
+                                <li class="has-separator">
 
-                                            <a href="shop-side-version-2.html">DSLR Cameras</a></li>
-                                        <li class="is-marked">
+                                    <a href="shop-side-version-2.html">DSLR Cameras</a></li>
+                                <li class="is-marked">
 
-                                            <a href="shop-side-version-2.html">Nikon Cameras</a></li>
-                                    </ul>
-                                </div>
-                                <!--====== End - Product Breadcrumb ======-->
+                                    <a href="shop-side-version-2.html">Nikon Cameras</a></li>
+                            </ul>
+                        </div>
+                        <!--====== End - Product Breadcrumb ======-->
 
 
-                                <!--====== Product Detail ======-->
-                                <div class="pd u-s-m-b-30">
-                                    <div class="pd-wrap">
-                                        <div id="js-product-detail-modal">
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
-                                        </div>
-                                    </div>
-                                    <div class="u-s-m-t-15">
-                                        <div id="js-product-detail-modal-thumbnail">
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
-                                            <div>
-
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--====== End - Product Detail ======-->
-                            </div>
-                            <div class="col-lg-7">
-
-                                <!--====== Product Right Side Details ======-->
-                                <div class="pd-detail">
+                        <!--====== Product Detail ======-->
+                        <div class="pd u-s-m-b-30">
+                            <div class="pd-wrap">
+                                <div id="js-product-detail-modal">
                                     <div>
 
-                                        <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
                                     <div>
-                                        <div class="pd-detail__inline">
 
-                                            <span class="pd-detail__price">$6.99</span>
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                    <div>
 
-                                            <span class="pd-detail__discount">(76% OFF)</span><del class="pd-detail__del">$28.97</del></div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                    <div>
 
-                                            <span class="pd-detail__review u-s-m-l-4">
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                    <div>
 
-                                                <a href="product-detail.html">23 Reviews</a></span></div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-detail__inline">
-
-                                            <span class="pd-detail__stock">200 in stock</span>
-
-                                            <span class="pd-detail__left">Only 2 left</span></div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-
-                                        <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-detail__inline">
-
-                                            <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
-
-                                                <a href="signin.html">Add to Wishlist</a>
-
-                                                <span class="pd-detail__click-count">(222)</span></span></div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <div class="pd-detail__inline">
-
-                                            <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
-
-                                                <a href="signin.html">Email me When the price drops</a>
-
-                                                <span class="pd-detail__click-count">(20)</span></span></div>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <ul class="pd-social-list">
-                                            <li>
-
-                                                <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li>
-
-                                                <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li>
-
-                                                <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li>
-
-                                                <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                            <li>
-
-                                                <a class="s-gplus--color-hover" href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-                                        <form class="pd-detail__form">
-                                            <div class="pd-detail-inline-2">
-                                                <div class="u-s-m-b-15">
-
-                                                    <!--====== Input Counter ======-->
-                                                    <div class="input-counter">
-
-                                                        <span class="input-counter__minus fas fa-minus"></span>
-
-                                                        <input class="input-counter__text input-counter--text-primary-style" type="text" value="1" data-min="1" data-max="1000">
-
-                                                        <span class="input-counter__plus fas fa-plus"></span></div>
-                                                    <!--====== End - Input Counter ======-->
-                                                </div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button></div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="u-s-m-b-15">
-
-                                        <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
-                                        <ul class="pd-detail__policy-list">
-                                            <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Buyer Protection.</span></li>
-                                            <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Full Refund if you don't receive your order.</span></li>
-                                            <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                                <span>Returns accepted if product not as described.</span></li>
-                                        </ul>
-                                    </div>
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                 </div>
-                                <!--====== End - Product Right Side Details ======-->
                             </div>
+                            <div class="u-s-m-t-15">
+                                <div id="js-product-detail-modal-thumbnail">
+                                    <div>
+
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                    <div>
+
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                    <div>
+
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                    <div>
+
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                    <div>
+
+                                        <img class="u-img-fluid"
+                                            src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--====== End - Product Detail ======-->
+                    </div>
+                    <div class="col-lg-7">
+
+                        <!--====== Product Right Side Details ======-->
+                        <div class="pd-detail">
+                            <div>
+
+                                <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+                            <div>
+                                <div class="pd-detail__inline">
+
+                                    <span class="pd-detail__price">$6.99</span>
+
+                                    <span class="pd-detail__discount">(76% OFF)</span><del
+                                        class="pd-detail__del">$28.97</del></div>
+                            </div>
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star-half-alt"></i>
+
+                                    <span class="pd-detail__review u-s-m-l-4">
+
+                                        <a href="product-detail.html">23 Reviews</a></span></div>
+                            </div>
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__inline">
+
+                                    <span class="pd-detail__stock">200 in stock</span>
+
+                                    <span class="pd-detail__left">Only 2 left</span></div>
+                            </div>
+                            <div class="u-s-m-b-15">
+
+                                <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy text of the printing
+                                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                                    to make a type specimen book.</span></div>
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__inline">
+
+                                    <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
+
+                                        <a href="signin.html">Add to Wishlist</a>
+
+                                        <span class="pd-detail__click-count">(222)</span></span></div>
+                            </div>
+                            <div class="u-s-m-b-15">
+                                <div class="pd-detail__inline">
+
+                                    <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
+
+                                        <a href="signin.html">Email me When the price drops</a>
+
+                                        <span class="pd-detail__click-count">(20)</span></span></div>
+                            </div>
+                            <div class="u-s-m-b-15">
+                                <ul class="pd-social-list">
+                                    <li>
+
+                                        <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li>
+
+                                        <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li>
+
+                                        <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a>
+                                    </li>
+                                    <li>
+
+                                        <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a></li>
+                                    <li>
+
+                                        <a class="s-gplus--color-hover" href="#"><i
+                                                class="fab fa-google-plus-g"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="u-s-m-b-15">
+                                <form class="pd-detail__form">
+                                    <div class="pd-detail-inline-2">
+                                        <div class="u-s-m-b-15">
+
+                                            <!--====== Input Counter ======-->
+                                            <div class="input-counter">
+
+                                                <span class="input-counter__minus fas fa-minus"></span>
+
+                                                <input class="input-counter__text input-counter--text-primary-style"
+                                                    type="text" value="1" data-min="1" data-max="1000">
+
+                                                <span class="input-counter__plus fas fa-plus"></span></div>
+                                            <!--====== End - Input Counter ======-->
+                                        </div>
+                                        <div class="u-s-m-b-15">
+
+                                            <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="u-s-m-b-15">
+
+                                <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
+                                <ul class="pd-detail__policy-list">
+                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Buyer Protection.</span></li>
+                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Full Refund if you don't receive your order.</span></li>
+                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                        <span>Returns accepted if product not as described.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--====== End - Product Right Side Details ======-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!--====== End - Quick Look Modal ======-->
+
+
+<!--====== Add to Cart Modal ======-->
+{% for prods in prod  %}
+<div class="modal fade" id="add-to-cart{{prods.product.id}}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-radius modal-shadow">
+
+            <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="success u-s-m-b-30">
+                            <div class="success__text-wrap"><i class="fas fa-check"></i>
+
+                                <span>Item is added successfully!</span></div>
+                            <div class="success__img-wrap">
+
+                                <img class="u-img-fluid" src="{{prods.product.product_image}}" alt=""></div>
+                            <div class="success__info-wrap">
+
+                                <span class="success__name">{{prods.product.product_name}}</span>
+
+                                <span class="success__quantity">Quantity: 1</span>
+
+                                <span class="success__price">${{prods.product.product_selling_price}}</span></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="s-option">
+
+                            <span class="s-option__text">1 item (s) in your cart</span>
+                            <div class="s-option__link-box">
+
+                                <a class="s-option__link btn--e-white-brand-shadow" data-dismiss="modal">CONTINUE
+                                    SHOPPING</a>
+
+                                <a class="s-option__link btn--e-white-brand-shadow" href="cart.html">VIEW CART</a>
+
+                                <a class="s-option__link btn--e-brand-shadow" href="{% url 'checkout' %}">PROCEED TO
+                                    CHECKOUT</a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% endfor %}
-    
-        <!--====== End - Quick Look Modal ======-->
+    </div>
+</div>
+{% endfor %}
+{% endfor %}
+<!--====== End - Add to Cart Modal ======-->
 
 
-        <!--====== Add to Cart Modal ======-->
-        {% for prods in prod  %}
-        <div class="modal fade" id="add-to-cart{{prods.product.id}}">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content modal-radius modal-shadow">
 
-                    <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="success u-s-m-b-30">
-                                    <div class="success__text-wrap"><i class="fas fa-check"></i>
+<!--====== End - Newsletter Subscribe Modal ======-->
+<!--====== End - Modal Section ======-->
 
-                                        <span>Item is added successfully!</span></div>
-                                    <div class="success__img-wrap">
-
-                                        <img class="u-img-fluid" src="{{prods.product.product_image}}" alt=""></div>
-                                    <div class="success__info-wrap">
-
-                                        <span class="success__name">{{prods.product.product_name}}</span>
-
-                                        <span class="success__quantity">Quantity: 1</span>
-
-                                        <span class="success__price">${{prods.product.product_selling_price}}</span></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="s-option">
-
-                                    <span class="s-option__text">1 item (s) in your cart</span>
-                                    <div class="s-option__link-box">
-
-                                        <a class="s-option__link btn--e-white-brand-shadow" data-dismiss="modal">CONTINUE SHOPPING</a>
-
-                                        <a class="s-option__link btn--e-white-brand-shadow" href="cart.html">VIEW CART</a>
-
-                                        <a class="s-option__link btn--e-brand-shadow" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    {% endfor %}
-        <!--====== End - Add to Cart Modal ======-->
-
-
-       
-        <!--====== End - Newsletter Subscribe Modal ======-->
-        <!--====== End - Modal Section ======-->
-
-    <!--====== End - Main App ======-->
+<!--====== End - Main App ======-->
 {% endblock afterfooter %}
 
 
 
 
 {% block custom_js %}
-    <script>
+<script>
     const itemsList = document.getElementById('popcartpr')
     //find the the cart from localstorage
-    if(localStorage.getItem('cart') == null){
+    if (localStorage.getItem('cart') == null) {
         var cart = {};
-    }
-    else{
-        cart=JSON.parse(localStorage.getItem('cart'));
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
         updateCart(cart);
     }
     //if the add to cart button is clicked, add/increamental the item
     //$('.cart').click(function(){ for add to cart error after clear or zero minus
 
-    $('.divpr').on('click', 'button.cart', function(){
-        var idstr = this.id.toString();    
-        if(cart[idstr] != undefined){
+    $('.divpr').on('click', 'button.cart', function () {
+        var idstr = this.id.toString();
+        if (cart[idstr] != undefined) {
             qty = cart[idstr][0] + 1;
-            cart[idstr]=[qty,name,image,price,cat,slug,subcat,childcat,id];
-        }
-        else{
-            qty=1;
-            image = document.getElementById('image'+idstr).src; 
+            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id];
+        } else {
+            qty = 1;
+            image = document.getElementById('image' + idstr).src;
             name = document.getElementById('name' + idstr).innerHTML;
             price = document.getElementById('price' + idstr).innerHTML;
             cat = document.getElementById('cat' + idstr).innerHTML;
@@ -1131,7 +1253,7 @@
             childcat = document.getElementById('childcat' + idstr).value;
             id = document.getElementById('id' + idstr).value;
 
-            cart[idstr]=[qty,name,image,price,cat,slug,subcat,childcat,id];
+            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id];
             console.log(cart)
         }
         updateCart(cart);
@@ -1139,55 +1261,75 @@
     });
     updatePopover(cart);
     //popover cart 
-    function updatePopover(cart){
+    function updatePopover(cart) {
         console.log("we are inside popover");
         var popStr = "";
-        var i= 1;
+        var i = 1;
         console.log(cart)
-        for(var item in cart){
-            if(cart[item].qyt == 0){
-                popStr = popStr +"";
-                document.getElementById('div'+item).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ item +">Add To Cart </button>";
+        for (var item in cart) {
+            if (cart[item].qyt == 0) {
+                popStr = popStr + "";
+                document.getElementById('div' + item).innerHTML =
+                    "<button class='gl-tag btn btn--e-brand-b-2 cart' id=" + item + ">Add To Cart </button>";
+            } else {
+                popStr = popStr + "<div class='card-mini-product rmdiv' id='rm" + item +
+                    "'><div class='mini-product'><div class='mini-product__image-wrapper'><a class='mini-product__link' href='product-detail.html'><img class='u-img-fluid' src='" +
+                    document.getElementById('image' + item).src +
+                    "' alt=''></a></div><div class='mini-product__info-wrapper'><span class='mini-product__category'><a href='shop-side-version-2.html'>" +
+                    document.getElementById('cat' + item).innerHTML +
+                    "</a></span><span class='mini-product__name'><a href='product-detail.html'>" + document
+                    .getElementById('name' + item).innerHTML + "</a></span><span class='mini-product__quantity' id='for_qty'>" +
+                    cart[item][0] + " </span>x<span class='mini-product__price'> " + document.getElementById('price' +
+                        item).innerHTML +
+                    "</span></div></div><a class='mini-product__delete-link far fa-trash-alt popremove' id='rmdl" +
+                    item + "' ></a></div><input type='hidden' name='prod_id_for_checkout[]' value='" +
+                    cart[item][8] + "'><input type='hidden' name='prod_qty_for_checkout[]' value='" +
+                    cart[item][0] + "'>";
             }
-            else{
-                popStr = popStr + "<div class='card-mini-product rmdiv' id='rm"+ item +"'><div class='mini-product'><div class='mini-product__image-wrapper'><a class='mini-product__link' href='product-detail.html'><img class='u-img-fluid' src='"+document.getElementById('image'+item).src +"' alt=''></a></div><div class='mini-product__info-wrapper'><span class='mini-product__category'><a href='shop-side-version-2.html'>"+document.getElementById('cat' + item).innerHTML +"</a></span><span class='mini-product__name'><a href='product-detail.html'>"+document.getElementById('name' + item).innerHTML +"</a></span><span class='mini-product__quantity'>"+ cart[item][0] +" x</span><span class='mini-product__price'>"+document.getElementById('price' + item).innerHTML +"</span></div></div><a class='mini-product__delete-link far fa-trash-alt popremove' id='rmdl"+ item +"' ></a></div>";
-            }
-            i=i+1;
+            i = i + 1;
         }
         document.getElementById('popcartpr').innerHTML = popStr;
     }
-    function clearCart(){
+
+    function clearCart() {
         cart = JSON.parse(localStorage.getItem('cart'));
-        for (var item in cart){
-            document.getElementById('div'+item).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id='"+ item +"'>Add to Cart</button>"
+        for (var item in cart) {
+            document.getElementById('div' + item).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id='" +
+                item + "'>Add to Cart</button>"
         }
         localStorage.clear();
         cart = {};
-        updateCart(cart); 
+        updateCart(cart);
 
     }
     //remove one element or product form cart 
-    $('.popcartpr').on("click", "a.popremove", function(){
-        a = this.id.slice(4,);
+    $('.popcartpr').on("click", "a.popremove", function () {
+        a = this.id.slice(4, );
         console.log("inside remove fuction")
-        document.getElementById('div'+a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id="+ a +">Add To Cart </button>";
+        document.getElementById('div' + a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id=" +
+            a + ">Add To Cart </button>";
         delete cart[a]
-        localStorage.setItem('cart',JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart));
         console.log("now we are exit")
         updateCart(cart);
-    
+
     });
 
- 
+
     // Html Code replace with plus minus button updating cart in localStorage
-    function updateCart(cart){
+    function updateCart(cart) {
         var sum = 0;
         console.log(cart)
-        for(var item in cart){
-            sum= sum + cart[item][0];
-            document.getElementById('div'+item).innerHTML = "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";
-            }
-        localStorage.setItem('cart',JSON.stringify(cart));
+        for (var item in cart) {
+            sum = sum + cart[item][0];
+            document.getElementById('div' + item).innerHTML =
+                "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus" + item +
+                "'></span><input class='input-counter__text input-counter--text-primary-style' id='val" + item +
+                "' type='text' value='" + cart[item][0] +
+                "' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus" + item +
+                "'></span></div>";
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
         //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
 
         //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
@@ -1195,37 +1337,35 @@
         updatePopover(cart);
     }
     //minus buton works from here
-    $('.divpr').on("click", "span.minus", function(){
-       var a = this.id.slice(7, );
-        var p= this.id.slice(5, );
+    $('.divpr').on("click", "span.minus", function () {
+        var a = this.id.slice(7, );
+        var p = this.id.slice(5, );
         console.log(a)
-        cart['pr'+a][0] = cart ['pr'+a][0] -1;
-        cart['pr'+a][0] = Math.max(0,cart['pr'+a][0]);
-        r=cart['pr'+a][0]
-        var str="Add to Cart"
+        cart['pr' + a][0] = cart['pr' + a][0] - 1;
+        cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+        r = cart['pr' + a][0]
+        var str = "Add to Cart"
         console.log("minus 0 thase")
-        if(r==0){
+        if (r == 0) {
             console.log("minus 0 thayu")
-            document.getElementById('div'+p).innerHTML = `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
-            delete cart[p]; 
-            localStorage.setItem('cart',JSON.stringify(cart));
-            cart=JSON.parse(localStorage.getItem('cart'));
+            document.getElementById('div' + p).innerHTML =
+                `<button class="gl-tag btn btn--e-brand-b-2 cart" id="${p}">Add To Cart </button>`;
+            delete cart[p];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            cart = JSON.parse(localStorage.getItem('cart'));
+        } else {
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
         }
-        else{
-            document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
-        }
-            updateCart(cart);
-        
+        updateCart(cart);
+
     });
     //plus button works from here
-    $('.divpr').on("click", "span.plus", function(){
+    $('.divpr').on("click", "span.plus", function () {
         a = this.id.slice(6, );
-        cart['pr'+a][0] = cart ['pr'+a][0] +1;
-        document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+        cart['pr' + a][0] = cart['pr' + a][0] + 1;
+        document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
         updateCart(cart);
     });
-    </script>
-
+</script>
 
 {% endblock custom_js %}
-       

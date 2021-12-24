@@ -19,7 +19,6 @@ class MyAccountManager(BaseUserManager):
     use_in_migrations = True
     def create_user(self, email, username,password=None):
         if not email:
-            pass
             raise ValueError("User must have an Email Address")
         if not username:
             raise ValueError("User must have an username ")
@@ -211,9 +210,6 @@ class userPayment(models.Model):
     account_info =models.IntegerField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
-
-
-
 
 @receiver(post_save,sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender,instance=None,created=False,**kwargs):

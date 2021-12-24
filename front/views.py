@@ -1,3 +1,5 @@
+from .basket import Basket
+from django.http import response
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +9,7 @@ from django.shortcuts import get_object_or_404, render , redirect
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, productMedia
+from front.models import Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, TempOrder, productGst, productMedia
 from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q, fields
@@ -17,7 +19,7 @@ from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
 from django import template
 from django.urls import reverse
 from django.contrib import messages
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
 
 register = template.Library()
 # Create your vie ws here.v
@@ -130,7 +132,6 @@ class HomeListview(ListView):
             
             prodsub=ProductSubCategory.objects.filter(category=cat,is_active=1)
             allprods.append([prod,range(nSlides),nSlides,productcategories,prodsub])           
-        print(allprods)
         params={'allprods':allprods,"cats":caties,"subcaties":subcaties}
         return render(request,"index2.html",params)
 
@@ -206,6 +207,7 @@ class ProductFilterListView(ListView):
 def home_two(request):
     return render(request,'home_two.html')
 
+
 def search_list(query=None):
     queryset = []
     queries = query.split(" ")
@@ -245,7 +247,40 @@ class ProductDetailView(DetailView):
         context = {'product': product,'media':media,'abouts':abouts,'related_products':related_products}
         print(related_products)
         return render(request, 'product_detail.html', context)
-    
+
+def basket_add(request):
+    basket = Basket(request)
+    if request.POST.get('action') == 'post':
+        product_id_list=request.POST.getlist('productid[]')
+        product_qty_list=request.POST.getlist('productqty[]')
+
+       
+        product_id = 0
+        product_qty = 0
+        print(product_id_list,product_qty_list)
+        i=0
+        for product in product_id_list:
+            product_id = int(product)
+            product_qty=product_qty_list[i]
+            i=i+1 
+            product = get_object_or_404(Product,id=product_id)
+            # torder = TempOrder.objects.filter(amount=amount,product=product,quantity=product_qty_list[i],address=address,customer=request.user)
+    #uses for basket good for excercise
+            basket.add(product=product,qty=product_qty)
+       
+        # #return for popover total item in cart    
+        response = JsonResponse({'data':product_qty_list})
+        return response
+
+def basket_delete(request):
+    basket = Basket(request)
+    if request.POST.get('action') == 'post':
+        product_id=request.POST.get('productid')
+        basket.delete(product=product_id)
+        #return for popover total item in cart    
+        response = JsonResponse({'Success':True})
+        return response
+
 def Product_list(request):
     stf=Staffs.objects.all()
     allcrs=Product.objects.all()

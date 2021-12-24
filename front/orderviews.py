@@ -1,5 +1,8 @@
+from decimal import Decimal
+from front.basket import Basket
 from django.http import response
 from accounts import admin
+from accounts import models
 from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules,productMedia
 from accounts.EmailBackEnd import EmailBackEnd
 from accounts.models import CustomUser, CustomersAddress, Staffs, Customers as Customers
@@ -278,6 +281,7 @@ class dashTrackOrderView(DetailView):
                     for item in update:
                         updates.append({'id':item.id,'text':item.desc,'time':item.created_date})
                         response = json.dumps([updates,order.product_Json,order.address.fisrt_name,order.address.last_name,order.address.address,order.address.city,order.address.state,order.address.country,order.address.zip_Code,order.address.phone ,order.payment_method],default=str)
+                    print(response)
                     return HttpResponse(response)
                 else:
                     return HttpResponse('{}')
@@ -301,22 +305,26 @@ class dashMyOrderView(DetailView):
         try:
             customer = Customers.objects.get(admin=request.user.id)
             orders = Orders.objects.filter(customer = customer)
-            order_products = []
-            for order in orders:
-                data = ProductJsonList(order)
-                print(data)
-                order_products.append(data)
-
-            return render(request,"dash_my_order.html",{"customer":customer,'orders':orders})
+            # jsonvalue =Orders.objects.select_related().values('product_Json').filter(customer = customer)
+            # response = json.dumps(jsonvalue,default=str)
+            context = {"orders":orders}
+            return render(request,"dash_my_order.html",context)
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse(e)
 
-from django.http import JsonResponse
+class dashMyOrderDetailView(DetailView):
+    def get(self,request,*args,**kwargs):
+        try:
+            customer = Customers.objects.get(admin=request.user.id)
+            orders = Orders.objects.filter(customer = customer)
+            print(orders)
+            jsonvalues =Orders.objects.select_related().values('product_Json').filter(customer = customer)
+            # for jsonvalue in jsonvalues:
+            #     response = json.dumps(jsonvalue,default=str)
+            return HttpResponse(jsonvalues)
+        except Exception as e:
+            return HttpResponse(e)
 
-def ProductJsonList(request,order):
-    data = Orders.objects.values('product_Json',id=order)
-    print(data)
-    return JsonResponse({'data': data})
 
 class dashPaymentOptionView(DetailView):
     def get(self,request,*args,**kwargs):
@@ -377,20 +385,22 @@ class CheckoutListView(View):
 
         is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
         is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
-        print(is_active_address)
         param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address}      
         return render(request,"checkout.html",param)
 
     def post(self,request,*args, **kwargs):
+        basket = Basket(request)
         paymet_method = request.POST.get("payment") 
+        amount = basket.get_total_price()
+        print(amount)
         product_Json = request.POST.get("product_Json")
         try:
             customer = Customers.objects.get(admin=request.user.id)
             is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
-
-            order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json)
+            order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json,amount=amount)
             order.address = is_active_address
             order.save()
+            print("order save")
 
             tracker = OrderTacker(ordes_id=order.id,desc="product purchase successfuly !")
             tracker.save()

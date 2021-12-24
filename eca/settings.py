@@ -88,6 +88,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+                'front.context_processors.basket',
             ],
         },
     },
@@ -237,7 +238,7 @@ BASE_URL="http://127.0.0.1:8000"
 # Manualy Added
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+    
 ]
 
 STATICFILE_STORAGE = "whitenoise.storage.CompressedMainfestStaticFilesStorage"
