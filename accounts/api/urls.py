@@ -1,5 +1,9 @@
 from accounts.api import views
+<<<<<<< HEAD
 from django.urls import path,include
+=======
+from django.urls import path
+>>>>>>> 892c36eb3bb3ba593bcca4c853fcf5961a11689a
 from rest_framework.authtoken.views import obtain_auth_token
   
 urlpatterns = [
