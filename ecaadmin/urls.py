@@ -2,8 +2,7 @@ from django.urls import path
 from ecaadmin import views
 
 urlpatterns = [
-    path('', views.admin_home,name='admin_home'),
-    
+    path('', views.admin_home,name='admin_home'),    
     path('category_list', views.ProductCategoryListViews.as_view(),name='category_list'),
     path('category_tab_list', views.ProductCategoryTabListViews.as_view(),name='category_tab_list'),
     path('category_active/<slug:pk>', views.activeCategory,name='category_active'),

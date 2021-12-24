@@ -4,11 +4,23 @@ from .models import CustomUser
 class EmailBackEnd(ModelBackend):
     def authenticate(self,username=None,password=None,**kwargs):
         UserModel=get_user_model()
-        try:
-            user=UserModel.objects.get(username=username)
-        except UserModel.DoesNotExist:
-            return None
+        if '@' in username:
+            kwargs = {'email': username}
         else:
+            kwargs = {'phone': username}
+        
+        try:
+            user = UserModel.objects.get(**kwargs)
+            print("i m in authentication")
+            print(user)
             if user.check_password(password):
                 return user
-        return None
+        except UserModel.DoesNotExist:
+            return None
+
+    def get_user(self, username):
+        UserModel=get_user_model()
+        try:
+            return UserModel.objects.get(pk=username)
+        except UserModel.DoesNotExist:
+            return None

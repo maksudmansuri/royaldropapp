@@ -1,5 +1,7 @@
+import datetime
+import random 
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render,redirect,HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render,redirect,HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from .models import CustomUser
 from accounts.EmailBackEnd import EmailBackEnd
@@ -18,7 +20,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from rest_framework import viewsets
 from django.core.files.storage import FileSystemStorage
-
+from django.core.exceptions import ObjectDoesNotExist
 #API for Apps
 # class CustomUserViewSet(viewsets.ModelViewSet):
 #     queryset = CustomUser.objects.all().order_by('username')
@@ -29,6 +31,174 @@ from django.core.files.storage import FileSystemStorage
 
 # def soc_login(request):
 #     return render(request,'dologin')
+
+def send_otp(phone):
+    if phone:
+        key = random.randint(999,9999)
+        return key
+    else:
+        return False
+    
+# This class returns the string needed to generate the key
+class generateKey:
+    @staticmethod
+    def returnValue(phone):
+        return str(phone) + str(datetime.date(datetime.now())) + "Some Random Secret Key"
+
+def verifyPhone(request,phone):
+    try:
+        user = CustomUser.objects.get(phone=phone)
+        print("inside virify phone")
+    except ObjectDoesNotExist:
+        messages.add_message(request,messages.ERROR,"Mobile number does not Exits")
+        return render(request,"accounts/OTPVerification.html")  # False Call
+    return render(request,"accounts/otp-verify.html",{'user':user})  #  Call
+
+def resendOTP(request,phone):
+    user = get_object_or_404(CustomUser,phone=phone)
+    key = send_otp(phone)
+    # OTP = pyotp.HOTP(key)  # HOTP Model for OTP is created
+    # print(OTP.at(user.counter))
+    # otp=OTP.at(user.counter)
+    # conn.request("GET", "https://2factor.in/API/R1/?module=SMS_OTP&apikey=f08f2dc9-aa1a-11eb-80ea-0200cd936042&to="+str(mobile)+"&otpvalue="+str(otp)+"&templatename=WomenMark1")
+    # res = conn.getresponse()
+    # data = res.read()
+    # data=data.decode("utf-8")
+    # data=ast.literal_eval(data)
+    # print(data)
+    # if data["Status"] == 'Success':
+    #     user.otp_session_id = data["Details"]
+    user.otp = str(key)
+    user.save()
+        # print('In validate phone :'+user.otp_session_id)
+    messages.add_message(request,messages.SUCCESS,"OTP sent successfully") 
+    return HttpResponseRedirect(reverse("verifyPhone",kwargs={'phone':user.phone}))
+
+def verifyOTP(request,phone):
+    try:
+        user = CustomUser.objects.get(phone=phone) #mobile is a user
+    except ObjectDoesNotExist:
+        messages.add_message(request,messages.ERROR,"Mobile number does not Exits")
+        return HttpResponseRedirect(reverse("hospitalsingup"))  # False Call
+    if request.POST:
+        first=request.POST.get("first")
+        second=request.POST.get("second")
+        third=request.POST.get("third")
+        forth=request.POST.get("forth")
+        # fifth=request.POST.get("fifth")
+        # sixth=request.POST.get("sixth")
+
+        postotp = first+second+third+forth  #added in one string
+
+        # keygen = generateKey()
+        # key = base64.b32encode(keygen.returnValue(phone).encode())  # Generating Key
+        key =user.otp  # Generating Key
+        # OTP = pyotp.HOTP(user.otp)  # HOTP Model
+        #key = CustomUser.objects.get()
+        # if OTP.verify(postotp, user.counter):  # Verifying the OTP
+        if key == postotp:  # Verifying the OTP
+            user.is_Mobile_Verified = True
+            user.is_active=True
+            user.save()
+            messages.add_message(request,messages.SUCCESS,"Mobile Number is VArified Successfully")
+        else:
+            messages.add_message(request,messages.ERROR,"Incorrect OTP !")
+            return HttpResponseRedirect(reverse("verifyPhone",kwargs={'phone':user.phone}))
+        #emila message for email verification
+        current_site=get_current_site(request) #fetch domain
+        print(current_site)   
+        email_subject='Active your Account',
+        message=render_to_string('accounts/activate.html',
+        { 
+            'user':user,
+            'domain':current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':generate_token.make_token(user)
+        } #convert Link into string/message
+        )
+        print(message)
+        email_message=EmailMessage(
+            email_subject, 
+            message,
+            settings.EMAIL_HOST_USER,
+            [user.email]
+        )#compose email
+        print(email_message)
+        email_message.send() #send Email
+        messages.add_message(request,messages.SUCCESS,"Sucessfully Singup Please Verify Your Account Email")
+        if user is not None:
+            if user.is_active == True:
+                login(request,user)
+                # request.session['logged in']=True
+                if user.user_type=="1":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    else:
+                        return HttpResponseRedirect(reverse('radmin_home'))
+                        # return HttpResponseRedirect(reverse('admin:index'))
+                if user.user_type=="2":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    else: 
+                        return HttpResponseRedirect(reverse('hospital_dashboard'))
+                elif user.user_type=="3":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    else:
+                        return HttpResponseRedirect(reverse('admin_home'))
+                elif user.user_type=="4":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    # print(" i am here but not goinf inside1")
+                    # if user.profile_pic == None:
+                    #     print(" i am here but not goinf inside2")
+                    #     return HttpResponseRedirect(reverse('patientregisterstep1',kwargs={'user_id':user.id}))
+                    # elif user.first_name == None:
+                    #     print(" i am here but not goinf inside3")
+                    #     return HttpResponseRedirect(reverse('patientregisterstep2',kwargs={'user_id':user.id}))
+                    # elif user.patients.address == None:
+                    #     print(" i am here but not goinf inside4")
+                    #     return HttpResponseRedirect(reverse('patientregisterstep3',kwargs={'user_id':user.id}))
+                    else:
+                        return HttpResponseRedirect(reverse('patient_home'))
+                elif user.user_type=="5":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    else:
+                        return HttpResponseRedirect(reverse('lab_home'))
+                elif user.user_type=="6":
+                    if 'next' in request.POST:
+                        return redirect(request.POST.get('next'))
+                    # elif user.profile_pic:
+                    #     return HttpResponseRedirect(reverse('profile_picUpload'))
+                    else:
+                        return HttpResponseRedirect(reverse('pharmacy_home'))
+                else:
+                # For Djnago default Admin Login 
+                    return HttpResponseRedirect(reverse('admin:index'))
+                    
+                    # return RedirectView.as_view(url=reverse_lazy('admin:index'))
+                    # return HttpResponseRedirect(reverse('admin_home'))
+            else:
+                # message.add_message(request,messages.ERROR,"Please Verify Your Account First")
+                return redirect('/accounts/dologin')
+        else: 
+            # print(user.is_active)
+            # messages.add_message(request,messages.ERROR,"User Not Found you haved to Register First")
+            return redirect("dologin")
+       
+        # return HttpResponseRedirect(reverse("patientregisterstep1",kwargs={'user_id':user.id}))
+        # return HttpResponseRedirect(reverse("dologin"))
 
 def dologin(request):
     if request.method == "POST":
@@ -56,9 +226,7 @@ def dologin(request):
                 elif user.user_type=="3":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
-                        print("we have next")
                     else:
-                        print("we dont have next")
                         return HttpResponseRedirect(reverse('home'))
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
@@ -71,7 +239,7 @@ def dologin(request):
             messages.add_message(request,messages.ERROR,"User Not Found you haved to Register First")
             return redirect("dologin")
     return render(request,'accounts/dologin.html')
-       
+
 class dosingup(SuccessMessageMixin,CreateView):
     template_name="accounts/dosingup.html"
     model=CustomUser
@@ -84,8 +252,14 @@ class dosingup(SuccessMessageMixin,CreateView):
         user.is_active=True
         user.user_type=3
         user.set_password(form.cleaned_data["password"])
+        user.counter += 1  # Update Counter At every Call
+        user.save() # Save the data
+        mobile= user.phone
+        key = send_otp(mobile)
+        user.otp = str(key)
         user.save()
-
+        messages.add_message(self.request,messages.SUCCESS,"OTP has been sent successfully") 
+        return HttpResponseRedirect(reverse("verifyPhone",kwargs={'phone':user.phone}))
         #Saving Merchant user
         # profile_pic=self.request.FILES["profile_pic"]
         # fs=FileSystemStorage()
@@ -94,8 +268,26 @@ class dosingup(SuccessMessageMixin,CreateView):
 
         # user.customers.profile_pic=profile_pic_url
         # user.save()
-        messages.success(self.request,"Customer User Created")
+        # messages.success(self.request,"Customer User Created")
+        # return HttpResponseRedirect(reverse("dologin"))
+
+class AuthorizedSingup(SuccessMessageMixin,CreateView):
+    template_name="accounts/athorizationsnew.html"
+    model=CustomUser
+    fields=["email","phone","username","password"]
+    success_message = "Admin User Created" 
+
+    def form_valid(self,form):
+        #Saving Custom User Object for Merchant User
+        print('i m here at Hospital singup')
+        user=form.save(commit=False)
+        user.user_type=1
+        user.is_active=True
+        user.set_password(form.cleaned_data["password"])
+        print('just one step ahead save?')   
+        user.save() # Save the data
         return HttpResponseRedirect(reverse("dologin"))
+ 
 
 def dosingup1(request):
     if request.method=="POST":
@@ -157,62 +349,6 @@ def dosingup1(request):
             return HttpResponseRedirect(reverse("dosingup"))
     return render(request,"accounts/dosingup.html")
 
-def instructor_singup(request):
-    if request.method=="POST":
-        username = request.POST.get('username')
-        r=CustomUser.objects.filter(username=username)
-        if r.count():
-            msg=messages.error(request,"Username  Already Exits")
-            return HttpResponseRedirect(reverse("instructor_singup"))
-
-        email = request.POST.get('email')
-        e=CustomUser.objects.filter(email=email)
-        if e.count():
-            if e.user_type==2:
-                msg=messages.error(request,"Email Already Exits")
-                return HttpResponseRedirect(reverse("instructor_singup"))
-            else:
-                msg=messages.error(request,"Register with Other Accounts")
-                return HttpResponseRedirect(reverse("instructor_singup"))
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        if password1 and password2 and password1 != password2:
-            msg=messages.error(request,"Password Does Match")
-            return HttpResponseRedirect(reverse("instructor_singup"))
-
-        try:
-            user=CustomUser.objects.create_user(username=username,password=password1,email=email)
-            user.user_type="2"
-            user.is_active=True
-            print(user,username,password1,email)
-            user.save()
-            # current_site=get_current_site(request)
-            # email_subject='Active your Account',
-            # message=render_to_string('accounts/activate.html',
-            # {
-            #     'user':user,
-            #     'domain':current_site.domain,
-            #     'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token':generate_token.make_token(user)
-            # }
-            # )
-            # print(urlsafe_base64_encode(force_bytes(user.pk)),)
-            # print(generate_token.make_token(user))
-            # print(current_site.domain)
-            # email_message=EmailMessage(
-            #     email_subject,
-            #     message,
-            #     settings.EMAIL_HOST_USER,
-            #     [email]
-            # )
-            # email_message.send()
-            # msg=messages.success(request,"Sucessfully Singup Please Verify Your Account First")
-            return HttpResponseRedirect(reverse("dologin"))
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
-            return HttpResponseRedirect(reverse("instructor_singup"))
-    return render(request,"accounts/instructor_singup.html")
-
 def customer_singup(request): 
     if request.method=="POST":
         username=request.POST.get('username')
@@ -264,42 +400,6 @@ def customer_singup(request):
             msg=messages.error(request,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("customer_singup"))
     return render(request,"accounts/customer_singup.html")
-
-def counsellor_singup(request):
-    if request.method=="POST":
-        username=request.POST.get('username')
-        email=request.POST.get('email')
-        password=request.POST.get('password1')
-        try: 
-            user=CustomUser.objects.create_user(username=username,password=password,email=email,user_type=1)
-            user.is_active=True
-            user.save()
-            current_site=get_current_site(request)
-            email_subject='Active your Account',
-            message=render_to_string('accounts/activate.html',
-            {
-                'user':user,
-                'domain':current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':generate_token.make_token(user)
-            }
-            )
-            email_message=EmailMessage(
-                email_subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [email]
-            )
-            email_message.send()
-            msg=messages.success(request,"Sucessfully Singup check you emial for verification")
-            return HttpResponseRedirect(reverse("dologin"))
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
-            return HttpResponseRedirect(reverse("counsellor_singup"))
-    return render(request,"accounts/counsellor_singup.html")
-
-def selection(request):
-    return render(request,"accounts/selection.html")
 
 def activate(request,uidb64,token):
     try:

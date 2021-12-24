@@ -1,6 +1,5 @@
 from accounts.api import views
-from django.conf.urls import url
-from django.urls import path
+from django.urls import path,include
 from rest_framework.authtoken.views import obtain_auth_token
   
 urlpatterns = [
@@ -16,5 +15,7 @@ urlpatterns = [
     # path('instuctorregister/', views.InstructorRegister, name='instructorregister'),
     path('change_password/', views.ChangePasswordView.as_view(), name="change_password"),
     path('check_if_account_exists/',  views.does_account_exist_view, name="check_if_account_exists"),
+    path('logout',views.User_logout, name="do_logout"),
+    # path('api_password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     # path('rest_activate/<uidb64>/<token>/$', views.rest_activate,name='rest_activate'),
 ]

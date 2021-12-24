@@ -52,6 +52,4 @@ urlpatterns = [
     path('dash_payment_option',orderviews.dashPaymentOptionView.as_view(),name='dash_payment_option'),
     path('dash_cancellation',orderviews.dashCancellationView.as_view(),name='dash_cancellation'),
 
-
-
 ]

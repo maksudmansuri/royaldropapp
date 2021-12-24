@@ -406,8 +406,8 @@ class ObtainAuthTokenView(APIView):
 				context['response'] = 'Successfully authenticated.'
 				context['pk'] = account.pk
 				context['email'] = email.lower()
-				context['phone'] = phone
-				context['username'] = username
+				context['phone'] = account.phone
+				context['username'] = account.username
 				context['token'] = token.key
 			else:
 				context['response'] = 'Error'
@@ -466,7 +466,16 @@ class ChangePasswordView(UpdateAPIView):
 
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def User_logout(request):
 
+	account = request.user
+	token = Token.objects.get(user=account)
+	token.delete()
+	logout(request)
+
+	return Response('User Logged out successfully')
 # class CustomerRegister(CreateAPIView):
 # 	permission_classes = (AllowAny,)
 
