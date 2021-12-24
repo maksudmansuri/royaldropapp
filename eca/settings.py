@@ -238,9 +238,9 @@ BASE_URL="http://127.0.0.1:8000"
 # Manualy Added
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    
+      
 ]
-
+#mnjnh
 STATICFILE_STORAGE = "whitenoise.storage.CompressedMainfestStaticFilesStorage"
 
 
