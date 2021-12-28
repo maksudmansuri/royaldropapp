@@ -77,7 +77,7 @@ class CustomUser(AbstractBaseUser):
     profile_pic         =models.FileField(upload_to="user/profile_pic",max_length=500,null=True,default="")
     
     USERNAME_FIELD = 'email'
-#hghgh
+
     REQUIRED_FIELDS = ['username',]
 
     objects = MyAccountManager()
