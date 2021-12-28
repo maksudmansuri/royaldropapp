@@ -3,15 +3,18 @@ from ecaadmin import views
 
 urlpatterns = [
     path('', views.admin_home,name='admin_home'),    
-    path('category_list', views.ProductCategoryListViews.as_view(),name='category_list'),
-    path('category_tab_list', views.ProductCategoryTabListViews.as_view(),name='category_tab_list'),
+    # path('category_list', views.ProductCategoryListViews.as_view(),name='category_list'),
+    path('category_list', views.ProductCategoryTabListViews.as_view(),name='category_tab_list'),
     path('category_active/<slug:pk>', views.activeCategory,name='category_active'),
     path('category_deactive/<slug:pk>', views.deactiveCategory,name='category_deactive'),
     path('category_create', views.ProductCategoryCreate.as_view(),name='category_create'),
     path('category_update/<slug:pk>', views.ProductCategoryUpdate.as_view(),name='category_update'),
     
-    path('subcategory_list', views.ProductSubCategoryListViews.as_view(),name='subcategory_list'),
-    path('subcategory_tab_list', views.ProductSubCategoryTabListViews.as_view(),name='subcategory_tab_list'),
+    path('delete_category', views.DeleteAll,name='delete_category'),
+
+    
+    path('subcategory_list1', views.ProductSubCategoryListViews.as_view(),name='subcategory_list'),
+    path('subcategory_list', views.ProductSubCategoryTabListViews.as_view(),name='subcategory_tab_list'),
     path('subcategory_active/<slug:pk>', views.activeSubCategory,name='subcategory_active'),
     path('subcategory_deactive/<slug:pk>', views.deactiveSubCategory,name='subcategory_deactive'),
     path('subcategory_create', views.ProductSubCategoryCreate.as_view(),name='subcategory_create'),

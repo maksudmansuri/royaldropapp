@@ -36,6 +36,21 @@ class MyAccountManager(BaseUserManager):
         print(user.email)
         return user
 
+    def create_phone_user(self, phone, email):
+        if not email:
+            raise ValueError("User must have an Email Address")
+
+        user = self.model(
+                email=self.normalize_email(email),
+                phone =phone       
+               
+            )
+        user.is_active= True
+        user.set_password(phone)
+        user.username = phone
+        user.save(using=self._db)
+        return user
+
     def create_superuser(self, email, username, password,**extra_fields):
         user = self.create_user(
                 email=self.normalize_email(email),
@@ -77,7 +92,7 @@ class CustomUser(AbstractBaseUser):
     profile_pic         =models.FileField(upload_to="user/profile_pic",max_length=500,null=True,default="")
     
     USERNAME_FIELD = 'email'
-#hghgh
+
     REQUIRED_FIELDS = ['username',]
 
     objects = MyAccountManager()
@@ -241,6 +256,7 @@ def create_user_profile(sender,instance,created,**kwargs):
         if instance.user_type==2:
             Staffs.objects.create(admin=instance)
         if instance.user_type==3:
+            print("created")
             Customers.objects.create(admin=instance)
         if instance.user_type==4:
             Merchants.objects.create(admin=instance)

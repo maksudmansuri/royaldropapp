@@ -3,7 +3,7 @@
 {% block page_title %} Merchant Tab List{% endblock page_title %} 
 {% block button %}
    <a href="{% url 'merchant_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
-   <a href="{% url 'merchant_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+   <a   data-toggle="tooltip" title="" class="btn btn-secondary" data-original-title="delete" value='Delete' id='delete_btn' style="right: 100px;"><i class="fa fa-trash"></i></a>
            
 {% endblock button %}
  
@@ -34,12 +34,16 @@
                 </tr>
                 {% for merchant in merchants_list %}
                 <tr>
-                    <td>{{merchant.id}}</td>
-                    <td><img src="{{merchant.profile_pic}}" width="40" height="40" class="img-thumbnail"> </td>                
-                    <td>{{merchant.admin.username}}</td>
+                    <form id="deletecheck" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{merchant.id}}" id="checkbox"/>&nbsp;</td>
+                    </form>
+                    <td><a type="button" href="{{merchant.profile_pic}}">
+                        <img src="{{merchant.profile_pic}}" width="150" height="100" class="img-thumbnail"></a> </td>                
+                    <td>{{merchant.admin.username|title}}</td>
                     <td>{{merchant.admin.email}}</td>
                     <td>{{merchant.admin.phone}}</td>   
-                    <td>{{merchant.company_name}}</td>
+                    <td>{{merchant.company_name|upper}}</td>
                    <td>{% if merchant.admin.is_active %}<a href="{% url 'merchant_deactive' merchant.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'merchant_active' merchant.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>         
                     <td>
                         <div class="dropdown d-inline ">
@@ -47,9 +51,9 @@
                                 More
                             </button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.id %}"><i class="far fa-edit"></i> Edit</a>
-                                <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.id %}"><i class="far fa-clone"></i> Duplicate </a>
-                                <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.id %}"><i class="fas fa-trash"></i>Delete</a>
+                                <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.admin.id %}"><i class="far fa-edit"></i> Edit</a>
+                                {% comment %} <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.id %}"><i class="far fa-clone"></i> Duplicate </a>
+                                <a class="dropdown-item has-icon" href="{% url 'merchant_update' merchant.id %}"><i class="fas fa-trash"></i>Delete</a> {% endcomment %}
                             </div>
                         </div></td>
                                  
@@ -87,4 +91,40 @@
 
 
 {% block custom_js %}
+<script>
+    //check box send into array fro delete
+    
+    
+    $(document).ready(function(){
+        $('#delete_btn').click(function(){
+            if(confirm("Are you sure you want to delete ?")){
+                var id = [];
+                var csrf =$('input[name=csrfmiddlewaretoken]').val()
+                var frm = "merchant"
+                $(':checkbox:checked').each(function(i){
+                    id[i] = $(this).val()
+                })
+                if(id.length===0){
+                    alert("please select to delete !")
+                }else{
+                    console.log(id)
+                    $.ajax({
+                        url:"{% url 'delete_category' %}",
+                        method:"POST",
+                        data:{
+                            id,
+                            csrfmiddlewaretoken:csrf,
+                            frm:frm
+                        },
+                        success:function(response){
+                            location.reload();
+                        }
+                    })
+                }
+            }
+        })   
+    });
+    </script>
+
+
 {% endblock custom_js %}
