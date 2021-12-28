@@ -3,7 +3,7 @@
 {% block page_title %}Product Tab List{% endblock page_title %} 
 {% block button %}
    <a href="{% url 'add_product' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
-   <a href="{% url 'add_product' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New" value='Delete' id='delete' style="right: 100px;"><i class="fa fa-trash"></i></a>
+   <a   data-toggle="tooltip" title="" class="btn btn-secondary" data-original-title="delete" value='Delete' id='delete_btn' style="right: 100px;"><i class="fa fa-trash"></i></a>
            
 {% endblock button %}
  
@@ -34,8 +34,14 @@
                 {{products}}
                 {% for product in product_list %}
                 <tr>
-                    <td>{{product.product_model_number}}</td>
-                    <td><img src="{{product.product_image}}" width="40" height="40" class="img-thumbnail"> </td>                
+                    <form id="deletecheck" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{merchant.id}}" id="checkbox"/>&nbsp; {{product.product_model_number}}</td>
+                    </form>
+                    
+                    <td><a type="button" href="{{product.product_image}}">
+                        <img src="{{product.product_image}}" width="100" height="100" class="img-thumbnail"></a>
+                        </td>                
                     <td>{{product.product_name}}</td>
                     <td>{{product.product_selling_price}} <p> <strike>{{product.product_mrp}}</strike></p></td>
                     <td>{% for productstock in productstocks  %}{% if productstock.product == product %}<div><a href="{% url 'product_add_stocks' product.id %}" class="btn btn-outline-primary" >{{productstock.in_stock_total}}</a></div>{% endif %}{% endfor %}</td>
@@ -47,8 +53,8 @@
                             </button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
                                 <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-edit"></i> Edit</a>
-                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-clone"></i> Duplicate </a>
-                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="fas fa-trash"></i>Delete</a>
+                                {% comment %} <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-clone"></i> Duplicate </a>
+                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="fas fa-trash"></i>Delete</a> {% endcomment %}
                             </div>
                         </div></td>
                                  
@@ -86,4 +92,39 @@
 
 
 {% block custom_js %}
+<script>
+    //check box send into array fro delete
+    
+    
+    $(document).ready(function(){
+        $('#delete_btn').click(function(){
+            if(confirm("Are you sure you want to delete ?")){
+                var id = [];
+                var csrf =$('input[name=csrfmiddlewaretoken]').val()
+                var frm = "product"
+                $(':checkbox:checked').each(function(i){
+                    id[i] = $(this).val()
+                })
+                if(id.length===0){
+                    alert("please select to delete !")
+                }else{
+                    console.log(id)
+                    $.ajax({
+                        url:"{% url 'delete_category' %}",
+                        method:"POST",
+                        data:{
+                            id,
+                            csrfmiddlewaretoken:csrf,
+                            frm:frm
+                        },
+                        success:function(response){
+                            location.reload();
+                        }
+                    })
+                }
+            }
+        })   
+    });
+    </script>
+
 {% endblock custom_js %}

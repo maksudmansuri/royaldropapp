@@ -23,42 +23,41 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = CustomUser
-		fields = ['email', 'username', 'password', 'phone']
-		extra_kwargs = {
-				'password': {'write_only': True},
-		}	
+		fields = ['email','phone']
 
 
 	def	save(self,request):
-		username = self.validated_data['username']
-		password = self.validated_data['password']
 		phone = self.validated_data['phone']
 		email = self.validated_data['email']
-		user_type = "3"
+		
 		# if password != password_2:
 		# 	raise serializers.ValidationError({'password':'password does not match'})
-		account = CustomUser.objects.create_user(username=username,password=password,phone=phone,email=email,user_type=3)
+		account = CustomUser.objects.create_phone_user(phone=phone,email=email)
+		account.user_type = 3
 		account.is_active = True
+		account.is_Mobile_Verified = True
+		cus=Customers.objects.create(admin=account)
+		cus.save()
 		account.save()
-		current_site=get_current_site(request)
+		# current_site=get_current_site(request)
 		# current_site="127.0.0.1:8000"
-		email_subject='Active your Account',
-		message=render_to_string('accounts/activate.html',
-		{
-			'user':account,
-			'domain':current_site.domain,
-			# 'domain':"127.0.0.1:8000",
-			'uid':urlsafe_base64_encode(force_bytes(account.pk)),
-			'token':generate_token.make_token(account)
-		}
-		)	
-		email_message=EmailMessage(
-			email_subject,
-			message,
-			settings.EMAIL_HOST_USER,
-			[email]
-		)
-		email_message.send()
+		# email_subject='Active your Account',
+		# message=render_to_string('accounts/activate.html',
+		# {
+		# 	'user':account,
+		# 	'domain':current_site.domain,
+		# 	# 'domain':"127.0.0.1:8000",
+		# 	'uid':urlsafe_base64_encode(force_bytes(account.pk)),
+		# 	'token':generate_token.make_token(account)
+		# }
+		# )	
+		# email_message=EmailMessage(
+		# 	email_subject,
+		# 	message,
+		# 	settings.EMAIL_HOST_USER,
+		# 	[email]
+		# )
+		# email_message.send()
 		return account
 
 
@@ -66,7 +65,7 @@ class AccountPropertiesSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = CustomUser
-		fields = ['pk', 'email', 'username', ]
+		fields = ['pk', 'email', 'username','phone']
 
 
 
@@ -81,7 +80,7 @@ class ProfilePropertiesSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Customers
-		fields = ['fisrt_name','last_name','dob','address','city','state','country','phone','gender','photo','qualification',]
+		fields = ['fisrt_name','last_name','dob','address','city','state','country','zip_Code','phone','gender','profile_pic']
 
 
 # class CustomUserSerializer(serializers.HyperlinkedModelSerializer):

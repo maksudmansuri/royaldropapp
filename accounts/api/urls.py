@@ -1,9 +1,6 @@
 from accounts.api import views
-<<<<<<< HEAD
 from django.urls import path,include
-=======
 from django.urls import path
->>>>>>> 892c36eb3bb3ba593bcca4c853fcf5961a11689a
 from rest_framework.authtoken.views import obtain_auth_token
   
 urlpatterns = [
@@ -19,7 +16,14 @@ urlpatterns = [
     # path('instuctorregister/', views.InstructorRegister, name='instructorregister'),
     path('change_password/', views.ChangePasswordView.as_view(), name="change_password"),
     path('check_if_account_exists/',  views.does_account_exist_view, name="check_if_account_exists"),
-    path('logout',views.User_logout, name="do_logout"),
+    path('logout',views.User_logout,),
     # path('api_password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     # path('rest_activate/<uidb64>/<token>/$', views.rest_activate,name='rest_activate'),
+
+
+    # New API
+    path('varifyuser/', views.VerifyUser.as_view()),
+    # path('validateotp/', views.ValidateOTP.as_view()),
+
+
 ]

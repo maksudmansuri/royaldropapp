@@ -65,7 +65,36 @@ conn = http.client.HTTPConnection("2factor.in")
 # 			data = serializer.errors
 # 		return Response(data) 
 
+class VerifyUser(APIView):
+	authentication_classes = []
+	permission_classes = []
+	
+	def post(self, request, *args, **kwargs):
+		context = {}
 
+		phone = request.data.get('phone', '0')	
+		account = EmailBackEnd.get_user(request,username=phone)
+		if account:
+			try:
+				token = Token.objects.get(user=account)
+			except Token.DoesNotExist:
+				token = Token.objects.create(user=account)
+			if account.is_active == True:
+				context['response'] = 'Successfully authenticated.'
+				context['pk'] = account.pk
+				context['email'] = account.email.lower()
+				context['phone'] = account.phone
+				context['username'] = account.username
+				context['token'] = token.key
+				context['user'] = 'Existed'
+			else:
+				context['response'] = 'Error'
+				context['error_message'] = 'Somethi9ng Wrong Try Again'
+		else:
+			context['response'] = 'NA'
+			context['success_message'] = 'Please Singup'
+
+		return Response(context)
 
 class ValidatePhoneSendOTP(APIView):
 
@@ -105,30 +134,30 @@ class ValidatePhoneSendOTP(APIView):
                         old.save()
                         print('Count Increase', count)
 
-                        conn.request("GET", "https://2factor.in/API/V1/f08f2dc9-aa1a-11eb-80ea-0200cd936042/SMS/"+phone+"/"+str(key))
+                        # conn.request("GET", "https://2factor.in/API/V1/f08f2dc9-aa1a-11eb-80ea-0200cd936042/SMS/"+phone+"/"+str(key))
 
                         # conn.request("GET", "https://2factor.in/API/R1/?module=SMS_OTP&apikey=f08f2dc9-aa1a-11eb-80ea-0200cd936042"+phone+"&otpvalue="+str(key)+"&templatename=WomenMark1")
                         # conn.request("GET", "http://dnd.saakshisoftware.in/api/mt/SendSMS?user=Sect&password=Sect@123&senderid=GLOBAL&channel=Promo&DCS=0&flashsms=0&number=91989xxxxxxx&text=test message&route=##&DLTTemplateId=approvded dlt templateid&PEID=sender entity id")
-                        res = conn.getresponse() 
+                        # res = conn.getresponse() 
                        
-                        data = res.read()
-                        data=data.decode("utf-8")
-                        data=ast.literal_eval(data)
+                        # data = res.read()
+                        # data=data.decode("utf-8")
+                        # data=ast.literal_eval(data)
                         
                         
-                        if data["Status"] == 'Success':
-                            old.otp_session_id = data["Details"]
-                            old.save()
-                            # print('In validate phone :'+old.otp_session_id)
-                            return Response({
-                                   'status' : True,
-                                   'detail' : 'OTP sent successfully'
-                                })    
-                        else:
-                            return Response({
-                                  'status' : False,
-                                  'detail' : 'OTP sending Failed'
-                                }) 
+                        # if data["Status"] == 'Success':
+                        #     old.otp_session_id = data["Details"]
+						# print('In validate phone :'+old.otp_session_id)
+                        return Response({
+                                        'status' : True,
+                                         'detail' : 'OTP sent successfully',
+										  'otp':key
+                                        })    
+                        # else:
+                        #     return Response({
+                        #           'status' : False,
+                        #           'detail' : 'OTP sending Failed'
+                        #         }) 
                    
                     else:
                         print(phone,key,email,username,password)
@@ -139,27 +168,29 @@ class ValidatePhoneSendOTP(APIView):
                             username=username,
                             password=password,
                         )
-                        conn.request("GET", "https://2factor.in/API/V1/f08f2dc9-aa1a-11eb-80ea-0200cd936042/SMS/"+phone+"/"+str(key))
-                        res = conn.getresponse()    
-                        data = res.read()
-                        print(data.decode("utf-8"))
-                        data=data.decode("utf-8")
-                        data=ast.literal_eval(data)
+                        # conn.request("GET", "https://2factor.in/API/V1/f08f2dc9-aa1a-11eb-80ea-0200cd936042/SMS/"+phone+"/"+str(key))
+                        # res = conn.getresponse()    
+                        # data = res.read()
+                        # print(data.decode("utf-8"))
+                        # data=data.decode("utf-8")
+                        # data=ast.literal_eval(data)
 
-                        if data["Status"] == 'Success':
-                            obj.otp_session_id = data["Details"]
-                            print(obj)
-                            obj.save()
+                        # if data["Status"] == 'Success':
+                        # obj.otp_session_id = data["Details"]
+                        obj.otp_session_id = 123456
+                        print(obj)
+                        obj.save()
                             # print('In validate phone :'+obj.otp_session_id)
-                            return Response({
-                                   'status' : True,
-                                   'detail' : 'OTP sent successfully'
-                                })    
-                        else:
-                            return Response({
-                                  'status' : False,
-                                  'detail' : 'OTP sending Failed'
-                                })
+                        return Response({
+                               'status' : True,
+                               'detail' : 'OTP sent successfully',
+							   'otp':key
+                            })    
+                        # else:
+                        #     return Response({
+                        #           'status' : False,
+                        #           'detail' : 'OTP sending Failed'
+                        #         })
 
                        
                 else:
@@ -256,45 +287,45 @@ def registration_view(request):
 			data['response'] = 'Error'
 			return Response(data)
 
-		phone = request.data.get('phone', '0')
-		if validate_phone(phone) != None:
-			data['error_message'] = 'That phone is already in use.'
-			data['response'] = 'Error'
-			return Response(data)
+		# phone = request.data.get('phone', '0')
+		# if validate_phone(phone) != None:
+		# 	data['error_message'] = 'That phone is already in use.'
+		# 	data['response'] = 'Error'
+		# 	return Response(data)
 		
-		old = PhoneOTP.objects.filter(phone__iexact = phone)
-		old = old.first()
-		if old.validated:
-			serializer = RegistrationSerializer(data=request.data)
-		
-			if serializer.is_valid():
-				account = serializer.save(request)
-				data['response'] = 'successfully registered new user.'
-				data['email'] = account.email
-				data['username'] = account.username
-				data['phone'] = account.phone
-				data['pk'] = account.pk
-				token = Token.objects.get(user=account).key
-				data['token'] = token
-				# user = Customers.objects.filter(admin = request.user)
-				# user.phone = account.phone
-				
-				old.delete()
-
-			else:
-				data = serializer.errors
-			# return Response(data)
-			return Response(
-                        {'status' : True,
-                        'detail' : 'Account Created Successfully'}
-                        )   		
+		# old = PhoneOTP.objects.filter(phone__iexact = phone)
+		# old = old.first()
+		# if old.validated:
+		print(request.data)
+		serializer = RegistrationSerializer(data=request.data)
+	
+		if serializer.is_valid():
+			account = serializer.save(request)
+			data['response'] = 'successfully registered New User.'
+			data['user'] = 'New'
+			data['email'] = account.email
+			data['username'] = account.username
+			data['phone'] = account.phone
+			data['pk'] = account.pk
+			token = Token.objects.get(user=account).key
+			data['token'] = token
+			# user = Customers.objects.filter(admin = request.user)
+			# user.phone = account.phone
 		else:
-			return Response(data,
-				{
-				'status' : False,
-				'detail' : 'OTP havent Verified. First do that Step.'
-				}
-				)
+			data = serializer.errors
+		# return Response(data)
+		return Response(data)
+			# {
+			# 	'status' : True,
+			# 	'detail' : 'Account Created Successfully'}
+			# )   		
+		# else:
+		# 	return Response(data,
+		# 		{
+		# 		'status' : False,
+		# 		'detail' : 'OTP havent Verified. First do that Step.'
+		# 		}
+		# 		)
 
 def validate_email(email):
 	account = None
@@ -396,6 +427,7 @@ class ObtainAuthTokenView(APIView):
 
 		email = request.POST.get('username')
 		password = request.POST.get('password')
+		print(email,password)
 		account = EmailBackEnd.authenticate(request,username=email, password=password)
 		if account:
 			try:

@@ -20,32 +20,32 @@ from django.views.decorators.csrf import csrf_exempt
 def admin_home(request):
     return render(request,"ecaadmin/home.html")
 
-class ProductCategoryListViews(ListView):
-    model=ProductCategory
-    template_name="ecaadmin/category_list.html"
-    paginate_by=3
+# class ProductCategoryListViews(ListView):
+#     model=ProductCategory
+#     template_name="ecaadmin/category_list.html"
+#     paginate_by=3
 
-    def get_queryset(self):
-        filter_val=self.request.GET.get("filter","")
-        order_by=self.request.GET.get("orderby","id")
-        if filter_val!="":
-            cat=ProductCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
-        else:
-            cat=ProductCategory.objects.all().order_by(order_by)
+#     def get_queryset(self):
+#         filter_val=self.request.GET.get("filter","")
+#         order_by=self.request.GET.get("orderby","id")
+#         if filter_val!="":
+#             cat=ProductCategory.objects.filter(Q(title__contains=filter_val) | Q(description__contains=filter_val)).order_by(order_by)
+#         else:
+#             cat=ProductCategory.objects.all().order_by(order_by)
 
-        return cat
+#         return cat
    
-    def get_context_data(self,**kwargs):
-        context=super(ProductCategoryListViews,self).get_context_data(**kwargs)
-        context["filter"]=self.request.GET.get("filter","")
-        context["orderby"]=self.request.GET.get("orderby","id")
-        context["all_table_fields"]=ProductCategory._meta.get_fields()
-        return context
+#     def get_context_data(self,**kwargs):
+#         context=super(ProductCategoryListViews,self).get_context_data(**kwargs)
+#         context["filter"]=self.request.GET.get("filter","")
+#         context["orderby"]=self.request.GET.get("orderby","id")
+#         context["all_table_fields"]=ProductCategory._meta.get_fields()
+#         return context
 
 class ProductCategoryTabListViews(ListView):
     model=ProductCategory
     template_name="ecaadmin/category_tab_list.html"
-    paginate_by=3
+    paginate_by=10
 
     def get_queryset(self):
         filter_val=self.request.GET.get("filter","")
@@ -79,14 +79,15 @@ class ProductCategoryUpdate(SuccessMessageMixin,UpdateView):
 
 class ProductCategoryCreate(SuccessMessageMixin,CreateView):
     model = ProductCategory 
-    success_message = "category added"
+    success_message = "Category added"
+    error_message = "Connection error...!"
     fields = ['title','thumbnail','description','is_active']
     template_name = "ecaadmin/category_create.html"
 
 class ProductSubCategoryListViews(ListView):
     model = ProductSubCategory
     template_name = "ecaadmin/subcategory_list.html"
-    paginate_by=3
+    paginate_by=10
 
     def get_queryset(self):
         filter_val=self.request.GET.get("filter","")
@@ -108,7 +109,7 @@ class ProductSubCategoryListViews(ListView):
 class ProductSubCategoryTabListViews(ListView):
     model = ProductSubCategory
     template_name = "ecaadmin/subcategory_tab_list.html"
-    paginate_by=3
+    paginate_by=10
 
     def get_queryset(self):
         filter_val=self.request.GET.get("filter","")
@@ -1408,6 +1409,27 @@ def deactiveProduct(request,pk):
         msg=messages.error(request,"Connection Error Try Again")
         # return HttpResponse("error in connection")
         return HttpResponseRedirect(reverse("product_tab_list"))
+
+
+def DeleteAll(request):
+    if request.method == "POST":
+        checked_list = request.POST.getlist("id[]")
+        frm = request.POST.get("frm")
+        print(frm)
+        for deletecheck in checked_list:
+            if frm == "category":
+                dlt = ProductCategory.objects.get(id=deletecheck)
+            elif frm == "subcategory":
+                dlt = ProductSubCategory.objects.get(id=deletecheck)
+            elif frm == "childsubcategory":
+                dlt = ProductChildSubCategory.objects.get(id=deletecheck)
+            elif frm == "merchant":
+                dlt = Merchants.objects.get(id=deletecheck)
+            elif frm == "product":
+                dlt = Product.objects.get(id=deletecheck)
+            dlt.delete()
+        messages.add_message(request,messages.SUCCESS,"Successfully Deleted")
+        return HttpResponse("ok")    
 
 # def ProductCategoryDelete(request,pks):
 #     try:
