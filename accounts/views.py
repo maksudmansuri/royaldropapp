@@ -275,7 +275,7 @@ class dosingup(SuccessMessageMixin,CreateView):
 class AuthorizedSingup(SuccessMessageMixin,CreateView):
     template_name="accounts/athorizationsnew.html"
     model=CustomUser
-    fields=["email","phone","username","password"]
+    fields=["email","phone","password"]
     success_message = "Admin User Created" 
 
     def form_valid(self,form):
@@ -284,6 +284,7 @@ class AuthorizedSingup(SuccessMessageMixin,CreateView):
         user=form.save(commit=False)
         user.user_type=1
         user.is_active=True
+        user.username = form.cleaned_data["phone"]
         user.set_password(form.cleaned_data["password"])
         print('just one step ahead save?')   
         user.save() # Save the data
