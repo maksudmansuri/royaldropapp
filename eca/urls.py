@@ -56,7 +56,7 @@ urlpatterns = [
     path('reset/done',auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
     
     # url(r'^api/v1/account/', include(('rest_accounts.urls', 'restprofile'), namespace='rest_accounts')),
-    path('admin/',include('ecaadmin.urls'),name='admin_home'),
+    path('admin/',include('ecaadmin.urls')),
     
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

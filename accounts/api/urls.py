@@ -22,7 +22,7 @@ urlpatterns = [
 
 
     # New API
-    path('varifyuser/', views.VerifyUser.as_view()),
+    path('verifyuser/', views.VerifyUser.as_view()),
     # path('validateotp/', views.ValidateOTP.as_view()),
 
 

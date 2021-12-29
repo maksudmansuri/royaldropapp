@@ -124,7 +124,7 @@ def verifyOTP(request,phone):
             [user.email]
         )#compose email
         print(email_message)
-        email_message.send() #send Email
+        # email_message.send() #send Email
         messages.add_message(request,messages.SUCCESS,"Sucessfully Singup Please Verify Your Account Email")
         if user is not None:
             if user.is_active == True:
@@ -217,7 +217,7 @@ def dologin(request):
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
-                        return HttpResponseRedirect(reverse('admin_home'))
+                        return HttpResponseRedirect(reverse('home'))
                 elif user.user_type=="1":
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
@@ -243,7 +243,7 @@ def dologin(request):
 class dosingup(SuccessMessageMixin,CreateView):
     template_name="accounts/dosingup.html"
     model=CustomUser
-    fields=["email","phone","username","password"]
+    fields=["email","phone","password"]
   
     def form_valid(self,form):
 
@@ -251,6 +251,7 @@ class dosingup(SuccessMessageMixin,CreateView):
         user=form.save(commit=False)
         user.is_active=True
         user.user_type=3
+        user.username= form.cleaned_data["phone"]
         user.set_password(form.cleaned_data["password"])
         user.counter += 1  # Update Counter At every Call
         user.save() # Save the data

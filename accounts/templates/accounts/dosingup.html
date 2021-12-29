@@ -113,7 +113,7 @@
 
                                                 <label class="gl-label" for="reg-username">{{ field.label }} *</label>
 
-                                                <input class="input-text input-text--primary-style" type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="username" placeholder="Enter Username">
+                                                <input class="input-text input-text--primary-style" type="{{ field.field.widget.input_type }}" name="{{ field.name }}" placeholder = "{{ field.name }}">
                                                 {% if field.errors %}
                                                 <div class="alert alert-danger" style="margin:10px">
                                                     {{ field.errors }}

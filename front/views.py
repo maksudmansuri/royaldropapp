@@ -1,9 +1,5 @@
 from .basket import Basket
-from django.http import response
-from django.contrib.auth.models import User
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import models
+
 from django.shortcuts import get_object_or_404, render , redirect
 # from django.views.generic.base import View
 from .forms import RegisterForm

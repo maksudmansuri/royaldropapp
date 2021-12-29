@@ -62,9 +62,8 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     pass
                 elif modulename == "media":
                     pass
-                # else:
-                #     return redirect("/admin")
-                    # return HttpResponseRedirect(reverse("django/contrib/admin"))
+                else:
+                    return HttpResponseRedirect(reverse("home"))
             elif user.is_superuser==True:
                 if modulename == "ecaadmin.views" or modulename == "django.views.static":
                     pass

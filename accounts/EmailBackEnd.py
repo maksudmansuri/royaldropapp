@@ -7,6 +7,7 @@ class EmailBackEnd(ModelBackend):
         # This is a ModelBacked that allows authentication with either a username or an email address.
        
         UserModel=get_user_model()
+        print(username,password)
         if '@' in username:           
             kwargs = {'email': username}
         else:
