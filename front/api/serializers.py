@@ -23,23 +23,23 @@ from front.utils import is_image_size_valid
 
 class ProductDatailSerializer(serializers.ModelSerializer):
 
-    username = serializers.SerializerMethodField('get_username_from_staffs')
+    # username = serializers.SerializerMethodField('get_username_from_staffs')
     # product_image = serializers.SerializerMethodField('validate_product_image_url')
 
     class Meta: 
         model = Product 
-        fields = ['pk','product_name','product_category','product_subcategory','product_video','product_requirement','product_desc','product_why_take','product_slug','product_level','product_image','product_duration','product_fee','username','created_date']
+        fields = ['pk','product_name','product_sku','product_subcategory','product_childsubcategory','product_slug','product_image','product_category','product_mrp','product_selling_price','added_by_merchant','product_brand','product_model_number','product_desc','product_l_desc','is_active']
 
-    def get_username_from_staffs(self,Product):
-        username = Product.teacher.admin.username
-        return username
+    # def get_username_from_staffs(self,Product):
+    #     username = Product.teacher.admin.username
+    #     return username
 
-    def validate_product_image_url(self, Product):
-        crs_imge = Product.product_image
-        new_url = crs_imge.url
-        if "?" in new_url:
-            new_url = crs_imge.url[:crs_imge.url.rfind("?")]
-        return new_url
+    # def validate_product_image_url(self, Product):
+    #     crs_imge = Product.product_image
+    #     new_url = crs_imge.url
+    #     if "?" in new_url:
+    #         new_url = crs_imge.url[:crs_imge.url.rfind("?")]
+    #     return new_url
   
 
 class ProductModuleDatailSerializer(serializers.ModelSerializer):

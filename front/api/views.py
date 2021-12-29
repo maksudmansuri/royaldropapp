@@ -152,13 +152,13 @@ def api_create_product_view(request):
 # @api_view(['GET',])
 # @permission_classes((IsAuthenticated,))
 class ApiProductListView(ListAPIView):
-	queryset = Product.objects.all()
+	queryset = Product.objects.filter(is_active=True)
 	serializer_class = ProductDatailSerializer
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (IsAuthenticated,)
 	pagination_class = PageNumberPagination
 	filter_backends = (SearchFilter,OrderingFilter)
-	search_fields = ('product_name','product_fee','product_level','teacher__admin__username')
+	search_fields = ('product_name','product_subcategory','product_childsubcategory','product_category','product_mrp','product_desc','added_by_merchant',)
 
 class ApiProductModuleListView(generics.ListAPIView):
 	queryset = Product_Modules.objects.all()

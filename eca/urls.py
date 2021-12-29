@@ -38,8 +38,9 @@ urlpatterns = [
     path('account/', include("django.contrib.auth.urls")),
 
     #Rest Framework Urls
-    # path('api/front/',include("front.api.urls")),
+    path('api/front/',include("front.api.urls")),
     path('api/accounts/',include("accounts.api.urls")),
+    
 
 
     #password reset and change
