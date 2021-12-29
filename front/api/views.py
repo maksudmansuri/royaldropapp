@@ -1,21 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.pagination import PageNumberPagination
 
-from django.http import HttpResponse
-from django.http import JsonResponse
+
 from rest_framework import status
 
-from rest_framework.generics import (CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView)
 from rest_framework.response import Response
 
 from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Customers
-from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory,viewed
-from front.api.serializers import ProductDatailSerializer,ProductDetailUpdateSerializer,ProductDetailCreateSerializer,ProductModuleDatailSerializer
+from front.models import Product,Product_Modules,ProductCategory, ProductChildSubCategory,ProductSubCategory,viewed
+from front.api.serializers import CategorySerializer, ChildSubCategorySerializer, ProductDetailUpdateSerializer,ProductDetailCreateSerializer, ProductModuleDatailSerializer, ProductsDetailSerializer, SubCategorySerielizer
 
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.authentication import SessionAuthentication
 
 from rest_framework.filters import SearchFilter,OrderingFilter
 
@@ -151,14 +148,98 @@ def api_create_product_view(request):
 
 # @api_view(['GET',])
 # @permission_classes((IsAuthenticated,))
-class ApiProductListView(ListAPIView):
-	queryset = Product.objects.filter(is_active=True)
-	serializer_class = ProductDatailSerializer
+
+class ApiCategoriesListView(APIView):
 	authentication_classes = (TokenAuthentication,)
 	permission_classes = (IsAuthenticated,)
+	# queryset = ProductCategory.objects.all()
+	# serializer_class = CategorySerializer
 	pagination_class = PageNumberPagination
 	filter_backends = (SearchFilter,OrderingFilter)
 	search_fields = ('product_name','product_subcategory','product_childsubcategory','product_category','product_mrp','product_desc','added_by_merchant',)
+	
+	def get(self, request, id=None):
+		# print(request.data['id'])		
+		if id:
+			hospital = get_object_or_404(ProductCategory,id = id,is_active = True)
+			# hospitaldoctors = HospitalStaffDoctors.objects.filter(hospital=hospital)
+			# serializer = HospitalDoctorsViewSerializer(hospitalDoctors)
+			# return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+			serializer = CategorySerializer(hospital)
+			return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+		hospital = ProductCategory.objects.all()
+		serializer = CategorySerializer(hospital, many=True)
+		return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class ApiSubCategoriesListView(APIView):
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (IsAuthenticated,)
+	# queryset = ProductCategory.objects.all()
+	# serializer_class = CategorySerializer
+	pagination_class = PageNumberPagination
+	filter_backends = (SearchFilter,OrderingFilter)
+	search_fields = ('product_name','product_subcategory','product_childsubcategory','product_category','product_mrp','product_desc','added_by_merchant',)
+	
+	def get(self, request, id=None):
+		# print(request.data['id'])		
+		if id:
+			hospital = get_object_or_404(ProductSubCategory,id = id,is_active = True)
+			# hospitaldoctors = HospitalStaffDoctors.objects.filter(hospital=hospital)
+			# serializer = HospitalDoctorsViewSerializer(hospitalDoctors)
+			# return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+			serializer = SubCategorySerielizer(hospital)
+			return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+		hospital = ProductSubCategory.objects.all()
+		serializer = SubCategorySerielizer(hospital, many=True)
+		return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class ApiChildCategoriesListView(APIView):
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (IsAuthenticated,)
+	# queryset = ProductCategory.objects.all()
+	# serializer_class = CategorySerializer
+	pagination_class = PageNumberPagination
+	filter_backends = (SearchFilter,OrderingFilter)
+	search_fields = ('product_name','product_subcategory','product_childsubcategory','product_category','product_mrp','product_desc','added_by_merchant',)
+	
+	def get(self, request, id=None):
+		# print(request.data['id'])		
+		if id:
+			hospital = get_object_or_404(ProductChildSubCategory,id = id,is_active = True)
+			# hospitaldoctors = HospitalStaffDoctors.objects.filter(hospital=hospital)
+			# serializer = HospitalDoctorsViewSerializer(hospitalDoctors)
+			# return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+			serializer = ChildSubCategorySerializer(hospital)
+			return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+		hospital = ProductChildSubCategory.objects.all()
+		serializer = ChildSubCategorySerializer(hospital, many=True)
+		return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class ApiProductDtailsListView(APIView):
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (IsAuthenticated,)
+	# queryset = ProductCategory.objects.all()
+	# serializer_class = CategorySerializer
+	pagination_class = PageNumberPagination
+	filter_backends = (SearchFilter,OrderingFilter)
+	search_fields = ('product_name','product_subcategory','product_childsubcategory','product_category','product_mrp','product_desc','added_by_merchant',)
+	
+	def get(self, request, id=None):
+		# print(request.data['id'])		
+		if id:
+			hospital = get_object_or_404(Product,id = id,is_active = True)
+			# hospitaldoctors = HospitalStaffDoctors.objects.filter(hospital=hospital)
+			# serializer = HospitalDoctorsViewSerializer(hospitalDoctors)
+			# return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+			serializer = ProductsDetailSerializer(hospital)
+			return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+		hospital = Product.objects.all()
+		serializer = ProductsDetailSerializer(hospital, many=True)
+		return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
 class ApiProductModuleListView(generics.ListAPIView):
 	queryset = Product_Modules.objects.all()

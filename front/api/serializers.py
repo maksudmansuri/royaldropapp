@@ -1,10 +1,8 @@
+from django.db.models import fields
 from rest_framework import serializers
-from rest_framework.serializers import (
-	ModelSerializer,
-	ValidationError,
-	EmailField,
-)
-from front.models import Product,Product_Modules,Product_Session,ProductCategory,ProductSubCategory
+from accounts.models import Merchants
+
+from front.models import Product,Product_Modules,Product_Session, ProductAbout,ProductCategory, ProductChildSubCategory, ProductDetails, ProductDiscount, ProductReviews, ProductSizeWeight, ProductStockManage,ProductSubCategory, ProductTag, productGst, productMedia
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -21,26 +19,147 @@ from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeErro
 
 from front.utils import is_image_size_valid
 
-class ProductDatailSerializer(serializers.ModelSerializer):
 
-    # username = serializers.SerializerMethodField('get_username_from_staffs')
-    # product_image = serializers.SerializerMethodField('validate_product_image_url')
 
-    class Meta: 
-        model = Product 
-        fields = ['pk','product_name','product_sku','product_subcategory','product_childsubcategory','product_slug','product_image','product_category','product_mrp','product_selling_price','added_by_merchant','product_brand','product_model_number','product_desc','product_l_desc','is_active']
+class MerchantSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = Merchants
+		fields = "__all__"
 
-    # def get_username_from_staffs(self,Product):
-    #     username = Product.teacher.admin.username
-    #     return username
+class ProductTagSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductTag
+		fields = "__all__"
+class ProductReviewsSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductReviews
+		fields = "__all__"
+class ProductDiscountSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductDiscount
+		fields = "__all__"
+class ProductAboutSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductAbout
+		fields = "__all__"
 
-    # def validate_product_image_url(self, Product):
-    #     crs_imge = Product.product_image
-    #     new_url = crs_imge.url
-    #     if "?" in new_url:
-    #         new_url = crs_imge.url[:crs_imge.url.rfind("?")]
-    #     return new_url
-  
+class ProductDetailsSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductDetails
+		fields = "__all__"
+
+class ProductStockManageSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductStockManage
+		fields = "__all__"
+
+class ProductSizeWeightSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = ProductSizeWeight
+		fields = "__all__"
+
+class productGstSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = productGst
+		fields = "__all__"
+
+class ProductMediaSerializer(serializers.ModelSerializer):
+	class Meta: 
+		model = productMedia
+		fields = "__all__"
+
+	def validate_product_image_url(self, Product):
+		crs_imge = productMedia.media_content
+		new_url = crs_imge.url
+		print(crs_imge)
+		if "?" in new_url:
+			new_url = crs_imge.url[:crs_imge.url.rfind("?")]
+		return new_url
+
+
+class ProductsDetailSerializer(serializers.ModelSerializer):
+	# productmedia = ProductMediaSerializer(many=True)
+	productgst = productGstSerializer(many=True)
+	productsizeweight = ProductSizeWeightSerializer(many=True)
+	productstockmanage = ProductStockManageSerializer(many=True)
+	productdetails = ProductDetailsSerializer(many=True)
+	productabout = ProductAboutSerializer(many=True)
+	productdiscount = ProductDiscountSerializer(many=True)
+	productreviews = ProductReviewsSerializer(many=True)
+	producttag = ProductTagSerializer(many=True)
+	class Meta: 
+		model = Product
+		fields = ['pk','product_name','product_sku','product_subcategory','product_childsubcategory','product_slug','product_image','product_category','product_mrp','product_selling_price','added_by_merchant','product_brand','product_model_number','product_desc','product_l_desc','is_active','productgst','productsizeweight','productstockmanage','productdetails','productabout','producttag','productreviews','productdiscount']
+
+	def to_representation(self, instance):
+		response = super().to_representation(instance)
+		response['merchant'] = MerchantSerializer(instance.added_by_merchant).data
+		return response
+
+class ChildSubCategorySerializer(serializers.ModelSerializer):
+	productchildcat = ProductsDetailSerializer(many=True)
+	class Meta: 
+		model = ProductChildSubCategory
+		fields = ['pk','title','thumbnail','description','created_date','is_active','productchildcat']
+
+class SubCategorySerielizer(serializers.ModelSerializer):
+	childcategories = ChildSubCategorySerializer(many=True)
+	productsubcat = ProductsDetailSerializer(many=True)
+	class Meta: 
+			model = ProductSubCategory
+			fields = ['pk','title','thumbnail','description','created_date','is_active','childcategories','productsubcat']
+
+class CategorySerializer(serializers.ModelSerializer):
+	subcategory = SubCategorySerielizer(many=True)
+	productcat = ProductsDetailSerializer(many=True)
+	class Meta: 
+		model = ProductCategory
+		fields = ['pk','title','thumbnail','description','created_date','is_active','subcategory','productcat']
+
+"""
+OLD Serielzer
+"""
+
+# class ProductDatailSerializer(serializers.ModelSerializer):
+
+#     # username = serializers.SerializerMethodField('get_username_from_staffs')
+#     # product_image = serializers.SerializerMethodField('validate_product_image_url')
+
+#     class Meta: 
+#         model = Product 
+#         fields = ['pk','product_name','product_sku','product_subcategory','product_childsubcategory','product_slug','product_image','product_category','product_mrp','product_selling_price','added_by_merchant','product_brand','product_model_number','product_desc','product_l_desc','is_active']
+
+#     # def get_username_from_staffs(self,Product):
+#     #     username = Product.teacher.admin.username
+#     #     return username
+
+#     # def validate_product_image_url(self, Product):
+#     #     crs_imge = Product.product_image
+#     #     new_url = crs_imge.url
+#     #     if "?" in new_url:
+#     #         new_url = crs_imge.url[:crs_imge.url.rfind("?")]
+#     #     return new_url
+
+class ProductCategoriesSerializer(serializers.ModelSerializer):
+
+	# username = serializers.SerializerMethodField('get_username_from_staffs')
+	# product_image = serializers.SerializerMethodField('validate_product_image_url')
+
+	class Meta: 
+		model = ProductCategory
+		fields ="__all__"
+
+	# def get_username_from_staffs(self,Product):
+	# 	username = Hospitals.admin
+	# 	return username
+
+	def validate_product_image_url(self, Product):
+		crs_imge = ProductCategory.thumbnail
+		new_url = crs_imge.url
+		if "?" in new_url:
+			new_url = crs_imge.url[:crs_imge.url.rfind("?")]
+		return new_url
+
 
 class ProductModuleDatailSerializer(serializers.ModelSerializer):
     # username = serializers.SerializerMethodField('get_username_from_staffs')
