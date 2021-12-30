@@ -22,12 +22,13 @@ from django.urls import path, reverse_lazy
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('ecadmin/',include('ecaadmin.urls')),
     # path('admin', RedirectView.as_view(url=reverse_lazy('admin:index'))),
-    path('systemadmin/', admin.site.urls,name="admin_login"),
+    # path('systemadmin/', admin.site.urls,name="admin_login"),
     #socialmedialogin url
     # path('oauth/', include('social_django.urls', namespace='social')), 
-    # path('saccount/',include('allauth.urls'),name='saccount'),
-    
+    # path('saccount/',include('allauth.urls'),name='saccount'),    
     path('ckeditor/', include('ckeditor_uploader.urls')),
     # path('chat/', include('chat.urls'),name='chat'),
     path('', include("front.urls")),
@@ -42,8 +43,6 @@ urlpatterns = [
     path('api/accounts/',include("accounts.api.urls")),
     path('api/cart/',include("cart.api.urls")),
     path('api/discount/',include("discount.api.urls")),
-    
-
 
     #password reset and change
     path('password_change/done',auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),name='password_change_done'),
@@ -59,8 +58,6 @@ urlpatterns = [
     path('reset/done',auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
     
     # url(r'^api/v1/account/', include(('rest_accounts.urls', 'restprofile'), namespace='rest_accounts')),
-    path('admin/',include('ecaadmin.urls')),
-    
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

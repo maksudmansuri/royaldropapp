@@ -230,7 +230,7 @@ def dologin(request):
                         return HttpResponseRedirect(reverse('home'))
                 else:
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
-                    return HttpResponseRedirect(reverse('admin_home'))
+                    return HttpResponseRedirect(reverse('admin:index'))
             else:
                 messages.add_message(request,messages.ERROR,"Please Verify Your Account First")
                 return redirect('/accounts/dologin')

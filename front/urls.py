@@ -21,7 +21,6 @@ urlpatterns = [
     path('product_details/<slug:product_slug>', views.ProductDetailView.as_view(),name='product_details'),
     path('checkout',orderviews.CheckoutListView.as_view(),name='checkout'),
     path('cart', views.CartListView.as_view(),name='cart'), 
-    # path('product_details/<slug:slug>', views.Product_details,name='product_details'),
     path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('instructor_singup', views.instructor_singup,name='instructor_singup'),

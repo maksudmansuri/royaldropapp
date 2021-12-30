@@ -32,7 +32,7 @@ DEBUG = True
 # DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = ['royaldrop.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -127,9 +127,9 @@ REST_FRAMWORK = {
     # 'REST_SESSION_LOGIN' : False
    
 }
-CORS_ORIGIN_WHITELIST = (
-    'localhost:1234',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:1234',
+# )
 
 # AUTHENTICATION_BACKENDS=(
 #     'accounts.userAuthenticate.userAuthenticate',
@@ -231,7 +231,6 @@ SITE_ID=1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_URL = '/static/'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT=os.path.join(BASE_DIR,"media")

@@ -64,10 +64,11 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     pass
                 else:
                     return HttpResponseRedirect(reverse("home"))
-            elif user.is_superuser==True:
-                if modulename == "ecaadmin.views" or modulename == "django.views.static":
-                    pass
-                elif modulename == "front.views":
+            elif user.is_superuser == '1':
+                # if modulename == "ecaadmin.views" or modulename == "django.views.static":
+                #     pass
+                print('admin')
+                if modulename == "front.views":
                     pass
                 elif modulename == "media.views":
                     pass
@@ -76,7 +77,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 elif  modulename == "chat.views":
                     pass
                 else:
-                    return HttpResponseRedirect(reverse("admin_home"))
+                    return HttpResponseRedirect(reverse('admin:index'))
                 # if modulename == "django.contrib.auth.views":
                 #     pass
                 # if modulename == "front.views":
