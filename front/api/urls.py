@@ -12,7 +12,7 @@ urlpatterns = [
     path('product_subcategory/<id>',views.ApiSubCategoriesListView.as_view()),
     path('product_childsubcategory',views.ApiChildCategoriesListView.as_view()),
     path('product_childsubcategory/<id>',views.ApiChildCategoriesListView.as_view()),
-    path('product_details/<id>',views.ApiProductDtailsListView.as_view()),
+    path('product_detailsapi/<id>',views.ApiProductDtailsListView.as_view()),
     # path('product_subcategory/<id>',views.ApiSubCategoriesListView.as_view(),name="product_category"),
     
 ]
