@@ -1415,7 +1415,7 @@ def DeleteAll(request):
     if request.method == "POST":
         checked_list = request.POST.getlist("id[]")
         frm = request.POST.get("frm")
-        print(frm)
+        print(frm,checked_list)
         for deletecheck in checked_list:
             if frm == "category":
                 dlt = ProductCategory.objects.get(id=deletecheck)

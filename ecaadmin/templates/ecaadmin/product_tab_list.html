@@ -36,7 +36,7 @@
                 <tr>
                     <form id="deletecheck" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                    <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{merchant.id}}" id="checkbox"/>&nbsp; {{product.product_model_number}}</td>
+                    <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{product.id}}" id="checkbox"/>&nbsp; {{product.product_model_number}}</td>
                     </form>
                     
                     <td><a type="button" href="{{product.product_image}}">
@@ -104,6 +104,7 @@
                 var frm = "product"
                 $(':checkbox:checked').each(function(i){
                     id[i] = $(this).val()
+                    console.log(id)
                 })
                 if(id.length===0){
                     alert("please select to delete !")

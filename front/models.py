@@ -256,7 +256,7 @@ class ProductStockManage(models.Model):
     mini_Quantity           =           models.IntegerField(blank=True,null=True,default=1)
     stock_type_choice       =           ((1,"available"),(2,"Out Of Stock"),(3,"Product Discontinued"))
     Out_Of_Stock_Status     =           models.CharField(max_length=64,choices=stock_type_choice,default="")
-    product                 =           models.ForeignKey(Product,related_name="productstockmanage", on_delete=models.DO_NOTHING)
+    product                 =           models.ForeignKey(Product,related_name="productstockmanage", on_delete=models.CASCADE)
     is_active               =           models.BooleanField(default=False)     
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
@@ -371,8 +371,8 @@ class TempOrder(models.Model):
     amount                  =           models.FloatField(default=1)
     product                 =           models.CharField(default="",max_length=5000)
     quantity                =           models.IntegerField()
-    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.DO_NOTHING,default="")
-    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING,default="")
+    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.CASCADE,default="")
+    customer                =           models.ForeignKey(Customers,on_delete=models.CASCADE,default="")
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -385,8 +385,8 @@ class Orders(models.Model):
     product_Json            =           models.CharField(max_length=5000,default="")
     amount                  =           models.FloatField(default=1)
     payment_method          =           models.CharField(max_length=256,default="")
-    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.DO_NOTHING,default="")
-    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING,default="")
+    address                 =           models.ForeignKey(CustomersAddress, on_delete=models.CASCADE,default="")
+    customer                =           models.ForeignKey(Customers,on_delete=models.CASCADE,default="")
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -396,9 +396,9 @@ class Orders(models.Model):
 
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
-    customersaddress        =           models.ForeignKey(CustomersAddress,on_delete=models.DO_NOTHING)
-    customer                =           models.ForeignKey(Customers,on_delete=models.DO_NOTHING)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
+    customersaddress        =           models.ForeignKey(CustomersAddress,on_delete=models.CASCADE)
+    customer                =           models.ForeignKey(Customers,on_delete=models.CASCADE)
     product_price           =           models.CharField(max_length=255,default="")
     product_quantity        =           models.CharField(max_length=255,default="")
     coupon_Code             =           models.CharField(max_length=255,default="")
@@ -422,8 +422,8 @@ class OrderTacker(models.Model):
 
 class OderDeliveryStatus(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.DO_NOTHING,default="")
-    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING,default="")
+    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.CASCADE,default="")
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE,default="")
     status                  =           models.CharField(max_length=255,default="")
     status_type_choice      =           (("Pr","Prosesing"),("On","On the Way "),("D","Delivered"))
     status_msg              =           models.CharField(max_length=255,default="",choices=status_type_choice)
@@ -436,7 +436,7 @@ class OderDeliveryStatus(models.Model):
 
 class ProductCouponCode(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product                 =           models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity                =           models.IntegerField(default="",null=True)
     price                   =           models.IntegerField(null=True)
     start_date              =           models.DateField(default="",null=True)
@@ -448,7 +448,7 @@ class ProductCouponCode(models.Model):
 
 class ProductDiscount(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    product                 =           models.ForeignKey(Product, related_name="productdiscount", on_delete=models.DO_NOTHING)
+    product                 =           models.ForeignKey(Product, related_name="productdiscount", on_delete=models.CASCADE)
     quantity                =           models.IntegerField(default="",null=True)
     price                   =           models.IntegerField(null=True)
     start_date              =           models.DateField(default="",null=True)
@@ -461,9 +461,9 @@ class ProductDiscount(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
-@receiver(post_delete, sender=Product)
-def submission_delete(sender, instance, **kwargs):
-	instance.image.delete(False)
+# @receiver(post_delete, sender=Product)
+# def submission_delete(sender, instance, **kwargs):
+# 	instance.image.delete(False)
 
 
 # class Images(models.Model):
