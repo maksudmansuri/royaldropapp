@@ -124,24 +124,24 @@ class ApiProductDtailsListView(APIView):
 		serializer = ProductsDetailSerializer(hospital, many=True)
 		return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
-class ApiProductModuleListView(generics.ListAPIView):
-	queryset = Product_Modules.objects.all()
-	serializer_class = ProductModuleDatailSerializer
+# class ApiProductModuleListView(generics.ListAPIView):
+# 	queryset = Product_Modules.objects.all()
+# 	serializer_class = ProductModuleDatailSerializer
 
-	def get(self,request,*args,**kwargs):
-		# try:
-		crs_id = Product.objects.get(id=self.kwargs.get('id'))
-		mdl = self.queryset.filter(product=crs_id)
-		response_data = self.get_serializer(mdl,many=True)
-		return Response(
-			{
-				"data" : response_data.data
-			}
-		)
-		# except Product.DoesNotExist:
-		# 	raise serializers.V ValidationError(_("Product Does not Exist"))
-	authentication_classes = (TokenAuthentication,)
-	permission_classes = (IsAuthenticated,)
-	pagination_class = PageNumberPagination
+# 	def get(self,request,*args,**kwargs):
+# 		# try:
+# 		crs_id = Product.objects.get(id=self.kwargs.get('id'))
+# 		mdl = self.queryset.filter(product=crs_id)
+# 		response_data = self.get_serializer(mdl,many=True)
+# 		return Response(
+# 			{
+# 				"data" : response_data.data
+# 			}
+# 		)
+# 		# except Product.DoesNotExist:
+# 		# 	raise serializers.V ValidationError(_("Product Does not Exist"))
+# 	authentication_classes = (TokenAuthentication,)
+# 	permission_classes = (IsAuthenticated,)
+# 	pagination_class = PageNumberPagination
 	
 
