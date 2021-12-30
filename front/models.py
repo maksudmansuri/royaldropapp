@@ -13,6 +13,7 @@ from django.utils.text import slugify
  
 class ProductCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
+    # parent_category_id = models.IntegerField(null=True, blank=True)
     title                   =           models.CharField(unique=True,max_length=64)
     slug                    =           models.CharField(max_length=64,default="")
     thumbnail               =           models.FileField(null=True,blank=True)
@@ -470,7 +471,7 @@ def submission_delete(sender, instance, **kwargs):
 #     image = models.ImageField(upload_to=get_image_filename,
 #                               verbose_name='Image')
 
-
+"""THis will deleted soon"""
 class Product_Modules(models.Model):
     id=models.AutoField(primary_key=True)
     product=models.ForeignKey(Product, on_delete=models.CASCADE)

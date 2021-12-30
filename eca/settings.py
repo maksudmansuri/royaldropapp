@@ -59,6 +59,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # 'social_django',
+    'cart',
+    'discount',
+    'payment',
+    'order',
 
 ]
 

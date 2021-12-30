@@ -40,6 +40,8 @@ urlpatterns = [
     #Rest Framework Urls
     path('api/front/',include("front.api.urls")),
     path('api/accounts/',include("accounts.api.urls")),
+    path('api/cart/',include("cart.api.urls")),
+    path('api/discount/',include("discount.api.urls")),
     
 
 
