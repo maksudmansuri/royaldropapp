@@ -22,7 +22,7 @@ class Basket():
     def add(self,product,qty):
         product_id=product.id
         if product_id not in self.basket:
-            self.basket[product_id] = {'product_mrp':product.product_mrp,'qty':int(qty)}
+            self.basket[product_id] = {'product_mrp':int(product.product_mrp),'qty':int(qty)}
 
         self.save()
 
@@ -38,13 +38,13 @@ class Basket():
             basket[str(product.id)]['product'] = product
 
         for item in basket.values():
-            item['product_mrp'] = Decimal(item['product_mrp'])
+            item['product_mrp'] = item['product_mrp']
             item['total_price'] = item['product_mrp'] * item['qty'] 
             yield item
         
 
     def get_total_price(self):
-        return sum(Decimal(item['product_mrp']) * item['qty'] for item in self.basket.values())
+        return sum(int(item['product_mrp'] )* item['qty'] for item in self.basket.values())
 
    
 

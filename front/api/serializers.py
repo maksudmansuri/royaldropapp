@@ -2,7 +2,7 @@ from django.db.models import fields
 from rest_framework import serializers
 from accounts.models import Merchants
 
-from front.models import Product,Product_Modules,Product_Session, ProductAbout,ProductCategory, ProductChildSubCategory, ProductDetails, ProductDiscount, ProductReviews, ProductSizeWeight, ProductStockManage,ProductSubCategory, ProductTag, productGst, productMedia
+from front.models import Product,ProductAbout,ProductCategory, ProductChildSubCategory, ProductDetails, ProductDiscount, ProductReviews, ProductSizeWeight, ProductStockManage,ProductSubCategory, ProductTag, productGst, productMedia
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -15,7 +15,7 @@ from django.core.files.storage import default_storage,FileSystemStorage
 IMAGE_SIZE_MAX_BYTES = 1024 * 1024 * 2 # 2MB
 MIN_COURSENAME_LENGTH = 5
 MIN_COURSEDECS_LENGTH = 50
-from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes,force_str,DjangoUnicodeDecodeError
 
 from front.utils import is_image_size_valid
 
@@ -161,13 +161,6 @@ class ProductCategoriesSerializer(serializers.ModelSerializer):
 		return new_url
 
 
-class ProductModuleDatailSerializer(serializers.ModelSerializer):
-    # username = serializers.SerializerMethodField('get_username_from_staffs')
-    # # product_image = serializers.SerializerMethodField('validate_product_image_url')
-    class Meta: 
-        model = Product_Modules
-        fields = ['pk','product','module','module_desc','slug','position','created_date']
-		
 
     # def get_username_from_staffs(self,Product):
     #     username = Product.teacher.admin.username

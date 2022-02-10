@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.fields import AutoField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from front.compression import CompressedImageField
 # from ckeditor_uploader.fields import RichTextUploadingField
 from rest_framework.authtoken.models import Token
 from django.conf import settings
@@ -89,7 +90,7 @@ class CustomUser(AbstractBaseUser):
     counter         = models.IntegerField(default=0, blank=False) #OTP counter
     otp_session_id  = models.CharField(max_length=120, null=True, default = "")
     otp              = models.CharField(max_length=120, null=True, default = "")
-    profile_pic         =models.FileField(upload_to="user/profile_pic",max_length=500,null=True,default="")
+    profile_pic         =CompressedImageField(null=True, default=None, quality=60,blank=True)
     
     USERNAME_FIELD = 'email'
 
@@ -105,6 +106,13 @@ class CustomUser(AbstractBaseUser):
 
     def has_module_perms(self,app_label):
         return True    
+
+    @property
+    def get_photo_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
 
 class PhoneOTP(models.Model):
     
@@ -128,10 +136,17 @@ class PhoneOTP(models.Model):
 class AdminHOD(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
-    profile_pic = models.FileField(default = "")
+    profile_pic = CompressedImageField(null=True, default=None, quality=60,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects=models.Manager()
+    
+    @property
+    def get_photo_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
 
 class Staffs(models.Model):
     id=models.AutoField(primary_key=True)
@@ -146,11 +161,11 @@ class Staffs(models.Model):
     # mobile=models.CharField(max_length=50,blank=True,null=True)
     # qualification=models.CharField(max_length=50,blank=True,null=True)
     # specialist=models.CharField(max_length=50,blank=True,null=True)
-    profile_pic=models.FileField(upload_to="instructor/profile",null=True,default="")
+    profile_pic=CompressedImageField(null=True, default=None, quality=60,blank=True)
     # about=RichTextUploadingField(blank=True,null=True)
     # is_appiled=models.BooleanField(blank=True,null=True,default=False)
     is_verified=models.BooleanField(blank=True,null=True,default=False)
-    # resume=models.FileField(upload_to="instructor/resume", max_length=250,blank=True,null=True)
+    # resume=CompressedImageField(null=True, default=None, quality=60,blank=True)
     # experience=models.CharField(max_length=50,blank=True,null=True)
     # working_with=models.CharField(max_length=50,blank=True,null=True)
     # website=models.URLField(max_length=200,blank=True,null=True)
@@ -163,7 +178,13 @@ class Staffs(models.Model):
     
     def __str__(self):
         return self.first_name  
- 
+    
+    @property
+    def get_photo_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
 class Customers(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
@@ -177,7 +198,7 @@ class Customers(models.Model):
     # qualification =models.CharField(max_length=250,blank=True,null=True)
     dob=models.DateField(blank=True,null=True)
     phone=models.CharField(max_length=250,blank=True,null=True)
-    profile_pic=models.FileField(upload_to="customer_lms/profile/images",blank=True,null=True)
+    profile_pic=CompressedImageField(null=True, default=None, quality=60,blank=True)
     gender=models.CharField(max_length=255,null=True)
     # is_appiled=models.BooleanField(blank=True,null=True,default=False)
     # is_verified=models.BooleanField(blank=True,null=True,default=False)
@@ -186,7 +207,14 @@ class Customers(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
- 
+    
+    @property
+    def get_photo_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
+
 class CustomersAddress(models.Model):  
     id=models.AutoField(primary_key=True)
     customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
@@ -214,7 +242,7 @@ class Merchants(models.Model):
     city=models.CharField(max_length=250,blank=True,null=True)
     state=models.CharField(max_length=250,blank=True,null=True,default="Gujarat")
     country=models.CharField(max_length=250,blank=True,null=True,default="India")
-    profile_pic=models.FileField(upload_to="Merchant/images",blank=True,null=True)
+    profile_pic=CompressedImageField(null=True, default=None, quality=60,blank=True)
     zip_code=models.CharField(max_length=250,blank=True,null=True,default="")
     is_added_by_admin=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -223,6 +251,13 @@ class Merchants(models.Model):
     website=models.URLField(max_length=200,blank=True,null=True,default="www.google.com")
 
     objects = models.Manager()
+
+    @property
+    def get_photo_url(self):
+        if self.profile_pic and hasattr(self.profile_pic, 'url'):
+            return self.profile_pic.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
 
 class userPayment(models.Model):
     id=models.AutoField(primary_key=True)

@@ -259,6 +259,24 @@ $('.cartitems').on("click", "a.cartremove", function(){
     console.log(a)
     sum = sum - cart[a].qyt;
     document.getElementById('cart').innerHTML = sum;
+    if(user != 'AnonymousUser'){
+        var url = "{% url 'add-to-cart' %}"
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body:JSON.stringify({customer:1,item:cart[a][8],quantity:0})
+
+        })
+        .then((response)=>{
+            return response.json()
+        })
+        .then((data)=>{
+            console.log('data:',data)
+        })
+    }
     delete cart[a]
     localStorage.setItem('cart',JSON.stringify(cart));
     cart = JSON.parse(localStorage.getItem('cart'));
@@ -442,7 +460,7 @@ function updateChekOut(cart){
     calculation(cart)
 
 }
-   function refresCart(){
+    function refresCart(){
         cart = JSON.parse(localStorage.getItem('cart'));
         $( "#cartitems" ).load(window.location.href);
         calculation(cart)
@@ -466,6 +484,24 @@ function updateChekOut(cart){
         r=cart['pr'+a][0]
         var str="Add to Cart"
         console.log("minus 0 thase")
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         if(r==0){
               delete cart['pr'+a];      
         }
@@ -486,6 +522,24 @@ function updateChekOut(cart){
         document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
         localStorage.setItem('cart',JSON.stringify(cart));
         cart=JSON.parse(localStorage.getItem('cart'));
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         updateChekOut(cart);
         refresCart();
     });

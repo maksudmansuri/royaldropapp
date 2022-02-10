@@ -20,9 +20,16 @@
         {% for field in form %}
         <div class="form-group">
             {% if field.field.widget.input_type != "select" %}
-            <label>{{ field.label}}</label>
-            
-            <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
+                {% if field.field.widget.input_type == "checkbox"  %}
+                <label class="custom-switch mt-2">
+                    <input type="checkbox" name="is_active" id ="is_active" class="custom-switch-input" {% if field.value == True %}checked{% endif %}>
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">Is_active</span>
+                </label> 
+                {% else %}
+                <label>{{ field.label}}</label>
+                <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
+                {% endif %}
             {% endif %}
             {% if field.field.widget.input_type == "select" %}
             <label>{{ field.label}}</label>
@@ -33,29 +40,20 @@
                 {% endfor %}
                 </select>
             
-            {% endif %}
+            {% endif %}          
+            
+            
 
             {% if field.errors %}
                 <div class = "alert alert-danger" style ="margin:10px;">
                 {{field.errors }}
                 </div>                
 
+            
             {% endif %}
         </div>
-        {% if field.field.widget.input_type == "file" %}
-        <label>{{ field.label}}</label><br>
-
-        <div class="card">
-                  
-                  <div class="card-body">
-                    <img src="/media/{{field.value}}" style = "height:150px"/>z
-                  </div>
-                  
-        </div>
-               
-            {% endif %}
         {% endfor %}
-        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE CATEGORY</button>    
+        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE SUBCATEGORY</button>    
     </div>
 </div>
 </div>

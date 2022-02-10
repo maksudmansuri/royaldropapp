@@ -1,12 +1,17 @@
 {% extends 'ecaadmin/admin_base.html' %}
 
-{% block page_title %}Product Tab List{% endblock page_title %} 
+{% block page_title %}Product Tab List{% endblock page_title %}
 {% block button %}
-   <a href="{% url 'add_product' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
-   <a   data-toggle="tooltip" title="" class="btn btn-secondary" data-original-title="delete" value='Delete' id='delete_btn' style="right: 100px;"><i class="fa fa-trash"></i></a>
-           
+<button type="button" data-toggle="modal" title="" class="btn btn-primary"
+    data-original-title="Add Exclusive" style="position: absolute;right: 130px;" data-bs-toggle="modal" data-target="#add_exclusive"><i
+        class="fa fa-plus"></i> Exclusive</button>
+<a href="{% url 'add_product' %}" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New Product"
+    style="right: 100px;"><i class="fa fa-plus"></i></a>
+<a data-toggle="tooltip" title="" class="btn btn-secondary" data-original-title="Delete Product" value='Delete' id='delete_btn'
+    style="right: 100px;"><i class="fa fa-trash"></i></a>
+
 {% endblock button %}
- 
+
 {% block page_content %}
 <div class="col-12 ">
     <div class="card">
@@ -14,75 +19,107 @@
             <h4>All Products </h4>
             <div class="card-header-form">
                 <form method="get">
-                    <button class="btn btn-primary" type="submit" style="float:right"><i class="fas fa-search" ></i> Search</button>
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250" style="width: 250px; float:right" name="filter" id="filter">
-                        </form>
+                    <button class="btn btn-primary" type="submit" style="float:right;margin-left: 7px"><i
+                            class="fas fa-search"></i> Search</button>
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250"
+                        style="width: 250px; float:right" name="filter" id="filter">
+                </form>
             </div>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-striped table-md">
-                <tbody><tr>
-                    <th><a href="#">Model Number</a></th>
-                    <th><a href="#">Imgae</a></th>
-                    <th><a href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=product_name">Product Name</a></th>
-                    <th><a href="#">Price</a></th>
-                    <th><a href="#">Quantity</a></th>
-                    <th><a href="#">Status</a></th>
-                    <th>Action</th>
-                </tr>
-                {{products}}
-                {% for product in product_list %}
-                <tr>
-                    <form id="deletecheck" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                    <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{product.id}}" id="checkbox"/>&nbsp; {{product.product_model_number}}</td>
-                    </form>
-                    
-                    <td><a type="button" href="{{product.product_image}}">
-                        <img src="{{product.product_image}}" width="100" height="100" class="img-thumbnail"></a>
-                        </td>                
-                    <td>{{product.product_name}}</td>
-                    <td>{{product.product_selling_price}} <p> <strike>{{product.product_mrp}}</strike></p></td>
-                    <td>{% for productstock in productstocks  %}{% if productstock.product == product %}<div><a href="{% url 'product_add_stocks' product.id %}" class="btn btn-outline-primary" >{{productstock.in_stock_total}}</a></div>{% endif %}{% endfor %}</td>
-                    <td>{% if product.is_active %}<a href="{% url 'product_deactive' product.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'product_active' product.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>            
-                    <td>
-                        <div class="dropdown d-inline ">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                More
-                            </button>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-edit"></i> Edit</a>
-                                {% comment %} <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="far fa-clone"></i> Duplicate </a>
-                                <a class="dropdown-item has-icon" href="{% url 'product_new_update' product.id %}"><i class="fas fa-trash"></i>Delete</a> {% endcomment %}
-                            </div>
-                        </div></td>
-                                 
-                </tr>
-                {% endfor %}          
-                </tbody></table>
+                    <tbody>
+                        <tr>
+                            <th><a href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=product_model_number">Model
+                                    Number</a></th>
+                            <th><a href="#">Imgae</a></th>
+                            <th><a href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=product_name">Product
+                                    Name</a></th>
+                            <th><a
+                                    href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=product_selling_price">Price</a>
+                            </th>
+                            <th><a href="#">Quantity</a></th>
+                            <th><a href="{% url 'product_tab_list' %}?filter={{filter}}&orderby=is_active">Status</a>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                        {{products}}
+                        {% for product in product_list %}
+                        <tr>
+                            <form id="deletecheck" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <td><input type="checkbox" class="checkbox" name="checkbox []" value="{{product.id}}"
+                                        id="checkbox" />&nbsp; {{product.product_model_number}}</td>
+                            </form>
+
+                            <td><a type="button" href="{{product.get_product_image_url}}">
+                                    <img src="{{product.get_product_image_url}}" width="100" height="100"
+                                        class="img-thumbnail"></a>
+                            </td>
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.product_selling_price}} <p> <strike>{{product.product_mrp}}</strike></p>
+                            </td>
+                            <td>{% for productstock in productstocks  %}{% if productstock.product == product %}<div><a href="{% url 'product_add_stocks' product.id %}" class="btn btn-outline-primary">{{productstock.in_stock_total}}</a></div> {% endif %}{% endfor %}</td>
+                            <td>{% if product.is_active %}<a href="{% url 'product_deactive' product.id %}">
+                                    <div class="badge badge-success">Active</div>
+                                </a>{% else %}<a href="{% url 'product_active' product.id %}">
+                                    <div class="badge badge-danger">Not Active</div>{% endif %}
+                                </a></td>
+                            <td>
+                                <div class="dropdown d-inline ">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="true">
+                                        More
+                                    </button>
+                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                        style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                        <a class="dropdown-item has-icon"
+                                            href="{% url 'product_new_update' product.id %}"><i class="far fa-edit"></i>
+                                            Edit</a>
+                                        {% comment %} <a class="dropdown-item has-icon"
+                                            href="{% url 'product_new_update' product.id %}"><i
+                                                class="far fa-clone"></i> Duplicate </a>
+                                        <a class="dropdown-item has-icon"
+                                            href="{% url 'product_new_update' product.id %}"><i
+                                                class="fas fa-trash"></i>Delete</a> {% endcomment %}
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="card-footer text-right">
             <nav class="d-inline-block">
                 <ul class="pagination mb-0">
-                {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.previous_page_number }}">Previous</a></li>
-                {% else %}
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                {% endif %}
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    {% endif %}
 
-                {% for i in  paginator.page_range %}
-                <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ i }}">{{ i }}</a></li>
+                    {% for i in  paginator.page_range %}
+                    <li class="page-item"><a class="page-link"
+                            href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ i }}">{{ i }}</a>
+                    </li>
 
-                {% endfor %}
-         
-        
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.next_page_number }}">Next</a></li>
-                {% else %}
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            href="{% url 'product_tab_list' %}?filter={{ filter }}&orderby={{ orderby }}&page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    {% else %}
                     <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                {% endif %}
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -90,42 +127,108 @@
 </div>
 {% endblock page_content %}
 
+{% block modal_fade %}
 
+<!-- Add Exclusive-->
+<div class="modal fade" id="add_exclusive" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <form method="post" action = "{% url 'add_exclusive' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="depaddLabel">Add Exclusive Products</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                   
+                </div>
+
+                <div class="modal-body">
+                    <div class="deadline-form">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="room_no" class="form-label">Right Exclusive*</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <select class="form-control" aria-label="Default select example" name="id1" required>
+                                    <option selected value= "">select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </br>
+                        </br>
+                        </br>
+                            <div class="col-lg-3">                            
+                                <label for="depone" class="form-label">left Exclusive*</label>
+                            </div>
+                       
+                            <div class="col-lg-9">  
+                                <select class="form-control" aria-label="Default select example" name="id2" required>
+                                    <option selected value= "" >select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>                          
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                    {% endcomment %}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+
+        </div>
+        </form>
+    </div>
+</div>
+
+<!-- End Exclusive-->
+{% endblock modal_fade %}
 {% block custom_js %}
 <script>
     //check box send into array fro delete
-    
-    
-    $(document).ready(function(){
-        $('#delete_btn').click(function(){
-            if(confirm("Are you sure you want to delete ?")){
+
+
+    $(document).ready(function () {
+        $('#delete_btn').click(function () {
+            if (confirm("Are you sure you want to delete ?")) {
                 var id = [];
-                var csrf =$('input[name=csrfmiddlewaretoken]').val()
+                var csrf = $('input[name=csrfmiddlewaretoken]').val()
                 var frm = "product"
-                $(':checkbox:checked').each(function(i){
+                $(':checkbox:checked').each(function (i) {
                     id[i] = $(this).val()
                     console.log(id)
                 })
-                if(id.length===0){
+                if (id.length === 0) {
                     alert("please select to delete !")
-                }else{
+                } else {
                     console.log(id)
                     $.ajax({
-                        url:"{% url 'delete_category' %}",
-                        method:"POST",
-                        data:{
+                        url: "{% url 'delete_category' %}",
+                        method: "POST",
+                        data: {
                             id,
-                            csrfmiddlewaretoken:csrf,
-                            frm:frm
+                            csrfmiddlewaretoken: csrf,
+                            frm: frm
                         },
-                        success:function(response){
+                        success: function (response) {
                             location.reload();
                         }
                     })
                 }
             }
-        })   
+        })
     });
-    </script>
+</script>
 
 {% endblock custom_js %}

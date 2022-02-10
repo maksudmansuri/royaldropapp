@@ -19,7 +19,11 @@ urlpatterns = [
     path('testing_file', views.testing_file,name='testing_file'),  
     # path('testing_file', views.testing_file,name='testing_file'),
     path('product_details/<slug:product_slug>', views.ProductDetailView.as_view(),name='product_details'),
-    path('checkout',orderviews.CheckoutListView.as_view(),name='checkout'),
+    path('checkout',views.CheckoutListView.as_view(),name='checkout'),
+    path('paymenthandler/',views.paymenthandler,name='paymenthandler'),
+    path('razorpay',views.RazorpayPayment,name='razorpay'),
+
+    path('add-to-cart', views.AddUpdateCart,name='add-to-cart'), 
     path('cart', views.CartListView.as_view(),name='cart'), 
     path('product_details_2', views.Product_details_2,name='product_details_2'),
     # path('product_details_2', views.Product_details_2,name='product_details_2'),

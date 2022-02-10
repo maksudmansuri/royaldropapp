@@ -9,8 +9,8 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from accounts.models import CustomUser,AdminHOD,Staffs,Customers as Customers
-from front.models import Product,Product_Modules,ProductCategory, ProductChildSubCategory,ProductSubCategory,viewed
-from front.api.serializers import CategorySerializer, ChildSubCategorySerializer, ProductDetailUpdateSerializer,ProductDetailCreateSerializer, ProductModuleDatailSerializer, ProductsDetailSerializer, SubCategorySerielizer
+from front.models import Product,ProductCategory, ProductChildSubCategory,ProductSubCategory
+from front.api.serializers import CategorySerializer, ChildSubCategorySerializer, ProductDetailUpdateSerializer,ProductDetailCreateSerializer, ProductsDetailSerializer, SubCategorySerielizer
 
 from rest_framework.authentication import TokenAuthentication
 

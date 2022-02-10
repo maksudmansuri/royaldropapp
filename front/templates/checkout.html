@@ -37,75 +37,14 @@
 
 
     <!--====== Section 2 ======-->
-    <div class="u-s-p-b-60">
+    {% comment %} <div class="u-s-p-b-60">
 
         <!--====== Section Content ======-->
         <div class="section__content">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div id="checkout-msg-group">
-                            {% comment %} {% if request.user.is_authenticated == Flase %}
-                            <div class="msg u-s-m-b-30">
-                                <span class="msg__text">Returning customer?
-
-                                    <a class="gl-link" href="#return-customer" data-toggle="collapse">Click here to
-                                        login</a></span>
-
-                                <div class="collapse" id="return-customer" data-parent="#checkout-msg-group">
-                                    <div class="l-f u-s-m-b-16">
-
-                                        <span class="gl-text u-s-m-b-16">If you have an account with us, please log
-                                            in.</span>
-                                        <form class="l-f-o__form" method="POST" action="{% url 'dologin' %}"
-                                            novalidate="">
-                                            {% csrf_token %}
-                                            <div class="gl-inline">
-                                                <div class="u-s-m-b-15">
-
-                                                    <label class="gl-label" for="login-email">E-MAIL *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="text"
-                                                        id="username" name="username" placeholder="Enter E-mail"
-                                                        required autofocus></div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <label class="gl-label" for="login-password">PASSWORD *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="password"
-                                                        id="login-password" placeholder="Enter Password" name="password"
-                                                        placeholder="Enter Password"></div>
-                                            </div>
-                                            <div class="gl-inline">
-                                                <div class="u-s-m-b-15">
-
-                                                    <button class="btn btn--e-transparent-brand-b-2"
-                                                        type="submit">LOGIN</button></div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <a class="gl-link" href="lost-password.html">Lost Your Password?</a>
-                                                </div>
-                                            </div>
-
-                                            <!--====== Check Box ======-->
-                                            <div class="check-box">
-
-                                                <input type="checkbox" id="remember-me">
-                                                <div class="check-box__state check-box__state--primary">
-
-                                                    <label class="check-box__label" for="remember-me">Remember
-                                                        Me</label></div>
-                                            </div>
-                                            <!--====== End - Check Box ======-->
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="msg u-s-m-b-30">
-                                <a class="gl-text u-s-m-b-16">Hello, {{request.user.username}}</a>
-                            </div> }
-                            {% endif %}{% endcomment %}
+                        <div id="checkout-msg-group">                          
 
                             <div class="msg">
 
@@ -140,7 +79,7 @@
             </div>
         </div>
         <!--====== End - Section Content ======-->
-    </div>
+    </div> {% endcomment %}
     <!--====== End - Section 2 ======-->
 
 
@@ -152,7 +91,7 @@
             <div class="container">
                 <div class="checkout-f">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
                             <form class="checkout-f__delivery" id="addressform" method="post"
                                 enctype="multipart/form-data" action="{% url 'checoutAddressAdd'%}">
@@ -325,7 +264,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
 
                             <!--====== Order Summary ======-->
@@ -382,17 +321,21 @@
                                         <table class="o-summary__table">
                                             <tbody>
                                                 <tr>
-                                                    <td>SHIPPING</td>
-                                                    <td class="shipping" id="shipping"></td>
+                                                    <td>SUBTOTAL</td>
+                                                    <td class="subtotal" id="subtotal"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>TAX</td>
                                                     <td class="totaltax" id="totaltax"></td>
-                                                </tr>
+                                                </tr>                                              
                                                 <tr>
-                                                    <td>SUBTOTAL</td>
-                                                    <td class="subtotal" id="subtotal">{{basket.get_total_price}}</td>
-                                                </tr>
+                                                    <td> DISCOUNT</td>
+                                                    <td class="total_discount" id="total_discount"></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td>SHIPPING</td>
+                                                    <td class="shipping" id="shipping"></td>
+                                                </tr>                                              
                                                 <tr>
                                                     <td>GRAND TOTAL</td>
                                                     <td class="grandtotal" id="grandtotal"></td>
@@ -429,11 +372,11 @@
                                                 <div class="radio-box">
 
                                                     <input type="radio" id="direct-bank-transfer" name="payment"
-                                                        value="neft">
+                                                        value="razorpay">
                                                     <div class="radio-box__state radio-box__state--primary">
 
                                                         <label class="radio-box__label"
-                                                            for="direct-bank-transfer">Direct Bank Transfer</label>
+                                                            for="direct-bank-transfer">Credit/Debit Card,NetBanking (RazorPay)</label>
                                                     </div>
                                                 </div>
                                                 <!--====== End - Radio Box ======-->
@@ -443,7 +386,7 @@
                                                     order will not be shipped until the funds have cleared in our
                                                     account.</span>
                                             </div>
-                                            <div class="u-s-m-b-10">
+                                            {% comment %} <div class="u-s-m-b-10">
 
                                                 <!--====== Radio Box ======-->
                                                 <div class="radio-box">
@@ -491,7 +434,7 @@
 
                                                 <span class="gl-text u-s-m-t-6">When you click "Place Order" below we'll
                                                     take you to Paypal's site to set up your billing information.</span>
-                                            </div>
+                                            </div> {% endcomment %}
                                             <div class="u-s-m-b-15">
 
                                                 <!--====== Check Box ======-->
@@ -727,6 +670,24 @@
         var a = this.id.slice(7, );
         console.log(a)
         sum = sum - cart[a].qyt;
+        var url = "{% url 'add-to-cart' %}"
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body:JSON.stringify({'item':cart[a][8],'quantity':0})
+
+        })
+        .then((response)=>{
+            location.reload();
+            return response.json()
+        })
+        .then((data)=>{
+            location.reload();
+            console.log('data:',data)
+        })
         delete cart[a]
         localStorage.setItem('cart', JSON.stringify(cart));
         document.getElementById('cart').innerHTML = sum;
@@ -757,7 +718,7 @@
         if ($.isEmptyObject(cart)) {
             // for Empty Cart 
             mystr = `<div class="app-content ">
-
+            </br></br></br>
                 <!--====== Section 1 ======-->
                 <div class="u-s-p-y-60">
 
@@ -784,7 +745,7 @@
                     <!--====== End - Section 1 ======-->
                 </div>`
 
-            document.getElementById('emptycart').innerHTML = mystr;
+            //document.getElementById('emptycart').innerHTML = mystr;
         }
         
 
@@ -795,6 +756,7 @@
         var shipping = 40;
         var subtotal = 0;
         var grandtotal = 0;
+        var discounttotal = 0;
         //  var myhidden ="";
         // document.getElementById("hidden_div").innerHTML = ""
         for (var item in cart) {
@@ -816,13 +778,28 @@
             //console.log(myhidden);
             //$(".hidden_div").append(myhidden);
         }
-        totaltax = (subtotal * 5 / 100);
-
-        grandtotal = subtotal + totaltax + shipping;
-
-        document.getElementById('grandtotal').innerHTML = grandtotal;
-        document.getElementById('totaltax').innerHTML = totaltax;
-        document.getElementById('shipping').innerHTML = shipping;
+        
+        grandtotal = "{{total_amount}}";
+        totaltax = (grandtotal *  18/ 118);
+        subtotal= grandtotal - totaltax
+        shipping="{{total_delivery_cost}}";
+        if(shipping == "False"){
+            document.getElementById('shipping').innerHTML = "-";
+        }
+        else{
+            document.getElementById('shipping').innerHTML = "{{total_delivery_cost}}";
+        }
+        discounttotal = "{{total_discount}}";
+        if(discounttotal == 0){
+            document.getElementById('total_discount').innerHTML = "-";
+        }
+        else{
+            document.getElementById('total_discount').innerHTML = "{{total_discount}}";
+        }
+        document.getElementById('grandtotal').innerHTML = "{{total_amount}}";        ;
+        document.getElementById('totaltax').innerHTML = totaltax.toFixed(2);
+        document.getElementById('subtotal').innerHTML = subtotal.toFixed(2);
+        
 
         // document.getElementById('qty').value = qty;
     }
@@ -906,7 +883,7 @@
     if (thank) {
         alert('Do not refresh or close this page,We will redirect you to payment gateway wait for few second....')
         localStorage.clear();
-        //setTimeout(location.reload.bind(location), 0);
+        setTimeout(location.reload.bind(location), 0);
     }
 </script>
 <script>
@@ -957,23 +934,11 @@
         console.log("hello inside delete button")
       //  console.log($("input[name='prod_id_for_checkout[]']").val());
       // console.log($("input[name='prod_id_for_checkout[]']").map(function(){return this.value;}).get();)
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'basket_delete' %}",
-            data: {
-                'productid':$(this).data('index'),
-                'csrfmiddlewaretoken': "{{csrf_token}}",
-                'action': 'post'
-            },
-            success: function (json) {
-                console.log(json)
-            },
-            error: function (xhr, errmsg, err) {
-
-            }
-        });
+        
+      
     })
         
 
 </script>
+
 {% endblock custom_js %}

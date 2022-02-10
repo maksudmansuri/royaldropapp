@@ -26,7 +26,7 @@ EDIT PRODUCT MEDIA
                             <div class="col-lg-6">
                                 <div class="card">
                                 <div class="card-body">
-                                    <img src="{{ product_media.media_content }}" style='width:100%;height:300px;object-fit:cover'/>
+                                    <img src="{{ product_media.get_media_content_url }}" style='width:100%;height:300px;object-fit:cover'/>
                                     <br>
                                     <br>
                                     <button type="button" class="btn btn-danger btn-block delete_product"  data-location="{% url 'product_media_delete' id=product_media.id %}">DELETE</button>
@@ -38,7 +38,7 @@ EDIT PRODUCT MEDIA
                         <div class="col-lg-6">
                                 <div class="card">
                                 <div class="card-body">
-                                     <video src="{{ product_media.media_content }}" style='width:100%;height:300px;object-fit:cover' controls></video>
+                                     <video src="{{ product_media.get_media_content_url }}" style='width:100%;height:300px;object-fit:cover' controls></video>
                                      <br>
                                     <button type="button" class="btn btn-danger btn-block delete_product"  data-location="{% url 'product_media_delete' id=product_media.id %}">DELETE</button>
 

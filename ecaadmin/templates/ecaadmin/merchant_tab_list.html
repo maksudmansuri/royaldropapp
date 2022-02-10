@@ -1,5 +1,5 @@
 {% extends 'ecaadmin/admin_base.html' %}
-
+{% load static %}
 {% block page_title %} Merchant Tab List{% endblock page_title %} 
 {% block button %}
    <a href="{% url 'merchant_create' %}"  data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add New"  style="right: 100px;"><i class="fa fa-plus"></i></a>
@@ -38,8 +38,8 @@
                         {% csrf_token %}
                     <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{merchant.id}}" id="checkbox"/>&nbsp;</td>
                     </form>
-                    <td><a type="button" href="{{merchant.profile_pic}}">
-                        <img src="{{merchant.profile_pic}}" width="150" height="100" class="img-thumbnail"></a> </td>                
+                    <td><a type="button" href="{{merchant.get_photo_url}}">
+                        <img src="{{merchant.get_photo_url}}" width="80" height="80" class="img-thumbnail" onerror="this.onerror=null; this.src='{% static 'eca_admin\img\avatar\avatar-1.png' %}'"> </a> </td>                
                     <td>{{merchant.admin.username|title}}</td>
                     <td>{{merchant.admin.email}}</td>
                     <td>{{merchant.admin.phone}}</td>   

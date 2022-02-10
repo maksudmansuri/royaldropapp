@@ -37,8 +37,8 @@
                         {% csrf_token %}
                     <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{childsubcat.id}}" id="checkbox"/>&nbsp;</td>
                 </form>
-                    <td><a type="button" href="{{childsubcat.thumbnail}}">
-                        <img src="{{childsubcat.thumbnail}}" width="150" height="100" class="img-thumbnail"></a></td>                
+                    <td><a type="button" href="{{childsubcat.get_thumbnail_url}}">
+                        <img src="{{childsubcat.get_thumbnail_url}}" width="80" height="80" class="img-thumbnail"></a></td>                
                     <td>{{childsubcat.title|title}}</td>
                     <td>{{childsubcat.created_date|date:'Y-m-d' }}</td>
                     <td>{% if childsubcat.is_active %}<a href="{% url 'childsubcategory_deactive' childsubcat.id %}"><div class="badge badge-success">Active</div></a>{% else %}<a href="{% url 'childsubcategory_active' childsubcat.id %}"><div class="badge badge-danger">Not Active</div>{% endif %}</a></td>   

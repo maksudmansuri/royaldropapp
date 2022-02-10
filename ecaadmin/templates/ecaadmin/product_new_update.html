@@ -35,18 +35,14 @@
         <li class="nav-item">
             <a class="nav-link " id="price-tab" data-toggle="tab" href="#price" role="tab" aria-controls="price" aria-selected="true">Price</a>
         </li>
-         <li class="nav-item">
-            <a class="nav-link " id="discount-tab" data-toggle="tab" href="#discount" role="tab" aria-controls="discount" aria-selected="true">Discount</a>
-        </li>
+        
         <li class="nav-item">
             <a class="nav-link " id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="media" aria-selected="true">Media</a>
         </li>
         <li class="nav-item">
             <a class="nav-link " id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link " id="varient-tab" data-toggle="tab" href="#varient" role="tab" aria-controls="varient" aria-selected="true">Varient</a>
-        </li>
+       
     </ul>
     <div class="tab-content " id="myTabContent">
         <div class="tab-pane fade active show" id="details" role="tabpanel" aria-labelledby="details-tab">
@@ -89,7 +85,7 @@
                 <label>Mercahnt User</label>
                 <select class="form-control" name="added_by_merchant"  id="added_by_merchant"/>
                 {% for merchant_user in merchants_users  %}
-                    <option value="{{merchant_user.id}}" {% if merchant_user == product.added_by_merchant %}selected{% endif %}>{{merchant_user.admin.username}}</option>
+                    <option value="{{merchant_user.id}}" {% if merchant_user == product.added_by_merchant %}selected{% endif %}>{{merchant_user.company_name}}</option>
                 {% endfor %} 
                 </select>
 
@@ -116,7 +112,7 @@
                 <div class="col-lg-6">
                 <label>Child Category</label>
                 <select name="product_childsubcategory" id="product_childsubcategory"  class="form-control" size="1" >
-                <option>Choose Child Category</option>
+                <option value="">Choose Child Category</option>
                     {% for childcategory in childCategories  %}
                         <option value="{{childcategory.id}}"{% if product.product_childsubcategory == childcategory %}selected{% endif %}>{{childcategory.title}}</option>
                     {% endfor %} 
@@ -318,9 +314,9 @@
                             {% for media in productmedia %}
                                 <div class="col-6 col-sm-4">
                                     <label class="imagecheck mb-4">
-                                    <input name="imagecheck" type="checkbox" class="imagecheck-input" {% if media.media_content == product.product_image %}disabled{% endif %}value="1">
+                                    <input name="imagecheck" type="checkbox" class="imagecheck-input" {% if media.get_media_content_url == product.get_product_image_url %}disabled{% endif %}value="1">
                                     <figure class="imagecheck-figure" >
-                                    <img src="{{media.media_content}}" alt="}" class="imagecheck-image" height="200" width="200">
+                                    <img src="{{media.get_media_content_url}}" alt="}" class="imagecheck-image" height="200" width="200">
                                     </figure>
                                 </label>
                                 </div>
@@ -372,91 +368,7 @@
 
             <br>
            
-        </div>
-        <div class="tab-pane fade " id="discount" role="tabpanel" aria-labelledby="discount-tab">
-            <div class="">
-             {% for discount in product_discount %}
-                <div class="row" >
-                    <div class="col-lg-3">
-                        <label><b>Minimum Quantity for Discount</b></label>
-                        
-                        <input type="number" min="1" max="10000"  name="quantity[]" id="quantity" value="{{discount.quantity}}" class="form-control ">
-                        
-                    </div>
-                    <div class="col-lg-3">                        
-                        <label><b>Discounted Price Per Item</b></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                &#8377
-                                </div>
-                            </div>
-                            <input name="price[]" id="price" value="{{discount.price}}" class="form-control currency select_discount">
-                             <input type="hidden" name="quantity_id[]" value="{{ discount.id }}">
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                            <label>Date Picker</label>
-                            <input type="date" name="start_date[]" value="{{discount.start_date|date:'Y-m-d'}}" id="start_date" class="form-control">
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>Date Picker</label>
-                            <input type="date" name="end_date[]"  value="{{discount.end_date|date:'Y-m-d'}}" id="end_date" class="form-control">
-                        </div>
-                    </div>
-                   
-                </div> 
-             {% endfor %}            
-            </div>
-            <br>
-
-            <div class="discount_div">
-                <div class="row discount_div_row first_discount" >
-                    <div class="col-lg-3">
-                        <label><b>Minimum Quantity for Discount</b></label>
-                        
-                        <input type="number" min="1" max="10000" name="quantity[]"  class="form-control select_discount">
-                        
-                    </div>
-                    <div class="col-lg-3">                        
-                        <label><b>Discounted Price Per Item</b></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                &#8377
-                                </div>
-                            </div>
-                            <input name="price[]" id="price" class="form-control currency select_discount">
-                             <input type="hidden" name="quantity_id[]" value="blank" >
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                            <label>Date Picker</label>
-                            <input type="date" name="start_date[]" id="start_date[]" class="form-control">
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>Date Picker</label>
-                            <input type="date" name="end_date[]"  id="end_date[]" class="form-control">
-                        </div>
-                    </div>
-                   
-                </div>             
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-6">
-                    <button class="btn btn-success btn-block add_discount" type="button">ADD MEDIA CONTENT</button>
-                </div>
-                <div class="col-lg-6">
-                    <button class="btn btn-danger btn-block remove_discount" type="button">REMOVE MEDIA CONTENT</button>
-                </div>
-            </div>
-
-            <br>
-
-        </div>
+        </div>       
         <div class="tab-pane fade " id="about" role="tabpanel" aria-labelledby="about-tab">
             <br>
                 <h5>Product Details</h5>
@@ -562,8 +474,8 @@
 
            </div>
         </div>
-        <div class="tab-pane fade " id="varient" role="tabpanel" aria-labelledby="varient-tab">
-        </div>
+        {% comment %} <div class="tab-pane fade " id="varient" role="tabpanel" aria-labelledby="varient-tab">
+        </div> {% endcomment %}
        
     </div>
     </div>

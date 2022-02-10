@@ -9,7 +9,7 @@
 <div class="preloader is-active">
     <div class="preloader__wrap">
 
-        <img class="preloader__img" src="{% static '/ecafront/images/preloader.png' %}" alt=""></div>
+        <img class="preloader__img" src="{% static 'ecafront/images/preloader.png' %}" alt=""></div>
 </div>
 {% endblock loader %} {% endcomment %}
 
@@ -131,27 +131,22 @@
                 </div>
                 <!--====== End - Primary Slider ======-->
             </div>
-
-            <!--====== Section 1 ======-->
-            {% for prod,range,nSlides,productcategories,prodsub in allprods %}
-
-            <!--====== Electronic Category ======-->
-            <div class="u-s-p-y-60" id="electronic-01{{productcategories.id}}">
+             <!--List of manual Categories and filters-->
+            <!--====== Section 2 ======-->
+            <div class="u-s-p-y-60">
 
                 <!--====== Section Intro ======-->
                 <div class="section__intro u-s-m-b-46">
                     <div class="container">
-
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="block">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">SHOP BY DEALS</h1>
 
-                                    <span class="block__title" style="text-transform:uppercase">
-                                        {{productcategories.title}} TOP CATEGORY</span></div>
-
+                                    <span class="section__span u-c-silver">BROWSE FAVOURITE DEALS</span>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!--====== End - Section Intro ======-->
@@ -161,35 +156,246 @@
                 <div class="section__content">
                     <div class="container">
                         <div class="row">
-                            {% for psc in prodsub %}
+                            <div class="col-lg-5 col-md-5 u-s-m-b-30">
 
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="category-o">
-                                    <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
+                                <a class="collection" href="shop-side-version-2.html">
+                                    <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img category-o__img" src="/media/{{psc.thumbnail}}" alt="">
-                                    </div>
-                                    <div class="category-o__info">
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/catbaner/catbanner-4.jpg' %}"
+                                            alt=""></div>
+                                </a></div>
+                            <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
-                                        <a class="category-o__shop-now btn--e-white-brand"
-                                            href="{% url 'product_filter_list' %}">{{psc.title}}</a></div>
-                                </div>
-                            </div>
+                                <a class="collection" href="shop-side-version-2.html">
+                                    <div class="aspect aspect--bg-grey aspect--1286-890">
 
-                            {% endfor %}
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/catbaner/catbanner-1.jpg' %}"
+                                            alt=""></div>
+                                </a></div>
+                            <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
+                                <a class="collection" href="shop-side-version-2.html">
+                                    <div class="aspect aspect--bg-grey aspect--1286-890">
+
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/catbaner/catbanner-2.jpg' %}"
+                                            alt=""></div>
+                                </a></div>
+                            <div class="col-lg-5 col-md-5 u-s-m-b-30">
+
+                                <a class="collection" href="shop-side-version-2.html">
+                                    <div class="aspect aspect--bg-grey aspect--square">
+
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/catbaner/catbanner-3.jpg' %}"
+                                            alt=""></div>
+                                </a></div>
                         </div>
                     </div>
                 </div>
-                <!--====== End - Section Content ======-->
+
+                <!--====== Section Content ======-->
             </div>
+            <!--====== End - Section 2 ======-->
+    
+            <!--End List of Categories and filters-->
+            <!--====== Section 1 ======-->
+            {% for prod,range,nSlides,productcategories,prodsub in allprods %}
+                <!--====== Electronic Category ======-->
+                <div class="u-s-p-y-60" id="electronic-01{{productcategories.id}}">
 
-            <!--====== Electronic Category ======-->
-            <!--====== End - Section 1 ======-->
+                    <!--====== Section Intro ======-->
+                    <div class="section__intro u-s-m-b-46">
+                        <div class="container">
 
-            <!--====== Section 2 ======-->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="block">
 
-            <!--====== Electronics Tab ======-->
+                                        <span class="block__title" style="text-transform:uppercase">
+                                            {{productcategories.title}} TOP CATEGORY</span></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--====== End - Section Intro ======-->
+
+
+                    <!--====== Section Content ======-->
+                    <div class="section__content">
+                        <div class="container">
+                            <div class="row">
+                                {% for psc in prodsub %}
+
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                                    <div class="category-o">
+                                        <div class="aspect aspect--bg-grey aspect--square category-o__img-wrap">
+
+                                            <img class="aspect__img category-o__img" src="{{psc.get_thumbnail_url}}" alt="">
+                                        </div>
+                                        <div class="category-o__info">
+
+                                            <a class="category-o__shop-now btn--e-white-brand"
+                                                href="{% url 'product_filter_list' %}">{{psc.title}}</a></div>
+                                    </div>
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--====== End - Section Content ======-->
+                </div>
+            
+                <div class="u-s-p-b-60">
+
+                    <!--====== Section Intro ======-->
+                    <div class="section__intro u-s-m-b-46">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="block">
+
+                                        <span class="block__title"
+                                            style="text-transform:uppercase">{{productcategories.title}}'s</span>
+                                        {% comment %} <ul class="nav tab-list">
+                                            <li class="nav-item">
+
+                                                <a class="nav-link btn--e-white-brand-shadow"
+                                                    href="{% url 'home' %}?filter{{productcategories.id}}={{filter}}&orderby=id">LATEST PRODUCTS</a>
+                                            </li>
+                                            <li class="nav-item">
+
+                                                <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab"
+                                                    href="#e-b-s">BEST SELLING</a></li>
+                                            <li class="nav-item">
+
+                                                <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
+                                                    href="#e-t-r">TOP RATING</a></li>
+                                            <li class="nav-item">
+
+                                                <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
+                                                    href="#e-f-p">FEATURED PRODUCTS</a></li>
+                                        </ul> {% endcomment %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--====== End - Section Intro ======-->
+
+
+                    <!--====== Section Content ======-->
+                    <div class="section__content">
+                        <div class="container">
+                            <div class="tab-content">
+
+                                <!--====== Tab 1 ======-->
+
+                                <!--====== End - Tab 1 ======-->
+
+
+                                <!--====== Tab 2 ======-->
+                                <div class="tab-pane fade show active" id="e-b-s">
+                                    <div class="slider-fouc">
+
+                                        <div class="owl-carousel tab-slider" data-item="4">
+                                            {% for prods in prod %}
+                                            <div class="u-s-m-b-30">
+                                                <div class="product-o product-o--hover-on">
+                                                    <div class="product-o__wrap">
+
+                                                        <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                                            href="product-detail.html">
+
+                                                            <img class="aspect__img" id="imagepr{{prods.product.id}}"
+                                                                src="{{prods.product.get_product_image_url}}" alt=""></a>
+                                                        <div class="product-o__action-wrap">
+                                                            <ul class="product-o__action-list">
+                                                                <li>
+
+                                                                    <a data-modal="modal"
+                                                                        data-modal-id="#quick-look{{prods.product.id}}"
+                                                                        data-tooltip="tooltip" data-placement="top"
+                                                                        title="Quick View"><i
+                                                                            class="fas fa-search-plus"></i></a></li>
+                                                                <li>
+
+                                                                    <a data-modal="modal"
+                                                                        data-modal-id="#add-to-cart{{prods.product.id}}"
+                                                                        data-tooltip="tooltip" data-placement="top"
+                                                                        title="Add to Cart"><i
+                                                                            class="fas fa-plus-circle"></i></a></li>
+                                                                <li>
+
+                                                                    <a href="signin.html" data-tooltip="tooltip"
+                                                                        data-placement="top" title="Add to Wishlist"><i
+                                                                            class="fas fa-heart"></i></a></li>
+                                                                <li>
+
+                                                                    <a href="signin.html" data-tooltip="tooltip"
+                                                                        data-placement="top"
+                                                                        title="Email me When the price drops"><i
+                                                                            class="fas fa-envelope"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <span class="product-o__category">
+
+                                                        <a href="shop-side-version-2.html"
+                                                            id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
+
+                                                    <span class="product-o__name">
+
+                                                        <a href="{% url 'product_details' prods.product.product_slug %}"
+                                                            id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
+                                                    <div class="product-o__rating gl-rating-style"><i
+                                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                            class="fas fa-star"></i>
+                                                        <input type="hidden" id="subcatpr{{prods.product.id}}"
+                                                            value="{{prods.product.product_subcategory.title}}">
+                                                        <input type="hidden" id="childcatpr{{prods.product.id}}"
+                                                            value="{{prods.product.product_childsubcategory.title}}">
+                                                        <input type="hidden" id="idpr{{prods.product.id}}"
+                                                            value="{{prods.product.id}}">
+                                                        
+                                                        <span class="product-o__review">(23)</span></div>
+                                                        <input type="hidden" id="slugpr{{prods.product.id}}"
+                                                        value="{{prods.product.product_slug}}">
+
+                                                        <span class="product-o__price">&#8377<span
+                                                            id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
+
+                                                        <span
+                                                            class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
+
+                                                    </span>
+                                                    <div class="u-s-m-b-15">
+                                                        <span id="divpr{{prods.product.id}}" class="divpr">
+                                                            <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
+                                                                id="pr{{prods.product.id}}">Add to Cart</button></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--====== End - Section Content ======-->
+                </div>
+            {% endfor %}
+           
+            <!--====== Section 3 ======-->      
             <div class="u-s-p-b-60">
 
                 <!--====== Section Intro ======-->
@@ -197,29 +403,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="block">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">NEW ARRIVALS</h1>
 
-                                    <span class="block__title"
-                                        style="text-transform:uppercase">{{productcategories.title}}'s</span>
-                                    <ul class="nav tab-list">
-                                        <li class="nav-item">
-
-                                            <a class="nav-link btn--e-white-brand-shadow"
-                                                href="{% url 'home' %}?filter={{filter}}&orderby=id">LATEST PRODUCTS</a>
-                                        </li>
-                                        <li class="nav-item">
-
-                                            <a class="nav-link btn--e-white-brand-shadow active" data-toggle="tab"
-                                                href="#e-b-s">BEST SELLING</a></li>
-                                        <li class="nav-item">
-
-                                            <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
-                                                href="#e-t-r">TOP RATING</a></li>
-                                        <li class="nav-item">
-
-                                            <a class="nav-link btn--e-white-brand-shadow" data-toggle="tab"
-                                                href="#e-f-p">FEATURED PRODUCTS</a></li>
-                                    </ul>
+                                    <span class="section__span u-c-silver">GET UP FOR NEW ARRIVALS</span>
                                 </div>
                             </div>
                         </div>
@@ -231,117 +418,96 @@
                 <!--====== Section Content ======-->
                 <div class="section__content">
                     <div class="container">
-                        <div class="tab-content">
+                        <div class="slider-fouc">
+                            <div class="owl-carousel product-slider" data-item="4">
+                                {% for new_arrival_product in new_arrival_products %}
+                                <div class="u-s-m-b-30">
+                                    <div class="product-o product-o--hover-on">
+                                        <div class="product-o__wrap">
 
-                            <!--====== Tab 1 ======-->
+                                            <a class="aspect aspect--bg-grey aspect--square u-d-block"
+                                                href="product-detail.html">
 
-                            <!--====== End - Tab 1 ======-->
+                                                <img class="aspect__img" id="imagepr{{new_arrival_product.id}}"
+                                                    src="{{new_arrival_product.get_product_image_url}}" alt=""></a>
+                                            <div class="product-o__action-wrap">
+                                                <ul class="product-o__action-list">
+                                                    <li>
 
+                                                        <a data-modal="modal"
+                                                            data-modal-id="#quick-look{{new_arrival_product.id}}"
+                                                            data-tooltip="tooltip" data-placement="top"
+                                                            title="Quick View"><i
+                                                                class="fas fa-search-plus"></i></a></li>
+                                                    <li>
 
-                            <!--====== Tab 2 ======-->
-                            <div class="tab-pane fade show active" id="e-b-s">
-                                <div class="slider-fouc">
+                                                        <a data-modal="modal"
+                                                            data-modal-id="#add-to-cart{{new_arrival_product.id}}"
+                                                            data-tooltip="tooltip" data-placement="top"
+                                                            title="Add to Cart"><i
+                                                                class="fas fa-plus-circle"></i></a></li>
+                                                    <li>
 
-                                    <div class="owl-carousel tab-slider" data-item="4">
-                                        {% for prods in prod %}
-                                        <div class="u-s-m-b-30">
-                                            <div class="product-o product-o--hover-on">
-                                                <div class="product-o__wrap">
+                                                        <a href="signin.html" data-tooltip="tooltip"
+                                                            data-placement="top" title="Add to Wishlist"><i
+                                                                class="fas fa-heart"></i></a></li>
+                                                    <li>
 
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block"
-                                                        href="product-detail.html">
-
-                                                        <img class="aspect__img" id="imagepr{{prods.product.id}}"
-                                                            src="{{prods.product.product_image}}" alt=""></a>
-                                                    <div class="product-o__action-wrap">
-                                                        <ul class="product-o__action-list">
-                                                            <li>
-
-                                                                <a data-modal="modal"
-                                                                    data-modal-id="#quick-look{{prods.product.id}}"
-                                                                    data-tooltip="tooltip" data-placement="top"
-                                                                    title="Quick View"><i
-                                                                        class="fas fa-search-plus"></i></a></li>
-                                                            <li>
-
-                                                                <a data-modal="modal"
-                                                                    data-modal-id="#add-to-cart{{prods.product.id}}"
-                                                                    data-tooltip="tooltip" data-placement="top"
-                                                                    title="Add to Cart"><i
-                                                                        class="fas fa-plus-circle"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip"
-                                                                    data-placement="top" title="Add to Wishlist"><i
-                                                                        class="fas fa-heart"></i></a></li>
-                                                            <li>
-
-                                                                <a href="signin.html" data-tooltip="tooltip"
-                                                                    data-placement="top"
-                                                                    title="Email me When the price drops"><i
-                                                                        class="fas fa-envelope"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <span class="product-o__category">
-
-                                                    <a href="shop-side-version-2.html"
-                                                        id="catpr{{prods.product.id}}">{{prods.product.product_category.title}}</a></span>
-
-                                                <span class="product-o__name">
-
-                                                    <a href="{% url 'product_details' prods.product.product_slug %}"
-                                                        id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
-                                                <div class="product-o__rating gl-rating-style"><i
-                                                        class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                                        class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                                        class="fas fa-star"></i>
-                                                    <input type="hidden" id="subcatpr{{prods.product.id}}"
-                                                        value="{{prods.product.product_subcategory.title}}">
-                                                    <input type="hidden" id="childcatpr{{prods.product.id}}"
-                                                        value="{{prods.product.product_childsubcategory.title}}">
-                                                    <input type="hidden" id="idpr{{prods.product.id}}"
-                                                        value="{{prods.product.id}}">
-
-                                                    <span class="product-o__review">(23)</span></div>
-                                                <input type="hidden" id="slugpr{{prods.product.id}}"
-                                                    value="{{prods.product.product_slug}}">
-
-                                                <span class="product-o__price">&#8377<span
-                                                        id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
-
-                                                    <span
-                                                        class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
-
-                                                </span>
-                                                <div class="u-s-m-b-15">
-                                                    <span id="divpr{{prods.product.id}}" class="divpr">
-                                                        <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
-                                                            id="pr{{prods.product.id}}">Add to Cart</button></span>
-                                                        <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
-                                                            id="add-button{{prods.product.id}}">Add</button></span>
-                                                </div>
+                                                        <a href="signin.html" data-tooltip="tooltip"
+                                                            data-placement="top"
+                                                            title="Email me When the price drops"><i
+                                                                class="fas fa-envelope"></i></a></li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        {% endfor %}
 
+                                        <span class="product-o__category">
+
+                                            <a href="shop-side-version-2.html"
+                                                id="catpr{{new_arrival_product.id}}">{{new_arrival_product.product_category.title}}</a></span>
+
+                                        <span class="product-o__name">
+
+                                            <a href="{% url 'product_details' new_arrival_product.product_slug %}"
+                                                id="namepr{{new_arrival_product.id}}">{{new_arrival_product.product_name}}</a></span>
+                                        <div class="product-o__rating gl-rating-style"><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                class="fas fa-star"></i>
+                                            <input type="hidden" id="subcatpr{{new_arrival_product.id}}"
+                                                value="{{new_arrival_product.product_subcategory.title}}">
+                                            <input type="hidden" id="childcatpr{{new_arrival_product.id}}"
+                                                value="{{new_arrival_product.product_childsubcategory.title}}">
+                                            <input type="hidden" id="idpr{{new_arrival_product.id}}"
+                                                value="{{new_arrival_product.id}}">
+                                            
+                                            <span class="product-o__review">(23)</span></div>
+                                            <input type="hidden" id="slugpr{{new_arrival_product.id}}"
+                                            value="{{new_arrival_product.product_slug}}">
+
+                                            <span class="product-o__price">&#8377<span
+                                                id="pricepr{{new_arrival_product.id}}">{{new_arrival_product.product_selling_price}}</span>
+
+                                            <span
+                                                class="product-o__discount">&#8377<span>{{ new_arrival_product.product_mrp }}</span></span>
+
+                                        </span>
+                                        <div class="u-s-m-b-15">
+                                            <span id="divpr{{new_arrival_product.id}}" class="divpr">
+                                                <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{new_arrival_product.id}}"
+                                                    id="pr{{new_arrival_product.id}}">Add to Cart</button></span>
+                                            </span>
+                                        </div>
                                     </div>
-
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!--====== End - Section Content ======-->
             </div>
-
-            {% endfor %}
-
-            <!--====== Section 3 ======-->
-
-
+          
             <!--====== Section 7 ======-->
             <div class="u-s-p-b-60">
 
@@ -366,6 +532,7 @@
                 <div class="section__content">
                     <div class="container">
                         <div class="row">
+                            {% for exclusive_product in exclusive_products %}
                             <div class="col-lg-6 u-s-m-b-30">
                                 <div class="x-product u-h-100">
                                     <div class="row">
@@ -375,85 +542,39 @@
 
                                                     <span class="feature__name">NAME</span>
 
-                                                    <span class="feature__value">New Fashion A Sweater</span></li>
+                                                    <span class="feature__value">{{exclusive_product.product_name}}</span></li>
                                                 <li class="feature">
 
                                                     <span class="feature__name">PRICE</span>
 
-                                                    <span class="feature__value">$125.00</span></li>
+                                                    <span class="feature__value">&#8377; {{exclusive_product.product_selling_price}}</span></li>
                                                 <li class="feature">
 
-                                                    <span class="feature__name">COLOR</span>
+                                                    <span class="feature__name">Category</span>
 
-                                                    <span class="feature__value">Black</span></li>
+                                                    <span class="feature__value">{{exclusive_product.product_category.title}}</span></li>
                                                 <li class="feature">
 
-                                                    <span class="feature__name">SIZE</span>
+                                                    <span class="feature__name">Description</span>
 
-                                                    <span class="feature__value">XL</span></li>
+                                                    <span class="feature__value">{{exclusive_product.product_desc}}</span></li>
                                                 <li class="feature">
 
-                                                    <span class="feature__name">MATERIAL</span>
-
-                                                    <span class="feature__value">Cotton</span></li>
                                             </ul>
                                         </div>
                                         <div class="col-lg-8 col-md-8 col-sm-8">
                                             <div class="x-product__img-wrap">
 
-                                                <a class="u-d-block" href="product-detail.html">
+                                                <a class="u-d-block" href="{% url 'product_details' exclusive_product.product_slug %}">
 
                                                     <img class="u-d-block u-img-fluid"
-                                                        src="{% static '/ecafront/images/product/men/product11.jpg' %}"
+                                                        src="{{exclusive_product.get_product_image_url}}"
                                                         alt=""></a></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 u-s-m-b-30">
-                                <div class="x-product u-h-100">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <ul class="x-product__feature-list">
-                                                <li class="feature">
-
-                                                    <span class="feature__name">NAME</span>
-
-                                                    <span class="feature__value">New Fashion A Nice Elegant</span></li>
-                                                <li class="feature">
-
-                                                    <span class="feature__name">PRICE</span>
-
-                                                    <span class="feature__value">$125.00</span></li>
-                                                <li class="feature">
-
-                                                    <span class="feature__name">COLOR</span>
-
-                                                    <span class="feature__value">White Black</span></li>
-                                                <li class="feature">
-
-                                                    <span class="feature__name">SIZE</span>
-
-                                                    <span class="feature__value">XL</span></li>
-                                                <li class="feature">
-
-                                                    <span class="feature__name">MATERIAL</span>
-
-                                                    <span class="feature__value">Cotton</span></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-sm-8">
-                                            <div class="x-product__img-wrap">
-
-                                                <a class="u-d-block" href="product-detail.html">
-
-                                                    <img class="u-d-block u-img-fluid"
-                                                        src="{% static '/ecafront/images/product/women/product20.jpg' %}"
-                                                        alt=""></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -461,9 +582,7 @@
                 <!--====== Section Content ======-->
             </div>
             <!--====== End - Section 7 ======-->
-
-
-            <!--====== Section 8 ======-->
+            {% comment %} <!--====== Section 8 ======-->
             <div class="u-s-p-b-60">
 
                 <!--====== Section Intro ======-->
@@ -502,7 +621,7 @@
                                             href="product-detail.html">
 
                                             <img class="aspect__img product-o2__img"
-                                                src="{% static '/ecafront/images/product/women/product11.jpg' %}"
+                                                src="{% static 'ecafront/images/product/women/product11.jpg' %}"
                                                 alt=""></a>
                                         <div class="product-o2__action-wrap">
                                             <ul class="product-o2__action-list">
@@ -560,7 +679,7 @@
                                             href="product-detail.html">
 
                                             <img class="aspect__img product-o2__img"
-                                                src="{% static '/ecafront/images/product/women/product12.jpg' %}"
+                                                src="{% static 'ecafront/images/product/women/product12.jpg' %}"
                                                 alt=""></a>
                                         <div class="product-o2__action-wrap">
                                             <ul class="product-o2__action-list">
@@ -618,7 +737,7 @@
                                             href="product-detail.html">
 
                                             <img class="aspect__img product-o2__img"
-                                                src="{% static '/ecafront/images/product/women/product13.jpg' %}"
+                                                src="{% static 'ecafront/images/product/women/product13.jpg' %}"
                                                 alt=""></a>
                                         <div class="product-o2__action-wrap">
                                             <ul class="product-o2__action-list">
@@ -710,7 +829,7 @@
                                             href="blog-detail.html">
 
                                             <img class="aspect__img"
-                                                src="{% static '/ecafront/images/blog/post-2.jpg' %}" alt=""></a>
+                                                src="{% static 'ecafront/images/blog/post-2.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -772,7 +891,7 @@
                                             href="blog-detail.html">
 
                                             <img class="aspect__img"
-                                                src="{% static '/ecafront/images/blog/post-12.jpg' %}" alt=""></a>
+                                                src="{% static 'ecafront/images/blog/post-12.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -834,7 +953,7 @@
                                             href="blog-detail.html">
 
                                             <img class="aspect__img"
-                                                src="{% static '/ecafront/images/blog/post-5.jpg' %}" alt=""></a>
+                                                src="{% static 'ecafront/images/blog/post-5.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -892,7 +1011,7 @@
                 </div>
                 <!--====== End - Section Content ======-->
             </div>
-            <!--====== End - Section 9 ======-->
+            <!--====== End - Section 9 ======--> {% endcomment %}
 
 
             <!--====== Section 10 ======-->
@@ -951,270 +1070,264 @@
 
 {% block afterfooter %}
 
-<!--====== Quick Look Modal ======-->
 {% for prod,range,nSlides,productcategories,prodsub in allprods %}
-{% for prods in prod %}
-<div class="modal fade" id="quick-look{{prods.product.id}}">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal--shadow">
+    <!--====== Quick Look Modal ======-->
+    {% for prods in prod %}
+    <div class="modal fade" id="quick-look{{prods.product.id}}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal--shadow">
 
-            <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-5">
+                <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-5">
 
-                        <!--====== Product Breadcrumb ======-->
-                        <div class="pd-breadcrumb u-s-m-b-30">
-                            <ul class="pd-breadcrumb__list">
-                                <li class="has-separator">
+                            <!--====== Product Breadcrumb ======-->
+                            <div class="pd-breadcrumb u-s-m-b-30">
+                                <ul class="pd-breadcrumb__list">
+                                    <li class="has-separator">
 
-                                    <a href="index.hml">Home</a></li>
-                                <li class="has-separator">
+                                        <a href="index.hml">Home</a></li>
+                                    <li class="has-separator">
 
-                                    <a href="shop-side-version-2.html">Electronics</a></li>
-                                <li class="has-separator">
+                                        <a href="shop-side-version-2.html">Electronics</a></li>
+                                    <li class="has-separator">
 
-                                    <a href="shop-side-version-2.html">DSLR Cameras</a></li>
-                                <li class="is-marked">
+                                        <a href="shop-side-version-2.html">DSLR Cameras</a></li>
+                                    <li class="is-marked">
 
-                                    <a href="shop-side-version-2.html">Nikon Cameras</a></li>
-                            </ul>
-                        </div>
-                        <!--====== End - Product Breadcrumb ======-->
-
-
-                        <!--====== Product Detail ======-->
-                        <div class="pd u-s-m-b-30">
-                            <div class="pd-wrap">
-                                <div id="js-product-detail-modal">
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="u-s-m-t-15">
-                                <div id="js-product-detail-modal-thumbnail">
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid"
-                                            src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--====== End - Product Detail ======-->
-                    </div>
-                    <div class="col-lg-7">
-
-                        <!--====== Product Right Side Details ======-->
-                        <div class="pd-detail">
-                            <div>
-
-                                <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
-                            <div>
-                                <div class="pd-detail__inline">
-
-                                    <span class="pd-detail__price">$6.99</span>
-
-                                    <span class="pd-detail__discount">(76% OFF)</span><del
-                                        class="pd-detail__del">$28.97</del></div>
-                            </div>
-                            <div class="u-s-m-b-15">
-                                <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i
-                                        class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                        class="fas fa-star-half-alt"></i>
-
-                                    <span class="pd-detail__review u-s-m-l-4">
-
-                                        <a href="product-detail.html">23 Reviews</a></span></div>
-                            </div>
-                            <div class="u-s-m-b-15">
-                                <div class="pd-detail__inline">
-
-                                    <span class="pd-detail__stock">200 in stock</span>
-
-                                    <span class="pd-detail__left">Only 2 left</span></div>
-                            </div>
-                            <div class="u-s-m-b-15">
-
-                                <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy text of the printing
-                                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                                    to make a type specimen book.</span></div>
-                            <div class="u-s-m-b-15">
-                                <div class="pd-detail__inline">
-
-                                    <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
-
-                                        <a href="signin.html">Add to Wishlist</a>
-
-                                        <span class="pd-detail__click-count">(222)</span></span></div>
-                            </div>
-                            <div class="u-s-m-b-15">
-                                <div class="pd-detail__inline">
-
-                                    <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
-
-                                        <a href="signin.html">Email me When the price drops</a>
-
-                                        <span class="pd-detail__click-count">(20)</span></span></div>
-                            </div>
-                            <div class="u-s-m-b-15">
-                                <ul class="pd-social-list">
-                                    <li>
-
-                                        <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li>
-
-                                        <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li>
-
-                                        <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a>
-                                    </li>
-                                    <li>
-
-                                        <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li>
-
-                                        <a class="s-gplus--color-hover" href="#"><i
-                                                class="fab fa-google-plus-g"></i></a></li>
+                                        <a href="shop-side-version-2.html">Nikon Cameras</a></li>
                                 </ul>
                             </div>
-                            <div class="u-s-m-b-15">
-                                <form class="pd-detail__form">
-                                    <div class="pd-detail-inline-2">
-                                        <div class="u-s-m-b-15">
+                            <!--====== End - Product Breadcrumb ======-->
 
-                                            <!--====== Input Counter ======-->
-                                            <div class="input-counter">
 
-                                                <span class="input-counter__minus fas fa-minus"></span>
+                            <!--====== Product Detail ======-->
+                            <div class="pd u-s-m-b-30">
+                                <div class="pd-wrap">
+                                    <div id="js-product-detail-modal">
+                                        <div>
 
-                                                <input class="input-counter__text input-counter--text-primary-style"
-                                                    type="text" value="1" data-min="1" data-max="1000">
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                        <div>
 
-                                                <span class="input-counter__plus fas fa-plus"></span></div>
-                                            <!--====== End - Input Counter ======-->
-                                        </div>
-                                        <div class="u-s-m-b-15">
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                        <div>
 
-                                            <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button>
-                                        </div>
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                     </div>
-                                </form>
+                                </div>
+                                <div class="u-s-m-t-15">
+                                    <div id="js-product-detail-modal-thumbnail">
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                        <div>
+
+                                            <img class="u-img-fluid"
+                                                src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="u-s-m-b-15">
-
-                                <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
-                                <ul class="pd-detail__policy-list">
-                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                        <span>Buyer Protection.</span></li>
-                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                        <span>Full Refund if you don't receive your order.</span></li>
-                                    <li><i class="fas fa-check-circle u-s-m-r-8"></i>
-
-                                        <span>Returns accepted if product not as described.</span></li>
-                                </ul>
-                            </div>
+                            <!--====== End - Product Detail ======-->
                         </div>
-                        <!--====== End - Product Right Side Details ======-->
+                        <div class="col-lg-7">
+
+                            <!--====== Product Right Side Details ======-->
+                            <div class="pd-detail">
+                                <div>
+
+                                    <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+                                <div>
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__price">$6.99</span>
+
+                                        <span class="pd-detail__discount">(76% OFF)</span><del
+                                            class="pd-detail__del">$28.97</del></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star-half-alt"></i>
+
+                                        <span class="pd-detail__review u-s-m-l-4">
+
+                                            <a href="product-detail.html">23 Reviews</a></span></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__stock">200 in stock</span>
+
+                                        <span class="pd-detail__left">Only 2 left</span></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+
+                                    <span class="pd-detail__preview-desc">Lorem Ipsum is simply dummy text of the printing
+                                        and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                                        to make a type specimen book.</span></div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
+
+                                            <a href="signin.html">Add to Wishlist</a>
+
+                                            <span class="pd-detail__click-count">(222)</span></span></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__inline">
+
+                                        <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
+
+                                            <a href="signin.html">Email me When the price drops</a>
+
+                                            <span class="pd-detail__click-count">(20)</span></span></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <ul class="pd-social-list">
+                                        <li>
+
+                                            <a class="s-fb--color-hover" href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li>
+
+                                            <a class="s-tw--color-hover" href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li>
+
+                                            <a class="s-insta--color-hover" href="#"><i class="fab fa-instagram"></i></a>
+                                        </li>
+                                        <li>
+
+                                            <a class="s-wa--color-hover" href="#"><i class="fab fa-whatsapp"></i></a></li>
+                                        <li>
+
+                                            <a class="s-gplus--color-hover" href="#"><i
+                                                    class="fab fa-google-plus-g"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <form class="pd-detail__form">
+                                        <div class="pd-detail-inline-2">
+                                            <div class="u-s-m-b-15">
+
+                                                <!--====== Input Counter ======-->
+                                                <div class="input-counter">
+
+                                                    <span class="input-counter__minus fas fa-minus"></span>
+
+                                                    <input class="input-counter__text input-counter--text-primary-style"
+                                                        type="text" value="1" data-min="1" data-max="1000">
+
+                                                    <span class="input-counter__plus fas fa-plus"></span></div>
+                                                <!--====== End - Input Counter ======-->
+                                            </div>
+                                            <div class="u-s-m-b-15">
+
+                                                <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="u-s-m-b-15">
+
+                                    <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
+                                    <ul class="pd-detail__policy-list">
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Buyer Protection.</span></li>
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Full Refund if you don't receive your order.</span></li>
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Returns accepted if product not as described.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--====== End - Product Right Side Details ======-->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
+    <!--====== End - Quick Look Modal ======-->
+    <!--====== Add to Cart Modal ======-->
+    {% for prods in prod  %}
+    <div class="modal fade" id="add-to-cart{{prods.product.id}}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-radius modal-shadow">
 
-<!--====== End - Quick Look Modal ======-->
+                <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="success u-s-m-b-30">
+                                <div class="success__text-wrap"><i class="fas fa-check"></i>
 
+                                    <span>Item is added successfully!</span></div>
+                                <div class="success__img-wrap">
 
-<!--====== Add to Cart Modal ======-->
-{% for prods in prod  %}
-<div class="modal fade" id="add-to-cart{{prods.product.id}}">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal-radius modal-shadow">
+                                    <img class="u-img-fluid" src="{{prods.product.get_product_image_url}}" alt=""></div>
+                                <div class="success__info-wrap">
 
-            <button class="btn dismiss-button fas fa-times" type="button" data-dismiss="modal"></button>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <div class="success u-s-m-b-30">
-                            <div class="success__text-wrap"><i class="fas fa-check"></i>
+                                    <span class="success__name">{{prods.product.product_name}}</span>
 
-                                <span>Item is added successfully!</span></div>
-                            <div class="success__img-wrap">
+                                    <span class="success__quantity">Quantity: 1</span>
 
-                                <img class="u-img-fluid" src="{{prods.product.product_image}}" alt=""></div>
-                            <div class="success__info-wrap">
-
-                                <span class="success__name">{{prods.product.product_name}}</span>
-
-                                <span class="success__quantity">Quantity: 1</span>
-
-                                <span class="success__price">${{prods.product.product_selling_price}}</span></div>
+                                    <span class="success__price">&#8377;{{prods.product.product_selling_price}}</span></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="s-option">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="s-option">
 
-                            <span class="s-option__text">1 item (s) in your cart</span>
-                            <div class="s-option__link-box">
+                                <span class="s-option__text">1 item (s) in your cart</span>
+                                <div class="s-option__link-box">
 
-                                <a class="s-option__link btn--e-white-brand-shadow" data-dismiss="modal">CONTINUE
-                                    SHOPPING</a>
+                                    <a class="s-option__link btn--e-white-brand-shadow" data-dismiss="modal">CONTINUE
+                                        SHOPPING</a>
 
-                                <a class="s-option__link btn--e-white-brand-shadow" href="cart.html">VIEW CART</a>
+                                    <a class="s-option__link btn--e-white-brand-shadow" href="cart.html">VIEW CART</a>
 
-                                <a class="s-option__link btn--e-brand-shadow" href="{% url 'checkout' %}">PROCEED TO
-                                    CHECKOUT</a></div>
+                                    <a class="s-option__link btn--e-brand-shadow" href="{% url 'checkout' %}">PROCEED TO
+                                        CHECKOUT</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    {% endfor %}
+    <!--====== End - Add to Cart Modal ======-->
 {% endfor %}
-{% endfor %}
-<!--====== End - Add to Cart Modal ======-->
-
-
-
 <!--====== End - Newsletter Subscribe Modal ======-->
 <!--====== End - Modal Section ======-->
 
@@ -1255,7 +1368,27 @@
 
             cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id];
             console.log(cart)
+        }   
+        console.log(user)
+        if (user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart[idstr][8],'quantity':cart[idstr][0],'action':'add'})
+    
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
         }
+       
         updateCart(cart);
         updatePopover(cart);
     });
@@ -1308,14 +1441,30 @@
         console.log("inside remove fuction")
         document.getElementById('div' + a).innerHTML = "<button class='gl-tag btn btn--e-brand-b-2 cart' id=" +
             a + ">Add To Cart </button>";
+            if(user != 'AnonymousUser'){
+                var url = "{% url 'add-to-cart' %}"
+                fetch(url,{
+                    method:'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body:JSON.stringify({'item':cart[a][8],'quantity':0})
+        
+                })
+                .then((response)=>{
+                    return response.json()
+                })
+                .then((data)=>{
+                    console.log('data:',data)
+                })
+            }
         delete cart[a]
         localStorage.setItem('cart', JSON.stringify(cart));
         console.log("now we are exit")
         updateCart(cart);
 
     });
-
-
     // Html Code replace with plus minus button updating cart in localStorage
     function updateCart(cart) {
         var sum = 0;
@@ -1331,7 +1480,9 @@
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
-
+        //Ajax
+       
+        //end Ajax
         //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
         document.getElementById('cart').innerHTML = sum;
         updatePopover(cart);
@@ -1346,6 +1497,24 @@
         r = cart['pr' + a][0]
         var str = "Add to Cart"
         console.log("minus 0 thase")
+        if (user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         if (r == 0) {
             console.log("minus 0 thayu")
             document.getElementById('div' + p).innerHTML =
@@ -1364,6 +1533,25 @@
         a = this.id.slice(6, );
         cart['pr' + a][0] = cart['pr' + a][0] + 1;
         document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+        console.log(user)
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         updateCart(cart);
     });
 </script>

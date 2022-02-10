@@ -14,7 +14,7 @@ from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
-from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes,force_str,DjangoUnicodeDecodeError
 from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -207,23 +207,30 @@ def dologin(request):
         if user is not None:
             if user.is_active == True:
                 login(request,user)
+                next =request.POST.get('next')
+                print("before check if")
                 # request.session['logged in']=True
                 if user.user_type=="2":
-                    if 'next' in request.POST:
-                        return redirect(request.POST.get('next'))
+                    print("2")
+                    if next:
+                        return HttpResponseRedirect(next)
                     else:
                         return HttpResponseRedirect(reverse('admin:index'))
                 if user.user_type=="4":
-                    if 'next' in request.POST:
-                        return redirect(request.POST.get('next'))
+                    print("4")
+                    if next:
+                        return HttpResponseRedirect(next)
                     else:
                         return HttpResponseRedirect(reverse('home'))
                 elif user.user_type=="1":
-                    if 'next' in request.POST:
-                        return redirect(request.POST.get('next'))
+                    print("1")
+                    if next:
+                        return HttpResponseRedirect(next)
                     else:
                         return HttpResponseRedirect(reverse('admin_home'))
                 elif user.user_type=="3":
+                    print("3")
+                    print(next)
                     if 'next' in request.POST:
                         return redirect(request.POST.get('next'))
                     else:
@@ -232,9 +239,11 @@ def dologin(request):
    # For Djnago default Admin Login return HttpResponseRedirect(reverse('admin:index'))
                     return HttpResponseRedirect(reverse('admin:index'))
             else:
+                print("insdide else")
                 messages.add_message(request,messages.ERROR,"Please Verify Your Account First")
                 return redirect('/accounts/dologin')
         else:
+            print("last else")
             # print(user.is_active)
             messages.add_message(request,messages.ERROR,"User Not Found you haved to Register First")
             return redirect("dologin")
@@ -295,25 +304,24 @@ def dosingup1(request):
     if request.method=="POST":
         username = request.POST.get('username')
         r=CustomUser.objects.filter(username=username)
-        if r.count():
-            msg=messages.error(request,"Username  Already Exits")
+        if r.count():            
+            messages.add_message(request,messages.ERROR,"Username  Already Exits")
             return HttpResponseRedirect(reverse("dosingup"))
-
         email = request.POST.get('email')
         e=CustomUser.objects.filter(email=email)
         if e.count():        
-            msg=messages.error(request,"Email Already Exits")
+            messages.add_message(request,messages.ERROR,"Email Already Exits")
             return HttpResponseRedirect(reverse("dosingup"))
             
         phone = request.POST.get('phone')
         p=CustomUser.objects.filter(phone=phone)
         if p.count():
-            msg=messages.error(request,"Phone Already Exits")
+            messages.add_message(request,messages.ERROR,"Phone Already Exits")
             return HttpResponseRedirect(reverse("dosingup"))
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         if password1 and password2 and password1 != password2:
-            msg=messages.error(request,"Password Does Match")
+            messages.add_message(request,messages.ERROR,"Password Does Match")
             return HttpResponseRedirect(reverse("dosingup"))
 
         try:
@@ -343,11 +351,11 @@ def dosingup1(request):
             #     [email]
             # )
             # email_message.send()
-            # msg=messages.success(request,"Sucessfully Singup Please Verify Your Account First")
+            # messages.add_message(request,messages.ERROR,"Sucessfully Singup Please Verify Your Account First")
             print("hello bhia ahiya ayo em")           
             return HttpResponseRedirect(reverse("dologin"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("dosingup"))
     return render(request,"accounts/dosingup.html")
 
@@ -356,23 +364,23 @@ def customer_singup(request):
         username=request.POST.get('username')
         r=CustomUser.objects.filter(username=username)
         if r.count():
-            msg=messages.error(request,"Username  Already Exits")
+            messages.add_message(request,messages.ERROR,"Username  Already Exits")
             return HttpResponseRedirect(reverse("customer_singup"))
 
         email = request.POST.get('email')
         e=CustomUser.objects.filter(email=email)
         if e.count():
             if e.user_type==3:
-                msg=messages.error(request,"Email Already Exits")
+                messages.add_message(request,messages.ERROR,"Email Already Exits")
                 return HttpResponseRedirect(reverse("customer_singup"))
             else:
-                msg=messages.error(request,"Register With different Role")
+                messages.add_message(request,messages.ERROR,"Register With different Role")
                 return HttpResponseRedirect(reverse("customer_singup"))
 
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         if password1 and password2 and password1 != password2:
-            msg=messages.error(request,"Password Does Match")
+            messages.add_message(request,messages.ERROR,"Password Does Match")
             return HttpResponseRedirect(reverse("customer_singup"))
         try:
             user=CustomUser.objects.create_user(username=username,password=password1,email=email,user_type=3)
@@ -396,16 +404,16 @@ def customer_singup(request):
                 [email]
             )
             email_message.send()
-            msg=messages.success(request,"Sucessfully Singup check you emial for verification")
+            messages.add_message(request,messages.ERROR,"Sucessfully Singup check you emial for verification")
             return HttpResponseRedirect(reverse("dologin"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("customer_singup"))
     return render(request,"accounts/customer_singup.html")
 
 def activate(request,uidb64,token):
     try:
-        uid=force_text(urlsafe_base64_decode(uidb64))
+        uid=force_str(urlsafe_base64_decode(uidb64))
         print(uid)
         user=CustomUser.objects.get(pk=uid) 
     except:

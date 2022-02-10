@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'loginbase.html' %}
 {% load static %}
 {% block title %}
     <title>RoyalDrop Shipping | E-commerce | All Product online</title>
@@ -9,7 +9,7 @@
 <div class="preloader is-active">
         <div class="preloader__wrap">
 
-            <img class="preloader__img" src="{% static '/ecafront/images/preloader.png' %}" alt=""></div>
+            <img class="preloader__img" src="{% static 'ecafront/images/preloader.png' %}" alt=""></div>
     </div>
 {% endblock loader %} {% endcomment %}
 
@@ -96,7 +96,7 @@
                                                 {% endfor %}
                                             {% endif %}
                                             </div>
-                                            <div class="gl-s-api">
+                                            {% comment %} <div class="gl-s-api">
                                                 <div class="u-s-m-b-15">
 
                                                     <button class="gl-s-api__btn gl-s-api__btn--fb" type="button"><i class="fab fa-facebook-f"></i>
@@ -107,7 +107,7 @@
                                                     <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button"><i class="fab fa-google"></i>
 
                                                         <span>Signup with Google</span></button></div>
-                                            </div>
+                                            </div> {% endcomment %}
                                              {% for field in form %}
                                             <div class="u-s-m-b-30" >
 

@@ -9,7 +9,7 @@
 <div class="preloader is-active">
         <div class="preloader__wrap">
 
-            <img class="preloader__img" src="{% static '/ecafront/images/preloader.png' %}" alt=""></div>
+            <img class="preloader__img" src="{% static 'ecafront/images/preloader.png' %}" alt=""></div>
     </div>
 {% endblock loader %} {% endcomment %}
 
@@ -122,28 +122,28 @@
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img collection__img" src="{% static '/ecafront/images/collection/coll-1.jpg' %}" alt=""></div>
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/collection/coll-1.jpg' %}" alt=""></div>
                                 </a></div>
                             <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--1286-890">
 
-                                        <img class="aspect__img collection__img" src="{% static '/ecafront/images/collection/coll-2.jpg' %}" alt=""></div>
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/collection/coll-2.jpg' %}" alt=""></div>
                                 </a></div>
                             <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--1286-890">
 
-                                        <img class="aspect__img collection__img" src="{% static '/ecafront/images/collection/coll-3.jpg' %}" alt=""></div>
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/collection/coll-3.jpg' %}" alt=""></div>
                                 </a></div>
                             <div class="col-lg-5 col-md-5 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img collection__img" src="{% static '/ecafront/images/collection/coll-4.jpg' %}" alt=""></div>
+                                        <img class="aspect__img collection__img" src="{% static 'ecafront/images/collection/coll-4.jpg' %}" alt=""></div>
                                 </a></div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                                                 <div class="product-o__wrap">
                                                 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-                                                        <img class="aspect__img" src="{{ product.media.media_content}}" alt=""></a>
+                                                        <img class="aspect__img" src="{{ product.media.get_media_content_url}}" alt=""></a>
                                                     <div class="product-o__action-wrap">
                                                         <ul class="product-o__action-list">
                                                             <li>
@@ -1375,7 +1375,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product11.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product11.jpg' %}" alt=""></a>
                                         <div class="product-o__special-count-wrap">
                                             <div class="countdown countdown--style-special" data-countdown="2020/05/01"></div>
                                         </div>
@@ -1419,7 +1419,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product12.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product12.jpg' %}" alt=""></a>
                                         <div class="product-o__special-count-wrap">
                                             <div class="countdown countdown--style-special" data-countdown="2020/05/01"></div>
                                         </div>
@@ -1496,7 +1496,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product13.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product13.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1537,7 +1537,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product14.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product14.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1578,7 +1578,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product15.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product15.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1619,7 +1619,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product16.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product16.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1660,7 +1660,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product17.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product17.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1701,7 +1701,7 @@
 
                                             <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                                <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product18.jpg' %}" alt=""></a>
+                                                <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product18.jpg' %}" alt=""></a>
                                             <div class="product-o__action-wrap">
                                                 <ul class="product-o__action-list">
                                                     <li>
@@ -1811,7 +1811,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product19.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product19.jpg' %}" alt=""></a>
                                         <div class="product-o__action-wrap">
                                             <ul class="product-o__action-list">
                                                 <li>
@@ -1852,7 +1852,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product20.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product20.jpg' %}" alt=""></a>
                                         <div class="product-o__action-wrap">
                                             <ul class="product-o__action-list">
                                                 <li>
@@ -1893,7 +1893,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product21.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product21.jpg' %}" alt=""></a>
                                         <div class="product-o__action-wrap">
                                             <ul class="product-o__action-list">
                                                 <li>
@@ -1934,7 +1934,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product22.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product22.jpg' %}" alt=""></a>
                                         <div class="product-o__action-wrap">
                                             <ul class="product-o__action-list">
                                                 <li>
@@ -1989,7 +1989,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="{% static '/ecafront/images/promo/promo-img-1.jpg' %}" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="{% static 'ecafront/images/promo/promo-img-1.jpg' %}" alt=""></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -2008,7 +2008,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="{% static '/ecafront/images/promo/promo-img-2.jpg' %}" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="{% static 'ecafront/images/promo/promo-img-2.jpg' %}" alt=""></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -2027,7 +2027,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="{% static '/ecafront/images/promo/promo-img-3.jpg' %}" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="{% static 'ecafront/images/promo/promo-img-3.jpg' %}" alt=""></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -2065,7 +2065,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product23.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product23.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2085,7 +2085,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product24.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product24.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2105,7 +2105,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product25.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product25.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2133,7 +2133,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product26.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product26.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2155,7 +2155,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product27.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product27.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2177,7 +2177,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product28.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product28.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
 
                                                     <span class="product-l__category">
@@ -2207,7 +2207,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product29.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product29.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
                                                     <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
 
@@ -2229,7 +2229,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product30.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product30.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
                                                     <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
 
@@ -2251,7 +2251,7 @@
 
                                                     <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
 
-                                                        <img class="aspect__img" src="{% static '/ecafront/images/product/electronic/product31.jpg' %}" alt=""></a></div>
+                                                        <img class="aspect__img" src="{% static 'ecafront/images/product/electronic/product31.jpg' %}" alt=""></a></div>
                                                 <div class="product-l__info-wrap">
                                                     <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
 
@@ -2355,7 +2355,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/blog/post-2.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/blog/post-2.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -2414,7 +2414,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/blog/post-12.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/blog/post-12.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -2473,7 +2473,7 @@
 
                                         <a class="aspect aspect--bg-grey aspect--1366-768 u-d-block" href="blog-detail.html">
 
-                                            <img class="aspect__img" src="{% static '/ecafront/images/blog/post-5.jpg' %}" alt=""></a>
+                                            <img class="aspect__img" src="{% static 'ecafront/images/blog/post-5.jpg' %}" alt=""></a>
                                         <!--====== End - Image Code ======-->
                                     </div>
                                     <div class="bp-mini__content">
@@ -2562,7 +2562,7 @@
                                 <div class="testimonial">
                                     <div class="testimonial__img-wrap">
 
-                                        <img class="testimonial__img" src="{% static '/ecafront/images/about/test-1.jpg' %}" alt=""></div>
+                                        <img class="testimonial__img" src="{% static 'ecafront/images/about/test-1.jpg' %}" alt=""></div>
                                     <div class="testimonial__content-wrap">
 
                                         <span class="testimonial__double-quote"><i class="fas fa-quote-right"></i></span>
@@ -2576,7 +2576,7 @@
                                 <div class="testimonial">
                                     <div class="testimonial__img-wrap">
 
-                                        <img class="testimonial__img" src="{% static '/ecafront/images/about/test-2.jpg' %}" alt=""></div>
+                                        <img class="testimonial__img" src="{% static 'ecafront/images/about/test-2.jpg' %}" alt=""></div>
                                     <div class="testimonial__content-wrap">
 
                                         <span class="testimonial__double-quote"><i class="fas fa-quote-right"></i></span>
@@ -2590,7 +2590,7 @@
                                 <div class="testimonial">
                                     <div class="testimonial__img-wrap">
 
-                                        <img class="testimonial__img" src="{% static '/ecafront/images/about/test-3.jpg' %}" alt=""></div>
+                                        <img class="testimonial__img" src="{% static 'ecafront/images/about/test-3.jpg' %}" alt=""></div>
                                     <div class="testimonial__content-wrap">
 
                                         <span class="testimonial__double-quote"><i class="fas fa-quote-right"></i></span>
@@ -2604,7 +2604,7 @@
                                 <div class="testimonial">
                                     <div class="testimonial__img-wrap">
 
-                                        <img class="testimonial__img" src="{% static '/ecafront/images/about/test-4.jpg' %}" alt=""></div>
+                                        <img class="testimonial__img" src="{% static 'ecafront/images/about/test-4.jpg' %}" alt=""></div>
                                     <div class="testimonial__content-wrap">
 
                                         <span class="testimonial__double-quote"><i class="fas fa-quote-right"></i></span>
@@ -2639,32 +2639,32 @@
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b1.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b1.png'%}" alt=""></a></div>
                                 <div class="brand-slide">
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b2.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b2.png'%}" alt=""></a></div>
                                 <div class="brand-slide">
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b3.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b3.png'%}" alt=""></a></div>
                                 <div class="brand-slide">
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b4.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b4.png'%}" alt=""></a></div>
                                 <div class="brand-slide">
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b5.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b5.png'%}" alt=""></a></div>
                                 <div class="brand-slide">
 
                                     <a href="shop-side-version-2.html">
 
-                                        <img src="{% static '/ecafront/images/brand/b6.png'%}" alt=""></a></div>
+                                        <img src="{% static 'ecafront/images/brand/b6.png'%}" alt=""></a></div>
                             </div>
                         </div>
                         <!--====== End - Brand Slider ======-->
@@ -2716,38 +2716,38 @@
                                         <div id="js-product-detail-modal">
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                         </div>
                                     </div>
                                     <div class="u-s-m-t-15">
                                         <div id="js-product-detail-modal-thumbnail">
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                         </div>
                                     </div>
                                 </div>
@@ -2883,7 +2883,7 @@
                                         <span>Item is added successfully!</span></div>
                                     <div class="success__img-wrap">
 
-                                        <img class="u-img-fluid" src="{% static '/ecafront/images/product/electronic/product1.jpg' %}" alt=""></div>
+                                        <img class="u-img-fluid" src="{% static 'ecafront/images/product/electronic/product1.jpg' %}" alt=""></div>
                                     <div class="success__info-wrap">
 
                                         <span class="success__name">Beats Bomb Wireless Headphone</span>

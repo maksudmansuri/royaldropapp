@@ -191,9 +191,25 @@ DATABASES = {
         'PASSWORD':'Aot567@lk',
         'HOST':'localhost',
         'PORT':'3306'
+        # 'ENGINE':'django.db.backends.mysql',
+        # 'NAME':'royal_db',
+        # 'USER':'eca_admin',
+        # 'PASSWORD':'Ruvi!0506',
+        # 'HOST':'database-2.cf1rmvgdx7oc.us-west-2.rds.amazonaws.com',
+        # 'PORT':'3306'
     }
 }
-
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['database-1'],
+            'USER': os.environ['medical_user'],
+            'PASSWORD': os.environ['Ruvi!0506'],
+            'HOST': os.environ['database-1.cf1rmvgdx7oc.us-west-2.rds.amazonaws.com'],
+            'PORT': os.environ['3306'],
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -232,17 +248,21 @@ SITE_ID=1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 
-STATIC_URL = "/static/"
-STATIC_ROOT=os.path.join(BASE_DIR,"static")
+# STATIC_URL = "/static/"
+# STATIC_ROOT=os.path.join(BASE_DIR,"static")
 
 BASE_URL="http://127.0.0.1:8000"
+STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Manualy Added
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-      
+    BASE_DIR / 'static'
 ]
 #mnjnh
 STATICFILE_STORAGE = "whitenoise.storage.CompressedMainfestStaticFilesStorage"
@@ -267,3 +287,33 @@ from datetime import timedelta
 
 EMAIL_CONFIRMATION_PERIOD_DAYS = 1
 SIMPLE_EMAIL_CONFIRMATION_PERIOD = timedelta(days=EMAIL_CONFIRMATION_PERIOD_DAYS)
+
+AWS_ACCESS_KEY_ID = 'AKIAYKYQ6HVHTWX4OPWG'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'royaldap'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_QUERYSTRING_AUTH = False
+# AWS_S3_ENDPOINT_URL = 'https://uniqueupgradebooking.s3.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_SIGNATURE_VERSION = 's3v4'
+# AWS_S3_REGION_NAME = 'us-east-1'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+AWS_LOCATION='static'
+# AWS_QUERYSTRING_AUTH = False
+# AWS_MEDIA_LOCATION='media'
+
+# PUBLIC_MEDIA_LOCATION = 'media'
+# MEDIA_ROOT = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_MEDIA_LOCATION)
+# AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'eca.storage.MediaStore' 
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
+# else:    
+# MEDIA_URL = "/media/"
+
+# MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+
+STATIC_ROOT = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
+
+RAZOR_KEY_ID = "rzp_test_hPeFOHilktriEB"
+RAZOR_KEY_SECRET = "F15NPqgm9308NCCeZjQKR0CK"

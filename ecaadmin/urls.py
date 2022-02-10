@@ -50,6 +50,10 @@ urlpatterns = [
     path('product_add_stocks/<str:product_id>',views.ProductAddStocks.as_view(),name="product_add_stocks"),
     path('file_upload', views.file_upload,name='file_upload'),
 
+    #Add Exlusive products
+    path('add_exclusive',views.AddExclusive,name="add_exclusive"),
+
+
     #Staff User
     path('staff_create',views.StaffUserCreateView.as_view(),name="staff_create"),
     path('staff_list',views.StaffUserListView.as_view(),name="staff_list"),

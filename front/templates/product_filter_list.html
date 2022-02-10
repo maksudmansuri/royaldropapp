@@ -447,7 +447,7 @@
 
                                                 <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product_details' prod.product_slug %}">
 
-                                                    <img class="aspect__img" src="{{prod.product_image}}" id="imagepr{{prod.id}}" alt=""></a>
+                                                    <img class="aspect__img" src="{{prod.get_product_image_url}}" id="imagepr{{prod.id}}" alt=""></a>
                                                 <div class="product-m__quick-look">
 
                                                     <a class="fas fa-search" data-modal="modal" data-modal-id="#quick-look{{prod.id}}"  data-tooltip="tooltip" data-placement="top" title="Quick Look"></a></div>
@@ -468,6 +468,12 @@
                                                 <div class="product-m__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i>
 
                                                     <span class="product-m__review">(23)</span></div>
+                                                    <input type="hidden" id="subcatpr{{prod.id}}"
+                                                    value="{{prod.product_subcategory.title}}">
+                                                    <input type="hidden" id="childcatpr{{prod.id}}"
+                                                        value="{{prod.product_childsubcategory.title}}">
+                                                    <input type="hidden" id="idpr{{prod.id}}"
+                                                    value="{{prod.id}}">
                                                     <input type="hidden" id="slugpr{{prod.id}}" value="{{prod.product_slug}}">
                                                 <div class="product-m__price">&#8377<span ><span id="pricepr{{prod.id}}"> {{prod.product_selling_price}}</span></span>
                                                     <span class="product-o__discount">&#8377<span>{{prod.product_mrp}}</span></span>
@@ -746,38 +752,38 @@
                                         <div id="js-product-detail-modal">
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                         </div>
                                     </div>
                                     <div class="u-s-m-t-15">
                                         <div id="js-product-detail-modal-thumbnail">
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-1.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-2.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-3.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-4.jpg' %}" alt=""></div>
                                             <div>
 
-                                                <img class="u-img-fluid" src="{% static '/ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
+                                                <img class="u-img-fluid" src="{% static 'ecafront/images/product/product-d-5.jpg' %}" alt=""></div>
                                         </div>
                                     </div>
                                 </div>
@@ -915,7 +921,7 @@
                                         <span>Item is added successfully!</span></div>
                                     <div class="success__img-wrap">
 
-                                        <img class="u-img-fluid" src="{{prod.product_image}}" alt=""></div>
+                                        <img class="u-img-fluid" src="{{prod.get_product_image_url}}" alt=""></div>
                                     <div class="success__info-wrap">
 
                                         <span class="success__name">{{prod.product_name}}</span>
@@ -949,89 +955,107 @@
 
 {% block custom_js %}
 <script>
-var sum=0;
-if(localStorage.getItem('cart') == null){
-    var cart = {};
-}
-else{
-    cart=JSON.parse(localStorage.getItem('cart'));
-    updateCart(cart);
-
-}
-
-function updatePopover(cart){
-    console.log("we are inside popover");
-    var popStr = "";
-    var div = "";
-    var i= 1;
-    console.log(cart)
-    document.getElementById('popcartpr').innerHTML="";
-    sum = 0;
-    if ($.isEmptyObject(cart)){
-        sum = 0;        
-    } 
+    var sum=0;
+    if(localStorage.getItem('cart') == null){
+        var cart = {};
+    }
     else{
-        for(var item in cart){
-            if(cart[item].qty == 0){
-                popStr = popStr +"";
-                sum=0;
-            }
-            else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+        updateCart(cart);
+
+    }
+
+    function updatePopover(cart){
+        console.log("we are inside popover");
+        var popStr = "";
+        var div = "";
+        var i= 1;
+        console.log(cart)
+        document.getElementById('popcartpr').innerHTML="";
+        sum = 0;
+        if ($.isEmptyObject(cart)){
+            sum = 0;        
+        } 
+        else{
+            for(var item in cart){
+                if(cart[item].qty == 0){
+                    popStr = popStr +"";
+                    sum=0;
+                }
+                else{
+                    
+                    let name = cart[item][1];
+                    let qty = cart[item][0];
+                    let image = cart[item][2];
+                    let price = cart[item][3];
+                    let cat = cart[item][4];
+                    let slug = cart[item][5];
+                    let tprice = price;
+                    let total = tprice*qty;
+                    sum=sum+qty;
+                    popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
+                    
+                }
+                $('#popcartpr').append(popStr);        
                 
-                let name = cart[item][1];
-                let qty = cart[item][0];
-                let image = cart[item][2];
-                let price = cart[item][3];
-                let cat = cart[item][4];
-                let slug = cart[item][5];
-                let tprice = price;
-                let total = tprice*qty;
-                sum=sum+qty;
-                popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
-                
             }
-            $('#popcartpr').append(popStr);        
-            
+            document.getElementById('cart').innerHTML = sum;      
         }
-        document.getElementById('cart').innerHTML = sum;      
     }
-}
 
-function clearCart(){
-    cart = JSON.parse(localStorage.getItem('cart'));
-    localStorage.clear();
-    cart = {};
-    localStorage.setItem('cart',JSON.stringify(cart));
-    updatePopover(cart);
-} 
+    function clearCart(){
+        cart = JSON.parse(localStorage.getItem('cart'));
+        localStorage.clear();
+        cart = {};
+        localStorage.setItem('cart',JSON.stringify(cart));
+        updatePopover(cart);
+    } 
 
-function updateCart(cart){
-    console.log("we are inside updatecart");
-    var sum = 0;
-    var pid="{{product.id}}";
-    
-    for(var item in cart){
-        sum= sum + cart[item][0];
-        console.log(item)
-        console.log(sum)
-        document.getElementById('div'+item).innerHTML = "<div class='input-counter' style='margin-left:35px;'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";    
-                                                            
+    function updateCart(cart){
+        console.log("we are inside updatecart");
+        var sum = 0;
+        var pid="{{product.id}}";
+        
+        for(var item in cart){
+            sum= sum + cart[item][0];
+            console.log(item)
+            console.log(sum)
+            document.getElementById('div'+item).innerHTML = "<div class='input-counter' style='margin-left:35px;'><span class='input-counter__minus fas fa-minus minus' id='minus"+ item +"'></span><input class='input-counter__text input-counter--text-primary-style' id='val"+ item +"' type='text' value='"+ cart[item][0] +"' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus"+ item +"'></span></div>";    
+                                                                
+        }
+        
+        localStorage.setItem('cart',JSON.stringify(cart));
+        //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
+
+        //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
+        
+        document.getElementById('cart').innerHTML = sum;
+        updatePopover(cart);
     }
-    
-    localStorage.setItem('cart',JSON.stringify(cart));
-    //document.getElementById('cart').innerHTML = Object.keys(cart).length; only for product added to cart item to display for instance product1 3 ,product4 6 total added 2 product only
-
-    //here is total number of item added likeproduct1 3 product4 5 and product2 6 total 14 display
-    
-    document.getElementById('cart').innerHTML = sum;
-    updatePopover(cart);
-}
 
     $('.popcartpr').on("click", "a.popremove", function(){
         a = this.id.slice(4,);
         console.log("inside remove fuction")
         console.log(a)
         document.getElementById('div'+a).innerHTML = `<a class="btn--e-brand cart" id="${a}">Add to Cart</a>`;
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart[a][8],'quantity':0})
+    
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         delete cart[a] 
         localStorage.setItem('cart',JSON.stringify(cart));
         cart=JSON.parse(localStorage.getItem('cart'));
@@ -1056,9 +1080,29 @@ function updateCart(cart){
             price = document.getElementById('price' + idstr).innerHTML;
             cat = document.getElementById('cat' + idstr).innerHTML;
             slug = document.getElementById('slug' + idstr).value;
-
-            cart[idstr]=[qty,name,image,price,cat,slug];
+            subcat = document.getElementById('subcat' + idstr).value;
+            childcat = document.getElementById('childcat' + idstr).value;
+            id = document.getElementById('id' + idstr).value;
+            cart[idstr]=[qty, name, image, price, cat, slug, subcat, childcat, id];
             console.log(cart)
+        }
+        if (user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart[idstr][8],'quantity':cart[idstr][0]})
+    
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
         }
         updateCart(cart);
         updatePopover(cart);
@@ -1073,6 +1117,24 @@ function updateCart(cart){
         r=cart['pr'+a][0]
         var str="Add to Cart"
         console.log("minus 0 thase")
+        if (user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         if(r==0){
             console.log("minus 0 thayu")
             document.getElementById('div'+p).innerHTML = `<a class="btn--e-brand cart" id="${p}">Add to Cart</a>`;
@@ -1091,6 +1153,24 @@ function updateCart(cart){
         a = this.id.slice(6, );
         cart['pr'+a][0] = cart ['pr'+a][0] +1;
         document.getElementById('valpr'+a).innerHTML = cart['pr' +a][0];
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart['pr' + a][8],'quantity':cart['pr' + a][0]})
+
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
+        }
         updateCart(cart);
     });
 

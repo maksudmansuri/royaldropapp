@@ -1,11 +1,25 @@
-from .basket import Basket
+from datetime import datetime
+from decimal import Decimal
+from django.shortcuts import render
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+# authorize razorpay client with API Keys.
+razorpay_client = razorpay.Client(
+	auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+#end rozerpay import
 
+from cart.helpers import CartHelper
+from cart.models import Cart
+from front import orderviews
+from .basket import Basket
 from django.shortcuts import get_object_or_404, render , redirect
 # from django.views.generic.base import View
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules, TempOrder, productGst, productMedia
+from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,ProductCategory,ProductSubCategory,TempOrder, productGst, productMedia
 from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q, fields
@@ -16,8 +30,12 @@ from django import template
 from django.urls import reverse
 from django.contrib import messages
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
+import json
 
+from front import basket
 register = template.Library()
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 # Create your vie ws here.v
  
 #use it for url and its section inside same page
@@ -47,10 +65,11 @@ class indexView(ListView):
         params={'no_of_slides':nSlides,'range':range(nSlides),'product':products}
         productcategory = ProductCategory.objects.filter(is_active=1)
         productsubcategory = ProductSubCategory.objects.filter(is_active=1)
+        productchildsubcategory = ProductChildSubCategory.objects.filter(is_active=1)
         for product in products:
             media=productMedia.objects.filter(product=product).first()
             product_list.append({"product":product,"media":media})
-        return render(request,"index.html",{"productcategory":productcategory,"productsubcategory":productsubcategory,"products":product_list})
+        return render(request,"index.html",{"productcategory":productcategory,"productsubcategory":productsubcategory,"products":product_list,'productchildsubcategory':productchildsubcategory})
     
 # def index(request):
     # allProduct=[]
@@ -101,6 +120,9 @@ class HomeListview(ListView):
     def get(self,request,*args,**kwargs):
         caties = ProductCategory.objects.filter(is_active=True)
         subcaties = ProductSubCategory.objects.filter(is_active=True)
+        childsubcaties = ProductChildSubCategory.objects.filter(is_active=True)
+        exclusive_products = Product.objects.filter(is_active=True,is_exclusive = True)
+        new_arrival_products = Product.objects.filter(is_active=True).order_by('-id')[:10][:10]
         
         allprods=[]
         catprods=Product.objects.values('product_category')
@@ -111,7 +133,13 @@ class HomeListview(ListView):
         cats={item['product_category'] for item in catprods}
         prod =[]
         for cat in cats:
-            prods = Product.objects.filter(product_category=cat,is_active=1)
+            filter_val=self.request.GET.get("filter","")
+            order_by=self.request.GET.get("orderby","id")
+            if filter_val!="":
+                prods=Product.objects.filter(Q(product_name__contains=filter_val) | Q(product_brand__contains=filter_val) | Q(product_desc__contains=filter_val) | Q(product_l_desc__contains=filter_val) |Q(updated_at__contains=filter_val) ).order_by(order_by)
+            else:
+                prods=Product.objects.filter(product_category=cat,is_active=True).order_by(order_by)
+            # prods = Product.objects.filter(product_category=cat,is_active=1)
             # print(prods)
             prod =[]
             for product in prods: 
@@ -128,14 +156,14 @@ class HomeListview(ListView):
             
             prodsub=ProductSubCategory.objects.filter(category=cat,is_active=1)
             allprods.append([prod,range(nSlides),nSlides,productcategories,prodsub])           
-        params={'allprods':allprods,"cats":caties,"subcaties":subcaties}
+        params={'allprods':allprods,"cats":caties,"subcaties":subcaties,'childsubcaties':childsubcaties,'exclusive_products':exclusive_products,'new_arrival_products':new_arrival_products}
         return render(request,"index2.html",params)
 
 class CartListView(ListView): 
     def get(self, request, *args, **kwargs):
         product = Product.objects.filter(is_active=True)
-        customer = Customers.objects.get(admin=request.user.id)
-        param = {"product":product,"customer":customer}
+        # customer = Customers.objects.get(admin=request.user.id)
+        param = {"product":product}
         return render(request,"cart.html",param)
  
 class ProductFilterListView(ListView):
@@ -249,7 +277,6 @@ def basket_add(request):
     if request.POST.get('action') == 'post':
         product_id_list=request.POST.getlist('productid[]')
         product_qty_list=request.POST.getlist('productqty[]')
-
        
         product_id = 0
         product_qty = 0
@@ -322,18 +349,6 @@ def testing_file(request):
     
     return render(request,'testing_file.html',params)
  
-def Product_details(request,slug):
-    stf=Staffs.objects.all()
-    allcrs=Product.objects.all()
-    crs=Product.objects.get(Product_slug=slug)
-    crs_ssn=Product_Modules.objects.filter(Product=crs)
-    # crs_ssn=Product_Session.objects.filter(module.Product_id==mdl.Product)
-    print(crs_ssn)
-    crssame=Product.objects.filter(Product_category=crs.Product_category)
-    # crssame=Product.objects.all()
-    params= {'crs1':crs,'crs_ssn1':crs_ssn,'crssame1':crssame,'stf':stf,'allcrs':allcrs}
-    return render(request,'Product_details.html',params)
-
 def Product_details_2(request):
     return render(request,'Product_details_2.html')
 
@@ -352,3 +367,188 @@ def career(request):
 
 def contact_us(request):
     return render(request,'contact-us.html')
+
+def AddUpdateCart(request):
+    data = json.loads(request.body)
+    print(data)
+    item = data['item']
+    quantity = data['quantity']   
+   
+    customer = request.user.customers
+    product = Product.objects.get(id=item)
+    cart, created = Cart.objects.get_or_create(customer=customer,complete=False,item=product)
+    cart.quantity=quantity
+    cart.save()
+
+    if cart.quantity <= 0:
+        cart.delete()
+        
+    # if action == 'add':
+    #     cart.quantity == quantity
+    # if action == 'remove':
+    #      cart.quantity == quantity
+    return JsonResponse('Item is added',safe=False)
+
+class CheckoutListView(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            product = Product.objects.filter(is_active=True)
+            customer = Customers.objects.get(admin=request.user.id)
+            address = CustomersAddress.objects.filter(customer=customer)
+            is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
+            is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
+            cart_helper = CartHelper(request.user.customers)
+            checkout_details = cart_helper.prepare_cart_for_checkout()
+            if checkout_details:
+                products = checkout_details['products']
+                cart_list = []
+                for product in products:
+                    cart_id=product['cart']
+                    cart = Cart.objects.get(id=cart_id)
+                    cart_list.append(cart)    
+                
+                totals = checkout_details['total']
+                for total in totals:
+                    total_price = total['total_price']    
+                    total_discount = total['total_discount'] 
+
+                amounts = checkout_details['amount']
+                for amount in amounts:
+                    total_amount = amount['total_amount']     
+                    total_delivery_cost = amount['delivery_cost']      
+
+        
+            param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address,'cart_list':cart_list,'total_price':total_price,'total_discount':total_discount,'total_amount':total_amount,'total_delivery_cost':total_delivery_cost}              
+        except Exception as e:
+            param = {"product":product,"customer":customer,"address":address}      
+        return render(request,"checkout.html",param)
+
+    def post(self,request,*args, **kwargs):
+        basket = Basket(request)
+        paymet_method = request.POST.get("payment")
+        cart_helper = CartHelper(request.user.customers)
+        checkout_details = cart_helper.prepare_cart_for_checkout()
+        products = checkout_details['products']
+        cart_list = []
+        for product in products:
+            cart_id=product['cart']
+            cart = Cart.objects.get(id=cart_id)
+            cart_list.append(cart)
+            print(cart)     
+        
+        totals = checkout_details['total']
+        for total in totals:
+            total_price = total['total_price']    
+            total_discount = total['total_discount'] 
+
+        amounts = checkout_details['amount']
+        for amount in amounts:
+            total_amount = amount['total_amount']     
+            total_delivery_cost = amount['delivery_cost']
+        amount = Decimal(total_amount)
+        if total_delivery_cost != "False":
+            amount = amount + Decimal(total_delivery_cost)
+        
+        print(amount)
+        product_Json = request.POST.get("product_Json")
+        # try:
+        customer = Customers.objects.get(admin=request.user.id)
+        is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
+        order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json,amount=amount,status = "Payment Process")
+        order.address = is_active_address
+        order.transaction_id = datetime.now().timestamp()
+        order.save()
+        print("order save")
+
+        tracker = OrderTacker(ordes_id=order.id,desc="product purchase successfuly !")
+        tracker.save()
+
+        # thank =True
+        # if thank:
+        #     param = {'thank':thank}
+        #     return render(request,"checkout.html",param)
+        # else:
+        return HttpResponseRedirect(reverse("razorpay"))
+        # except:
+        #     messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+        #     # return HttpResponse("error in connection")
+        #     return HttpResponseRedirect(reverse("checkout"))
+
+
+def RazorpayPayment(request):
+
+	currency = 'INR'
+	amount = 20000   # Rs. 200
+
+	# Create a Razorpay Order
+	razorpay_order = razorpay_client.order.create(dict(amount=amount,
+													currency=currency,
+													payment_capture='0'))
+
+	# order id of newly created order.
+	razorpay_order_id = razorpay_order['id']
+	callback_url = 'paymenthandler/'
+
+	# we need to pass these details to frontend.
+	context = {}
+	context['razorpay_order_id'] = razorpay_order_id
+	context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+	context['razorpay_amount'] = amount
+	context['currency'] = currency
+	context['callback_url'] = callback_url
+
+	return render(request, 'razorpay.html', context=context)
+
+
+# we need to csrf_exempt this url as
+# POST request will be made by Razorpay
+# and it won't have the csrf token.
+@csrf_exempt
+def paymenthandler(request):
+
+	# only accept POST request.
+	if request.method == "POST":
+		try:		
+			# get the required parameters from post request.
+			payment_id = request.POST.get('razorpay_payment_id', '')
+			razorpay_order_id = request.POST.get('razorpay_order_id', '')
+			signature = request.POST.get('razorpay_signature', '')
+			params_dict = {
+				'razorpay_order_id': razorpay_order_id,
+				'razorpay_payment_id': payment_id,
+				'razorpay_signature': signature
+			}
+
+			# verify the payment signature.
+			result = razorpay_client.utility.verify_payment_signature(
+				params_dict)
+			if result is None:
+				amount = 20000 # Rs. 200
+				try:
+
+					# capture the payemt
+					razorpay_client.payment.capture(payment_id, amount)
+
+					# render success page on successful caputre of payment
+					return render(request, 'paymentsuccess.html')
+				except:
+
+					# if there is an error while capturing payment.
+					return render(request, 'paymentfail.html')
+			else:
+
+				# if signature verification fails.
+				return render(request, 'paymentfail.html')
+		except:
+
+			# if we don't find the required parameters in POST data
+			return HttpResponseBadRequest()
+	else:
+	# if other than POST request is made.
+		return HttpResponseBadRequest()
+

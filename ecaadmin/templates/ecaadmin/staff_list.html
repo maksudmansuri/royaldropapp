@@ -49,7 +49,7 @@ Staff User List
 <div class="col-12 col-sm-6 col-md-6 col-lg-3">
     <article class="article article-style-b">
         <div class="article-header">
-        <div class="article-image" data-background="{{ staffuser.profile_pic }}" style="background-image: url(&quot;{{staffuser.profile_pic}}&quot;);">
+        <div class="article-image" data-background="{{ staffuser.get_photo_url }}" style="background-image: url(&quot;{{staffuser.get_photo_url}}&quot;);">
         </div>
         <div class="article-badge">
             <div class="article-badge-item bg-danger"><i class="fas fa-fire"></i>{{ staffuser.admin.username }}</div>

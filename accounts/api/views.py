@@ -281,17 +281,12 @@ def registration_view(request):
 			data['response'] = 'Error'
 			return Response(data)
 
-		username = request.data.get('username', '0')
-		if validate_username(username) != None:
-			data['error_message'] = 'That username is already in use.'
+		
+		phone = request.data.get('phone', '0')
+		if validate_phone(phone) != None:
+			data['error_message'] = 'That phone is already in use.'
 			data['response'] = 'Error'
 			return Response(data)
-
-		# phone = request.data.get('phone', '0')
-		# if validate_phone(phone) != None:
-		# 	data['error_message'] = 'That phone is already in use.'
-		# 	data['response'] = 'Error'
-		# 	return Response(data)
 		
 		# old = PhoneOTP.objects.filter(phone__iexact = phone)
 		# old = old.first()

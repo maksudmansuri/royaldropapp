@@ -47,10 +47,10 @@
                         <div class="slider-fouc pd-wrap">
                             <div id="pd-o-initiate">
                                 {% for medias in media %}
-                                <div class="pd-o-img-wrap" data-src="{{medias.media_content}}">
+                                <div class="pd-o-img-wrap" data-src="{{medias.get_media_content_url}}">
 
-                                    <img class="u-img-fluid" src="{{medias.media_content}}"
-                                        data-zoom-image="{{medias.media_content}}" alt=""></div>
+                                    <img class="u-img-fluid" src="{{medias.get_media_content_url}}"
+                                        data-zoom-image="{{medias.get_media_content_url}}" alt=""></div>
                                 {% comment %} <div class="pd-o-img-wrap" data-src="images/product/product-d-2.jpg">
 
                                     <img class="u-img-fluid" src="images/product/product-d-2.jpg"
@@ -78,7 +78,7 @@
                                     {% for medias in media %}
                                     <div>
 
-                                        <img class="u-img-fluid" src="{{medias.media_content}}" alt=""></div>
+                                        <img class="u-img-fluid" src="{{medias.get_media_content_url}}" alt=""></div>
                                     {% endfor %}
                                     <div>
 
@@ -195,7 +195,7 @@
                                 <div class="u-s-m-b-15">
 
                                     <button class="btn btn--e-brand-b-2"  value="{{product.id}}">Buy
-                                        Now{{product.id}}</button></div>
+                                        Now</button></div>
                             </div>
 
                         </div>
@@ -716,7 +716,7 @@
                                     <a class="aspect aspect--bg-grey aspect--square u-d-block"
                                         href="product-detail.html">
 
-                                        <img class="aspect__img" src="{{rproduct.product_image}}" alt=""></a>
+                                        <img class="aspect__img" src="{{rproduct.get_product_image_url}}" alt=""></a>
                                     <div class="product-o__action-wrap">
                                         <ul class="product-o__action-list">
                                             <li>
@@ -1100,10 +1100,11 @@
         if (cart[idstr] != undefined) {
             qty = parseInt(document.getElementById('val' + idstr).value);
             console.log(qty)
-            cart[idstr] = [qty, name, image, price, cat, slug,subcat, childcat, id];
+
+            cart[idstr][0] = qty;
         } else {
             qty = parseInt(document.getElementById('val' + idstr).value);
-            image = "{{product.product_image}}";
+            image = "{{product.get_product_image_url}}";
             name = "{{product.product_name}}";
             price = "{{product.product_mrp}}";
             cat = "{{product.product_category.title}}";
@@ -1116,6 +1117,24 @@
             cart[idstr] = [qty, name, image, price, cat, slug,subcat, childcat, id];
             console.log(cart)
 
+        }
+        if (user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({'item':cart[idstr][8],'quantity':cart[idstr][0],'action':'add'})
+    
+            })
+            .then((response)=>{
+                return response.json()
+            })
+            .then((data)=>{
+                console.log('data:',data)
+            })
         }
         updateCart(cart);
     });
@@ -1154,6 +1173,26 @@
                 console.log("its same")
                 document.getElementById('val' + item).value = 0;
             }
+        }
+        if(user != 'AnonymousUser'){
+            var url = "{% url 'add-to-cart' %}"
+            fetch(url,{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body:JSON.stringify({customer:1,item:cart[a][8],quantity:0})
+    
+            })
+            .then((response)=>{
+                return response.json();
+                location.reload();
+            })
+            .then((data)=>{
+                console.log('data:',data);
+                location.reload();
+            })
         }
         delete cart[a]
         localStorage.setItem('cart', JSON.stringify(cart));

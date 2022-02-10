@@ -35,7 +35,7 @@ Staff Update
         {% endfor %}
           <div class="form-group">
             <label>Current Profile Image</label><br>
-            <img src='{{ staffuser.profile_pic }}' style='height:150px'/>
+            <img src='{{ staffuser.get_photo_url }}' style='height:150px'/>
         </div>
          <div class="form-group">
             <label>Profile Image</label>

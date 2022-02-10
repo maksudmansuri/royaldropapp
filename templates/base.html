@@ -158,7 +158,7 @@
 							{% else %}
 							  	
 							  <li class="nav-item  sign-in">
-								<a class="btn-small" href="/accounts/dologin">Sign in</a>
+								<a class="btn-small" href="{% url 'dologin' %}?next={{ request.path|urlencode }}">Sign in</a>
 							  </li>	
 							  
 							{% endif %}

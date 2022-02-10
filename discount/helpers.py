@@ -48,7 +48,7 @@ class CampaignHelper:
         campaigns = Campaign.objects.filter(apply_to='Category',
                                             target_category__in=[cart_item.item.product_category.id,
                                                                  cart_item.item.product_subcategory.id,
-                                                                 cart_item.item.product_childsubcategory.id,
+                                                        
                                                                 ],
                                             min_purchased_items__lte=cart_item.quantity)
         for campaign in campaigns:

@@ -1,13 +1,15 @@
 from django.db import models
 from django.contrib.auth import user_logged_in
 from ckeditor_uploader.fields import RichTextUploadingField
-# from staff_lms.models import Staffs
 from accounts.models import Customers as Customers,CustomUser, CustomersAddress, Merchants,Staffs
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
+from front.compression import CompressedImageField, CompressedImageFieldCat
+
+from eca import settings
 
 # Create your models   .
  
@@ -16,7 +18,7 @@ class ProductCategory(models.Model):
     # parent_category_id = models.IntegerField(null=True, blank=True)
     title                   =           models.CharField(unique=True,max_length=64)
     slug                    =           models.CharField(max_length=64,default="")
-    thumbnail               =           models.FileField(null=True,blank=True)
+    thumbnail               =           CompressedImageFieldCat(null=True, default=None, quality=90,blank=True)
     description             =           models.TextField(default="",max_length=256)
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
@@ -38,6 +40,13 @@ class ProductCategory(models.Model):
     
     def get_absolute_url(self):
         return reverse("category_tab_list")
+    
+    @property
+    def get_thumbnail_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
 
 def pre_save_ProductCategory_post_receiever(sender, instance, *args, **kwargs):
     if not instance.slug:
@@ -49,7 +58,7 @@ class ProductSubCategory(models.Model):
     id                      =           models.AutoField(primary_key=True)
     category                =           models.ForeignKey(ProductCategory,related_name="subcategory", on_delete=models.CASCADE)
     title                   =           models.CharField(unique=True,max_length=64)
-    thumbnail               =           models.FileField(default="",null=True)
+    thumbnail               =           CompressedImageFieldCat(null=True, default=None, quality=90,blank=True)
     slug                    =           models.CharField(max_length=64)
     description             =           models.TextField(max_length=256,default="",null=True)
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -67,6 +76,13 @@ class ProductSubCategory(models.Model):
 
     def get_absolute_url(self):
         return reverse("subcategory_tab_list")
+    
+    @property
+    def get_thumbnail_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
    
 def pre_save_ProductSubCategory_post_receiever(sender, instance, *args, **kwargs):
     if not instance.slug:
@@ -80,7 +96,7 @@ class ProductChildSubCategory(models.Model):
     category                =           models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     subcategory             =           models.ForeignKey(ProductSubCategory,related_name="childcategories", on_delete=models.CASCADE)
     title                   =           models.CharField(unique=True,max_length=64)
-    thumbnail               =           models.FileField(default="",null=True)
+    thumbnail               =           CompressedImageFieldCat(null=True, default=None, quality=90,blank=True)
     slug                    =           models.CharField(max_length=64,default="",null=True)
     description             =           models.TextField(max_length=256,default="",null=True)
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -98,7 +114,14 @@ class ProductChildSubCategory(models.Model):
 
     def get_absolute_url(self):
         return reverse("childsubcategory_tab_list")
-   
+    
+    @property
+    def get_thumbnail_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
+
 def pre_save_ProductChildSubCategory_post_receiever(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title)
@@ -108,23 +131,26 @@ pre_save.connect(pre_save_ProductChildSubCategory_post_receiever, sender=Product
 class Product(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product_name            =           models.CharField(max_length=500)
-    product_sku             =           models.CharField(unique=True,max_length=255)
-    product_subcategory     =           models.ForeignKey(ProductSubCategory, related_name="productsubcat",on_delete=models.CASCADE)
-    product_childsubcategory=           models.ForeignKey(ProductChildSubCategory, related_name="productchildcat", on_delete=models.CASCADE)
-    product_category        =           models.ForeignKey(ProductCategory,related_name="productcat",on_delete=models.CASCADE)
-    product_mrp             =           models.IntegerField(default="",null=True)
-    product_selling_price   =           models.IntegerField(default="",null=True)
-    added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE)
+    product_sku             =           models.CharField(unique=True,max_length=500)
+    product_subcategory     =           models.ForeignKey(ProductSubCategory, related_name="productsubcat",on_delete=models.CASCADE,null=True,blank=True)
+    product_childsubcategory=           models.ForeignKey(ProductChildSubCategory, related_name="productchildcat", on_delete=models.CASCADE,null=True,blank=True)
+    product_category        =           models.ForeignKey(ProductCategory,related_name="productcat",on_delete=models.CASCADE,null=True,blank=True)
+    product_mrp             =           models.DecimalField(max_digits=10, decimal_places=2,default=1.0,null=True)
+    product_selling_price   =           models.FloatField(default="",null=True)
+    added_by_merchant       =           models.ForeignKey(Merchants ,on_delete=models.CASCADE,null=True,blank=True)
     product_brand           =           models.CharField(max_length=64,blank=True,null=True,default="")
-    product_image           =           models.FileField(default="",blank=True,null=True)
-    # product_video         =           models.FileField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
+    product_image           =           CompressedImageFieldCat(null=True, default=None, quality=90,blank=True)
+    # product_video         =           models.ImageField(upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
     product_model_number    =           models.CharField(max_length=64,blank=True,null=True,default="")
-    product_desc            =           models.TextField(max_length=256,blank=True,null=True,default="")
-    product_l_desc          =           models.TextField(max_length=500,blank=True,null=True,default="")
-    product_slug            =           models.CharField(max_length=64,blank=True,null=True,unique=True,default="")
+    product_desc            =           models.TextField(max_length=1500,blank=True,null=True,default="")
+    product_l_desc          =           models.TextField(max_length=5000,blank=True,null=True,default="")
+    product_slug            =           models.CharField(max_length=500,blank=True,null=True,unique=True,default="")
     # product_why_take      =           RichTextUploadingField(blank=True,null=True)
     # is_appiled            =           models.BooleanField(blank=True,null=True,default=False)
-    is_active               =           models.BooleanField(default=False)     
+    is_active               =           models.BooleanField(default=False) 
+    is_exclusive            =           models.BooleanField(default=False) 
+    gst_percentage          =           models.DecimalField(max_digits=10, decimal_places=2,default=1.0,null=True,blank=True)
+    hsn_number              =            models.CharField(max_length=64,blank=True,null=True,default="")
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -138,7 +164,13 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse('product_view', kwargs={'slug': self.product_slug})
-
+    
+    @property
+    def get_product_image_url(self):
+        if self.product_image and hasattr(self.product_image, 'url'):
+            return self.product_image.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
 
 def pre_save_product_post_receiever(sender, instance, *args, **kwargs):
     if not instance.product_slug:
@@ -151,7 +183,7 @@ class productMedia(models.Model):
     product                 =           models.ForeignKey(Product,related_name="productmedia", on_delete=models.CASCADE)
     media_type              =           models.CharField(max_length=255,blank=True,null=True,default="")
     media_type_choice       =           ((1,"Image"),(2,"Video"))
-    media_content           =           models.FileField(choices=media_type_choice,blank=True,null=True,default="")
+    media_content           =           CompressedImageField(null=True, default=None, quality=60,blank=True)
     is_active               =           models.BooleanField(default=False)     
     created_date            =           models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
@@ -159,6 +191,12 @@ class productMedia(models.Model):
 
     # def __str__(self):
     #     return self.product.product_name
+    @property
+    def get_media_content_url(self):
+        if self.media_content and hasattr(self.media_content, 'url'):
+            return self.media_content.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
 
 class gstPercentage(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -173,12 +211,11 @@ class gstPercentage(models.Model):
     class Meta:
         ordering = ["updated_at"]
 
-
 class productGst(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product                 =           models.ForeignKey(Product,related_name="productgst",  on_delete=models.CASCADE)
     GST_CHOISES             =           ((1,'0%'),(2,'3%'),(3,'5%'),(4,'12%'),(5,'18%'),(6,'28%'))
-    percentage              =           models.CharField(choices=GST_CHOISES,max_length=255,blank=True,null=True,default="")
+    percentage              =           models.CharField(max_length=255,blank=True,null=True,default="")
     gst_percentage          =           models.CharField(max_length=256,default="",null=True)
     hsn_number              =           models.CharField(max_length=256,default="",null=True)  
     created_date            =           models.DateTimeField(auto_now_add=True)
@@ -344,11 +381,18 @@ class ProductReviewVoting(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product_review          =           models.ForeignKey(ProductReviews, on_delete=models.CASCADE)
     user                    =           models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    reviws_images           =           models.FileField(default="")
+    reviws_images           =           CompressedImageField(null=True, default=None, quality=60,blank=True)
     is_active               =           models.BooleanField(default=False)  
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
+
+    @property
+    def get_photo_url(self):
+        if self.reviws_images and hasattr(self.reviws_images, 'url'):
+            return self.reviws_images.url
+        else:
+            return settings.STATIC_ROOT + "eca_admin/img/news/img01.jpg"
 
 class ProductVarient(models.Model):
     id                      =           models.AutoField(primary_key=True)
@@ -368,7 +412,7 @@ class ProductVariantItems(models.Model):
 
 class TempOrder(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    amount                  =           models.FloatField(default=1)
+    amount                  =           models.DecimalField(max_digits=10, decimal_places=2,default=1.0,null=True,blank=True)
     product                 =           models.CharField(default="",max_length=5000)
     quantity                =           models.IntegerField()
     address                 =           models.ForeignKey(CustomersAddress, on_delete=models.CASCADE,default="")
@@ -383,10 +427,12 @@ class TempOrder(models.Model):
 class Orders(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product_Json            =           models.CharField(max_length=5000,default="")
-    amount                  =           models.FloatField(default=1)
+    amount                  =           models.DecimalField(max_digits=10, decimal_places=2,default=1.0)
     payment_method          =           models.CharField(max_length=256,default="")
     address                 =           models.ForeignKey(CustomersAddress, on_delete=models.CASCADE,default="")
-    customer                =           models.ForeignKey(Customers,on_delete=models.CASCADE,default="")
+    status                  =           models.CharField(max_length=256,default="",blank=True,null=True)
+    transaction_id          =           models.CharField(max_length=256,default="",blank=True,null=True)
+    customer                =           models.ForeignKey(Customers,on_delete=models.CASCADE,default="",)
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()
@@ -470,78 +516,3 @@ class ProductDiscount(models.Model):
 #     post = models.ForeignKey(Post, default=None)
 #     image = models.ImageField(upload_to=get_image_filename,
 #                               verbose_name='Image')
-
-"""THis will deleted soon"""
-class Product_Modules(models.Model):
-    id=models.AutoField(primary_key=True)
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    module=models.CharField(max_length=500,blank=True,null=True)
-    module_desc=models.TextField(blank=True,null=True)
-    slug=models.SlugField(blank=True,null=True)
-    created_date=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
-    position=models.IntegerField(default=0)
-    objects = models.Manager()
- 
-    class Meta:
-        ordering = ['position']
-
-    def __str__(self):
-        return self.module
-
-def pre_save_module_post_receiever(sender, instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = slugify(instance.Product + "-" + instance.module)
-
-pre_save.connect(pre_save_module_post_receiever, sender=Product_Modules)
-
-class Product_Session(models.Model):
-    id=models.AutoField(primary_key=True)
-    module=models.ForeignKey(Product_Modules,on_delete=models.CASCADE)
-    session_name=models.CharField(max_length=2150,blank=True,null=True,default="")
-    session_desc=models.TextField(blank=True,null=True,default="")
-    is_appiled=models.BooleanField(blank=True,null=True,default=False)
-    is_verified=models.BooleanField(blank=True,null=True,default=False)
-    session_duration=models.CharField(max_length=50,blank=True,null=True,default="")
-    product_in_pdf=models.FileField(upload_to="Product_Session/Docs", max_length=100,blank=True,null=True,default="")
-    created_date=models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    updated_at=models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    video_link=models.FileField(max_length=2000, upload_to='instructor/module/session',null=True,blank=True,verbose_name="", default="")
-    product_slug=models.CharField(max_length=250,default="",blank=True,null=True)
-    position=models.IntegerField(default=0)
-    objects = models.Manager()
-
-    class Meta:
-        ordering = ['position']
-
-    def __str__(self):
-        return self.module.module + self.session_name
-
-
-def pre_save_session_post_receiever(sender, instance, *args, **kwargs):
-    if not instance.product_slug:
-        instance.product_slug = slugify(instance.module.product + "-" + instance.module + "-" + instance.session_name)
-
-pre_save.connect(pre_save_session_post_receiever, sender=Product_Session)
-
-class ProductComments(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    session = models.ForeignKey(Product_Session, on_delete=models.CASCADE)
-    comment = models.TextField(null=True,blank=True)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE,null=True)
-    created_date = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    objects = models.Manager()
-
-    class Meta:
-        ordering = ['-created_date']
-
-class viewed(models.Model):
-    id=models.AutoField(primary_key=True)
-    customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
-    product=models.CharField(max_length=50,blank=True,null=True)
-    module_position=models.CharField(max_length=50,blank=True,null=True)
-    session_position=models.CharField(max_length=50,blank=True,null=True)
-    created_date=models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    updated_at=models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    objects = models.Manager()

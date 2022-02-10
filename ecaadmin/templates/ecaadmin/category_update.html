@@ -30,8 +30,11 @@
             {% else %}            
                 <label>{{ field.label}}</label>
                 <input type="{{field.field.widget.input_type}}" name={{field.name}} id="{{field.name}}" class="form-control" value = "{{field.value}}">
+                <div class="form-group">
+            
+              
             {% endif %}
-           
+            
             {% comment %} {% if field.field.widget.input_type == "select" %}
             <label>{{ field.label}}</label>
                 <select  name={{field.name}} id="{{field.name}}" class="form-control" >
@@ -53,20 +56,9 @@
 
             {% endif %}
         </div>
-        {% if field.field.widget.input_type == "file" %}
-        <label>{{ field.label}}</label><br>
-
-        <div class="card">
-                  
-                  <div class="card-body">
-                    <img src="/media/{{field.value}}" style = "height:150px"/>z
-                  </div>
-                  
-        </div>
-               
-            {% endif %}
+        
         {% endfor %}
-        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE SUBCATEGORY</button>    
+        <button href = "#" class = "btn btn-primary btn-block" type="submit" > SAVE CATEGORY</button>    
     </div>
 </div>
 </div>

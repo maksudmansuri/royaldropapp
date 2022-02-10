@@ -3,7 +3,7 @@ from django.contrib.messages import views
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
-from front.models import Product, ProductDiscount, ProductSizeWeight, ProductStockManage, ProductSubCategory,ProductCategory, gstPercentage, productGst,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductComments,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems,ProductChildSubCategory
+from front.models import Product, ProductDiscount, ProductSizeWeight, ProductStockManage, ProductSubCategory,ProductCategory, gstPercentage, productGst,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems,ProductChildSubCategory
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import CustomUser, Customers, Merchants, Staffs
 from django.core.files.storage import FileSystemStorage
@@ -165,7 +165,7 @@ class ProductChildSubCategoryListViews(ListView):
 class ProductChildSubCategoryTabListViews(ListView):
     model = ProductChildSubCategory
     template_name = "ecaadmin/childsubcategory_tab_list.html"
-    paginate_by=3
+    paginate_by=10
 
     def get_queryset(self):
         filter_val=self.request.GET.get("filter","")
@@ -215,16 +215,15 @@ class ProductChildSubCategoryUpdate(SuccessMessageMixin,UpdateView):
             pchsbcat.subcategory=subcat_obj
             pchsbcat.category=cat_obj
             if thumbnail: 
-                fs=FileSystemStorage()
-                filename=fs.save(thumbnail.name,thumbnail)
-                media_url=fs.url(filename)
-                pchsbcat.thumbnail = media_url
-                print(media_url)
+                # fs=FileSystemStorage()
+                # filename=fs.save(thumbnail.name,thumbnail)
+                # media_url=fs.url(filename)
+                pchsbcat.thumbnail = thumbnail
             pchsbcat.save()
-            msg=messages.success(self.request,"Product child subcategory has been Updated Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Product child subcategory has been Updated Succesfully")
             return HttpResponseRedirect(reverse("childsubcategory_list"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("childsubcategory_list"))
 
 class ProductChildSubCategoryCreate(SuccessMessageMixin,CreateView):
@@ -260,15 +259,15 @@ class ProductChildSubCategoryCreate(SuccessMessageMixin,CreateView):
             pchsbcat=ProductChildSubCategory(title=title,description=description,is_active=is_active,subcategory=subcat_obj,category=cat_obj)
             pchsbcat.save()
             if thumbnail:
-                fs=FileSystemStorage()
-                filename=fs.save(thumbnail.name,thumbnail)
-                media_url=fs.url(filename)
-                pchsbcat.thumbnail = media_url
+                # fs=FileSystemStorage()
+                # filename=fs.save(thumbnail.name,thumbnail)
+                # media_url=fs.url(filename)
+                pchsbcat.thumbnail = thumbnail
                 pchsbcat.save()
-            msg=messages.success(self.request,"Product  child subcategory has been Created Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Product  child subcategory has been Created Succesfully")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
  
 class MerchantUserCreateView(SuccessMessageMixin,CreateView):
@@ -293,16 +292,17 @@ class MerchantUserCreateView(SuccessMessageMixin,CreateView):
         user.save()
 
         profile_pic=self.request.FILES['profile_pic']
-        fs=FileSystemStorage()
-        filename=fs.save(profile_pic.name,profile_pic)
-        profile_pic_url = fs.url(filename)
+        # fs=FileSystemStorage()
+        # filename=fs.save(profile_pic.name,profile_pic)
+        # profile_pic_url = fs.url(filename)
 
         # print(profile_pic_url)
 
         # print(user.merchants)
         # merchants = Merchants.objects.get(admin=user.id)
         # print(merchant)
-        user.merchants.profile_pic=profile_pic_url
+        if profile_pic:
+            user.merchants.profile_pic=profile_pic
         user.merchants.company_name=self.request.POST.get("company_name")
         user.merchants.gts_number=self.request.POST.get("gts_number")
         user.merchants.address=self.request.POST.get("address")
@@ -315,7 +315,7 @@ class MerchantUserCreateView(SuccessMessageMixin,CreateView):
         user.merchants.is_added_by_admin=is_added_by_admin
         user.merchants.save()
 
-        msg=messages.success(self.request,"Merchant Created Succesfully")
+        messages.add_message(self.request,messages.ERROR,"Merchant Created Succesfully")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
           
 class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
@@ -337,10 +337,7 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
         merchant  = Merchants.objects.get(admin=user.id)
         if self.request.FILES.get('profile_pic'):
             profile_pic=self.request.FILES['profile_pic']
-            fs=FileSystemStorage()
-            filename=fs.save(profile_pic.name,profile_pic)
-            profile_pic_url = fs.url(filename)
-            merchant.profile_pic=profile_pic_url
+            merchant.profile_pic=profile_pic
 
         merchant.company_name=self.request.POST.get("company_name")
         merchant.gts_number=self.request.POST.get("gts_number")
@@ -353,7 +350,7 @@ class MerchantUserUpdate(SuccessMessageMixin,UpdateView):
         merchant.is_added_by_admin=is_added_by_admin
         merchant.save()
 
-        msg=messages.success(self.request,"Merchant Created Succesfully")
+        messages.add_message(self.request,messages.ERROR,"Merchant Created Succesfully")
         return HttpResponseRedirect(reverse("merchant_list"))
 
 class MerchantUserListViews(ListView):
@@ -603,151 +600,147 @@ class ProductNewUpdate(View):
         quantity_ids=request.POST.getlist("quantity_id[]")
         
        
-        child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
         subcat_obj=ProductSubCategory.objects.get(id=sub_category)
         cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
-        print(cat_obj)
-        print(subcat_obj)
-        print(child_subcat_obj)
         merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
-        try:
-            product_id=kwargs["product_id"]
-            product=Product.objects.get(id=product_id)
-            product.product_name=product_name
-            product.product_brand=product_brand
-            product.product_model_number=product_model_number
-            product.product_category=cat_obj
-            product.product_subcategory=subcat_obj
-            product.product_mrp=product_mrp
-            product.product_selling_price=product_selling_price
+        # try:
+        product_id=kwargs["product_id"]
+        product=Product.objects.get(id=product_id)
+        product.product_name=product_name
+        product.product_brand=product_brand
+        product.product_model_number=product_model_number
+        product.product_category=cat_obj
+        product.product_subcategory=subcat_obj
+        product.product_mrp=product_mrp
+        product.product_selling_price=product_selling_price
+        product.product_desc=product_desc
+        product.added_by_merchant=merchant_user_obj
+        product.product_l_desc=product_l_desc
+        product.product_sku=product_sku
+        product.is_active=is_active
+        if product_childsubcategory:
+            child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
             product.product_childsubcategory=child_subcat_obj
-            product.product_desc=product_desc
+        if added_by_merchant:
+            merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
             product.added_by_merchant=merchant_user_obj
-            product.product_l_desc=product_l_desc
-            product.product_sku=product_sku
-            product.is_active=is_active    
-            product.save()
-            print("product saved")
+        product.gst_percentage = gst_percentage
+        product.hsn_number=hsn_number
+        product.save()
+        print("product saved")
 
-            product_size_weight=ProductSizeWeight.objects.get(product=product)
-            product_size_weight.lenght=lenght
-            product_size_weight.width=width
-            product_size_weight.height=height
-            product_size_weight.weight=weight
-            product_size_weight.lenght_type=lenght_type
-            product_size_weight.weight_type=weight_type
-            product_size_weight.product=product
-            product_size_weight.save()
-            print("Weight saved")
+        product_size_weight=ProductSizeWeight.objects.get(product=product)
+        product_size_weight.lenght=lenght
+        product_size_weight.width=width
+        product_size_weight.height=height
+        product_size_weight.weight=weight
+        product_size_weight.lenght_type=lenght_type
+        product_size_weight.weight_type=weight_type
+        product_size_weight.product=product
+        product_size_weight.save()
+        print("Weight saved")
 
-            product_stock=ProductStockManage.objects.get(product=product)
-            product_stock.in_stock_total=in_stock_total
-            product_stock.mini_Quantity=mini_Quantity
-            product_stock.Out_Of_Stock_Status=Out_Of_Stock_Status
-            product_stock.product=product
-            product_stock.save()
-            print("Stock saved")
+        product_stock=ProductStockManage.objects.get(product=product)
+        product_stock.in_stock_total=in_stock_total
+        product_stock.mini_Quantity=mini_Quantity
+        product_stock.Out_Of_Stock_Status=Out_Of_Stock_Status
+        product_stock.product=product
+        product_stock.save()
+        print("Stock saved")
 
-            
-            product_GST =productGst.objects.get(product=product)
-            product_GST.product=product
-            product_GST.percentage=gst_percentage
-            product_GST.hsn_number=hsn_number
-            product_GST.save()
-            print("GST saved")
+        
+        product_GST =productGst.objects.get(product=product)
+        product_GST.product=product
+        product_GST.percentage=gst_percentage
+        product_GST.hsn_number=hsn_number
+        product_GST.save()
+        print("GST saved")
 
-            i=0
-            if media_content_list:
-                for media_content in media_content_list:
-                    fs=FileSystemStorage()
-                    filename=fs.save(media_content.name,media_content)
-                    media_url=fs.url(filename)
-                    print("inside images") 
-                    # print(media_content[1],"gjkbdgjdfg")
-                    pd=Product.objects.get(id=product_id)
-                    print(pd.product_image)
-                    if pd.product_image:
-                        pass
-                    else:
-                        if media_type_list[0]:
-                            pd.product_image=media_url
-                            print("inside zero in images")                    
-                            pd.save()
-                    # if media_type_list[1]:
-                    #     product.product_image=media_url
-                    #     print("inside one in images")                    
-                    #     product.save()
-                    product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
-                    product_media.save()
-                    print("image saved")
-                    i=i+1            
-
-            j=0
-            for title_title in title_title_list:
-                detail_id=details_ids[j]
-                if detail_id == "blank" and title_title != "":
-                    print(detail_id,title_title)
-                    product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
-                    product_details.save()                
+        i=0
+        if media_content_list:
+            for media_content in media_content_list:
+                pd=Product.objects.get(id=product_id)
+                print(pd.product_image)
+                if pd.product_image:
+                    pass
                 else:
-                    if title_title != "":
-                        product_details=ProductDetails.objects.get(id=detail_id)
-                        product_details.title=title_title
-                        product_details.title_details=title_details_list[j]
-                        product_details.product=product
-                        product_details.save()
-                j=j+1
-            print("deatiled saved")
+                    if media_type_list[0]:
+                        pd.product_image=media_content                  
+                        pd.save()
+                # if media_type_list[1]:
+                #     product.product_image=media_url
+                #     print("inside one in images")                    
+                #     product.save()
+                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_content)
+                product_media.save()
+                print("image saved")
+                i=i+1            
 
+        j=0
+        for title_title in title_title_list:
+            detail_id=details_ids[j]
+            if detail_id == "blank" and title_title != "":
+                print(detail_id,title_title)
+                product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
+                product_details.save()                
+            else:
+                if title_title != "":
+                    product_details=ProductDetails.objects.get(id=detail_id)
+                    product_details.title=title_title
+                    product_details.title_details=title_details_list[j]
+                    product_details.product=product
+                    product_details.save()
+            j=j+1
+        print("deatiled saved")
 
-            k=0
-            for about in about_title_list:
-                about_id=about_ids[k]
-                if about_id == "blank" and about != "":
-                    product_about=ProductAbout(title=about,product=product)
+        k=0
+        for about in about_title_list:
+            about_id=about_ids[k]
+            if about_id == "blank" and about != "":
+                product_about=ProductAbout(title=about,product=product)
+                product_about.save()
+            else:
+                if about != "":
+                    product_about=ProductAbout.objects.get(id=about_id)
+                    product_about.title=about
+                    product_about.product=product
                     product_about.save()
-                else:
-                    if about != "":
-                        product_about=ProductAbout.objects.get(id=about_id)
-                        product_about.title=about
-                        product_about.product=product
-                        product_about.save()
-                k=k+1
-            print("about saved")
+            k=k+1
+        print("about saved")
 
-            l=0
-            if quantity_list:
-                print(quantity_list)
-                for quantity in quantity_list:
-                    quantity_id=quantity_ids[l]
-                    if quantity_id == "blank" and quantity != "":
-                        product_discount=ProductDiscount(quantity=quantity,price=price_list[l],start_date=start_date_list[l],end_date=end_date_list[l],product=product)
-                        product_discount.save()
-                    else:
-                        if quantity != "":
-                            product_discount=ProductDiscount.objects.get(id=quantity_id)
-                            product_discount.quantity=quantity
-                            product_discount.price=price_list[l]            
-                            product_discount.start_date=start_date_list[l]            
-                            product_discount.end_date=end_date_list[l]            
-                            product_discount.save()
-                    l=l+1
-            print("Discount saved")
+        # l=0
+        # if quantity_list:
+        #     print(quantity_list)
+        #     for quantity in quantity_list:
+        #         quantity_id=quantity_ids[l]
+        #         if quantity_id == "blank" and quantity != "":
+        #             product_discount=ProductDiscount(quantity=quantity,price=price_list[l],start_date=start_date_list[l],end_date=end_date_list[l],product=product)
+        #             product_discount.save()
+        #         else:
+        #             if quantity != "":
+        #                 product_discount=ProductDiscount.objects.get(id=quantity_id)
+        #                 product_discount.quantity=quantity
+        #                 product_discount.price=price_list[l]            
+        #                 product_discount.start_date=start_date_list[l]            
+        #                 product_discount.end_date=end_date_list[l]            
+        #                 product_discount.save()
+        #         l=l+1
+        # print("Discount saved")
 
-            ProductTag.objects.filter(product=product_id).delete()
-            product_tags_list=product_tags.split(",")
+        ProductTag.objects.filter(product=product_id).delete()
+        product_tags_list=product_tags.split(",")
 
-            for product_tag in product_tags_list:
-                product_tag_obj=ProductTag(product_tags=product_tag,product=product)
-                product_tag_obj.save()
-            print("all data stored")
-            msg=messages.success(self.request,"Product Updated Succesfully")
-            # return HttpResponse("ok")
-            return HttpResponse("Ok")
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
-            # return HttpResponse("error in connection")
-            return HttpResponse("Failed")
+        for product_tag in product_tags_list:
+            product_tag_obj=ProductTag(product_tags=product_tag,product=product)
+            product_tag_obj.save()
+        print("all data stored")
+        messages.add_message(self.request,messages.ERROR,"Product Updated Succesfully")
+        # return HttpResponse("ok")
+        return HttpResponse("Ok")
+        # except:
+        #     messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+        #     # return HttpResponse("error in connection")
+        #     return HttpResponse("Failed")
 
 class ProductView(View):
     def get(self,request,*args,**kwargs):
@@ -809,20 +802,15 @@ class ProductView(View):
 
             i=0
             for media_content in media_content_list:
-                fs=FileSystemStorage()
-                filename=fs.save(media_content.name,media_content)
-                media_url=fs.url(filename)
-                # print(media_content[1],"gjkbdgjdfg")
                 if media_type_list[0]:
                     p=Product.objects.get(id=product.id)
-                    p.product_image=media_url
-                    print("inside zero in images")                    
+                    p.product_image=media_content                    
                     p.save()
                 # if media_type_list[1]:
                 #     product.product_image=media_url
                 #     print("inside one in images")                    
                 #     product.save()
-                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
+                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_content)
                 product_media.save()
                 i=i+1
 
@@ -846,11 +834,11 @@ class ProductView(View):
             product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
             product_transaction.save()
             print("all data stored")
-            msg=messages.success(self.request,"Product Created Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Product Created Succesfully")
             # return HttpResponse("ok")
             return HttpResponseRedirect(reverse("product_list"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("product_list"))
 
@@ -923,92 +911,85 @@ class AddProductView(View):
         start_date_list=request.POST.getlist("start_date[]")
         end_date_list=request.POST.getlist("end_date[]")
 
-        print(product_childsubcategory)
-        child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
+            
         subcat_obj=ProductSubCategory.objects.get(id=sub_category)
         cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
-        print(cat_obj)
-        print(subcat_obj)
-        print(child_subcat_obj)
-        merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
-        try:
-            product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_childsubcategory=child_subcat_obj,product_desc=product_desc,added_by_merchant=merchant_user_obj,product_l_desc=product_l_desc,product_sku=product_sku,is_active=is_active)
-            print("product addded")
-            product.save()
-            print("product saved")
+        
+        # try:
+        product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_desc=product_desc,product_l_desc=product_l_desc,product_sku=product_sku,is_active=is_active)
+        print("product addded")        
+        if product_childsubcategory:
+            child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
+            product.product_childsubcategory=child_subcat_obj
+        if added_by_merchant:
+            merchant_user_obj=Merchants.objects.get(id=added_by_merchant)
+            product.added_by_merchant=merchant_user_obj
+        product.gst_percentage = gst_percentage
+        product.hsn_number=hsn_number
+        product.save()
+        print("product saved")
 
-            product_size_weight=ProductSizeWeight(lenght=lenght,width=width,height=height,weight=weight,lenght_type=lenght_type,weight_type=weight_type,product=product)
-            product_size_weight.save()
-            print("product_size_weight saved")
-            product_stock=ProductStockManage(in_stock_total=in_stock_total,mini_Quantity=mini_Quantity,Out_Of_Stock_Status=Out_Of_Stock_Status,product=product)
-            product_stock.save()
-            print("product_stock saved")
-            # gst=gstPercentage.objects.get(id=GST_in_percentage)
-            # print(gst)
-            print(gst_percentage)
-            print(hsn_number)
-            print(product)
-            # product_gstp=productGst(gst_percentage=gst_percentage,hsn_number=hsn_number,product=product)
-            gstp=productGst(product=product,percentage=gst_percentage,hsn_number=hsn_number)
-            print("product saved")
-            gstp.save()
-            print("product_GSt saved")
+        product_size_weight=ProductSizeWeight(lenght=lenght,width=width,height=height,weight=weight,lenght_type=lenght_type,weight_type=weight_type,product=product)
+        product_size_weight.save()
+        print("product_size_weight saved")
+        product_stock=ProductStockManage(in_stock_total=in_stock_total,mini_Quantity=mini_Quantity,Out_Of_Stock_Status=Out_Of_Stock_Status,product=product)
+        product_stock.save()
+        print("product_stock saved")
 
-            i=0
-            for media_content in media_content_list:
-                fs=FileSystemStorage()
-                filename=fs.save(media_content.name,media_content)
-                media_url=fs.url(filename)
-                # print(media_content[1],"gjkbdgjdfg")
-                if media_type_list[0]:
-                    p=Product.objects.get(id=product.id)
-                    p.product_image=media_url
-                    print("inside zero in images")                    
-                    p.save()
-                # if media_type_list[1]:
-                #     product.product_image=media_url
-                #     print("inside one in images")                    
-                #     product.save()
-                product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
-                product_media.save()
-                i=i+1            
+        gstp=productGst(product=product,percentage=gst_percentage,hsn_number=hsn_number)
+        print("product saved")
+        gstp.save()
+        print("product_GSt saved")
 
-            j=0
-            for title_title in title_title_list:
-                product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
-                product_details.save()
-                j=j+1
-            print("product deatils saved")  
-            k=0
-            for about in about_title_list:
-                product_about=ProductAbout(title=about,product=product)
-                product_about.save()
-                k=k+1
-            print("product About saved") 
-            l=0
-            print(quantity_list)
-            for quantity in quantity_list:
-                product_discount=ProductDiscount(quantity=quantity,price=price_list[l],start_date=start_date_list[l],end_date=end_date_list[l],product=product)
-                print(quantity,price_list[l],start_date_list[l],end_date_list[l])
-                product_discount.save()
-                l=l+1
+        i=0
+        for media_content in media_content_list:
+            if media_type_list[0]:
+                p=Product.objects.get(id=product.id)
+                p.product_image=media_content
+                print("inside zero in images")                    
+                p.save()
+            # if media_type_list[1]:
+            #     product.product_image=media_url
+            #     print("inside one in images")                    
+            #     product.save()
+            product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_content)
+            product_media.save()
+            i=i+1            
 
-            print("product Discount saved") 
-            product_tags_list=product_tags.split(",")
+        j=0
+        for title_title in title_title_list:
+            product_details=ProductDetails(title=title_title,title_details=title_details_list[j],product=product)
+            product_details.save()
+            j=j+1
+        print("product deatils saved")  
+        k=0
+        for about in about_title_list:
+            product_about=ProductAbout(title=about,product=product)
+            product_about.save()
+            k=k+1
+        print("product About saved") 
+        # for quantity in quantity_list:
+        #     product_discount=ProductDiscount(quantity=quantity,price=price_list[l],start_date=start_date_list[l],end_date=end_date_list[l],product=product)
+        #     print(quantity,price_list[l],start_date_list[l],end_date_list[l])
+        #     product_discount.save()
+        #     l=l+1
 
-            for product_tag in product_tags_list:
-                product_tag_obj=ProductTag(product_tags=product_tag,product=product)
-                product_tag_obj.save()
+        print("product Discount saved") 
+        product_tags_list=product_tags.split(",")
 
-            print("product Discount saved")
-            product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
-            print("product Transaction saved")
-            product_transaction.save()
-            print("all data stored")
-            msg=messages.success(self.request,"Product Created Succesfully")
+        for product_tag in product_tags_list:
+            product_tag_obj=ProductTag(product_tags=product_tag,product=product)
+            product_tag_obj.save()
+
+        print("product Discount saved")
+        product_transaction=ProductTransaction(product=product,transation_type=1,transation_product_count=in_stock_total,transation_desc="initial item added in stock")
+        print("product Transaction saved")
+        product_transaction.save()
+        print("all data stored")
+        messages.add_message(self.request,messages.ERROR,"Product Created Succesfully")
             # return HttpResponse("ok")
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
+        # except Exception as e:
+        #     messages.add_message(self.request,messages.ERROR,e)
 
         products = Product.objects.all()
         return render(request,"ecaadmin/product_tab_list.html",{"products":products})
@@ -1016,10 +997,7 @@ class AddProductView(View):
 @csrf_exempt
 def file_upload(request):
     file=request.FILES["file"]
-    fs=FileSystemStorage()
-    filename=fs.save(file.name,file)
-    file_url=fs.url(filename)
-    return HttpResponse('{"location":"'+BASE_URL+''+file_url+'"}')
+    return HttpResponse('{"location":"'+BASE_URL+''+file+'"}')
 
 class ProductAddMedia(View):
     def get(self,request,*args, **kwargs):
@@ -1035,15 +1013,12 @@ class ProductAddMedia(View):
 
         i=0
         for media_content in media_content_list:
-            fs=FileSystemStorage()
-            filename=fs.save(media_content.name,media_content)
-            media_url=fs.url(filename)
             if product.product_image == None:
                 if media_type_list[0]:
-                    product.product_image=media_url
+                    product.product_image=media_content
                     print("inside zero in images")                    
                     product.save()
-            product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_url)
+            product_media = productMedia(product=product,media_type=media_type_list[i],media_content=media_content)
             product_media.save()
             i=i+1
         return HttpResponse("ok")
@@ -1128,13 +1103,10 @@ class StaffUserCreateView(SuccessMessageMixin,CreateView):
 
         #Saving Merchant user
         profile_pic=self.request.FILES["profile_pic"]
-        fs=FileSystemStorage()
-        filename=fs.save(profile_pic.name,profile_pic)
-        profile_pic_url=fs.url(filename)
-
-        user.staffs.profile_pic=profile_pic_url
+        if profile_pic:
+            user.staffs.profile_pic=profile_pic
         user.save()
-        msg=messages.success(self.request,"Staff User Created")
+        messages.add_message(self.request,messages.ERROR,"Staff User Created")
         return HttpResponseRedirect(reverse("staff_list"))
 
 class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
@@ -1158,13 +1130,10 @@ class StaffUserUpdateView(SuccessMessageMixin,UpdateView):
         staffuser=Staffs.objects.get(admin=user.id)
         if self.request.FILES.get("profile_pic",False):
             profile_pic=self.request.FILES["profile_pic"]
-            fs=FileSystemStorage()
-            filename=fs.save(profile_pic.name,profile_pic)
-            profile_pic_url=fs.url(filename)
-            staffuser.profile_pic=profile_pic_url
+            staffuser.profile_pic=profile_pic
 
         staffuser.save()
-        msg=messages.success(self.request,"Staff User Updated")
+        messages.add_message(self.request,messages.ERROR,"Staff User Updated")
         return HttpResponseRedirect(reverse("staff_list"))
 
 class GstCreateView(View):
@@ -1177,9 +1146,8 @@ class GstCreateView(View):
         gstdetails=gstPercentage(gst=gst)
         gstdetails.save()
 
-        msg=messages.success(self.request,"GST Created")
+        messages.add_message(self.request,messages.ERROR,"GST Created")
         return HttpResponseRedirect(reverse("gst_create"))
-
 
 class CustomerUserListView(ListView):
     model=Customers
@@ -1219,13 +1187,10 @@ class CustomerUserCreateView(SuccessMessageMixin,CreateView):
 
         #Saving Merchant user
         profile_pic=self.request.FILES["profile_pic"]
-        fs=FileSystemStorage()
-        filename=fs.save(profile_pic.name,profile_pic)
-        profile_pic_url=fs.url(filename)
-
-        user.customers.profile_pic=profile_pic_url
+        if profile_pic:
+            user.customers.profile_pic=profile_pic
         user.save()
-        msg=messages.success(self.request,"Customer User Created")
+        messages.add_message(self.request,messages.ERROR,"Customer User Created")
         return HttpResponseRedirect(reverse("customer_list"))
 
 class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
@@ -1249,15 +1214,11 @@ class CustomerUserUpdateView(SuccessMessageMixin,UpdateView):
         customeruser=Customers.objects.get(admin=user.id)
         if self.request.FILES.get("profile_pic",False):
             profile_pic=self.request.FILES["profile_pic"]
-            fs=FileSystemStorage()
-            filename=fs.save(profile_pic.name,profile_pic)
-            profile_pic_url=fs.url(filename)
-            customeruser.profile_pic=profile_pic_url
+            customeruser.profile_pic=profile_pic
 
         customeruser.save()
-        msg=messages.success(self.request,"Customer User Updated")
+        messages.add_message(self.request,messages.ERROR,"Customer User Updated")
         return HttpResponseRedirect(reverse("customer_list"))
-
 
 def activeCategory(request,pk):
     try:
@@ -1265,25 +1226,24 @@ def activeCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        msg=messages.success(request,"Activated Succesfully")
+        messages.add_message(request,messages.ERROR,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("category_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("category_tab_list"))
-
 
 def deactiveCategory(request,pk):
     try:
         cat = ProductCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        msg=messages.success(request,"Deactivated Succesfully")
+        messages.add_message(request,messages.ERROR,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("category_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("category_tab_list"))
 
@@ -1293,28 +1253,26 @@ def activeSubCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        msg=messages.success(request,"Activated Succesfully")
+        messages.add_message(request,messages.ERROR,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("subcategory_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("subcategory_tab_list"))
-
 
 def deactiveSubCategory(request,pk):
     try:
         cat = ProductSubCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        msg=messages.success(request,"Deactivated Succesfully")
+        messages.add_message(request,messages.ERROR,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("subcategory_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("subcategory_tab_list"))
-
 
 def activeChildSubCategory(request,pk):
     try:
@@ -1322,25 +1280,24 @@ def activeChildSubCategory(request,pk):
         print(cat)
         cat.is_active =True
         cat.save()
-        msg=messages.success(request,"Activated Succesfully")
+        messages.add_message(request,messages.ERROR,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
-
 
 def deactiveChildSubCategory(request,pk):
     try:
         cat = ProductChildSubCategory.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        msg=messages.success(request,"Deactivated Succesfully")
+        messages.add_message(request,messages.ERROR,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("childsubcategory_tab_list"))
 
@@ -1349,25 +1306,24 @@ def activeMerchant(request,pk):
         cat = Merchants.objects.get(id=pk)
         cat.admin.is_active =True
         cat.admin.save()
-        msg=messages.success(request,"Activated Succesfully")
+        messages.add_message(request,messages.ERROR,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("merchant_tab_list"))
-
 
 def deactiveMerchant(request,pk):
     try:
         cat = Merchants.objects.get(id=pk)
         cat.admin.is_active =False
         cat.admin.save()
-        msg=messages.success(request,"Deactivated Succesfully")
+        messages.add_message(request,messages.ERROR,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("merchant_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("merchant_tab_list"))
 
@@ -1375,11 +1331,11 @@ def gstDelete(request,pk):
     try:
         # gst_details = productGST.objects.get(id=pk)
         # gst_details.delete()
-        msg=messages.success(request,"Deleted  Succesfully")
+        messages.add_message(request,messages.ERROR,"Deleted  Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("gst_create"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("gst_create"))
 
@@ -1388,28 +1344,26 @@ def activeProduct(request,pk):
         cat = Product.objects.get(id=pk)
         cat.is_active =True
         cat.save()
-        msg=messages.success(request,"Activated Succesfully")
+        messages.add_message(request,messages.ERROR,"Activated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("product_tab_list"))
     except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("product_tab_list"))
-
 
 def deactiveProduct(request,pk):
     try:
         cat = Product.objects.get(id=pk)
         cat.is_active =False
         cat.save()
-        msg=messages.success(request,"Deactivated Succesfully")
+        messages.add_message(request,messages.ERROR,"Deactivated Succesfully")
             # return HttpResponse("ok")
         return HttpResponseRedirect(reverse("product_tab_list"))
     except:
-        msg=messages.error(request,"Connection Error Try Again")
+        messages.add_message(request,messages.ERROR,"Connection Error Try Again")
         # return HttpResponse("error in connection")
         return HttpResponseRedirect(reverse("product_tab_list"))
-
 
 def DeleteAll(request):
     if request.method == "POST":
@@ -1431,15 +1385,43 @@ def DeleteAll(request):
         messages.add_message(request,messages.SUCCESS,"Successfully Deleted")
         return HttpResponse("ok")    
 
+"""Add Exlusive Products"""
+def AddExclusive(request):
+    if request.method =="POST":
+        product_1 = request.POST.get("id1")
+        product_2 = request.POST.get("id2")
+        print(product_1)
+        print(product_2)
+        try:
+            #Deleting all is_axclusive
+            products = Product.objects.all()      
+            for product in products:
+                pd =Product.objects.get(id = product.id)
+                pd.is_exclusive = False
+                pd.save()        
+            #Add new Exclusive
+            exclusive_1 = Product.objects.get(id = product_1, is_active = True)
+            exclusive_2 = Product.objects.get(id = product_2, is_active = True)
+            exclusive_1.is_exclusive = True
+            exclusive_2.is_exclusive = True
+            exclusive_1.save()
+            exclusive_2.save()
+            messages.add_message(request,messages.SUCCESS,"Successfully Added Exclusive Products")
+            return HttpResponseRedirect(reverse("product_tab_list"))
+        except:
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("product_tab_list"))
+
+
 # def ProductCategoryDelete(request,pks):
 #     try:
 #         for pk in pks:
 #             cat = ProductCategory.objects.get(id=pk)
 #             cat.delete()
-#             msg=messages.success(request,"Deleted  Succesfully")
+#             messages.add_message(request,messages.ERROR,"Deleted  Succesfully")
 #             # return HttpResponse("ok")
 #         return HttpResponseRedirect(reverse("category_tab_list"))
 #     except:
-#         msg=messages.error(request,"Connection Error Try Again")
+#         messages.add_message(request,messages.ERROR,"Connection Error Try Again")
 #         # return HttpResponse("error in connection")
 #         return HttpResponseRedirect(reverse("category_tab_list"))

@@ -9,12 +9,13 @@ from accounts.models import Customers,CustomUser
 class Cart(models.Model):
     customer = models.ForeignKey(Customers, on_delete=models.SET_NULL, null=True, blank=True)
     item = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
-    quantity = models.IntegerField(null=False)
+    quantity = models.IntegerField(null=True, blank=True)
+    complete = models.BooleanField(default=False, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{} - {} - {} - {} - {}".format(self.user,
+        return "{} - {} - {} - {} - {}".format(self.customer,
                                                self.item,
                                                self.quantity,
                                                self.created_at,

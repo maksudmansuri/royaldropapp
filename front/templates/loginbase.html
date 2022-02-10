@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{% static 'ecafront/images/favicon.png' %}" rel="shortcut icon">
+    {% block title %}{% endblock title %}
+    <!--====== Google Font ======-->
+    <!--====== Google Font ======-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
+
+    <!--====== Vendor Css ======-->
+    <link rel="stylesheet" href="{% static 'ecafront/css/vendor.css' %}">
+
+    <!--====== Utility-Spacing ======-->
+    <link rel="stylesheet" href="{% static 'ecafront/css/utility.css'%}">
+
+    <!--====== App ======-->
+    <link rel="stylesheet" href="{% static 'ecafront/css/app.css'%}">
+    {% block custom_css %}{% endblock custom_css %}
+    
+</head>
+<body class="config" id="js-scrollspy-trigger">
+    {% block loader %}
+    {% endblock loader %}
+   
+    <!--====== Main App ======-->
+<div id="app">
+        {% block fixed_list %}
+        {% endblock fixed_list %}
+        <!--====== Main Header ======-->
+        <header class="header--style-1" style=" position: sticky;
+   top: 0;
+   z-index: 100; height:0">
+
+
+           
+        </header>
+        <!--====== End - Main Header ======-->
+
+        
+            {% block content %}
+            {% endblock content %}
+
+ 
+            {% include 'footer2.html' %}
+
+
+            {% block afterfooter %}
+            {% endblock afterfooter %}
+</div></div>
+
+
+
+
+
+<!--====== Google Analytics: change UA-XXXXX-Y to be your site's ID ======-->
+<script>
+        window.ga = function() {
+            ga.q.push(arguments)
+        };
+        ga.q = [];
+        ga.l = +new Date;
+        ga('create', 'UA-XXXXX-Y', 'auto');
+        ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+    <!--====== Vendor Js ======-->
+    <script src="{% static 'ecafront/js/vendor.js'%}"></script>
+
+    <!--====== jQuery Shopnav plugin ======-->
+    <script src="{% static 'ecafront/js/jquery.shopnav.js'%}"></script>
+
+    <!--====== App ======-->
+    <script src="{% static 'ecafront/js/app.js'%}"></script>
+    
+
+
+    <!--====== Noscript ======-->
+    <noscript>
+        <div class="app-setting">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="app-setting__wrap">
+                            <h1 class="app-setting__h1">JavaScript is disabled in your browser.</h1>
+
+                            <span class="app-setting__text">Please enable JavaScript in your browser or upgrade to a JavaScript-capable browser.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+   
+   
+    {% block custom_js %}{% endblock custom_js %}
+
+</body>
+</html>

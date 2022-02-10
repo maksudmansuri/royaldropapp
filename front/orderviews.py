@@ -3,7 +3,7 @@ from front.basket import Basket
 from django.http import response
 from accounts import admin
 from accounts import models
-from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,Product_Session,ProductCategory,ProductSubCategory,Product_Modules,productMedia
+from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,ProductCategory,ProductSubCategory,productMedia
 from accounts.EmailBackEnd import EmailBackEnd
 from accounts.models import CustomUser, CustomersAddress, Staffs, Customers as Customers
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
@@ -56,7 +56,7 @@ class dashEditProfileUpdateView(UpdateView):
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("dash_my_profile"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("dash_my_profile"))
  
@@ -87,7 +87,7 @@ class dashAddressMakeDefaultView(DetailView):
         if adds == is_default_address.id:
             is_default_address.is_active= True
             is_default_address.is_default= True
-            msg=messages.success(self.request,"same adress updated")           
+            messages.add_message(self.request,messages.ERROR,"same adress updated")           
             param = {"customer":customer,"address":addresss,}
             return render(request,"dash_address_make_default.html",param)
         try:           
@@ -105,11 +105,11 @@ class dashAddressMakeDefaultView(DetailView):
             customer.phone =addresses.phone
             customer.save()
  
-            msg=messages.success(self.request,"Default Address Updated Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Default Address Updated Succesfully")
             param = {"customer":customer,"address":addresss,}
             return render(request,"dash_address_book.html",param)
         except:
-            msg=messages.error(request,"Connection Error Try Again")            
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")            
             return HttpResponseRedirect(reverse("dash_address_make_default"))
 
 class dashAddressAddView(SuccessMessageMixin,CreateView):   
@@ -152,11 +152,11 @@ class dashAddressAddView(SuccessMessageMixin,CreateView):
                 addresss.is_active = True
                 addresss.is_default = True
                 addresss.save()
-            msg=messages.success(self.request,"Product Created Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Product Created Succesfully")
             return HttpResponseRedirect(reverse("dash_address_book"))
             # return HttpResponse("Ok")
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("dash_address_book"))
 
@@ -219,11 +219,11 @@ class checoutAddressAddView(SuccessMessageMixin,CreateView):
                 addresss.save()
             
                 
-            msg=messages.success(self.request,"Product Created Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Product Created Succesfully")
             return HttpResponseRedirect(reverse("checkout"))
             # return HttpResponse("Ok")
         except:
-            msg=messages.error(request,"Connection Error Try Again")
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             # return HttpResponse("error in connection")
             return HttpResponseRedirect(reverse("checkout"))
 
@@ -352,7 +352,7 @@ class checkoutDefaultAddresschangeView(View):
         if adds == is_default_address.id:
             is_default_address.is_active= True
             is_default_address.is_default= True
-            msg=messages.success(self.request,"same adress updated")           
+            messages.add_message(self.request,messages.ERROR,"same adress updated")           
             param = {"customer":customer,"address":addresss,}
             return HttpResponseRedirect(reverse("checkout"))
         try:           
@@ -370,51 +370,13 @@ class checkoutDefaultAddresschangeView(View):
             customer.phone =addresses.phone
             customer.save()
  
-            msg=messages.success(self.request,"Default Address Updated Succesfully")
+            messages.add_message(self.request,messages.ERROR,"Default Address Updated Succesfully")
             return HttpResponseRedirect(reverse("checkout"))
         except:
-            msg=messages.error(request,"Connection Error Try Again")            
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")            
             return HttpResponseRedirect(reverse("checkout"))
     
 
-class CheckoutListView(View):
-    def get(self, request, *args, **kwargs):
-        product = Product.objects.filter(is_active=True)
-        customer = Customers.objects.get(admin=request.user.id)
-        address = CustomersAddress.objects.filter(customer=customer)
-
-        is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
-        is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
-        param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address}      
-        return render(request,"checkout.html",param)
-
-    def post(self,request,*args, **kwargs):
-        basket = Basket(request)
-        paymet_method = request.POST.get("payment") 
-        amount = basket.get_total_price()
-        print(amount)
-        product_Json = request.POST.get("product_Json")
-        try:
-            customer = Customers.objects.get(admin=request.user.id)
-            is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
-            order = Orders(payment_method=paymet_method,customer=customer,product_Json=product_Json,amount=amount)
-            order.address = is_active_address
-            order.save()
-            print("order save")
-
-            tracker = OrderTacker(ordes_id=order.id,desc="product purchase successfuly !")
-            tracker.save()
-
-            thank =True
-            if thank:
-                param = {'thank':thank}
-                return render(request,"checkout.html",param)
-            else:
-                return HttpResponseRedirect(reverse("dash_manage_order"))
-        except:
-            msg=messages.error(request,"Connection Error Try Again")
-            # return HttpResponse("error in connection")
-            return HttpResponseRedirect(reverse("checkout"))
 
     
     

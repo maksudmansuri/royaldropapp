@@ -73,7 +73,7 @@
 						  <div class="col-md-3 tile {{i.product_category}}">
 							<div class="single-product">
 								<div class="hvrbox">
-									<img src="{{i.product_image}}" alt="slide why" class="hvrbox-layer_bottom">
+									<img src="{{i.get_product_image_url}}" alt="slide why" class="hvrbox-layer_bottom">
 									<div class="hvrbox-layer_top hvrbox-text">
 										<div class="hvrbox-text">																	
 											<a href="{{i.product_video}}" class="btn-circle video"><i class="fas fa-play"></i></a>
@@ -125,7 +125,7 @@
 					{% for crs in allcrs  %}
 					<div class="single-learning-path">
 						<div class="hvrbox">
-							<a href="product_details/{{crs.product_slug}}"><img src="{{crs.product_image}}" alt="slide 1" class="hvrbox-layer_bottom"></a>
+							<a href="product_details/{{crs.product_slug}}"><img src="{{crs.get_product_image_url}}" alt="slide 1" class="hvrbox-layer_bottom"></a>
 							<div class="hvrbox-layer_top hvrbox-text blue">
 								<div class="hvrbox-text">
 									<a href="product_details/{{crs.product_slug}}">Become a {{crs}}</a>							

@@ -37,8 +37,8 @@
                     <td><input type="checkbox" class="checkbox" name="checkbox []"  value="{{subcat.id}}" id="checkbox"/>&nbsp;{{forloop.counter}}</td>
                 </form>
                     <td>
-                        <a type="button" href="/media/{{subcat.thumbnail}}">
-                            <img src="/media/{{subcat.thumbnail}}" width="150" height="100" class="img-thumbnail"></a>
+                        <a type="button" href="{{subcat.get_thumbnail_url}}">
+                            <img src="{{subcat.get_thumbnail_url}}" width="80" height="0" class="img-thumbnail"></a>
                         </td>                
                     <td>{{subcat.title|title}}</td>
                     <td>{{subcat.created_date|date:'Y-m-d' }}</td>

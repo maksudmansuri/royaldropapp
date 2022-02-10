@@ -48,7 +48,7 @@ class CartHelper:
 
     def prepare_cart_for_checkout(self):
         self.cart_items = Cart.objects.filter(customer=self.user)
-
+        print("self.cart+items")
         if not self.cart_items:
             return False
 
@@ -107,13 +107,10 @@ class CartHelper:
     def prepare_checkout_details(self):
         for cart_item in self.cart_items:
             self.checkout_details['products'].append({'category_id': cart_item.item.product_category.id,
-                                                      'category_name': cart_item.item.product_category.title,
-                                                      'subcategory_id': cart_item.item.product_subcategory.id,
-                                                      'subcategory_name': cart_item.item.product_subcategory.title,
-                                                      'childsubcategory_id': cart_item.item.product_childsubcategory.id,
-                                                      'childsubcategory_name': cart_item.item.product_childsubcategory.title,
+                                                      'category_name': cart_item.item.product_category.title, 
                                                       'product_id': cart_item.item.id,
                                                       'product_name': cart_item.item.product_name,
+                                                      'cart': cart_item.id,
                                                       'quantity': cart_item.quantity,
                                                       'unit_price': cart_item.item.product_selling_price})
 
