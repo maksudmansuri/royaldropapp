@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from http.client import HTTPResponse
 from django.shortcuts import render
 import razorpay
 from django.conf import settings
@@ -396,36 +397,51 @@ class CheckoutListView(View):
         return super().dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        try:
-            product = Product.objects.filter(is_active=True)
-            customer = Customers.objects.get(admin=request.user.id)
-            address = CustomersAddress.objects.filter(customer=customer)
-            is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
-            is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
-            cart_helper = CartHelper(request.user.customers)
-            checkout_details = cart_helper.prepare_cart_for_checkout()
-            if checkout_details:
-                products = checkout_details['products']
-                cart_list = []
-                for product in products:
-                    cart_id=product['cart']
-                    cart = Cart.objects.get(id=cart_id)
-                    cart_list.append(cart)    
-                
-                totals = checkout_details['total']
-                for total in totals:
-                    total_price = total['total_price']    
-                    total_discount = total['total_discount'] 
+        # try:
+        product = Product.objects.filter(is_active=True)
+        customer = Customers.objects.get(admin=request.user.id)
+        address = CustomersAddress.objects.filter(customer=customer)
+        is_active_address = CustomersAddress.objects.get(customer=customer,is_active=True)
+        is_default_address = CustomersAddress.objects.get(customer=customer,is_default=True)
+        cart_helper = CartHelper(request.user.customers)
+        checkout_details = cart_helper.prepare_cart_for_checkout()
+        cart_list = []
+        total_price = 0
+        total_delivery_cost = 0
+        total_discount = 0
+        total_amount = 0
+        amount = 0
+        param = {}
+        if checkout_details:
+            products = checkout_details['products']            
+            for product in products:
+                cart_id=product['cart']
+                cart = Cart.objects.get(id=cart_id)
+                cart_list.append(cart)    
+            
+            totals = checkout_details['total']
+            
+            for total in totals:
+                total_price = total['total_price']    
+                total_discount = total['total_discount'] 
 
-                amounts = checkout_details['amount']
-                for amount in amounts:
-                    total_amount = amount['total_amount']     
-                    total_delivery_cost = amount['delivery_cost']      
-
-        
-            param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address,'cart_list':cart_list,'total_price':total_price,'total_discount':total_discount,'total_amount':total_amount,'total_delivery_cost':total_delivery_cost}              
-        except Exception as e:
-            param = {"product":product,"customer":customer,"address":address}      
+            amounts = checkout_details['amount']
+           
+            for amount in amounts:
+                total_amount = amount['total_amount']     
+                total_delivery = amount['delivery_cost']
+                print("delivery cost")
+                print(total_delivery)
+                total_delivery_cost = total_delivery + total_delivery_cost
+            total_delivery_cost = Decimal(total_delivery_cost)
+            print(total_delivery_cost)
+            amount = Decimal(total_amount)
+            if total_delivery_cost != "False":
+                amount = amount + Decimal(total_delivery_cost) 
+           
+        param = {"product":product,"customer":customer,"address":address,"is_active_address":is_active_address,"is_default_address":is_default_address,'cart_list':cart_list,'total_price':total_price,'total_discount':total_discount,'total_amount':amount,'total_delivery_cost':total_delivery_cost}              
+        # except Exception as e:
+            # param = {"product":product,"customer":customer,"address":address}      
         return render(request,"checkout.html",param)
 
     def post(self,request,*args, **kwargs):
@@ -435,26 +451,38 @@ class CheckoutListView(View):
         checkout_details = cart_helper.prepare_cart_for_checkout()
         products = checkout_details['products']
         cart_list = []
-        for product in products:
-            cart_id=product['cart']
-            cart = Cart.objects.get(id=cart_id)
-            cart_list.append(cart)
-            print(cart)     
-        
-        totals = checkout_details['total']
-        for total in totals:
-            total_price = total['total_price']    
-            total_discount = total['total_discount'] 
+        total_price = 0
+        total_delivery_cost = 0
+        total_discount = 0
+        total_amount = 0
+        if checkout_details:
+            products = checkout_details['products']            
+            for product in products:
+                cart_id=product['cart']
+                cart = Cart.objects.get(id=cart_id)
+                cart_list.append(cart)    
+            
+            totals = checkout_details['total']
+            
+            for total in totals:
+                total_price = total['total_price']    
+                total_discount = total['total_discount'] 
 
-        amounts = checkout_details['amount']
-        for amount in amounts:
-            total_amount = amount['total_amount']     
-            total_delivery_cost = amount['delivery_cost']
-        amount = Decimal(total_amount)
-        if total_delivery_cost != "False":
-            amount = amount + Decimal(total_delivery_cost)
+            amounts = checkout_details['amount']
+           
+            for amount in amounts:
+                total_amount = amount['total_amount']     
+                total_delivery = amount['delivery_cost']
+                print("delivery cost")
+                print(total_delivery)
+                total_delivery_cost = total_delivery + total_delivery_cost
+            total_delivery_cost = Decimal(total_delivery_cost)
+            print(total_delivery_cost)
+            amount = Decimal(total_amount)
+            if total_delivery_cost != "False":
+                amount = amount + Decimal(total_delivery_cost)
         
-        print(amount)
+        # print(amount)
         product_Json = request.POST.get("product_Json")
         # try:
         customer = Customers.objects.get(admin=request.user.id)
@@ -473,7 +501,30 @@ class CheckoutListView(View):
         #     param = {'thank':thank}
         #     return render(request,"checkout.html",param)
         # else:
-        return HttpResponseRedirect(reverse("razorpay"))
+        param= {}
+        currency = 'INR'
+        amount = 20000   # Rs. 200
+
+        # Create a Razorpay Order
+        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                        currency=currency,
+                                                        payment_capture='0'))
+
+        # order id of newly created order.
+        razorpay_order_id = razorpay_order['id']
+        callback_url = 'paymenthandler/'
+
+        # we need to pass these details to frontend.
+        
+        param['razorpay_order_id'] = razorpay_order_id
+        param['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+        param['razorpay_amount'] = amount
+        param['currency'] = currency
+        param['callback_url'] = callback_url
+
+        response = JsonResponse(param)
+        return response
+        # return HTTPResponse(param)
         # except:
         #     messages.add_message(request,messages.ERROR,"Connection Error Try Again")
         #     # return HttpResponse("error in connection")

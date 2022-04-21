@@ -1,0 +1,272 @@
+{% extends 'ecaadmin/admin_base.html' %}
+
+{% block page_title %}Product Tab List{% endblock page_title %}
+{% block button %}
+
+<a href="{% url 'admin_order_print' order.id%}"type="button" data-toggle="tooltip" title="" class="btn btn-info" 
+    data-title="Print Invoice" style="right: 100px;"><i class="fa fa-file"></i></a>
+<a href="{% url 'admin_shipping_print' order.id %}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Print for Shipping" value='Delete'
+    id='delete_btn' style="right: 100px;"><i class="fas fa-shopping-cart"></i></a>
+    <button onclick="history.back()"><i class="fa fa-square-left"></i></button>
+{% comment %} <a href="{% url 'admin_order_update' order.id %}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Edit Order" value='Delete'
+    id='delete_btn' style="right: 100px;"><i class="fas fa-edit"></i></a> {% endcomment %}
+
+{% endblock button %}
+{% block custom_css %}
+<style>
+    table, th, td {
+    border: 0.5px solid black;
+  }
+</style>  
+{% endblock custom_css %}
+
+{% block page_content %}
+<div class="section-body" id="printableArea">
+    
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-6">           
+            <div class="card" >
+              <div class="card-body">
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action active">
+                    <strong><i class="fas fa-shopping-cart"></i>  Order Details</strong>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-shopping-cart"></i> {{order.id}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-calendar"></i>   {{order.created_date|date:'d-m-Y'}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-credit-card"></i>   {{order.payment_method|upper}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"> <i class="fas fa-cash-register"></i> {{order.transaction_id}}(Transaction iD)</a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-shipping-fast"></i> {{order.address.state}}</a>
+                </div>
+              </div>
+            </div> 
+        </div>
+        <div class="col-12 col-md-6 col-lg-6">           
+            <div class="card">
+              <div class="card-body">
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action active">
+                    <strong><i class="fas fa-user"></i>  Customer Details</strong>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-user"> </i> {{order.customer.fisrt_name|upper}} {{order.customer.last_name|upper}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-address-card"> </i> {{order.customer.address|title}}, {{order.customer.city|title}}, {{order.customer.state|title}}, {{order.customer.zip_Code}}, {{order.customer.country|title}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"> <i class="fas fa-phone"> </i>  {{order.customer.phone}}</a>
+                  <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-at"> </i> {{order.customer.admin.email}}</a>
+               
+                </div>
+              </div>
+            </div> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>                                
+                                    <th>Shipping Address</th>
+                                    <th>Payement Address</th>                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>                                    
+                                    <td>{{order.address.fisrt_name|upper}} {{order.address.last_name|upper}}</br>{{order.address.address|title}} , </br>{{order.address.city|title}}, {{order.address.state|title}}, {{order.address.zip_Code}},</br> {{order.address.country|title}}</td>
+                                    <td>
+                                        {{order.customer.fisrt_name|upper}} {{order.customer.last_name|upper}}</br>{{order.customer.address|title}} , </br>{{order.customer.city|title}}, {{order.customer.state|title}}, {{order.customer.zip_Code}},</br> {{order.customer.country|title}}
+                                    </td>                                   
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>                                   
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Model No</th>
+                                    <th>Quentity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>                                   
+                                </tr>
+                            </thead>
+                            <br>
+                            <tbody class="cartitems" id="cartitems">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block modal_fade %}
+
+<!-- Add Exclusive-->
+<div class="modal fade" id="add_exclusive" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <form method="post" action="{% url 'add_exclusive' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="depaddLabel">Add Exclusive Products</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+
+                </div>
+
+                <div class="modal-body">
+                    <div class="deadline-form">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="room_no" class="form-label">Right Exclusive*</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <select class="form-control" aria-label="Default select example" name="id1" required>
+                                    <option selected value="">select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            </br>
+                            </br>
+                            </br>
+                            <div class="col-lg-3">
+                                <label for="depone" class="form-label">left Exclusive*</label>
+                            </div>
+
+                            <div class="col-lg-9">
+                                <select class="form-control" aria-label="Default select example" name="id2" required>
+                                    <option selected value="">select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                    {% endcomment %}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+
+        </div>
+        </form>
+    </div>
+</div>
+
+<!-- End Exclusive-->
+{% endblock modal_fade %}
+{% block custom_js %}
+<script>
+    window.addEventListener('load', (event) => {
+        console.log('page is fully loaded');
+        var cart1 = {{product_list|safe}}
+        cart1=JSON.parse(cart1);
+        console.log(cart1);
+        product_details(cart1)
+       
+
+    });
+    function product_details(cart){
+        var mystr = "";
+        sum= 0;
+        var i = 1;
+        var amount = 0;
+        document.getElementById('cartitems').innerHTML=""
+        if ($.isEmptyObject(cart)){
+            // for Empty Cart             
+                document.getElementById('cartitems').innerHTML = mystr;
+        }
+        else{
+            for(item in cart){
+                let name = cart[item][1];
+                let qty = cart[item][0];
+                let image = cart[item][2];
+                let price = cart[item][3];
+                let id = cart[item][8];
+                let cat = cart[item][4];
+                let subcat = cart[item][6];
+                let childcat = cart[item][7];
+                let slug = cart[item][5];
+                
+                let tprice = price.slice(1);
+                let total = tprice*qty;
+                sum=sum+qty;
+               
+                mystr =`<tr id="divorederdetail${item}">
+                        <td> 
+                            ${i}
+                        </td>
+                        <td>
+                            ${name}    
+                        </td>
+                        <td>
+                            1234
+                        </td>
+                        <td>
+                            ${qty}
+                        </td>
+                        <td>
+                            ${tprice}
+                        </td>
+                        <td>
+                            ${total}
+                        </td>
+                    </tr>`
+            
+                $('#cartitems').append(mystr);
+                i = i + 1;
+                amount = amount + total
+            }   
+            mystr = `<tr>
+                    <td colspan="5" class="text-right">Sub-Total</td>
+                    <td class="text-right">Rs.${amount}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right">Shipping(weight: )</td>
+                    <td class="text-right">Rs.346.00</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right">SGST 9%</td>
+                    <td class="text-right">Rs.${amount* 9/100}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right">CGST 9%</td>
+                    <td class="text-right">Rs.${amount* 9/100}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right">Total</td>
+                    <td class="text-right">Rs.${amount* 118/100}</td>
+                </tr>`  
+            $('#cartitems').append(mystr);
+        }
+    }   
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+   
+        document.body.innerHTML = printContents;
+   
+        window.print();
+   
+        document.body.innerHTML = originalContents;
+   }
+</script>
+{% endblock custom_js %}

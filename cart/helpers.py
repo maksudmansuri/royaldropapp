@@ -1,31 +1,46 @@
+from decimal import Decimal
+# from tkinter import E
+from django.shortcuts import get_object_or_404
+from accounts.models import Customers, CustomersAddress
+from front.models import ProductSizeWeight
 from .models import Cart, DeliveryCost
 from discount.helpers import CampaignHelper, CouponHelper
 
 
 class DeliveryCostHelper:
 
-    def __init__(self, cart_items):
+    def __init__(self, cart_items,user):
         self.cart_items = cart_items
+        self.user = user
         self.calculator = False
         self.number_of_deliveries = 0
         self.number_of_products = 0
         self.cost = 0
+        self.weight = 0
 
     def calculate_delivery_cost(self):
         try:
-            self.calculator = DeliveryCost.objects.get(status='Active')
+            customer = self.user
+            address = get_object_or_404(CustomersAddress,customer_id = customer,is_default=True,is_active=True)
+           
+            self.calculator = DeliveryCost.objects.get(status='Active',state_name=address.state)
 
-            delivery_categories = []
+            # delivery_categories = []
 
             for cart_item in self.cart_items:
                 self.number_of_products += 1
-                if cart_item.item.category.id not in delivery_categories:
-                    delivery_categories.append(cart_item.item.category.id)
-                    self.number_of_deliveries += 1
-
-                self.cost = (self.calculator.cost_per_delivery * self.number_of_deliveries) + \
-                            (self.calculator.cost_per_product * self.number_of_products) + self.calculator.fixed_cost
-
+                product_weight = get_object_or_404(ProductSizeWeight,product=cart_item.item)                
+                total_weight_per_cart = product_weight.weight * float(cart_item.quantity)
+                if product_weight.weight_type == "1":
+                    if total_weight_per_cart < 1000:
+                        total_weight_per_cart = 1000
+                    total_weight_per_cart = total_weight_per_cart/1000
+                else:
+                     if total_weight_per_cart < 1:
+                        total_weight_per_cart = 1
+                self.weight= self.weight + total_weight_per_cart
+            self.cost = (self.calculator.cost_kg * self.weight)
+            print(self.cost)
             return self.cost
         except Exception as e:
             print('Error when trying to getting coupon_discounts {0}'.format(str(e)))
@@ -48,7 +63,6 @@ class CartHelper:
 
     def prepare_cart_for_checkout(self):
         self.cart_items = Cart.objects.filter(customer=self.user)
-        print("self.cart+items")
         if not self.cart_items:
             return False
 
@@ -63,7 +77,7 @@ class CartHelper:
         return self.checkout_details
 
     def get_delivery_cost(self):
-        delivery_helper = DeliveryCostHelper(cart_items=self.cart_items)
+        delivery_helper = DeliveryCostHelper(cart_items=self.cart_items,user=self.user)
         self.delivery_cost = delivery_helper.calculate_delivery_cost()
 
     def calculate_cart_base_total_amount(self):

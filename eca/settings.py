@@ -32,7 +32,7 @@ DEBUG = True
 # DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['royaldap.com','www.royaldap.com','localhost','139.59.17.124']
 
 
 
@@ -255,11 +255,11 @@ SITE_ID=1
 # STATIC_ROOT=os.path.join(BASE_DIR,"static")
 
 BASE_URL="http://127.0.0.1:8000"
-STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # Manualy Added
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
@@ -288,15 +288,15 @@ from datetime import timedelta
 EMAIL_CONFIRMATION_PERIOD_DAYS = 1
 SIMPLE_EMAIL_CONFIRMATION_PERIOD = timedelta(days=EMAIL_CONFIRMATION_PERIOD_DAYS)
 
-AWS_ACCESS_KEY_ID = 'AKIAYKYQ6HVHTWX4OPWG'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'royaldap'
+AWS_ACCESS_KEY_ID = 'AKIA2A7OWLBOQ27LTRO6'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'royaldap1'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_QUERYSTRING_AUTH = False
 # AWS_S3_ENDPOINT_URL = 'https://uniqueupgradebooking.s3.amazonaws.com'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # AWS_S3_SIGNATURE_VERSION = 's3v4'
-# AWS_S3_REGION_NAME = 'us-east-1'
+# AWS_S3_REGION_NAME = 'ap-south-1'
 # AWS_S3_FILE_OVERWRITE = False
 # AWS_DEFAULT_ACL = None
 AWS_LOCATION='static'

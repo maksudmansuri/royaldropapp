@@ -330,33 +330,27 @@
                                             <span class="total-item-round" id="cart">0</span></a>
 
                                         <!--====== Dropdown ======-->
+                                        {% url 'checkout' as checkout %}
+                                        {% url 'cart' as cart %}
+                                        {% if request.path != checkout and request.path != cart%}
+                                            <span class="js-menu-toggle"></span>
+                                            <div class="mini-cart" >
 
-                                        <span class="js-menu-toggle"></span>
-                                        <div class="mini-cart">
+                                                <!--====== Mini Product Container ======-->
+                                                <div class="mini-product-container gl-scroll u-s-m-b-15 popcartpr" id ="popcartpr">
+                                                    
+                                                </div>
+                                                <!--====== End - Mini Product Container ======-->
 
-                                            <!--====== Mini Product Container ======-->
-                                            <div class="mini-product-container gl-scroll u-s-m-b-15 popcartpr" id ="popcartpr">
-                                                
+
+                                                <!--====== Mini Product Statistics ======-->
+                                                <div class="mini-product-stat" id ="popcartpr-total">
+                                                    
+                                                    Cart i empxcxty
+                                                </div>
+                                                <!--====== End - Mini Product Statistics ======-->
                                             </div>
-                                            <!--====== End - Mini Product Container ======-->
-
-
-                                            <!--====== Mini Product Statistics ======-->
-                                            <div class="mini-product-stat">
-                                                <div class="mini-total">
-
-                                                    <span class="subtotal-text">SUBTOTAL</span>
-
-                                                    <span class="subtotal-value">$16</span></div>
-                                                <div class="mini-action">
-
-                                                    <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a>
-                                                    <a class="mini-link btn--e-transparent-secondary-b-2" href="{% url 'cart' %}" >View Cart</a></div>
-
-                                                    {% comment %} <a class="mini-link btn--e-transparent-secondary-b-2" id ="clearCart" onclick="clearCart()" >REMOVE ALL</a></div> {% endcomment %}
-                                            </div>
-                                            <!--====== End - Mini Product Statistics ======-->
-                                        </div>
+                                        {% endif %}
                                         <!--====== End - Dropdown ======-->
                                     </li>
                                     

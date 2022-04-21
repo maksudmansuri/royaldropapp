@@ -1,4 +1,5 @@
 import datetime
+import json
 import random 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, render,redirect,HttpResponseRedirect
@@ -21,6 +22,8 @@ from django.conf import settings
 from rest_framework import viewsets
 from django.core.files.storage import FileSystemStorage
 from django.core.exceptions import ObjectDoesNotExist
+import http.client
+conn = http.client.HTTPConnection("2factor.in")
 #API for Apps
 # class CustomUserViewSet(viewsets.ModelViewSet):
 #     queryset = CustomUser.objects.all().order_by('username')
@@ -229,10 +232,8 @@ def dologin(request):
                     else:
                         return HttpResponseRedirect(reverse('admin_home'))
                 elif user.user_type=="3":
-                    print("3")
-                    print(next)
-                    if 'next' in request.POST:
-                        return redirect(request.POST.get('next'))
+                    if next:
+                        return HttpResponseRedirect(next)
                     else:
                         return HttpResponseRedirect(reverse('home'))
                 else:
@@ -255,7 +256,7 @@ class dosingup(SuccessMessageMixin,CreateView):
     fields=["email","phone","password"]
   
     def form_valid(self,form):
-
+        import requests
         #Saving Custom User Object for Merchant User
         user=form.save(commit=False)
         user.is_active=True
@@ -268,18 +269,17 @@ class dosingup(SuccessMessageMixin,CreateView):
         key = send_otp(mobile)
         user.otp = str(key)
         user.save()
+        r = requests.get("http://bulksms.saakshisoftware.in/api/mt/SendSMS?user=royaldap&password=123123&senderid=RYLDAP&channel=TRANS&DCS=0&flashsms=0&number="+mobile+"&text=Your verification code for Royaldap.com is:"+user.otp+"&route=04&DLTTemplateId=1207164552717099814&PEID=1201164517739458206",headers = {'Accept': 'application/json'}).json()
+        status = r['ErrorCode']
+        # status = json.loads(r)
+        # print(status)
+        if status != "000":
+            messages.add_message(self.request,messages.ERROR,"Try after sometimes,Technical Issue") 
+            return HttpResponseRedirect(reverse("dosingup"))
+
         messages.add_message(self.request,messages.SUCCESS,"OTP has been sent successfully") 
         return HttpResponseRedirect(reverse("verifyPhone",kwargs={'phone':user.phone}))
-        #Saving Merchant user
-        # profile_pic=self.request.FILES["profile_pic"]
-        # fs=FileSystemStorage()
-        # filename=fs.save(profile_pic.name,profile_pic)
-        # profile_pic_url=fs.url(filename)
-
-        # user.customers.profile_pic=profile_pic_url
-        # user.save()
-        # messages.success(self.request,"Customer User Created")
-        # return HttpResponseRedirect(reverse("dologin"))
+       
 
 class AuthorizedSingup(SuccessMessageMixin,CreateView):
     template_name="accounts/athorizationsnew.html"

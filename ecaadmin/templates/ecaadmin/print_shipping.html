@@ -1,0 +1,163 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Invoice</title>
+{% comment %} <base href="https://www.royaldropshipping.com/admin/" /> {% endcomment %}
+<link href="{% static 'eca_admin/css/inv/bootstrap.css'%}" rel="stylesheet" media="all" />
+<script type="text/javascript" src="{% static 'eca_admin/css/inv/jquery-2.1.1.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'eca_admin/css/inv/js/bootstrap.min.js'%}"></script>
+<link href="{% static 'eca_admin/css/inv/font-awesome.min.css" type="text/css'%}" rel="stylesheet" />
+<link type="text/css" href="{% static 'eca_admin/css/inv/stylesheet.css'%}" rel="stylesheet" media="all" />
+</head>
+<body>
+  <div class="container">
+    <div style="page-break-after: always;">
+    <h1>Dispatch Note #{{order.id}}</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="2">Order Details</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 50%;"><address>
+            <strong>ROYALDAP INTERNATIONAL PRIVATE LIMITED</strong><br />
+            ROYALDAP INTERNATIONAL PRIVATE LIMITED<br />
+            GF-18 Siddhartha Elegance, Opp SBI Bank, Nr roses garden nursery<br />
+            Old Chhani Road,Vadodara-390024,Gujarat<br />
+            GSTIN: 24AALCR0885N1ZS<br />
+            PAN: AALCR0885N<br />
+            CIN: U74999GJ2020PTC112116
+            </address>
+            <b>Telephone</b> 9909985111<br />
+                        <b>E-Mail</b> info@royaldropshipping.com<br />
+            <b>Web Site:</b> <a href="https://www.royalddap.com">https://www.royaldap.com</a></td>
+          <td style="width: 50%;"><b>Date Added</b> {{order.created_date|date}}<br />
+                        <b>Invoice No.</b> INV-00{{order.id}}<br />
+                        <b>Order ID:</b> {{order.id}}<br />
+           
+                        <b>Shipping Method: </b> {% if order.address.state == "Gujarat" %}Local State {% else %} Other State{% endif %}   (Weight: 76.00g)<br />
+            </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <td style="width: 50%;"><b>Shipping Address</b></td>
+            <td style="width: 50%;"><b>Contact</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><address>
+            {{order.customer.fisrt_name}} {{order.customer.last_name}}<br />{{order.customer.address}}, {{order.customer.city}},{{order.customer.zip_Code}}<br />{{order.customer.state}} India
+            </address></td>
+          <td><address>
+            {{order.address.phone}}<br />{{order.customer.admin.email}}
+            </address></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <td><b>Reference</b></td>
+            <td><b>Product</b></td>
+          <td class="text-right"><b>Product Weight</b></td>
+          <td class="text-right"><b>Model</b></td>
+          <td class="text-right"><b>Quantity</b></td>
+        </tr>
+      </thead>
+      <tbody class="cartitems" id="cartitems">
+        
+      </tbody>
+    </table>
+        <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td><b>Customer Comment</b></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>When will arrive ?</td>
+        </tr>
+      </tbody>
+    </table>
+      </div>
+  </div>
+  <script src="{% static 'eca_admin/modules/jquery.min.js' %}"></script>
+<script src="{% static 'eca_admin/modules/jquery-ui/jquery-ui.min.js'%}"></script>
+<script>
+    window.addEventListener('load', (event) => {
+        console.log('page is fully loaded');
+        var cart1 = {{product_list|safe}}
+        cart1=JSON.parse(cart1);
+        console.log(cart1);
+        product_details(cart1)
+       
+
+    });
+    function product_details(cart){
+        var mystr = "";
+        sum= 0;
+        var i = 1;
+        var amount = 0;
+        document.getElementById('cartitems').innerHTML="";
+        if ($.isEmptyObject(cart)){
+            // for Empty Cart             
+                document.getElementById('cartitems').innerHTML = mystr;
+        }
+        else{
+            for(item in cart){
+                let name = cart[item][1];
+                let qty = cart[item][0];
+                let image = cart[item][2];
+                let price = cart[item][3];
+                let id = cart[item][8];
+                let cat = cart[item][4];
+                let subcat = cart[item][6];
+                let childcat = cart[item][7];
+                let slug = cart[item][5];
+                
+                let tprice = price.slice(1);
+                let total = tprice*qty;
+                sum=sum+qty;
+               
+                mystr =`
+                    <tr id="divorederdetail${item}">
+                        
+                      <td>SKU</td>
+                      <td>${name}</td>
+                      <td class="text-right">${qty}weight</td>
+                      <td class="text-right">model number</td>
+                      <td class="text-right">${qty}</td>
+                    </tr>
+                                            `
+            
+                $('#cartitems').append(mystr);
+                i = i + 1;
+                amount = amount + total
+            }   
+            
+            
+        }
+    }   
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+   
+        document.body.innerHTML = printContents;
+   
+        window.print();
+   
+        document.body.innerHTML = originalContents;
+   }
+</script>
+</body>
+</html>

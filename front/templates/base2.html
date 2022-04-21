@@ -103,7 +103,7 @@
     <!--====== App ======-->
     <script src="{% static 'ecafront/js/app.js'%}"></script>
    
-   
+    {% block custom_js %}{% endblock custom_js %}
 
 
     <!--====== Noscript ======-->
@@ -124,7 +124,7 @@
     </noscript>
    
    
-    {% block custom_js %}{% endblock custom_js %}
+    
 
 </body>
 </html>

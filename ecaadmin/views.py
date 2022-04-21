@@ -1,9 +1,11 @@
-from functools import cache
+import json
+from webbrowser import get
 from django.contrib.messages import views
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.views.generic import ListView,CreateView,UpdateView,DetailView,View
-from front.models import Product, ProductDiscount, ProductSizeWeight, ProductStockManage, ProductSubCategory,ProductCategory, gstPercentage, productGst,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems,ProductChildSubCategory
+from cart.models import DeliveryCost
+from front.models import Orders, Product, ProductDiscount, ProductSizeWeight, ProductStockManage, ProductSubCategory,ProductCategory, gstPercentage, productGst,productMedia,ProductQuestions,ProductReviews,ProductVarient,ProductAbout,ProductDetails,ProductReviewVoting,ProductTag,ProductTransaction,ProductVariantItems,ProductChildSubCategory
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import CustomUser, Customers, Merchants, Staffs
 from django.core.files.storage import FileSystemStorage
@@ -11,6 +13,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db.models import Q
+
 from .form import ProductCreateView,ProductChildSubCategoryCreateVIew
 from eca.settings import BASE_URL
 from django.views.decorators.csrf import csrf_exempt
@@ -1411,6 +1414,152 @@ def AddExclusive(request):
         except:
             messages.add_message(request,messages.ERROR,"Connection Error Try Again")
             return HttpResponseRedirect(reverse("product_tab_list"))
+
+"""Delivery Cost List and Add"""
+class DeliveryCostView(SuccessMessageMixin,CreateView):
+    def get(self,request,*args,**kwargs):
+        dl_cost = DeliveryCost.objects.all()
+        return render(self.request,"ecaadmin/delivery_cost.html",{'dl_cost':dl_cost})
+
+    def post(self,request,*args,**kwargs):
+        state_name=request.POST.get("state_name")
+        cost_kg=request.POST.get("cost_kg")       
+
+        try:
+            dl = DeliveryCost(status="Active",state_name=state_name,cost_kg=cost_kg)
+            dl.save()
+            messages.add_message(self.request,messages.SUCCESS,"Delivery Cost Successfully Added")
+            return HttpResponseRedirect(reverse("add_delivery_cost"))
+        except:
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("add_delivery_cost"))
+ 
+def deleteDeliveryCostView(request,id):
+    try:
+        dl = DeliveryCost.objects.get(id=id)
+        dl.delete()
+        messages.add_message(request,messages.SUCCESS,"Delivery Cost Successfully Deleted")
+        return HttpResponseRedirect(reverse("add_delivery_cost"))
+    except:
+        messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+        return HttpResponseRedirect(reverse("add_delivery_cost"))
+
+"""Order List view"""
+class OrderListView(ListView):
+    model=Orders
+    template_name="ecaadmin/order_list.html"
+
+    # def get_queryset(self):
+    #     filter_val=self.request.GET.get("filter","")
+    #     order_by=self.request.GET.get("orderby","id")
+    #     if filter_val!="":
+    #         cat=Customers.objects.filter(Q(admin_id__first_name__contains=filter_val) |Q(admin_id__last_name__contains=filter_val) | Q(admin_id__email__contains=filter_val) | Q(admin_id__username__contains=filter_val)).order_by(order_by)
+    #     else:
+    #         cat=Customers.objects.all().order_by(order_by)
+
+    #     return cat
+
+    # def get_context_data(self,**kwargs):
+    #     context=super(CustomerUserListView,self).get_context_data(**kwargs)
+    #     context["filter"]=self.request.GET.get("filter","")
+    #     context["orderby"]=self.request.GET.get("orderby","id")
+    #     context["all_table_fields"]=Customers._meta.get_fields()
+    #     return context
+
+
+class OrderDetailView(SuccessMessageMixin,DetailView):
+    def get(self,request,*args,**kwargs):
+        order_id=kwargs["id"]
+        order=Orders.objects.get(id=order_id)
+        product_list = json.dumps([order.product_Json],default=str)
+        print(order.product_Json)
+        print(product_list)
+        param = {'order':order,'product_list':product_list}
+        return render(self.request,"ecaadmin/order_details.html",param)
+
+    def post(self,request,*args,**kwargs):
+        title=request.POST.get("title")
+        description=request.POST.get("description")
+        is_active=request.POST.get("is_active")
+        thumbnail=request.FILES.get("thumbnail")
+        sub_category=request.POST.get("sub_category")
+
+        subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        try:
+            pchsbcat_id=kwargs["pk"]
+            # pchsbcat=Product.objects.get(id=pchsbcat_id)
+            pchsbcat=ProductChildSubCategory.objects.get(id=pchsbcat_id)
+            pchsbcat.title=title
+            pchsbcat.description=description
+            pchsbcat.is_active=is_active
+            pchsbcat.subcategory=subcat_obj
+            pchsbcat.category=cat_obj
+            if thumbnail: 
+                # fs=FileSystemStorage()
+                # filename=fs.save(thumbnail.name,thumbnail)
+                # media_url=fs.url(filename)
+                pchsbcat.thumbnail = thumbnail
+            pchsbcat.save()
+            messages.add_message(self.request,messages.ERROR,"Product child subcategory has been Updated Succesfully")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
+        except:
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("childsubcategory_list"))
+
+class OrderUpdateView(SuccessMessageMixin,UpdateView):
+    def get(self,request,*args,**kwargs):
+        order_id=kwargs["id"]
+        order=Orders.objects.get(id=order_id)
+        product_list = json.dumps([order.product_Json],default=str)
+        print(order.product_Json)
+        print(product_list)
+        param = {'order':order,'product_list':product_list}
+        return render(self.request,"ecaadmin/order_update.html",param)
+
+    def post(self,request,*args,**kwargs):
+        title=request.POST.get("title")
+        description=request.POST.get("description")
+        is_active=request.POST.get("is_active")
+        thumbnail=request.FILES.get("thumbnail")
+        sub_category=request.POST.get("sub_category")
+
+        subcat_obj=ProductSubCategory.objects.get(id=sub_category)
+        cat_obj=ProductCategory.objects.get(id=subcat_obj.category.id)
+        try:
+            pchsbcat_id=kwargs["pk"]
+            # pchsbcat=Product.objects.get(id=pchsbcat_id)
+            pchsbcat=ProductChildSubCategory.objects.get(id=pchsbcat_id)
+            pchsbcat.title=title
+            pchsbcat.description=description
+            pchsbcat.is_active=is_active
+            pchsbcat.subcategory=subcat_obj
+            pchsbcat.category=cat_obj
+            if thumbnail: 
+                # fs=FileSystemStorage()
+                # filename=fs.save(thumbnail.name,thumbnail)
+                # media_url=fs.url(filename)
+                pchsbcat.thumbnail = thumbnail
+            pchsbcat.save()
+            messages.add_message(self.request,messages.ERROR,"Product child subcategory has been Updated Succesfully")
+            return HttpResponseRedirect(reverse("admin_order_update"))
+        except:
+            messages.add_message(request,messages.ERROR,"Connection Error Try Again")
+            return HttpResponseRedirect(reverse("admin_order_update"))
+
+def adminOrderPrint(request,id):
+    order = get_object_or_404(Orders,id=id)
+    product_list = json.dumps([order.product_Json],default=str)
+    param = {'order':order,'product_list':product_list}
+    return render(request,"ecaadmin/order_print.html",param)
+
+def adminShippingPrint(request,id):
+    order = get_object_or_404(Orders,id=id)
+    product_list = json.dumps([order.product_Json],default=str)
+    param = {'order':order,'product_list':product_list}
+    return render(request,"ecaadmin/print_shipping.html",param)
+       
+
 
 
 # def ProductCategoryDelete(request,pks):

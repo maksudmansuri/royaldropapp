@@ -53,6 +53,17 @@ urlpatterns = [
     #Add Exlusive products
     path('add_exclusive',views.AddExclusive,name="add_exclusive"),
 
+    #Coupons List, Add ,delete
+    path('add_delivery_cost',views.DeliveryCostView.as_view(),name="add_delivery_cost"),
+    path('delete__delivery_cost/<id>',views.deleteDeliveryCostView,name="delete__delivery_cost"),
+
+    #order list
+    path('order_list',views.OrderListView.as_view(),name="order_list"),
+    path('admin_order_details/<id>',views.OrderDetailView.as_view(),name="admin_order_details"),
+    path('admin_order_update/<id>',views.OrderUpdateView.as_view(),name="admin_order_update"),
+    path('admin_order_print/<id>',views.adminOrderPrint,name="admin_order_print"),
+    path('admin_shipping_print/<id>',views.adminShippingPrint,name="admin_shipping_print"),
+
 
     #Staff User
     path('staff_create',views.StaffUserCreateView.as_view(),name="staff_create"),

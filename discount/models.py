@@ -9,7 +9,7 @@ class Campaign(models.Model):
                                      null=False)
     discount_rate = models.IntegerField(null=True, blank=True)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    min_purchased_items = models.IntegerField(null=False)
+    min_purchased_items = models.IntegerField(null=True, blank=True)
     apply_to = models.CharField(max_length=20,
                                 choices=(('Product', 'product'), ('Category', 'category'), ('SubCategory', 'subcategory'), ('ChildSubCategory', 'childsubcategory')),
                                 default="product",

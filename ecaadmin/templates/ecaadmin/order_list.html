@@ -1,0 +1,166 @@
+{% extends 'ecaadmin/admin_base.html' %}
+
+{% block page_title %}Product Tab List{% endblock page_title %}
+{% block button %}
+<button type="button" data-toggle="modal" title="" class="btn btn-primary" data-original-title="Add Exclusive"
+    style="position: absolute;right: 130px;" data-bs-toggle="modal" data-target="#add_exclusive"><i
+        class="fa fa-plus"></i> Exclusive</button>
+<a href="{% url 'add_product' %}" data-toggle="tooltip" title="" class="btn btn-primary"
+    data-original-title="Add New Product" style="right: 100px;"><i class="fa fa-plus"></i></a>
+<a data-toggle="tooltip" title="" class="btn btn-secondary" data-original-title="Delete Product" value='Delete'
+    id='delete_btn' style="right: 100px;"><i class="fa fa-trash"></i></a>
+
+{% endblock button %}
+
+{% block page_content %}
+<div class="section-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Advanced Table</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-2">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <div class="custom-checkbox custom-control">
+                                            <input type="checkbox" data-checkboxes="mygroup" data-checkbox-role="dad"
+                                                class="custom-control-input" id="checkbox-all">
+                                            <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Order Id</th>
+                                    <th>Customer</th>
+                                    <th>Order Date</th>
+                                    <th>Payment</th>
+                                    <th>Delivery Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders_list %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-checkbox custom-control">
+                                            <input type="checkbox" data-checkboxes="mygroup"
+                                                class="custom-control-input" id="checkbox-1">
+                                            <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td>{{order.id}}</td>
+                                    <td>
+                                        {{order.customer.fisrt_name}} {{order.customer.last_name}}
+                                    </td>
+                                    <td>
+                                        {{order.created_date|date:'d-m-y'}}
+                                    </td>
+                                    <td>{{order.amount}}</td>
+                                    <td class="align-middle">
+                                        <div class="badge badge-success">{{order.status}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown d-inline">
+                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item has-icon" href="{% url 'admin_order_details' order.id %}"><i class="fas-regular fa-file"></i>
+                                                    Detial</a>
+                                                <a class="dropdown-item has-icon" href="#"><i class="fas fa-edit"></i>
+                                                    Edit</a>
+                                                <a class="dropdown-item has-icon" href="#"><i class="fas fa-file"></i>
+                                                    Invoice</a>
+                                                <a class="dropdown-item has-icon" href="#"><i class="fas fa-shipping-fast"></i>
+                                                    Shipping</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block modal_fade %}
+
+<!-- Add Exclusive-->
+<div class="modal fade" id="add_exclusive" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <form method="post" action="{% url 'add_exclusive' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="depaddLabel">Add Exclusive Products</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+
+                </div>
+
+                <div class="modal-body">
+                    <div class="deadline-form">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="room_no" class="form-label">Right Exclusive*</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <select class="form-control" aria-label="Default select example" name="id1" required>
+                                    <option selected value="">select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            </br>
+                            </br>
+                            </br>
+                            <div class="col-lg-3">
+                                <label for="depone" class="form-label">left Exclusive*</label>
+                            </div>
+
+                            <div class="col-lg-9">
+                                <select class="form-control" aria-label="Default select example" name="id2" required>
+                                    <option selected value="">select</option>
+                                    {% for product in product_list %}
+                                    {% if product.is_active %}
+                                    <option value="{{product.id}}">{{product}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                    {% endcomment %}
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+
+        </div>
+        </form>
+    </div>
+</div>
+
+<!-- End Exclusive-->
+{% endblock modal_fade %}
+{% block custom_js %}
+
+
+{% endblock custom_js %}

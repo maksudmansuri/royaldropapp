@@ -1,0 +1,635 @@
+{% extends 'ecaadmin/admin_base.html' %}
+{% block title %} Order Edit{% endblock title %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css" />
+<style>
+    .bootstrap-tagsinput {
+        width: 100%;
+    }
+</style>
+
+{% endblock custom_css %}
+
+
+{% block page_title %} Update Details Of {{product.product_name}}{% endblock page_title %}
+
+
+{% block page_content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <form id="myform">
+                {% csrf_token %}
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active show" id="details-tab" data-toggle="tab" href="#details"
+                                role="tab" aria-controls="details" aria-selected="false">Customer Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="category-tab" data-toggle="tab" href="#category" role="tab"
+                                aria-controls="category" aria-selected="false">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="stock-tab" data-toggle="tab" href="#stock" role="tab"
+                                aria-controls="stock" aria-selected="true">Payement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="price-tab" data-toggle="tab" href="#price" role="tab"
+                                aria-controls="price" aria-selected="true">Shipping Details</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " id="media-tab" data-toggle="tab" href="#media" role="tab"
+                                aria-controls="media" aria-selected="true">Total</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content " id="myTabContent">
+                        <div class="tab-pane fade active show" id="details" role="tabpanel"
+                            aria-labelledby="details-tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Customer Name</label>
+                                    <input class="form-control" name="product_name" placeholder="Product Name"
+                                        id="product_name" maxlength="256"
+                                        value="{{order.customer.fisrt_name}} {{order.customer.last_name}}" />
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Email</label>
+                                    <input class="form-control" name="product_brand" placeholder="Product Brand"
+                                        id="product_brand" maxlength="64" value="{{order.customer.admin.email}}" />
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Phone Number</label>
+                                    <input class="form-control" name="product_model_number"
+                                        placeholder="Product Model Number" maxlength="256"
+                                        value="{{order.customer.admin.phone}}" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>City</label>
+                                    <input class="form-control" name="product_sku" placeholder="Product SKU"
+                                        value="{{order.customer.city}}" />
+                                </div>
+                            </div><br>
+
+                        </div>
+                        <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+                        </br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td class="text-left">Product</td>
+                                            <td class="text-left">Model</td>
+                                            <td class="text-right">Quantity</td>
+                                            <td class="text-right">Unit Price</td>
+                                            <td class="text-right">Total</td>
+                                            <td>Action</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="cartitems" id="cartitems">
+                                        <tr>
+                                            <td class="text-left">{{order.}}<br> <input type="hidden" name="product[0][product_id]"
+                                                    value="1812"></td>
+                                            <td class="text-left">1236_shave_body</td>
+                                            <td class="text-right">
+                                                <div class="input-group btn-block" style="max-width: 200px;"><input
+                                                        type="text" name="product[0][quantity]" value="1"
+                                                        class="form-control"><span class="input-group-btn"><button
+                                                            type="button" data-toggle="tooltip" title=""
+                                                            data-loading-text="Loading..." class="btn btn-primary"
+                                                            data-original-title="Refresh"><i
+                                                                class="fa fa-refresh"></i></button></span></div>
+                                            </td>
+                                            <td class="text-right">Rs.46.02</td>
+                                            <td class="text-right">Rs.46.02</td>
+                                            <td class="text-center" style="width: 3px;"><button type="button"
+                                                    value="2845" data-toggle="tooltip" title=""
+                                                    data-loading-text="Loading..." class="btn btn-danger"
+                                                    data-original-title="Remove"><i
+                                                        class="fa fa-minus-circle"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Total Stock</b></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="in_stock_total" placeholder="Add Stock"
+                                        id="in_stock_total" value="{{product_stock.in_stock_total}}" />
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Minimum Quantity</b></label>
+
+                                </div>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="mini_Quantity" placeholder="Minimum Quantity"
+                                        id="mini_Quantity" value="{{product_stock.mini_Quantity}}" />
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Stock Status</b></label>
+
+                                </div>
+
+                                <div class="col-lg-9">
+
+                                    <select name="Out_Of_Stock_Status" id="Out_Of_Stock_Status" class="form-control"
+                                        size="1">
+                                        <option value="">Product Status</option>
+                                        <option value="1"
+                                            {% if product_stock.Out_Of_Stock_Status == "1" %}selected{% endif %}>
+                                            available</option>
+                                        <option value="2"
+                                            {% if product_stock.Out_Of_Stock_Status == "2" %}selected{% endif %}>Out of
+                                            Stock</option>
+                                        <option value="3"
+                                            {% if product_stock.Out_Of_Stock_Status == "3" %}selected{% endif %}>Product
+                                            Discontinue</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Dimension( H x L x W
+                                            )</b></label>
+
+                                </div>
+
+                                <div class="col-lg-3">
+
+                                    <input class="form-control" name="height" id="height" placeholder="Enter Height"
+                                        value="{{product_size_weight.height}}" />
+
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <input class="form-control" name="lenght" id="lenght" placeholder="Enter Length"
+                                        id="Length" value="{{product_size_weight.lenght}}" />
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <input class="form-control" name="width" placeholder="Enter Width" id="width"
+                                        value="{{product_size_weight.width}}" />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Length Type</b></label>
+
+                                </div>
+
+                                <div class="col-lg-9">
+
+                                    <select name="lenght_type" id="lenght_type" class="form-control" size="1"
+                                        value="{{product_size_weight.lenght_type}}">
+                                        <option value="">Choose Type</option>
+                                        <option value="1"
+                                            {% if product_size_weight.lenght_type == "1" %}selected{% endif %}>Inch
+                                        </option>
+                                        <option value="2"
+                                            {% if product_size_weight.lenght_type == "2" %}selected{% endif %}>
+                                            Centimeter</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Product Weight</b></label>
+
+                                </div>
+                                <div class="col-lg-9">
+                                    <input class="form-control" name="weight" placeholder="Add Product Weight"
+                                        id="weight" value="{{product_size_weight.weight}}" />
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Weight Type</b></label>
+
+                                </div>
+
+                                <div class="col-lg-9">
+
+                                    <select name="weight_type" id="weight_type" class="form-control" size="1"
+                                        value="{{product_size_weight.weight_type}}">
+                                        <option value="">Choose Type</option>
+                                        <option value="1"
+                                            {% if product_size_weight.weight_type == "1" %}selected{% endif %}>Gram
+                                        </option>
+                                        <option value="2"
+                                            {% if product_size_weight.weight_type == "2" %}selected{% endif %}>Kilogram
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                        </div>
+                        <div class="tab-pane fade " id="price" role="tabpanel" aria-labelledby="price-tab">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label style="margin-top:10px;margin-left:28px;"><b>Product Price</b></label>
+                                </div>
+                                <div class="col-lg-4 input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            &#8377
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control currency" name="product_mrp"
+                                        placeholder="Price On package" id="product_mrp"
+                                        value="{{product.product_mrp}}" />
+
+                                </div>
+                                <div class="col-lg-4 input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            &#8377
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control currency" name="product_selling_price"
+                                        placeholder="Online Selling Price" id="product_selling_price"
+                                        value="{{product.product_selling_price}}" />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label style="margin-top:10px;margin-left:28px;"><b>GST Percentage</b></label>
+                                </div>
+                                <div class="col-lg-9">
+                                    <select name="gst_percentage" id="gst_percentage" class="form-control" size="1">
+                                        <option value="1" {% if product_gst.percentage == "1" %}selected{% endif %}>0%
+                                        </option>
+                                        <option value="2" {% if product_gst.percentage == "2" %}selected{% endif %}>3%
+                                        </option>
+                                        <option value="3" {% if product_gst.percentage == "3" %}selected{% endif %}>5%
+                                        </option>
+                                        <option value="4" {% if product_gst.percentage == "4" %}selected{% endif %}>12%
+                                        </option>
+                                        <option value="5" {% if product_gst.percentage == "5" %}selected{% endif %}>18%
+                                        </option>
+                                        <option value="6" {% if product_gst.percentage == "6" %}selected{% endif %}>28%
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label style="margin-top:10px;margin-left:28px;"><b>HSN Code</b></label>
+                                </div>
+                                <div class="col-lg-9 input-group">
+
+                                    <input type="text" class="form-control" name="hsn_number"
+                                        placeholder="Enter HSN Code" id="hsn_number"
+                                        value="{{product_gst.hsn_number}}" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade " id="media" role="tabpanel" aria-labelledby="media-tab">
+                            <div class="row ">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>Image Check</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label class="form-label">Image Check</label>
+                                                <div class="row gutters-sm">
+                                                    {% if productmedia %}
+                                                    {% for media in productmedia %}
+                                                    <div class="col-6 col-sm-4">
+                                                        <label class="imagecheck mb-4">
+                                                            <input name="imagecheck" type="checkbox"
+                                                                class="imagecheck-input"
+                                                                {% if media.get_media_content_url == product.get_product_image_url %}disabled{% endif %}value="1">
+                                                            <figure class="imagecheck-figure">
+                                                                <img src="{{media.get_media_content_url}}" alt="}"
+                                                                    class="imagecheck-image" height="200" width="200">
+                                                            </figure>
+                                                        </label>
+                                                    </div>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <h5>No Image Uploded yet</h5>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="media_div">
+                                <div class="row media_div_row first_media">
+                                    <div class="col-lg-4">
+                                        <label>Media Type</label>
+                                        <select name="media_type[]" class="form-control media_type">
+                                            <option value="1" {% if pmedia.media_type == 1 %}selected{% endif %}>Image
+                                            </option>
+                                            <option value="2" {% if pmedia.media_type == 2 %}selected{% endif %}>Video
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Select Media</label>
+                                        <input type="file" name="media_content[]" class="form-control select_media">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Preview</label>
+                                        <br>
+                                        <img style="width:70%;display:none" class="img_preview">
+                                        <br>
+                                        <video style="width:70%;display:none" class="video_preview" controls>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <button class="btn btn-success btn-block add_media" type="button">ADD MEDIA
+                                        CONTENT</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-danger btn-block remove_media" type="button">REMOVE MEDIA
+                                        CONTENT</button>
+                                </div>
+                            </div>
+
+                            <br>
+
+                        </div>
+                        <div class="tab-pane fade " id="about" role="tabpanel" aria-labelledby="about-tab">
+                            <br>
+                            <h5>Product Details</h5>
+                            <hr>
+                            <div class="">
+                                {% for details in product_details %}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>Title</label>
+                                        <input type="text" name="title_title[]" value="{{ details.title }}"
+                                            class="form-control title_title" placeholder="Title">
+                                        <input type="hidden" name="details_id[]" value="{{ details.id }}">
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Details</label>
+                                        <input type="text" name="title_details[]" value="{{ details.title_details}}"
+                                            class="form-control title_details" placeholder="Title Details">
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <br>
+
+                            <div class="details_div">
+                                <div class="row details_div_row first_details">
+                                    <div class="col-lg-6">
+                                        <label>Title</label>
+                                        <input type="text" name="title_title[]" class="form-control title_title"
+                                            placeholder="Title">
+                                        <input type="hidden" name="details_id[]" value="blank">
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Details</label>
+                                        <input type="text" name="title_details[]" class="form-control title_details"
+                                            placeholder="Title Details">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <button class="btn btn-success btn-block add_details " type="button">ADD
+                                        Details</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-danger btn-block remove_details" type="button">REMOVE
+                                        Details</button>
+                                </div>
+                            </div>
+                            <br>
+                            <h5>Product About</h5>
+                            <hr>
+                            <div class="">
+                                {% for about in  product_about %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Title</label>
+                                        <input type="text" name="about_title[]" value="{{about.title}}"
+                                            class="form-control about_title" placeholder="Title">
+                                        <input type="hidden" name="about_id[]" value="{{ about.id }}">
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <br>
+                            <div class="about_div">
+                                <div class="row about_div_row first_about">
+                                    <div class="col-lg-12">
+                                        <label>Title</label>
+                                        <input type="text" name="about_title[]" class="form-control about_title"
+                                            placeholder="Title">
+                                        <input type="hidden" name="about_id[]" value="blank">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <button class="btn btn-success btn-block add_about" type="button">ADD ABOUT
+                                        DETAILS</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-danger btn-block remove_about" type="button">REMOVE ABOUT
+                                        DETAILS</button>
+                                </div>
+                            </div>
+                            <br>
+                            <h5>Product TAgs</h5>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="text" name="product_tags" class="form-control" data-role="tagsinput"
+                                        value="{% for tags in product_tag %} {{tags.product_tags}} ,{% endfor %}" />
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="progress mb-3" style="height:auto">
+                                        <div class="progress-bar bg-warning" role="progressbar" id="progressbar"
+                                            data-width="0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                            style="display:none; width: 0%;height:30px;border-radius:10px;">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <button type="button" class="btn btn-primary btn-block submit_btn">ADD PRODUCT</button>
+
+                            </div>
+                        </div>
+                        {% comment %} <div class="tab-pane fade " id="varient" role="tabpanel"
+                            aria-labelledby="varient-tab">
+                        </div> {% endcomment %}
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock page_content %}
+{% block custom_js %}
+<script>
+window.addEventListener('load', (event) => {
+    console.log('page is fully loaded');
+    var cart1 = {{product_list|safe}}
+    cart1=JSON.parse(cart1);
+    console.log(cart1);
+    product_details(cart1)
+   
+
+});
+function product_details(cart){
+    var mystr = "";
+    sum= 0;
+    var i = 1;
+    var amount = 0;
+    document.getElementById('cartitems').innerHTML=""
+    if ($.isEmptyObject(cart)){
+        // for Empty Cart             
+            document.getElementById('cartitems').innerHTML = mystr;
+    }
+    else{
+        for(item in cart){
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let image = cart[item][2];
+            let price = cart[item][3];
+            let id = cart[item][8];
+            let cat = cart[item][4];
+            let subcat = cart[item][6];
+            let childcat = cart[item][7];
+            let slug = cart[item][5];
+            
+            let tprice = price.slice(1);
+            let total = tprice*qty;
+            sum=sum+qty;
+           
+            mystr =`<tr id="divorederdetail${item}">
+                    <td class="text-left"><br> ${name}  <input type="hidden" name="product[0][product_id]"
+                    value="1812">
+                    </td>
+                    <td class="text-left">1234</td>
+                    <td class="text-right">
+                        <div class="input-group btn-block" style="max-width: 200px;"><input
+                        type="text" name="product[0][quantity]" value="${qty}"
+                        class="form-control"><span class="input-group-btn"><button
+                            type="button" data-toggle="tooltip" title=""
+                            data-loading-text="Loading..." class="btn btn-primary"
+                            data-original-title="Refresh"><i
+                                class="fa fa-refresh"></i></button></span></div>
+                    </td>
+                    <td class="text-right">Rs.${tprice}</td>
+                    <td class="text-right">Rs.${total}</td>
+                    <td class="text-center" style="width: 3px;"><button type="button"
+                            value="2845" data-toggle="tooltip" title=""
+                        data-loading-text="Loading..." class="btn btn-danger"
+                        data-original-title="Remove"><i
+                            class="fa fa-minus-circle"></i></button></td>
+                    
+                   
+                </tr>`
+        
+            $('#cartitems').append(mystr);
+            i = i + 1;
+            amount = amount + total
+        }   
+        mystr = `<tr>
+                <td colspan="5" class="text-right">Sub-Total</td>
+                <td class="text-right">Rs.${amount}</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-right">Shipping(weight: )</td>
+                <td class="text-right">Rs.346.00</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-right">SGST 9%</td>
+                <td class="text-right">Rs.${amount* 9/100}</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-right">CGST 9%</td>
+                <td class="text-right">Rs.${amount* 9/100}</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-right">Total</td>
+                <td class="text-right">Rs.${amount* 118/100}</td>
+            </tr>`  
+        $('#cartitems').append(mystr);
+    }
+}   
+function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+}
+</script>
+<script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js">
+</script>
+
+{% endblock custom_js %}

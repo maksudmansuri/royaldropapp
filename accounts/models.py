@@ -185,6 +185,8 @@ class Staffs(models.Model):
             return self.profile_pic.url
         else:
             return settings.STATIC_ROOT + "eca_admin/img/avatar/avatar-1.png"
+
+            
 class Customers(models.Model):
     id=models.AutoField(primary_key=True)
     admin=models.OneToOneField(CustomUser,on_delete=models.CASCADE)

@@ -347,7 +347,7 @@
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__box">
                                         <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
-                                        <form class="checkout-f__payment" method="post">
+                                        <form class="checkout-f__payment" id="myform">
                                             {% csrf_token %}
                                             <div class="u-s-m-b-10">
 
@@ -459,7 +459,7 @@
                                             <div>
 
                                                 <button class="btn btn--e-brand-b-2" disabled="disabled" value="check"
-                                                    id="acceptbtn" type="submit">PLACE ORDER</button></div>
+                                                    id="pay-btn" type="submit">PLACE ORDER</button></div>
                                         </form>
                                     </div>
                                 </div>
@@ -753,7 +753,7 @@
 
     function calculation(cart) {
         var totaltax = 0;
-        var shipping = 40;
+        var shipping = 0;
         var subtotal = 0;
         var grandtotal = 0;
         var discounttotal = 0;
@@ -787,7 +787,7 @@
             document.getElementById('shipping').innerHTML = "-";
         }
         else{
-            document.getElementById('shipping').innerHTML = "{{total_delivery_cost}}";
+            document.getElementById('shipping').innerHTML = parseFloat(shipping).toFixed(2);
         }
         discounttotal = "{{total_discount}}";
         if(discounttotal == 0){
@@ -796,7 +796,7 @@
         else{
             document.getElementById('total_discount').innerHTML = "{{total_discount}}";
         }
-        document.getElementById('grandtotal').innerHTML = "{{total_amount}}";        ;
+        document.getElementById('grandtotal').innerHTML = parseFloat(grandtotal).toFixed(2);        ;
         document.getElementById('totaltax').innerHTML = totaltax.toFixed(2);
         document.getElementById('subtotal').innerHTML = subtotal.toFixed(2);
         
@@ -889,7 +889,7 @@
 <script>
     function checkedFunc(element1Id) {
 
-        var myLayer = document.getElementById('acceptbtn');
+        var myLayer = document.getElementById('pay-btn');
         var element1 = document.getElementById(element1Id);
         if (element1.checked == true) {
             myLayer.class = "submit";
@@ -904,7 +904,7 @@
 </script>
 
 <script>
-    window.onload =function (e) {
+    {% comment %} window.onload =function (e) {
         e.preventDefault();
         console.log("hello i basket add click")
       //  console.log($("input[name='prod_id_for_checkout[]']").val());
@@ -926,7 +926,7 @@
             }
         });
 
-    };
+    }; {% endcomment %}
 </script>
 <script>
     $('.document').on("click", ".delete-button", function (e){
@@ -940,5 +940,93 @@
         
 
 </script>
-
+<!--Razor pay script-->
+<!-- Razorpay's Javascript code. -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+     
+    // Enter the Key ID generated from the Dashboard
+    key: "{{ razorpay_merchant_key }}",
+     
+    // Amount is in currency subunits.
+    // Default currency is INR. Hence,
+    // 50000 refers to 50000 paise
+    amount: "{{ razorpay_amount }}",
+    currency: "INR",
+     
+    // Your/store name.
+    name: "Dj Razorpay",
+     
+    // Pass the `id` obtained in the response of Step 1
+    order_id: "{{ razorpay_order_id }}",
+    callback_url: "{{ callback_url }}",
+  };
+   
+  // initialise razorpay with the options.
+  var rzp1 = new Razorpay(options);
+   
+  // add event listener to the payment button.
+  document.getElementById("pay-btn1").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+</script>
+<script>
+    $("#pay-btn").click(function () {
+        var formData = {
+            'payment': $('input[name=payment]').val(),
+            'product_Json': $('input[name=product_Json]').val(),
+            'amount': $('input[name=amount]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };   
+        console.log(formData) 
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'checkout' %}",
+            data: formData,
+            encode: true 
+    
+        })
+        .done(function(data){            
+          //  data1=JSON.parse(data);
+            console.log(data.callback_url);
+            console.log(data.currency);
+            console.log(data.razorpay_amount);
+            console.log(data.razorpay_merchant_key);
+            console.log(data.razorpay_order_id);
+            var options = {
+     
+                // Enter the Key ID generated from the Dashboard
+                key: data.razorpay_merchant_key,
+                 
+                // Amount is in currency subunits.
+                // Default currency is INR. Hence,
+                // 50000 refers to 50000 paise
+                amount: data.razorpay_amount,
+                currency: data.currency ,
+                 
+                // Your/store name.
+                name: "Dj Razorpay",
+                 
+                // Pass the `id` obtained in the response of Step 1
+                order_id: data.razorpay_order_id,
+                callback_url: data.callback_url,
+              };
+               
+              // initialise razorpay with the options.
+              var rzp1 = new Razorpay(options);
+              rzp1.open();
+              // add event listener to the payment button.
+             // document.getElementById("pay-btn").onclick = function (e) {
+                
+              //  e.preventDefault();
+             // };
+        });
+    
+    event.preventDefault();
+    
+    });
+</script>
+<!--End Razor pay script-->
 {% endblock custom_js %}

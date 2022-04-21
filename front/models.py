@@ -440,6 +440,8 @@ class Orders(models.Model):
     class Meta:
         ordering = ["-updated_at"]
 
+
+
 class CustomersOrders(models.Model):
     id                      =           models.AutoField(primary_key=True)
     product                 =           models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -468,11 +470,12 @@ class OrderTacker(models.Model):
 
 class OderDeliveryStatus(models.Model):
     id                      =           models.AutoField(primary_key=True)
-    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.CASCADE,default="")
-    product                 =           models.ForeignKey(Product, on_delete=models.CASCADE,default="")
-    status                  =           models.CharField(max_length=255,default="")
-    status_type_choice      =           (("Pr","Prosesing"),("On","On the Way "),("D","Delivered"))
-    status_msg              =           models.CharField(max_length=255,default="",choices=status_type_choice)
+    Ordes_id                =           models.ForeignKey(CustomersOrders, on_delete=models.CASCADE,default="",null=True,blank=True)
+    shipment_weight         =           models.FloatField(null=True,blank=True,default=0.0)
+    status                  =           models.CharField(max_length=255,default="",null=True,blank=True)
+    tracker_id              =           models.CharField(max_length=255,default="",null=True,blank=True)
+    status_type_choice      =           (("Prosesing","Prosesing"),("On the Way","On the Way "),("Delivered","Delivered"))
+    status_msg              =           models.CharField(max_length=255,default="",choices=status_type_choice,null=True,blank=True)
     created_date            =           models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at              =           models.DateTimeField(auto_now_add=True)
     objects                 =           models.Manager()

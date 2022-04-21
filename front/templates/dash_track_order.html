@@ -113,6 +113,7 @@ $('#trackerform').submit(function(event){
     })
 
     .done(function(data){
+        console.log(data)
         data = JSON.parse(data)
         updates = data[0];
         cart1= JSON.parse(data[1]);

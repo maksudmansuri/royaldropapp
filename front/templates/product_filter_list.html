@@ -970,6 +970,8 @@
         var popStr = "";
         var div = "";
         var i= 1;
+        var total = 0;
+        var price = 0
         console.log(cart)
         document.getElementById('popcartpr').innerHTML="";
         sum = 0;
@@ -993,13 +995,36 @@
                     let tprice = price;
                     let total = tprice*qty;
                     sum=sum+qty;
-                    popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
+                    popStr = `<div class="card-mini-product rmdiv" id="rm${item}"><div class="mini-product"><div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail.html"><img class="u-img-fluid" src="${image}" alt=""></a></div><div class="mini-product__info-wrapper"><span class="mini-product__category"><a href="shop-side-version-2.html">${cat}</a></span><span class="mini-product__name"><a href="product-detail.html">${name}</a></span><span class="mini-product__quantity">${qty}x</span><span class="mini-product__price">&#8377; ${price}</span></div></div><a class="mini-product__delete-link far fa-trash-alt popremove" id="rmdl${item}"></a></div>`;
                     
+                }
+                i = i + 1;
+                var qty = cart[item][0];
+                price = cart[item][3]
+                subtotal = qty * price;
+                total = total + subtotal;
+                console.log(price)
+                console.log(subtotal)
+                console.log(total)
+                if (i == 1) {
+                    document.getElementById('popcartpr-total').innerHTML = "Cart is Empty "
+                } else {
+                    console.log(cart)
+                    document.getElementById('popcartpr-total').innerHTML = `<div class="mini-total">
+        
+                        <span class="subtotal-text">SUBTOTAL</span>
+            
+                        <span class="subtotal-value">&#8377; ${total}</span></div>
+                    <div class="mini-action">
+            
+                        <a class="mini-link btn--e-brand-b-2" href="{% url 'checkout' %}">PROCEED TO CHECKOUT</a>
+                        <a class="mini-link btn--e-transparent-secondary-b-2" href="{% url 'cart' %}" >View Cart</a></div>`;
                 }
                 $('#popcartpr').append(popStr);        
                 
             }
-            document.getElementById('cart').innerHTML = sum;      
+            document.getElementById('cart').innerHTML = sum; 
+
         }
     }
 
