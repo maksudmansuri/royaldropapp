@@ -32,7 +32,7 @@ DEBUG = True
 # DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 
-ALLOWED_HOSTS = ['royaldap.com','www.royaldap.com','localhost','139.59.17.124']
+ALLOWED_HOSTS = ['*']
 
 
 
