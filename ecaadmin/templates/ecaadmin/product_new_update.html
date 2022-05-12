@@ -586,6 +586,7 @@
         xhr.onreadystatechange=function(){
             if(xhr.status==200){
                 console.log(xhr.responseText);
+                console.log(xhr);
             }
         }
         xhr.open("POST","{% url 'product_new_update' product.id %}",true);
@@ -603,10 +604,9 @@
                 
             }
         });
-        xhr.send(form);
-        
-        setTimeout(location.reload.bind(location), 2000);
-
+        xhr.send(form);        
+       // setTimeout(location.reload.bind(location), 300);
+        window.location.replace("{% url 'product_tab_list' %}");
 
     })
     

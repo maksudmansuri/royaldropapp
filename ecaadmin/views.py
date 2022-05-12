@@ -1,3 +1,4 @@
+from decimal import Decimal
 import json
 from webbrowser import get
 from django.contrib.messages import views
@@ -621,6 +622,7 @@ class ProductNewUpdate(View):
         product.product_l_desc=product_l_desc
         product.product_sku=product_sku
         product.is_active=is_active
+        product.discount_percentage = 100 - ((100 * int(product_selling_price))/int(product_mrp))
         if product_childsubcategory:
             child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)
             product.product_childsubcategory=child_subcat_obj
@@ -737,9 +739,10 @@ class ProductNewUpdate(View):
             product_tag_obj=ProductTag(product_tags=product_tag,product=product)
             product_tag_obj.save()
         print("all data stored")
-        messages.add_message(self.request,messages.ERROR,"Product Updated Succesfully")
-        # return HttpResponse("ok")
-        return HttpResponse("Ok")
+        # messages.add_message(request,messages.SUCCESS,"Product Updated Succesfully")
+        products = Product.objects.all()
+        return HttpResponse("OK")
+        # return render(request,"ecaadmin/product_tab_list.html",{"products":products})
         # except:
         #     messages.add_message(request,messages.ERROR,"Connection Error Try Again")
         #     # return HttpResponse("error in connection")
@@ -920,6 +923,7 @@ class AddProductView(View):
         
         # try:
         product=Product(product_name=product_name,product_brand=product_brand,product_model_number=product_model_number,product_category=cat_obj,product_subcategory=subcat_obj,product_mrp=product_mrp,product_selling_price=product_selling_price,product_desc=product_desc,product_l_desc=product_l_desc,product_sku=product_sku,is_active=is_active)
+        product.discount_percentage = 100 - ((100 * int(product_selling_price))/int(product_mrp))
         print("product addded")        
         if product_childsubcategory:
             child_subcat_obj=ProductChildSubCategory.objects.get(id=product_childsubcategory)

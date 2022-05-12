@@ -185,20 +185,23 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE':'django.db.backends.mysql',
-        'NAME':'ecomerceapp',
-        'USER':'root',
-        'PASSWORD':'Aot567@lk',
-        'HOST':'localhost',
-        'PORT':'3306'
         # 'ENGINE':'django.db.backends.mysql',
-        # 'NAME':'royal_db',
-        # 'USER':'eca_admin',
-        # 'PASSWORD':'Ruvi!0506',
-        # 'HOST':'database-2.cf1rmvgdx7oc.us-west-2.rds.amazonaws.com',
+        # 'NAME':'ecomerceapp',
+        # 'USER':'root',
+        # 'PASSWORD':'Aot567@lk',
+        # 'HOST':'localhost',
         # 'PORT':'3306'
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+        'NAME':'df6miu1hecr36d',
+        'USER':'apgvnspwaxeqne',
+        'PASSWORD':'d7811d83350a80eb6359e9eb97f741cfc8ccf957121bce2932cc1a86e054d675',
+        'HOST':'ec2-52-200-28-255.compute-1.amazonaws.com',
+        'PORT':'5432',
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=0, ssl_require=False)
+django_heroku.settings(locals() ,databases=False)
+
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
@@ -281,7 +284,7 @@ EMAIL_HOST_USER = 'intellecttec@gmail.com'
 EMAIL_HOST_PASSWORD = 'onpiiddefwaschwi'
 EMAIL_USE_TLS = True
 
-django_heroku.settings(locals())
+
 
 from datetime import timedelta
 

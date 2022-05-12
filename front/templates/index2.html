@@ -246,7 +246,7 @@
 
                                                             <img class="aspect__img" id="imagepr{{prods.product.id}}"
                                                                 src="{{prods.product.get_product_image_url}}" alt=""></a>
-                                                        <div class="product-o__action-wrap">
+                                                        {% comment %} <div class="product-o__action-wrap">
                                                             <ul class="product-o__action-list">
                                                                 <li>
 
@@ -274,7 +274,7 @@
                                                                         title="Email me When the price drops"><i
                                                                             class="fas fa-envelope"></i></a></li>
                                                             </ul>
-                                                        </div>
+                                                        </div> {% endcomment %}
                                                     </div>
 
                                                     <span class="product-o__category">
@@ -285,7 +285,7 @@
                                                     <span class="product-o__name">
 
                                                         <a href="{% url 'product_details' prods.product.product_slug %}"
-                                                            id="namepr{{prods.product.id}}">{{prods.product.product_name}}</a></span>
+                                                            id="namepr{{prods.product.id}}" title="{{prods.product.product_name|title}}">{{prods.product.product_name|title|truncatechars:30}}</a></span>
                                                     <div class="product-o__rating gl-rating-style"><i
                                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
                                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
@@ -300,18 +300,22 @@
                                                         <span class="product-o__review">(23)</span></div>
                                                         <input type="hidden" id="slugpr{{prods.product.id}}"
                                                         value="{{prods.product.product_slug}}">
+                                                        <input type="hidden" id="tstockpr{{prods.product.id}}"
+                                                        value="{{prods.product_stock.in_stock_total}}">
+                                                        <input type="hidden" id="mstockpr{{prods.product.id}}"
+                                                        value="{{prods.product_stock.mini_Quantity}}">
 
-                                                        <span class="product-o__price">&#8377<span
+                                                        <span class="product-o__price">&#8377 <span
                                                             id="pricepr{{prods.product.id}}">{{prods.product.product_selling_price}}</span>
 
                                                         <span
-                                                            class="product-o__discount">&#8377<span>{{ prods.product.product_mrp }}</span></span>
+                                                            class="product-o__discount">&#8377 <span>{{ prods.product.product_mrp }}</span></span>
 
-                                                    </span>
-                                                    <div class="u-s-m-b-15">
+                                                    </span></br>
+                                                    <div class="u-s-m-b-15" style="margin-bottom: 0.1375rem;">
                                                         <span id="divpr{{prods.product.id}}" class="divpr">
                                                             <button class="gl-tag btn btn--e-brand-b-2 cart" value="{{prods.product.id}}"
-                                                                id="pr{{prods.product.id}}">Add to Cart</button></span>
+                                                                id="pr{{prods.product.id}}"> Add to Cart </button></span>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1103,7 +1107,7 @@
         var idstr = this.id.toString();
         if (cart[idstr] != undefined) {
             qty = cart[idstr][0] + 1;
-            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id];
+            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id,tstock,mstock];
         } else {
             qty = 1;
             image = document.getElementById('image' + idstr).src;
@@ -1114,8 +1118,10 @@
             subcat = document.getElementById('subcat' + idstr).value;
             childcat = document.getElementById('childcat' + idstr).value;
             id = document.getElementById('id' + idstr).value;
+            tstock = document.getElementById('tstock' + idstr).value;
+            mstock = document.getElementById('mstock' + idstr).value;
 
-            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id];
+            cart[idstr] = [qty, name, image, price, cat, slug, subcat, childcat, id,tstock,mstock];
             console.log(cart)
         }   
         console.log(user)
@@ -1250,9 +1256,9 @@
             sum = sum + cart[item][0];
             document.getElementById('div' + item).innerHTML =
                 "<div class='input-counter'><span class='input-counter__minus fas fa-minus minus' id='minus" + item +
-                "'></span><input class='input-counter__text input-counter--text-primary-style' id='val" + item +
+                "'></span><input class='input-counter__text input-counter--text-primary-style info1' id='val" + item +
                 "' type='text' value='" + cart[item][0] +
-                "' data-min='1' data-max='1000'><span class='input-counter__plus fas fa-plus plus' id='plus" + item +
+                "' ><span class='input-counter__plus fas fa-plus plus' id='plus" + item +
                 "'></span></div>";
         }
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -1300,6 +1306,7 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             cart = JSON.parse(localStorage.getItem('cart'));
         } else {
+
             document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
         }
         updateCart(cart);
@@ -1309,7 +1316,19 @@
     $('.divpr').on("click", "span.plus", function () {
         a = this.id.slice(6, );
         cart['pr' + a][0] = cart['pr' + a][0] + 1;
-        document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+        if(cart['pr' + a][0] > cart['pr' + a][10]){
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][10];           
+            {% comment %} console.log("minimum ", cart['pr' + a][10]); {% endcomment %}
+            cart['pr' + a][0] = cart['pr' + a][10];
+            
+        }else if(cart['pr' + a][0] > cart['pr' + a][9]){
+            console.log("total", cart['pr' + a][9]);
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][9];
+            cart['pr' + a][0] = cart['pr' + a][9];
+        } 
+        else{
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+        }    
         console.log(user)
         if(user != 'AnonymousUser'){
             var url = "{% url 'add-to-cart' %}"
@@ -1331,6 +1350,7 @@
         }
         updateCart(cart);
     });
+   
 </script>
 
 {% endblock custom_js %}

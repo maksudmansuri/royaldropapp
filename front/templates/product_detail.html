@@ -36,7 +36,7 @@
                                 <a href="{% url 'product_filter_list' %}">{{product.product_subcategory.title}}</a></li>
                             <li class="is-marked">
 
-                                <a href="#">{{product.product_name}}</a></li>
+                                <a href="#">{{product.product_name|title|truncatechars:20}}</a></li>
                         </ul>
                     </div>
                     <!--====== End - Product Breadcrumb ======-->
@@ -50,23 +50,7 @@
                                 <div class="pd-o-img-wrap" data-src="{{medias.get_media_content_url}}">
 
                                     <img class="u-img-fluid" src="{{medias.get_media_content_url}}"
-                                        data-zoom-image="{{medias.get_media_content_url}}" alt=""></div>
-                                {% comment %} <div class="pd-o-img-wrap" data-src="images/product/product-d-2.jpg">
-
-                                    <img class="u-img-fluid" src="images/product/product-d-2.jpg"
-                                        data-zoom-image="images/product/product-d-2.jpg" alt=""></div>
-                                <div class="pd-o-img-wrap" data-src="images/product/product-d-3.jpg">
-
-                                    <img class="u-img-fluid" src="images/product/product-d-3.jpg"
-                                        data-zoom-image="images/product/product-d-3.jpg" alt=""></div>
-                                <div class="pd-o-img-wrap" data-src="images/product/product-d-4.jpg">
-
-                                    <img class="u-img-fluid" src="images/product/product-d-4.jpg"
-                                        data-zoom-image="images/product/product-d-4.jpg" alt=""></div>
-                                <div class="pd-o-img-wrap" data-src="images/product/product-d-5.jpg">
-
-                                    <img class="u-img-fluid" src="images/product/product-d-5.jpg"
-                                        data-zoom-image="images/product/product-d-5.jpg" alt=""></div>{% endcomment %}
+                                        data-zoom-image="{{medias.get_media_content_url}}" alt=""/></div>                               
                                 {% endfor %}
                             </div>
 
@@ -80,18 +64,7 @@
 
                                         <img class="u-img-fluid" src="{{medias.get_media_content_url}}" alt=""></div>
                                     {% endfor %}
-                                    <div>
-
-                                        <img class="u-img-fluid" src="images/product/product-d-2.jpg" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid" src="images/product/product-d-3.jpg" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid" src="images/product/product-d-4.jpg" alt=""></div>
-                                    <div>
-
-                                        <img class="u-img-fluid" src="images/product/product-d-5.jpg" alt=""></div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -104,14 +77,14 @@
                     <div class="pd-detail">
                         <div>
 
-                            <span class="pd-detail__name">{{product.product_name}}</span></div>
+                            <span class="pd-detail__name">{{product.product_name|title}}</span></div>
                         <div>
                             <div class="pd-detail__inline">
 
                                 <span class="pd-detail__price">&#8377;{{product.product_selling_price}}</span>
 
-                                <span class="pd-detail__discount">(76% OFF)</span><del
-                                    class="pd-detail__del">&#8377;{{product.product_mrp}}</del></div>
+                                <span class="pd-detail__discount">({{product.discount_percentage}}% OFF) </span><del
+                                    class="pd-detail__del"> &#8377;{{product.product_mrp}}</del></div>
                         </div>
                         <div class="u-s-m-b-15">
                             <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i
@@ -124,32 +97,38 @@
                         </div>
                         <div class="u-s-m-b-15">
                             <div class="pd-detail__inline">
-
-                                <span class="pd-detail__stock">{{product.in_stock_total}} in stock</span>
-
-                                <span class="pd-detail__left">Only {{product.in_stock_total}} left</span></div>
+                                {% if product_stock.in_stock_total > 10 %}
+                                <span class="pd-detail__stock">In Stock</span> 
+                                {% else %}
+                                <span class="pd-detail__left">Only {{product_stock.in_stock_total}} left</span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="u-s-m-b-15">
 
                             <span class="pd-detail__preview-desc">{{product.product_desc}}</span></div>
-                        <div class="u-s-m-b-15">
+                        {% comment %} <div class="u-s-m-b-15">
                             <div class="pd-detail__inline">
 
                                 <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
 
                                     <a href="signin.html">Add to Wishlist</a>
 
-                                    <span class="pd-detail__click-count">(222)</span></span></div>
-                        </div>
-                        <div class="u-s-m-b-15">
+                                    <span class="pd-detail__click-count">(222)</span>
+                                </span>
+                            </div>
+                        </div> {% endcomment %}
+                        {% comment %} <div class="u-s-m-b-15">
                             <div class="pd-detail__inline">
 
                                 <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
 
                                     <a href="signin.html">Email me When the price drops</a>
 
-                                    <span class="pd-detail__click-count">(20)</span></span></div>
-                        </div>
+                                    <span class="pd-detail__click-count">(20)</span>
+                                </span>
+                            </div>
+                        </div> {% endcomment %}
                         <div class="u-s-m-b-15">
                             <ul class="pd-social-list">
                                 <li>
@@ -182,7 +161,7 @@
                                             id="misunpr{{product.id}}"></span>
 
                                         <input class="input-counter__text input-counter--text-primary-style "
-                                            id="valpr{{product.id}}" type="text" value="1" data-min="1" data-max="1000">
+                                            id="valpr{{product.id}}" type="text" value="1" data-min="1"   data-max="{% if product_stock.in_stock_total < product_stock.mini_Quantity  %}{{product_stock.in_stock_total}}{% else %}{{product_stock.mini_Quantity}}{% endif %}">
 
                                         <span class="input-counter__plus fas fa-plus plus"
                                             id="pluspr{{product.id}}"></span></div>
@@ -192,10 +171,10 @@
 
                                     <button class="btn btn--e-brand-b-2 cart" id="pr{{product.id}}" type="submit">Add to
                                         Cart</button></div>
-                                <div class="u-s-m-b-15">
+                                {% comment %} <div class="u-s-m-b-15">
 
                                     <button class="btn btn--e-brand-b-2"  value="{{product.id}}">Buy
-                                        Now</button></div>
+                                        Now</button></div> {% endcomment %}
                             </div>
 
                         </div>
@@ -247,10 +226,10 @@
                             <!--====== Tab 1 ======-->
                             <div class="tab-pane fade show active" id="pd-desc">
                                 <div class="pd-tab__desc">
-                                    <div class="u-s-m-b-15">
-                                        <p>{{product.product_l_desc|safe}}</p>
+                                    <div class="u-s-m-b-15" style="font-family: Open Sans;">
+                                        {{product.product_l_desc|safe}}
                                     </div>
-                                    <div class="u-s-m-b-30"><iframe src="#" allowfullscreen></iframe></div>
+                                    
                                     <div class="u-s-m-b-30">
                                         <ul>
                                             <li><i class="fas fa-check u-s-m-r-8"></i>
@@ -273,8 +252,8 @@
                                                 <tbody>
                                                     {% for about in abouts  %}
                                                     <tr>
-                                                        <td>{{about.title}}</td>
-                                                        <td>{{about.title_details}}</td>
+                                                        <td>{{about.title|title}}</td>
+                                                        <td>{{about.title_details|title}}</td>
                                                     </tr>
                                                     {% endfor %}
                                                     {% comment %} <tr>

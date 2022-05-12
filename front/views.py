@@ -20,7 +20,7 @@ from django.shortcuts import get_object_or_404, render , redirect
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 #from django.contrib.auth.models import User
-from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,ProductCategory,ProductSubCategory,TempOrder, productGst, productMedia
+from front.models import OrderTacker, Orders, Product, ProductChildSubCategory, ProductDetails,ProductCategory, ProductStockManage,ProductSubCategory,TempOrder, productGst, productMedia
 from math import ceil
 from accounts.EmailBackEnd import EmailBackEnd
 from django.db.models import Q, fields
@@ -145,7 +145,8 @@ class HomeListview(ListView):
             prod =[]
             for product in prods: 
                 media=productMedia.objects.filter(product=product).first()
-                prod.append({"product":product,"media":media})            
+                product_stock=ProductStockManage.objects.get(product=product)
+                prod.append({"product":product,"media":media,'product_stock':product_stock})            
             n=len(prod)
             # print(prod)
             nSlides=n//4 + ceil((n/4)-(n//4))
@@ -269,7 +270,8 @@ class ProductDetailView(DetailView):
         related_products = Product.objects.filter(product_category=product.product_category,is_active=1)         
         media = productMedia.objects.filter(product=product)
         abouts = ProductDetails.objects.filter(product=product)
-        context = {'product': product,'media':media,'abouts':abouts,'related_products':related_products}
+        product_stock=ProductStockManage.objects.get(product=product)
+        context = {'product': product,'media':media,'abouts':abouts,'related_products':related_products,'product_stock':product_stock}
         print(related_products)
         return render(request, 'product_detail.html', context)
 
