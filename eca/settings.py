@@ -318,5 +318,5 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATIC_ROOT = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
 
-RAZOR_KEY_ID = "rzp_test_hPeFOHilktriEB"
-RAZOR_KEY_SECRET = "F15NPqgm9308NCCeZjQKR0CK"
+RAZOR_KEY_ID = "#"
+RAZOR_KEY_SECRET = "#"
